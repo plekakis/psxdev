@@ -34,103 +34,13 @@ Displays text on the screen using the built in GPU routines
 
 -----------------------------------------------------------*/
 
-#include <sys/types.h>
-#include <libetc.h>
-#include <libgte.h>
-#include <libgpu.h>
-#include <libpress.h>
-#include <libcd.h>
+#include "helper.h"
 
-// ----------
-// CONSTANTS
-// ----------
-#define ORIGIN_X  160 // screen width
-#define	ORIGIN_Y 120 // screen height
+RENDERABLE triangle;
 
-#define MAX_OT_ENTRIES 1
-
-#define MAX_BUFFERS 2
-
-// ----------
-// STRUCTURES
-// ----------
-typedef struct
+void init_camera(CAMERA* cam)
 {
-    DRAWENV draw;
-    DISPENV disp;
-    u_long ot[MAX_OT_ENTRIES];
-    POLY_G3 triangle;
-}DB;
-
-typedef struct
-{
-    VECTOR position;
-    VECTOR look;
-}Camera;
-
-// ----------
-// GLOBALS
-// ----------
-DB db[MAX_BUFFERS];
-DB* cdb;
-
-Camera cdebug;
-Camera* ccam = &cdebug;
-
-u_long frameIdx = 0;
-
-void init_system(int x, int y, int z, int level)
-{
-    u_short idx;
-
-    ResetGraph(0);		/* initialize Renderer		*/
-
-	/* reset graphic subsystem*/
-	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(32, 32, 320, 64, 0, 512));
-
-	/* set debug mode (0:off, 1:monitor, 2:dump)  */
-	SetGraphDebug(level);
-
-	/* initialize geometry subsystem*/
-	InitGeom();
-
-	CdInit();		/* initialize CD-ROM		*/
-
-    PadInit(0);     /* initialize input */
-
-	/* set geometry origin as (160, 120)*/
-	SetGeomOffset(x, y);
-
-	/* distance to veiwing-screen*/
-	SetGeomScreen(z);
-
-	/* define frame double buffer */
-	/*	buffer #0:	(0,  0)-(320,240) (320x240)
-	 *	buffer #1:	(0,240)-(320,480) (320x240)
-	 */
-	SetDefDrawEnv(&db[0].draw, 0,   0, 320, 240);
-	SetDefDrawEnv(&db[1].draw, 0, 240, 320, 240);
-	SetDefDispEnv(&db[0].disp, 0, 240, 320, 240);
-	SetDefDispEnv(&db[1].disp, 0,   0, 320, 240);
-
-	for (idx=0; idx<MAX_BUFFERS; idx++)
-    {
-        db[idx].draw.isbg = 1;
-        setRGB0(&db[idx].draw, 0, 64, 127);
-    }
-
-    SetDispMask(1);
-}
-
-void init_prim(DB* db)
-{
-	SetPolyG3(&db->triangle);
-
-	/* set colors for each vertex*/
-	setRGB0(&db->triangle, 0xff, 0x00, 0x00);
-	setRGB1(&db->triangle, 0x00, 0xff, 0x00);
-	setRGB2(&db->triangle, 0x00, 0x00, 0xff);
+    ccam = cam;
 }
 
 int main()
@@ -146,17 +56,17 @@ int main()
 
     static VECTOR viewTrans = {0, 0, 1000};
 
-    init_system(ORIGIN_X, ORIGIN_Y, 512, 0);
+    init_system(ORIGIN_X, ORIGIN_Y, 512, 0, 0x800F8000, 0x00100000);
+    init_camera(&cdebug);
 
 	FntLoad(960, 256); // load the font from the BIOS into VRAM/SGRAM
 	SetDumpFnt(FntOpen(5, 20, 320, 240, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
 
-	init_prim(&db[0]);
-	init_prim(&db[1]);
-
-    setVector(&x[0], -256, 128, 0);
+	setVector(&x[0], -256, 128, 0);
     setVector(&x[1],  256, 128, 0);
     setVector(&x[2], 0,  -128, 0);
+
+	init_renderable(&triangle, 0, 1, x, sizeof(SVECTOR));
 
 
 	while (running) // draw and display forever
@@ -184,11 +94,7 @@ int main()
 	    /* clear all OT entries */
 		ClearOTag(cdb->ot, MAX_OT_ENTRIES);
 
-        RotTransPers(&x[0], (long *)&cdb->triangle.x0, &dummy0, &dummy1);
-        RotTransPers(&x[1], (long *)&cdb->triangle.x1, &dummy0, &dummy1);
-        RotTransPers(&x[2], (long *)&cdb->triangle.x2, &dummy0, &dummy1);
-
-		AddPrim(cdb->ot, &cdb->triangle);
+		add_renderable(cdb->ot, &triangle);
 
         DrawSync(0);
 
