@@ -43,7 +43,7 @@ int main()
     u_char running = 1;
     SVECTOR x[3];
     u_short padd;
-    VECTOR cameraPos = {0,0,-2000};
+    VECTOR cameraPos = {0,0,-1000};
     SVECTOR cameraRot = {0,0,0};
     TRANSFORM t;
 
