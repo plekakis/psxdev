@@ -8,5 +8,5 @@ Debug:
 	del main.cpe
 	cls
 
-	ccpsx -O3 -Xo$80010000 main.c helper.c -omain.cpe,main.sym,mem.map
+	ccpsx -O3 -Xo$80010000 main.c helper.c alkis.c mike.c -omain.cpe,main.sym,mem.map
 	cpe2x /ce main.cpe

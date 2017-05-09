@@ -6,3 +6,5 @@
 *.cpe
 
 *.sym
+
+/source/which.h

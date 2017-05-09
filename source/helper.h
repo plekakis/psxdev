@@ -1,4 +1,7 @@
 
+#ifndef ____HELPER_H____
+#define ____HELPER_H____
+
 #include <sys/types.h>
 #include <libetc.h>
 #include <libgte.h>
@@ -69,13 +72,10 @@ typedef struct
 
 extern GLOBALS *globals;
 
+void update_camera(VECTOR* position, SVECTOR* rotation);
+void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap);
+void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices, u_short stride);
+void destroy_renderable(RENDERABLE* r);
+void add_renderable(u_long* ot, RENDERABLE* r);
 
-extern void update_camera(VECTOR* position, SVECTOR* rotation);
-
-extern void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap);
-
-extern void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices, u_short stride);
-
-extern void destroy_renderable(RENDERABLE* r);
-
-extern void add_renderable(u_long* ot, RENDERABLE* r);
+#endif /* ndef ____HELPER_H____ */
