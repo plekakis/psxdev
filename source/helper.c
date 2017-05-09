@@ -1,7 +1,7 @@
 #include "helper.h"
 
 GLOBALS *globals;
-GLOBALS _globals;
+static GLOBALS _globals;
 
 void update_camera(VECTOR* position, SVECTOR* rotation)
 {
