@@ -1,25 +1,28 @@
 #include "helper.h"
 
-GLOBALS globals;
+GLOBALS *globals;
+GLOBALS _globals;
 
 void update_camera(VECTOR* position, SVECTOR* rotation)
 {
     MATRIX* transMat;
 
-    TransMatrix(&globals.camMatrices.viewTranslationMat, position);
-    transMat = &globals.camMatrices.viewTranslationMat;
+    TransMatrix(&globals->camMatrices.viewTranslationMat, position);
+    transMat = &globals->camMatrices.viewTranslationMat;
 
     transMat->t[0] *= -1;
     transMat->t[1] *= -1;
     transMat->t[2] *= -1;
 
-    RotMatrix(rotation, &globals.camMatrices.viewRotationMat);
-    TransposeMatrix(&globals.camMatrices.viewRotationMat, &globals.camMatrices.viewRotationMat);
+    RotMatrix(rotation, &globals->camMatrices.viewRotationMat);
+    TransposeMatrix(&globals->camMatrices.viewRotationMat, &globals->camMatrices.viewRotationMat);
 }
 
 void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap)
 {
     u_short idx;
+
+	globals = &_globals;
 
     /* Initialise with 16kb of stack and 1mb of heap */
     InitHeap3((void*)stack, heap);
@@ -50,15 +53,15 @@ void init_system(int x, int y, int z, int level, unsigned long stack, unsigned l
 	/*	buffer #0:	(0,  0)-(320,240) (320x240)
 	 *	buffer #1:	(0,240)-(320,480) (320x240)
 	 */
-	SetDefDrawEnv(&globals.db[0].draw, 0,   0, 320, 240);
-	SetDefDrawEnv(&globals.db[1].draw, 0, 240, 320, 240);
-	SetDefDispEnv(&globals.db[0].disp, 0, 240, 320, 240);
-	SetDefDispEnv(&globals.db[1].disp, 0,   0, 320, 240);
+	SetDefDrawEnv(&globals->db[0].draw, 0,   0, 320, 240);
+	SetDefDrawEnv(&globals->db[1].draw, 0, 240, 320, 240);
+	SetDefDispEnv(&globals->db[0].disp, 0, 240, 320, 240);
+	SetDefDispEnv(&globals->db[1].disp, 0,   0, 320, 240);
 
 	for (idx=0; idx<MAX_BUFFERS; idx++)
     {
-        globals.db[idx].draw.isbg = 1;
-        setRGB0(&globals.db[idx].draw, 0, 64, 127);
+        globals->db[idx].draw.isbg = 1;
+        setRGB0(&globals->db[idx].draw, 0, 64, 127);
     }
 
     SetDispMask(1);
@@ -113,15 +116,14 @@ void add_renderable(u_long* ot, RENDERABLE* r)
 
         /* set rotation*/
         RotMatrix(&t->rotation, &modelRotation);
-        SetRotMatrix(MulMatrix2(&modelRotation, &globals.camMatrices.viewRotationMat));
+        SetRotMatrix(MulMatrix2(&modelRotation, &globals->camMatrices.viewRotationMat));
 
         /* set translation*/
 		TransMatrix(&modelTranslation, &t->position);
 
-		SetTransMatrix(&modelTranslation);
-		SetMulMatrix(&globals.camMatrices.viewTranslationMat, &modelTranslation);
+		SetTransMatrix(MulMatrix2(&globals->camMatrices.viewTranslationMat, &modelTranslation));
+		//SetTransMatrix(&globals->camMatrices.viewTranslationMat);
 
-		//MulMatrix2(&globals.camMatrices.viewTranslationMat, &modelTranslation));
 
         for (i=0; i<r->num_triangles; ++i)
         {

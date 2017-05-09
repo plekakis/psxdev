@@ -67,7 +67,7 @@ typedef struct
     u_long frameIdx;
 }GLOBALS;
 
-extern GLOBALS globals;
+extern GLOBALS *globals;
 
 
 extern void update_camera(VECTOR* position, SVECTOR* rotation);

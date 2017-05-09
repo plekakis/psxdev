@@ -67,33 +67,33 @@ int main()
 
 	init_renderable(&triangle, &t, 1, x, sizeof(SVECTOR));
 
-	globals.frameIdx = 0;
+	globals->frameIdx = 0;
 	while (running) // draw and display forever
 	{
-	    globals.cdb = &globals.db[globals.frameIdx % MAX_BUFFERS];
+	    globals->cdb = &globals->db[globals->frameIdx % MAX_BUFFERS];
         padd = PadRead(1);
 
 	    FntPrint("Demo\n");
 		FntFlush(-1);
 
 	    /* clear all OT entries */
-		ClearOTag(globals.cdb->ot, MAX_OT_ENTRIES);
+		ClearOTag(globals->cdb->ot, MAX_OT_ENTRIES);
 
 		update_camera(&cameraPos, &cameraRot);
-		add_renderable(globals.cdb->ot, &triangle);
+		add_renderable(globals->cdb->ot, &triangle);
 
         DrawSync(0);
 
         /* vsync and swap frame double buffer
 		 *  set the drawing environment and display environment. */
 		VSync(0);
-		PutDrawEnv(&globals.cdb->draw);
-		PutDispEnv(&globals.cdb->disp);
+		PutDrawEnv(&globals->cdb->draw);
+		PutDispEnv(&globals->cdb->disp);
 
 		/* start Drawing */
-		DrawOTag(globals.cdb->ot);
+		DrawOTag(globals->cdb->ot);
 
-		++globals.frameIdx;
+		++globals->frameIdx;
 	}
 
 	DrawSync(0);
