@@ -4,8 +4,17 @@ GLOBALS globals;
 
 void update_camera(VECTOR* position, SVECTOR* rotation)
 {
+    MATRIX* transMat;
+
     TransMatrix(&globals.camMatrices.viewTranslationMat, position);
+    transMat = &globals.camMatrices.viewTranslationMat;
+
+    transMat->t[0] *= -1;
+    transMat->t[1] *= -1;
+    transMat->t[2] *= -1;
+
     RotMatrix(rotation, &globals.camMatrices.viewRotationMat);
+    TransposeMatrix(&globals.camMatrices.viewRotationMat, &globals.camMatrices.viewRotationMat);
 }
 
 void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap)
@@ -108,7 +117,11 @@ void add_renderable(u_long* ot, RENDERABLE* r)
 
         /* set translation*/
 		TransMatrix(&modelTranslation, &t->position);
-		SetTransMatrix(&globals.camMatrices.viewTranslationMat);//MulMatrix2(&globals.camMatrices.viewTranslationMat, &modelTranslation));
+
+		SetTransMatrix(&modelTranslation);
+		SetMulMatrix(&globals.camMatrices.viewTranslationMat, &modelTranslation);
+
+		//MulMatrix2(&globals.camMatrices.viewTranslationMat, &modelTranslation));
 
         for (i=0; i<r->num_triangles; ++i)
         {

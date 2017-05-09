@@ -43,11 +43,11 @@ int main()
     u_char running = 1;
     SVECTOR x[3];
     u_short padd;
-    VECTOR cameraPos = {0,0,1000};
-    SVECTOR cameraRot = {0,0,100};
+    VECTOR cameraPos = {0,0,-2000};
+    SVECTOR cameraRot = {0,0,0};
     TRANSFORM t;
 
-    init_system(ORIGIN_X, ORIGIN_Y, 512, 0, 0x800F8000, 0x00100000);
+    init_system(ORIGIN_X, ORIGIN_Y, 1000, 0, 0x800F8000, 0x00100000);
 
 	FntLoad(960, 256); // load the font from the BIOS into VRAM/SGRAM
 	SetDumpFnt(FntOpen(5, 20, 320, 240, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
