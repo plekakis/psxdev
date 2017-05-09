@@ -24,8 +24,8 @@
 typedef struct
 {
     VECTOR position;
-    VECTOR rotation;
-    VECTOR scale;
+    SVECTOR rotation;
+    SVECTOR scale;
 }TRANSFORM;
 
 // Defines something that can be added to the OT
@@ -50,9 +50,9 @@ typedef struct
 // Defines camera transformation
 typedef struct
 {
-    VECTOR position;
-    VECTOR look;
-}CAMERA;
+    MATRIX viewTranslationMat;
+    MATRIX viewRotationMat;
+}CAMERA_MATRICES;
 
 // ----------
 // GLOBALS
@@ -60,10 +60,15 @@ typedef struct
 DB db[MAX_BUFFERS];
 DB* cdb;
 
-CAMERA cdebug;
-CAMERA* ccam = &cdebug;
+CAMERA_MATRICES camMatrices;
 
 u_long frameIdx = 0;
+
+void update_camera(VECTOR* position, SVECTOR* rotation)
+{
+    TransMatrix(&camMatrices.viewTranslationMat, position);
+    RotMatrix(rotation, &camMatrices.viewRotationMat);
+}
 
 void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap)
 {
@@ -156,6 +161,17 @@ void add_renderable(u_long* ot, RENDERABLE* r)
     if (r)
     {
         const void * v = r->vertices;
+        TRANSFORM* t = r->trans;
+        MATRIX modelRotation, modelTranslation;
+
+        /* set rotation*/
+        RotMatrix(&t->rotation, &modelRotation);
+        SetRotMatrix(MulMatrix2(&modelRotation, &camMatrices.viewRotationMat));
+
+        /* set translation*/
+		TransMatrix(&modelTranslation, &t->position);
+		SetTransMatrix(&modelTranslation);//MulMatrix2(&camMatrices->viewTranslationMat, &modelTranslation));
+
         for (i=0; i<r->num_triangles; ++i)
         {
             RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 0)), (long *)&r->triangles[i].x0, &dummy0, &dummy1);

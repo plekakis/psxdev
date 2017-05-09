@@ -38,26 +38,16 @@ Displays text on the screen using the built in GPU routines
 
 RENDERABLE triangle;
 
-void init_camera(CAMERA* cam)
-{
-    ccam = cam;
-}
-
 int main()
 {
     u_char running = 1;
-    MATRIX m;
-    MATRIX viewMat;
     SVECTOR x[3];
-    long dummy0, dummy1;
     u_short padd;
-    static VECTOR	vec   = {0,     0, 0};
-    static SVECTOR	ang   = {0, 0, 0};
-
-    static VECTOR viewTrans = {0, 0, 1000};
+    VECTOR cameraPos = {0,0,100};
+    SVECTOR cameraRot = {0,0,100};
+    TRANSFORM t;
 
     init_system(ORIGIN_X, ORIGIN_Y, 512, 0, 0x800F8000, 0x00100000);
-    init_camera(&cdebug);
 
 	FntLoad(960, 256); // load the font from the BIOS into VRAM/SGRAM
 	SetDumpFnt(FntOpen(5, 20, 320, 240, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
@@ -66,8 +56,16 @@ int main()
     setVector(&x[1],  256, 128, 0);
     setVector(&x[2], 0,  -128, 0);
 
-	init_renderable(&triangle, 0, 1, x, sizeof(SVECTOR));
 
+    t.position.vx = 0;
+    t.position.vy = 0;
+    t.position.vz = 1000;
+
+    t.rotation.vx = 0;
+    t.rotation.vy = 0;
+    t.rotation.vz = 0;
+
+	init_renderable(&triangle, &t, 1, x, sizeof(SVECTOR));
 
 	while (running) // draw and display forever
 	{
@@ -77,23 +75,10 @@ int main()
 	    FntPrint("Demo\n");
 		FntFlush(-1);
 
-		RotMatrix(&ang, &m);
-
-        /* set rotation*/
-        SetRotMatrix(&m);
-
-        if (padd & PADselect) vec.vx++;
-		TransMatrix(&m, &vec);
-
-		TransMatrix(&viewMat, &viewTrans);
-		//SetTransMatrix(&viewMat);
-
-        /* set translation*/
-        SetTransMatrix(MulMatrix2(&m, &viewMat));
-
 	    /* clear all OT entries */
 		ClearOTag(cdb->ot, MAX_OT_ENTRIES);
 
+		update_camera(&cameraPos, &cameraRot);
 		add_renderable(cdb->ot, &triangle);
 
         DrawSync(0);
