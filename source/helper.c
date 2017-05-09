@@ -121,8 +121,8 @@ void add_renderable(u_long* ot, RENDERABLE* r)
         /* set translation*/
 		TransMatrix(&modelTranslation, &t->position);
 
-		SetTransMatrix(MulMatrix2(&globals->camMatrices.viewTranslationMat, &modelTranslation));
-		//SetTransMatrix(&globals->camMatrices.viewTranslationMat);
+		//SetTransMatrix(MulMatrix2(&globals->camMatrices.viewTranslationMat, &modelTranslation));
+		SetTransMatrix(&globals->camMatrices.viewTranslationMat);
 
 
         for (i=0; i<r->num_triangles; ++i)

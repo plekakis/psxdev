@@ -2,13 +2,13 @@
 #include "helper.h"
 
 static SVECTOR x[3];
-static VECTOR cameraPos = {0,0,1000};
+static VECTOR cameraPos = {0,0,-1000};
 static SVECTOR cameraRot = {0,0,100};
 static TRANSFORM t;
 static RENDERABLE triangle;
 
 void alkisStart() {
-	
+
 	setVector(&x[0], -256, 128, 0);
     setVector(&x[1],  256, 128, 0);
     setVector(&x[2], 0,  -128, 0);
