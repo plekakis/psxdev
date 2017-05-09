@@ -43,7 +43,7 @@ int main()
     u_char running = 1;
     SVECTOR x[3];
     u_short padd;
-    VECTOR cameraPos = {0,0,100};
+    VECTOR cameraPos = {0,0,1000};
     SVECTOR cameraRot = {0,0,100};
     TRANSFORM t;
 
@@ -59,7 +59,7 @@ int main()
 
     t.position.vx = 0;
     t.position.vy = 0;
-    t.position.vz = 1000;
+    t.position.vz = 0;
 
     t.rotation.vx = 0;
     t.rotation.vy = 0;
@@ -67,32 +67,33 @@ int main()
 
 	init_renderable(&triangle, &t, 1, x, sizeof(SVECTOR));
 
+	globals.frameIdx = 0;
 	while (running) // draw and display forever
 	{
-	    cdb = &db[frameIdx % MAX_BUFFERS];
+	    globals.cdb = &globals.db[globals.frameIdx % MAX_BUFFERS];
         padd = PadRead(1);
 
 	    FntPrint("Demo\n");
 		FntFlush(-1);
 
 	    /* clear all OT entries */
-		ClearOTag(cdb->ot, MAX_OT_ENTRIES);
+		ClearOTag(globals.cdb->ot, MAX_OT_ENTRIES);
 
 		update_camera(&cameraPos, &cameraRot);
-		add_renderable(cdb->ot, &triangle);
+		add_renderable(globals.cdb->ot, &triangle);
 
         DrawSync(0);
 
         /* vsync and swap frame double buffer
 		 *  set the drawing environment and display environment. */
 		VSync(0);
-		PutDrawEnv(&cdb->draw);
-		PutDispEnv(&cdb->disp);
+		PutDrawEnv(&globals.cdb->draw);
+		PutDispEnv(&globals.cdb->disp);
 
 		/* start Drawing */
-		DrawOTag(cdb->ot);
+		DrawOTag(globals.cdb->ot);
 
-		++frameIdx;
+		++globals.frameIdx;
 	}
 
 	DrawSync(0);

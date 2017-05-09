@@ -57,130 +57,25 @@ typedef struct
 // ----------
 // GLOBALS
 // ----------
-DB db[MAX_BUFFERS];
-DB* cdb;
-
-CAMERA_MATRICES camMatrices;
-
-u_long frameIdx = 0;
-
-void update_camera(VECTOR* position, SVECTOR* rotation)
+typedef struct
 {
-    TransMatrix(&camMatrices.viewTranslationMat, position);
-    RotMatrix(rotation, &camMatrices.viewRotationMat);
-}
+    DB db[MAX_BUFFERS];
+    DB* cdb;
 
-void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap)
-{
-    u_short idx;
+    CAMERA_MATRICES camMatrices;
 
-    /* Initialise with 16kb of stack and 1mb of heap */
-    InitHeap3((void*)stack, heap);
+    u_long frameIdx;
+}GLOBALS;
 
-    ResetGraph(0);		/* initialize Renderer		*/
+extern GLOBALS globals;
 
-	/* reset graphic subsystem*/
-	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(32, 32, 320, 64, 0, 512));
 
-	/* set debug mode (0:off, 1:monitor, 2:dump)  */
-	SetGraphDebug(level);
+extern void update_camera(VECTOR* position, SVECTOR* rotation);
 
-	/* initialize geometry subsystem*/
-	InitGeom();
+extern void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap);
 
-	CdInit();		/* initialize CD-ROM		*/
+extern void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices, u_short stride);
 
-    PadInit(0);     /* initialize input */
+extern void destroy_renderable(RENDERABLE* r);
 
-	/* set geometry origin as (160, 120)*/
-	SetGeomOffset(x, y);
-
-	/* distance to veiwing-screen*/
-	SetGeomScreen(z);
-
-	/* define frame double buffer */
-	/*	buffer #0:	(0,  0)-(320,240) (320x240)
-	 *	buffer #1:	(0,240)-(320,480) (320x240)
-	 */
-	SetDefDrawEnv(&db[0].draw, 0,   0, 320, 240);
-	SetDefDrawEnv(&db[1].draw, 0, 240, 320, 240);
-	SetDefDispEnv(&db[0].disp, 0, 240, 320, 240);
-	SetDefDispEnv(&db[1].disp, 0,   0, 320, 240);
-
-	for (idx=0; idx<MAX_BUFFERS; idx++)
-    {
-        db[idx].draw.isbg = 1;
-        setRGB0(&db[idx].draw, 0, 64, 127);
-    }
-
-    SetDispMask(1);
-}
-
-void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices, u_short stride)
-{
-    u_short i;
-
-    if (r)
-    {
-        (*r).trans = t;
-
-        (*r).triangles = (POLY_G3*)malloc3(sizeof(POLY_G3) * count);
-        (*r).num_triangles = count;
-
-        (*r).num_vertices = (*r).num_triangles * 3;
-        (*r).stride = stride;
-        memcpy(&(*r).vertices, &vertices, (*r).num_vertices * sizeof(stride));
-
-        for (i=0; i<count; ++i)
-        {
-            SetPolyG3(&(*r).triangles[i]);
-
-            /* set colors for each vertex*/
-            setRGB0(&(*r).triangles[i], 0xff, 0x00, 0x00);
-            setRGB1(&(*r).triangles[i], 0x00, 0xff, 0x00);
-            setRGB2(&(*r).triangles[i], 0x00, 0x00, 0xff);
-        }
-    }
-}
-
-void destroy_renderable(RENDERABLE* r)
-{
-    if (r && (*r).triangles)
-    {
-        free((*r).triangles);
-    }
-}
-
-void add_renderable(u_long* ot, RENDERABLE* r)
-{
-    u_short i;
-    long dummy0, dummy1;
-    u_int v_idx = 0;
-
-    if (r)
-    {
-        const void * v = r->vertices;
-        TRANSFORM* t = r->trans;
-        MATRIX modelRotation, modelTranslation;
-
-        /* set rotation*/
-        RotMatrix(&t->rotation, &modelRotation);
-        SetRotMatrix(MulMatrix2(&modelRotation, &camMatrices.viewRotationMat));
-
-        /* set translation*/
-		TransMatrix(&modelTranslation, &t->position);
-		SetTransMatrix(&modelTranslation);//MulMatrix2(&camMatrices->viewTranslationMat, &modelTranslation));
-
-        for (i=0; i<r->num_triangles; ++i)
-        {
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 0)), (long *)&r->triangles[i].x0, &dummy0, &dummy1);
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 1)), (long *)&r->triangles[i].x1, &dummy0, &dummy1);
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 2)), (long *)&r->triangles[i].x2, &dummy0, &dummy1);
-
-            AddPrim(ot, &r->triangles[i]);
-
-            v_idx += r->stride * 3;
-        }
-    }
-}
+extern void add_renderable(u_long* ot, RENDERABLE* r);
