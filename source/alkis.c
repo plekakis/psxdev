@@ -1,6 +1,6 @@
 /* alkis.c */
 #include "helper.h"
-#include "alkis.h"
+#include "app.h"
 
 #ifdef USE_ALKIS_CODE
 
