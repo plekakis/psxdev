@@ -1,14 +1,16 @@
 /* mike.c */
 #include "helper.h"
+#include "mike.h"
 
+#ifdef USE_MIKE_CODE
 static SVECTOR x[3];
 static VECTOR cameraPos = {0,0,1000};
 static SVECTOR cameraRot = {0,0,100};
 static TRANSFORM t;
 static RENDERABLE triangle;
 
-void mikeStart() {
-	
+void start() {
+
 	setVector(&x[0], -55, 12, 0);
     setVector(&x[1],  25, 18, 0);
     setVector(&x[2], 0,  -128, 0);
@@ -25,10 +27,12 @@ void mikeStart() {
 	init_renderable(&triangle, &t, 1, x, sizeof(SVECTOR));
 }
 
-void mikeUpdate() {
-	/* clear all OT entries */
-	ClearOTag(globals->cdb->ot, MAX_OT_ENTRIES);
-
+void update() {
 	update_camera(&cameraPos, &cameraRot);
 	add_renderable(globals->cdb->ot, &triangle);
 }
+
+void shutdown() {
+
+}
+#endif

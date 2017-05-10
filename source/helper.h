@@ -78,4 +78,9 @@ void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices,
 void destroy_renderable(RENDERABLE* r);
 void add_renderable(u_long* ot, RENDERABLE* r);
 
+/* application lifetime */
+void start();
+void loop();
+void shutdown();
+
 #endif /* ndef ____HELPER_H____ */
