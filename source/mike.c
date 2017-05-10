@@ -1,8 +1,9 @@
 /* mike.c */
 #include "helper.h"
-#include "mike.h"
+#include "app.h"
 
-#ifdef USE_MIKE_CODE
+#ifndef USE_ALKIS_CODE
+
 static SVECTOR x[3];
 static VECTOR cameraPos = {0,0,1000};
 static SVECTOR cameraRot = {0,0,100};
