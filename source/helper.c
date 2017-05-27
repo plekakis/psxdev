@@ -170,7 +170,6 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
         void* mem;
         MATRIX modelRotation, modelTranslation;
 
-        u_int v_idx = 0;
         TRANSFORM* transform = inRenderable->transform;
         void* vertices = inRenderable->vertices;
 
@@ -238,8 +237,7 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
 
             AddPrim(inOT, primmem);
 
-            v_idx += inRenderable->stride * 3;
-            vertices = (u_char*)vertices + inRenderable->stride;
+            vertices = (u_char*)vertices + inRenderable->stride * 3;
         }
     }
 }
