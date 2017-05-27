@@ -44,6 +44,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="source/alkis.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="source/app.h" />
+		<Unit filename="source/helper.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="source/helper.h" />
 		<Unit filename="source/main.c">
 			<Option compilerVar="CC" />

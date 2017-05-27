@@ -1,7 +1,49 @@
 #include "helper.h"
 
 GLOBALS *globals;
+RENDER_STATE *rs;
+
+#include "primptrs.c"
+
 static GLOBALS _globals;
+static RENDER_STATE _rs;
+
+u_long align_size(u_long inSize, u_short inAlignment)
+{
+    return (inSize + (inAlignment - 1)) & ~(inAlignment - 1);
+}
+
+SCRATCH *scratch_mem;
+static SCRATCH _scratch_mem;
+
+void init_scratch(u_long inSize)
+{
+    scratch_mem = &_scratch_mem;
+
+    scratch_mem->start = (u_char*)realloc3(scratch_mem->start, inSize);
+	scratch_mem->end = ((u_char*)scratch_mem->start) + inSize;
+	scratch_mem->next = scratch_mem->start;
+}
+
+u_char* alloc_scratch(u_long inSize, u_short inAlignment)
+{
+    u_char *m = 0;
+    inSize = align_size(inSize, inAlignment);
+
+    m = scratch_mem->next + inSize;
+
+    if (m > scratch_mem->end) return 0;
+
+    scratch_mem->next = m;
+    return m;
+}
+
+void shutdown_scratch()
+{
+    free3(scratch_mem->start);
+
+    scratch_mem->start = scratch_mem->end = scratch_mem->next = 0;
+}
 
 void update_camera(VECTOR* position, SVECTOR* rotation)
 {
@@ -23,6 +65,7 @@ void init_system(int x, int y, int z, int level, unsigned long stack, unsigned l
     u_short idx;
 
 	globals = &_globals;
+	rs = &_rs;
 
     /* Initialise with 16kb of stack and 1mb of heap */
     InitHeap3((void*)stack, heap);
@@ -65,75 +108,138 @@ void init_system(int x, int y, int z, int level, unsigned long stack, unsigned l
     }
 
     SetDispMask(1);
+
+    // setup initial renderstate
+    // flat shading, no fog
+    rs->flags = 0;
+
+    // initialise function pointers for primitives
+    fncInitPrimitive[PRIMIDX_G3] = init_prim_g3;
+    fncInitPrimitive[PRIMIDX_F3] = init_prim_f3;
+    fncInitPrimitive[PRIMIDX_GT3] = init_prim_gt3;
+    fncInitPrimitive[PRIMIDX_FT3] = init_prim_ft3;
+
+    fncPrimSetColors[PRIMIDX_G3] = prim_set_colors_g3;
+    fncPrimSetColors[PRIMIDX_F3] = prim_set_colors_f3;
+    fncPrimSetColors[PRIMIDX_GT3] = prim_set_colors_gt3;
+    fncPrimSetColors[PRIMIDX_FT3] = prim_set_colors_ft3;
 }
 
-void init_renderable(RENDERABLE* r, TRANSFORM* t, u_short count, void* vertices, u_short stride)
+inline u_short get_prim_size(u_short inAttributes)
 {
-    u_short i;
+    u_short size = 0;
 
-    if (r)
+    if (rs->flags & RSF_GOURAUD)
     {
-        (*r).trans = t;
-
-        (*r).triangles = (POLY_G3*)malloc3(sizeof(POLY_G3) * count);
-        (*r).num_triangles = count;
-
-        (*r).num_vertices = (*r).num_triangles * 3;
-        (*r).stride = stride;
-        memcpy(&(*r).vertices, &vertices, (*r).num_vertices * sizeof(stride));
-
-        for (i=0; i<count; ++i)
+        if (inAttributes & VTXATTR_TEXCOORD)
         {
-            SetPolyG3(&(*r).triangles[i]);
-
-            /* set colors for each vertex*/
-            setRGB0(&(*r).triangles[i], 0xff, 0x00, 0x00);
-            setRGB1(&(*r).triangles[i], 0x00, 0xff, 0x00);
-            setRGB2(&(*r).triangles[i], 0x00, 0x00, 0xff);
+            size = sizeof(POLY_GT3);
+        }
+        else
+        {
+            size = sizeof(POLY_G3);
         }
     }
-}
-
-void destroy_renderable(RENDERABLE* r)
-{
-    if (r && (*r).triangles)
+    else
     {
-        free((*r).triangles);
+        if (inAttributes & VTXATTR_TEXCOORD)
+        {
+            size = sizeof(POLY_FT3);
+        }
+        else
+        {
+            size = sizeof(POLY_F3);
+        }
     }
+
+    return size;
 }
 
-void add_renderable(u_long* ot, RENDERABLE* r)
+// TODO: handle doublebuffered renderables
+void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
 {
-    u_short i;
-    long dummy0, dummy1;
-    u_int v_idx = 0;
-
-    if (r)
+    if (inRenderable && (inRenderable->attributes & VTXATTR_POS))
     {
-        const void * v = r->vertices;
-        TRANSFORM* t = r->trans;
+        u_short primIdx;
+        u_char vertexIdx;
+        u_short next_offset;
+        long otZ;
+        u_char fncIdx;
+        u_short numPrims;
+        u_short primSize;
+        void* mem;
         MATRIX modelRotation, modelTranslation;
 
+        u_int v_idx = 0;
+        TRANSFORM* transform = inRenderable->transform;
+        void* vertices = inRenderable->vertices;
+
         /* set rotation*/
-        RotMatrix(&t->rotation, &modelRotation);
+        RotMatrix(&transform->rotation, &modelRotation);
         SetRotMatrix(MulMatrix2(&modelRotation, &globals->camMatrices.viewRotationMat));
 
         /* set translation*/
-		TransMatrix(&modelTranslation, &t->position);
+		TransMatrix(&modelTranslation, &transform->position);
 
 		//SetTransMatrix(MulMatrix2(&globals->camMatrices.viewTranslationMat, &modelTranslation));
 		SetTransMatrix(&globals->camMatrices.viewTranslationMat);
 
+		numPrims = inRenderable->num_vertices / 3;
+		primSize = get_prim_size(inRenderable->attributes);
 
-        for (i=0; i<r->num_triangles; ++i)
+        mem = alloc_scratch(primSize * numPrims, 16);
+
+        // primitive classification
+        if (primSize == sizeof(POLY_G3)) fncIdx = 0;
+        else if (primSize == sizeof(POLY_F3)) fncIdx = 1;
+        else if (primSize == sizeof(POLY_GT3)) fncIdx = 2;
+        else if (primSize == sizeof(POLY_FT3)) fncIdx = 3;
+
+        for (primIdx=0; primIdx<numPrims; ++primIdx)
         {
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 0)), (long *)&r->triangles[i].x0, &dummy0, &dummy1);
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 1)), (long *)&r->triangles[i].x1, &dummy0, &dummy1);
-            RotTransPers((SVECTOR*)(v + r->stride * (v_idx + 2)), (long *)&r->triangles[i].x2, &dummy0, &dummy1);
+            void* xstart[3];
+            void* primmem = (void*)((u_char*)mem + primIdx * primSize);
 
-            AddPrim(ot, &r->triangles[i]);
+            // primitive classification
+            (*fncInitPrimitive[fncIdx])(primmem, &xstart[0]);
 
-            v_idx += r->stride * 3;
+            // position always comes first
+            otZ = 0;
+            for (vertexIdx=0; vertexIdx<3; ++vertexIdx)
+            {
+                long dummy0, dummy1;
+                otZ += RotTransPers((SVECTOR*)(vertices + inRenderable->stride * vertexIdx), (long*)xstart[vertexIdx], &dummy0, &dummy1);
+            }
+
+            next_offset = sizeof(SVECTOR);
+
+            // then color, if available
+            // if it is not available, set to white
+            {
+                CVECTOR* color[3] = { 0xff, 0xff, 0xff };
+
+                if (inRenderable->attributes & VTXATTR_COLOR)
+                {
+                    for (vertexIdx=0; vertexIdx<3; ++vertexIdx)
+                    {
+                        color[vertexIdx] = (CVECTOR*)((u_char*)vertices + inRenderable->stride * vertexIdx + next_offset);
+                    }
+
+                    next_offset += sizeof(CVECTOR);
+                }
+
+                (*fncPrimSetColors[fncIdx])(primmem, color);
+            }
+
+            if (inRenderable->attributes & VTXATTR_TEXCOORD)
+            {
+                next_offset += sizeof(SVECTOR);
+            }
+
+            AddPrim(inOT, primmem);
+
+            v_idx += inRenderable->stride * 3;
+            vertices = (u_char*)vertices + inRenderable->stride;
         }
     }
 }
