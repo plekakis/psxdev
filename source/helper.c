@@ -41,7 +41,6 @@ void init_system(int x, int y, int level, unsigned long stack, unsigned long hea
 	globals = &_globals;
 	rs = &_rs;
 
-    /* Initialise with 16kb of stack and 1mb of heap */
     InitHeap3((void*)stack, heap);
 
     ResetGraph(0);		/* initialize Renderer		*/
@@ -66,12 +65,12 @@ void init_system(int x, int y, int level, unsigned long stack, unsigned long hea
 	/* distance to veiwing-screen*/
 	SetGeomScreen(centerx);
 
-	/* define frame double buffer */
-	/*	buffer #0:	(0,  0)-(320,240) (320x240)
-	 *	buffer #1:	(0,240)-(320,480) (320x240)
-	 */
-    if (SCREEN_X <= 320)
+    if (SCREEN_X == LOW_RES_X)
     {
+        /* define frame double buffer */
+        /*	buffer #0:	(0,  0)-(320,240) (320x240)
+         *	buffer #1:	(0,240)-(320,480) (320x240)
+        */
         SetDefDrawEnv(&globals->db[0].draw, 0,   0, SCREEN_X, SCREEN_Y);
         SetDefDrawEnv(&globals->db[1].draw, 0, SCREEN_Y, SCREEN_X, SCREEN_Y);
         SetDefDispEnv(&globals->db[0].disp, 0, SCREEN_Y, SCREEN_X, SCREEN_Y);
@@ -79,20 +78,19 @@ void init_system(int x, int y, int level, unsigned long stack, unsigned long hea
     }
     else
     {
-
-    }
-
-	for (idx=0; idx<2; idx++)
-    {
-        globals->db[idx].draw.isbg = 1;
-        setRGB0(&globals->db[idx].draw, 0, 64, 127);
+        SetDefDrawEnv(&globals->db[0].draw, 0,   0, SCREEN_X, SCREEN_Y);
+        SetDefDrawEnv(&globals->db[1].draw, 0,   0, SCREEN_X, SCREEN_Y);
+        SetDefDispEnv(&globals->db[0].disp, 0,   0, SCREEN_X, SCREEN_Y);
+        SetDefDispEnv(&globals->db[1].disp, 0,   0, SCREEN_X, SCREEN_Y);
     }
 
     SetDispMask(1);
 
     // setup initial renderstate
-    // flat shading, no fog
     rs->flags = 0;
+
+    // initial clear color
+    setColor(&globals->clearColor, 32, 127, 255);
 
     // initialise function pointers for primitives
     fncInitPrimitive[PRIMIDX_G3] = &init_prim_g3;
@@ -253,12 +251,9 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
     if (inRenderable && (inRenderable->vb->attributes & VTXATTR_POS))
     {
         u_short primIdx;
-        u_char vertexIdx;
-        u_short next_offset;
-        long otZ;
-        u_char fncIdx;
         u_short posIdx = 0;
-        u_short primSize;
+        u_char vertexIdx;
+        long otZ;
         VERTEXBUFFER* vb = inRenderable->vb;
         const u_short numPrims = vb->num_vertices / VERTEXCOUNT_PER_PRIM;
         MATRIX modelRotation, modelTranslation;

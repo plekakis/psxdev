@@ -14,8 +14,14 @@
 // ----------
 #define PI 3.14159265359f
 
-#define SCREEN_X 320 // screen width
-#define	SCREEN_Y 240 // screen height
+#define LOW_RES_X 320
+#define LOW_RES_Y 240
+
+#define HIGH_RES_X 640
+#define HIGH_RES_Y 480
+
+#define SCREEN_X LOW_RES_X // screen width
+#define	SCREEN_Y LOW_RES_Y // screen height
 
 #define MAX_OT_ENTRIES 4096
 
@@ -162,7 +168,7 @@ typedef struct
     DB* cdb;
 
     CAMERA_MATRICES camMatrices;
-
+    CVECTOR clearColor;
     u_long frameIdx;
 }GLOBALS;
 
@@ -193,11 +199,10 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable);
 
 
 // allocations
-#if 0
 extern u_long mem_allocated;
 
 void* _calloc(size_t n, size_t s);
 void* _malloc(size_t n);
-#endif
+void  _free(void*);
 
 #endif /* ndef ____HELPER_H____ */

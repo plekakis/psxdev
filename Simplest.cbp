@@ -58,6 +58,13 @@
 		<Unit filename="source/makefile.mak">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="source/memalloc.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="source/primptrs.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

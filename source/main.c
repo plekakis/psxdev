@@ -4,11 +4,16 @@
 #include "helper.h"
 #include "app.h"
 
+RECT clearRect	={ 0, 0, SCREEN_X, SCREEN_Y };
+
+unsigned long ramsize =   0x00200000; // 2 Megabytes of RAM
+unsigned long stacksize = 0x800F8000; // 16 Kilobytes of Stack
+
 int main()
 {
     u_short padd;
 
-    init_system(SCREEN_X, SCREEN_Y, 0, 0x800F8000, 0x00100000);
+    init_system(SCREEN_X, SCREEN_Y, 0, ramsize, stacksize);
 
     // 256k of scratch
     INIT_MAIN_SCRATCH(1024 * 128);
@@ -48,6 +53,8 @@ int main()
 
 		PutDrawEnv(&globals->cdb->draw);
 		PutDispEnv(&globals->cdb->disp);
+
+		ClearImage(&globals->cdb->draw.clip, globals->clearColor.r, globals->clearColor.r, globals->clearColor.b);
 
 		/* start Drawing */
 		DrawOTag(globals->cdb->ot);
