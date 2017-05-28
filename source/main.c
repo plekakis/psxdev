@@ -8,13 +8,16 @@ int main()
 {
     u_short padd;
 
-    init_system(ORIGIN_X, ORIGIN_Y, 512, 0, 0x800F8000, 0x00100000);
+    init_system(SCREEN_X, SCREEN_Y, 0, 0x800F8000, 0x00100000);
 
     // 256k of scratch
-    init_scratch(1024 * 256);
+    INIT_MAIN_SCRATCH(1024 * 128);
+
+    // and 128k of double buffered scratch. This memory is shared between the allocators, so each gets 64k
+    INIT_MAIN_DB_SCRATCH(1024 * 64);
 
 	FntLoad(960, 256); // load the font from the BIOS into VRAM/SGRAM
-	SetDumpFnt(FntOpen(5, 20, 320, 240, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
+	SetDumpFnt(FntOpen(5, 20, SCREEN_X, SCREEN_Y, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
 
 	start();
 
@@ -22,14 +25,15 @@ int main()
 
 	while (1) // draw and display forever
 	{
-	    globals->cdb = &globals->db[globals->frameIdx % MAX_BUFFERS];
+	    globals->cdb = &globals->db[globals->frameIdx & 1];
         padd = PadRead(1);
 
 	    FntPrint("Demo");
 		FntFlush(-1);
 
 		// reset scratch
-        scratch_mem->next = scratch_mem->start;
+        RESET_MAIN_SCRATCH();
+		RESET_MAIN_DB_SCRATCH();
 
 		/* clear all OT entries */
         ClearOTag(globals->cdb->ot, MAX_OT_ENTRIES);
@@ -53,7 +57,8 @@ int main()
 
 	DrawSync(0);
 
-	shutdown_scratch();
+	SHUTDOWN_MAIN_DB_SCRATCH();
+	SHUTDOWN_MAIN_SCRATCH();
 	shutdown();
 
 	PadStop();

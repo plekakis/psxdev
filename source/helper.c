@@ -4,45 +4,17 @@ GLOBALS *globals;
 RENDER_STATE *rs;
 
 #include "primptrs.c"
+#include "memalloc.c"
+#define VERTEXCOUNT_PER_PRIM 3
 
 static GLOBALS _globals;
 static RENDER_STATE _rs;
 
-u_long align_size(u_long inSize, u_short inAlignment)
+void init_transform(TRANSFORM* ioTrans)
 {
-    return (inSize + (inAlignment - 1)) & ~(inAlignment - 1);
-}
-
-SCRATCH *scratch_mem;
-static SCRATCH _scratch_mem;
-
-void init_scratch(u_long inSize)
-{
-    scratch_mem = &_scratch_mem;
-
-    scratch_mem->start = (u_char*)realloc3(scratch_mem->start, inSize);
-	scratch_mem->end = ((u_char*)scratch_mem->start) + inSize;
-	scratch_mem->next = scratch_mem->start;
-}
-
-u_char* alloc_scratch(u_long inSize, u_short inAlignment)
-{
-    u_char *m = 0;
-    inSize = align_size(inSize, inAlignment);
-
-    m = scratch_mem->next + inSize;
-
-    if (m > scratch_mem->end) return 0;
-
-    scratch_mem->next = m;
-    return m;
-}
-
-void shutdown_scratch()
-{
-    free3(scratch_mem->start);
-
-    scratch_mem->start = scratch_mem->end = scratch_mem->next = 0;
+    setVector(&ioTrans->position, 0, 0, 0);
+    setVector(&ioTrans->rotation, 0, 0, 0);
+    setVector(&ioTrans->scale, 1, 1, 1);
 }
 
 void update_camera(VECTOR* position, SVECTOR* rotation)
@@ -60,9 +32,11 @@ void update_camera(VECTOR* position, SVECTOR* rotation)
     TransposeMatrix(&globals->camMatrices.viewRotationMat, &globals->camMatrices.viewRotationMat);
 }
 
-void init_system(int x, int y, int z, int level, unsigned long stack, unsigned long heap)
+void init_system(int x, int y, int level, unsigned long stack, unsigned long heap)
 {
     u_short idx;
+    const u_short centerx = x/2;
+    const u_short centery = y/2;
 
 	globals = &_globals;
 	rs = &_rs;
@@ -87,21 +61,28 @@ void init_system(int x, int y, int z, int level, unsigned long stack, unsigned l
     PadInit(0);     /* initialize input */
 
 	/* set geometry origin as (160, 120)*/
-	SetGeomOffset(x, y);
+	SetGeomOffset(centerx, centery);
 
 	/* distance to veiwing-screen*/
-	SetGeomScreen(z);
+	SetGeomScreen(centerx);
 
 	/* define frame double buffer */
 	/*	buffer #0:	(0,  0)-(320,240) (320x240)
 	 *	buffer #1:	(0,240)-(320,480) (320x240)
 	 */
-	SetDefDrawEnv(&globals->db[0].draw, 0,   0, 320, 240);
-	SetDefDrawEnv(&globals->db[1].draw, 0, 240, 320, 240);
-	SetDefDispEnv(&globals->db[0].disp, 0, 240, 320, 240);
-	SetDefDispEnv(&globals->db[1].disp, 0,   0, 320, 240);
+    if (SCREEN_X <= 320)
+    {
+        SetDefDrawEnv(&globals->db[0].draw, 0,   0, SCREEN_X, SCREEN_Y);
+        SetDefDrawEnv(&globals->db[1].draw, 0, SCREEN_Y, SCREEN_X, SCREEN_Y);
+        SetDefDispEnv(&globals->db[0].disp, 0, SCREEN_Y, SCREEN_X, SCREEN_Y);
+        SetDefDispEnv(&globals->db[1].disp, 0,   0, SCREEN_X, SCREEN_Y);
+    }
+    else
+    {
 
-	for (idx=0; idx<MAX_BUFFERS; idx++)
+    }
+
+	for (idx=0; idx<2; idx++)
     {
         globals->db[idx].draw.isbg = 1;
         setRGB0(&globals->db[idx].draw, 0, 64, 127);
@@ -114,22 +95,22 @@ void init_system(int x, int y, int z, int level, unsigned long stack, unsigned l
     rs->flags = 0;
 
     // initialise function pointers for primitives
-    fncInitPrimitive[PRIMIDX_G3] = init_prim_g3;
-    fncInitPrimitive[PRIMIDX_F3] = init_prim_f3;
-    fncInitPrimitive[PRIMIDX_GT3] = init_prim_gt3;
-    fncInitPrimitive[PRIMIDX_FT3] = init_prim_ft3;
+    fncInitPrimitive[PRIMIDX_G3] = &init_prim_g3;
+    fncInitPrimitive[PRIMIDX_F3] = &init_prim_f3;
+    fncInitPrimitive[PRIMIDX_GT3] = &init_prim_gt3;
+    fncInitPrimitive[PRIMIDX_FT3] = &init_prim_ft3;
 
-    fncPrimSetColors[PRIMIDX_G3] = prim_set_colors_g3;
-    fncPrimSetColors[PRIMIDX_F3] = prim_set_colors_f3;
-    fncPrimSetColors[PRIMIDX_GT3] = prim_set_colors_gt3;
-    fncPrimSetColors[PRIMIDX_FT3] = prim_set_colors_ft3;
+    fncPrimSetColors[PRIMIDX_G3] = &prim_set_colors_g3;
+    fncPrimSetColors[PRIMIDX_F3] = &prim_set_colors_f3;
+    fncPrimSetColors[PRIMIDX_GT3] = &prim_set_colors_gt3;
+    fncPrimSetColors[PRIMIDX_FT3] = &prim_set_colors_ft3;
 }
 
 inline u_short get_prim_size(u_short inAttributes)
 {
     u_short size = 0;
 
-    if (rs->flags & RSF_GOURAUD)
+    if (inAttributes & VTXATTR_GOURAUD)
     {
         if (inAttributes & VTXATTR_TEXCOORD)
         {
@@ -155,89 +136,161 @@ inline u_short get_prim_size(u_short inAttributes)
     return size;
 }
 
+u_char get_prim_idx(u_short inPrimSize)
+{
+    u_char idx;
+
+    if (inPrimSize == sizeof(POLY_G3)) idx = PRIMIDX_G3;
+    else if (inPrimSize == sizeof(POLY_F3)) idx = PRIMIDX_F3;
+    else if (inPrimSize == sizeof(POLY_GT3)) idx = PRIMIDX_GT3;
+    else if (inPrimSize == sizeof(POLY_FT3)) idx = PRIMIDX_FT3;
+
+    return idx;
+}
+
+//
+// VERTEXBUFFER
+//
+void alloc_vb(VERTEXBUFFER* outVB, u_short inNumVertices, u_short inStride, u_short inAttributes, u_char inUsage)
+{
+    outVB->attributes = inAttributes;
+    outVB->num_vertices = inNumVertices;
+    outVB->stride = inStride;
+    outVB->usage = inUsage;
+
+    outVB->primSize = get_prim_size(outVB->attributes);
+    outVB->primIdx = get_prim_idx(outVB->primSize);
+
+    // allocate memory at this point if the vb is not dynamic
+    // dynamic vbs use the double buffered scratch allocator
+
+    if ((inUsage & VB_DYNAMIC) == 0)
+    {
+        outVB->primmem = (void*)calloc3((inNumVertices * outVB->primSize) / VERTEXCOUNT_PER_PRIM);
+        outVB->posmem = (SVECTOR*)calloc3(inNumVertices * sizeof(SVECTOR));
+    }
+}
+
+void update_vb(VERTEXBUFFER* ioVB, void* inVertices)
+{
+    u_short numPrims = ioVB->num_vertices / VERTEXCOUNT_PER_PRIM;
+    void* vertices = inVertices;
+    u_short primIdx;
+    u_char vertexIdx;
+    u_short next_offset;
+    u_short posIdx = 0;
+
+    // allocate memory for dynamic buffers
+    if ((ioVB->usage & VB_DYNAMIC) != 0)
+    {
+        ioVB->primmem = ALLOC_MAIN_DB_SCRATCH((ioVB->num_vertices * ioVB->primSize) / VERTEXCOUNT_PER_PRIM, 16);
+        ioVB->posmem = (SVECTOR*)ALLOC_MAIN_DB_SCRATCH(ioVB->num_vertices * sizeof(SVECTOR), 16);
+    }
+
+    for (primIdx=0; primIdx<numPrims; ++primIdx)
+    {
+        void* primmem = (void*)((u_char*)ioVB->primmem + primIdx * ioVB->primSize);
+
+        for (vertexIdx=0; vertexIdx<VERTEXCOUNT_PER_PRIM; ++vertexIdx)
+        {
+            if ((ioVB->usage & VB_DYNAMIC) != 0)
+            {
+                const SVECTOR* vv = (const SVECTOR*)((u_char*)vertices + ioVB->stride * vertexIdx);
+                setVector(&ioVB->posmem[posIdx], vv->vx, vv->vy, vv->vz);
+            }
+            else
+            {
+                memcpy(&ioVB->posmem[posIdx], (void*)((u_char*)vertices + ioVB->stride * vertexIdx), sizeof(SVECTOR));
+            }
+
+            ++posIdx;
+        }
+
+        next_offset = sizeof(SVECTOR);
+
+        // then color, if available
+        // if it is not available, set to white
+        {
+            CVECTOR* color[VERTEXCOUNT_PER_PRIM];
+            if (ioVB->attributes & VTXATTR_COLOR)
+            {
+                for (vertexIdx=0; vertexIdx<VERTEXCOUNT_PER_PRIM; ++vertexIdx)
+                {
+                    color[vertexIdx] = (CVECTOR*)((u_char*)vertices + ioVB->stride * vertexIdx + next_offset);
+                }
+
+                next_offset += sizeof(CVECTOR);
+            }
+
+            (*fncPrimSetColors[ioVB->primIdx])(primmem, color);
+        }
+
+        if (ioVB->attributes & VTXATTR_TEXCOORD)
+        {
+            next_offset += sizeof(SVECTOR);
+        }
+
+        // advance
+        vertices = (void*)((u_char*)vertices + ioVB->stride * VERTEXCOUNT_PER_PRIM);
+    }
+}
+
+void free_vb(VERTEXBUFFER* inVB)
+{
+    if ((inVB->usage & VB_DYNAMIC) == 0)
+    {
+        if (inVB->primmem) free3(inVB->primmem);
+        if (inVB->posmem) free3(inVB->posmem);
+    }
+
+    inVB->primmem = 0;
+    inVB->posmem = 0;
+}
+
 // TODO: handle doublebuffered renderables
 void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
 {
-    if (inRenderable && (inRenderable->attributes & VTXATTR_POS))
+    if (inRenderable && (inRenderable->vb->attributes & VTXATTR_POS))
     {
         u_short primIdx;
         u_char vertexIdx;
         u_short next_offset;
         long otZ;
         u_char fncIdx;
-        u_short numPrims;
+        u_short posIdx = 0;
         u_short primSize;
-        void* mem;
+        VERTEXBUFFER* vb = inRenderable->vb;
+        const u_short numPrims = vb->num_vertices / VERTEXCOUNT_PER_PRIM;
         MATRIX modelRotation, modelTranslation;
 
         TRANSFORM* transform = inRenderable->transform;
-        void* vertices = inRenderable->vertices;
 
-        /* set rotation*/
         RotMatrix(&transform->rotation, &modelRotation);
         SetRotMatrix(MulMatrix2(&modelRotation, &globals->camMatrices.viewRotationMat));
 
-        /* set translation*/
 		TransMatrix(&modelTranslation, &transform->position);
 
+		SetTransMatrix(&modelTranslation);
 		//SetTransMatrix(MulMatrix2(&globals->camMatrices.viewTranslationMat, &modelTranslation));
-		SetTransMatrix(&globals->camMatrices.viewTranslationMat);
+		//SetTransMatrix(&globals->camMatrices.viewTranslationMat);
 
-		numPrims = inRenderable->num_vertices / 3;
-		primSize = get_prim_size(inRenderable->attributes);
-
-        mem = alloc_scratch(primSize * numPrims, 16);
-
-        // primitive classification
-        if (primSize == sizeof(POLY_G3)) fncIdx = 0;
-        else if (primSize == sizeof(POLY_F3)) fncIdx = 1;
-        else if (primSize == sizeof(POLY_GT3)) fncIdx = 2;
-        else if (primSize == sizeof(POLY_FT3)) fncIdx = 3;
 
         for (primIdx=0; primIdx<numPrims; ++primIdx)
         {
-            void* xstart[3];
-            void* primmem = (void*)((u_char*)mem + primIdx * primSize);
+            void* primmem = (void*)((u_char*)vb->primmem + primIdx * vb->primSize);
+            long* xstart[3];
 
-            // primitive classification
-            (*fncInitPrimitive[fncIdx])(primmem, &xstart[0]);
+            (*fncInitPrimitive[vb->primIdx])(primmem, (void*)&xstart[0]);
 
             // position always comes first
             otZ = 0;
             for (vertexIdx=0; vertexIdx<3; ++vertexIdx)
             {
                 long dummy0, dummy1;
-                otZ += RotTransPers((SVECTOR*)(vertices + inRenderable->stride * vertexIdx), (long*)xstart[vertexIdx], &dummy0, &dummy1);
-            }
-
-            next_offset = sizeof(SVECTOR);
-
-            // then color, if available
-            // if it is not available, set to white
-            {
-                CVECTOR* color[3] = { 0xff, 0xff, 0xff };
-
-                if (inRenderable->attributes & VTXATTR_COLOR)
-                {
-                    for (vertexIdx=0; vertexIdx<3; ++vertexIdx)
-                    {
-                        color[vertexIdx] = (CVECTOR*)((u_char*)vertices + inRenderable->stride * vertexIdx + next_offset);
-                    }
-
-                    next_offset += sizeof(CVECTOR);
-                }
-
-                (*fncPrimSetColors[fncIdx])(primmem, color);
-            }
-
-            if (inRenderable->attributes & VTXATTR_TEXCOORD)
-            {
-                next_offset += sizeof(SVECTOR);
+                otZ += RotTransPers(&vb->posmem[posIdx++], (long*)xstart[vertexIdx], &dummy0, &dummy1);
             }
 
             AddPrim(inOT, primmem);
-
-            vertices = (u_char*)vertices + inRenderable->stride * 3;
         }
     }
 }

@@ -13,6 +13,7 @@ void (*fncInitPrimitive[PRIMIDX_MAX])(void* inMem, void** outX);
 void init_prim_g3(void* inMem, void** outX)
 {
     POLY_G3* asG3 = (POLY_G3*)inMem;
+
     outX[0] = &asG3->x0;
     outX[1] = &asG3->x1;
     outX[2] = &asG3->x2;
