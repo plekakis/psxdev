@@ -273,14 +273,14 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
         u_short primIdx;
         u_short posIdx = 0;
         u_char vertexIdx;
-        long otZ;
         VERTEXBUFFER* vb = inRenderable->vb;
         const u_short numPrims = vb->num_vertices / VERTEXCOUNT_PER_PRIM;
         const u_short tpage = inRenderable->tex ? inRenderable->tex->tpage : 0;
         const u_short clut = inRenderable->tex ? inRenderable->tex->clutid : 0;
         MATRIX modelRotation, modelTranslation;
-
         TRANSFORM* transform = inRenderable->transform;
+
+        PushMatrix();
 
         RotMatrix(&transform->rotation, &modelRotation);
         SetRotMatrix(MulMatrix2(&modelRotation, &globals->camMatrices.viewRotationMat));
@@ -296,16 +296,27 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
         {
             void* primmem = (void*)((u_char*)vb->primmem + primIdx * vb->primSize);
             long* xstart[3];
+            int isomote;
+            long otz, p, flg;
 
             (*fncInitPrimitive[vb->primIdx])(primmem, (void*)&xstart[0]);
 
             // position always comes first
-            otZ = 0;
             for (vertexIdx=0; vertexIdx<3; ++vertexIdx)
             {
                 long dummy0, dummy1;
-                otZ += RotTransPers(&vb->posmem[posIdx++], (long*)xstart[vertexIdx], &dummy0, &dummy1);
+                RotTransPers(&vb->posmem[posIdx++], (long*)xstart[vertexIdx], &dummy0, &dummy1);
             }
+
+            /* Translate from local coordinates to screen coordinates
+            *  using RotAverageNclip4().
+            *  otz represents 1/4 value of the average of z value of
+            *  each vertex.
+            */
+            isomote = RotAverageNclip3(&vb->posmem[0], &vb->posmem[1], &vb->posmem[2],
+                                       (long *)&xstart[0], (long *)&xstart[1], (long *)&xstart[2], &p, &otz, &flg);
+
+            if (isomote <= 0) continue;
 
             // update clut and tpage
             if (inRenderable->vb->attributes & VTXATTR_TEXCOORD)
@@ -313,8 +324,16 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
                 (*fncPrimSetTPageClut[inRenderable->vb->primIdx])(primmem, clut, tpage);
             }
 
-            AddPrim(inOT, primmem);
+            // handle fog
+            if (rs->flags & RSF_FOG)
+            {
+                // update the color
+
+            }
+            AddPrim(inOT + otz, primmem);
         }
+
+        PopMatrix();
     }
 }
 

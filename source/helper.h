@@ -20,8 +20,8 @@
 #define HIGH_RES_X 640
 #define HIGH_RES_Y 480
 
-#define SCREEN_X LOW_RES_X // screen width
-#define	SCREEN_Y LOW_RES_Y // screen height
+#define SCREEN_X HIGH_RES_X // screen width
+#define	SCREEN_Y HIGH_RES_Y // screen height
 
 #define MAX_OT_ENTRIES 4096
 
