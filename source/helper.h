@@ -120,6 +120,13 @@ typedef struct
 
 typedef struct
 {
+    SVECTOR position;
+    CVECTOR color;
+    u_char u0, v0;
+}V_PCT;
+
+typedef struct
+{
   SVECTOR position;
 }V_P;
 
@@ -131,11 +138,22 @@ typedef struct
     SVECTOR scale;
 }TRANSFORM;
 
+typedef struct
+{
+    u_short	px,py;	// Image offset in the framebuffer
+	u_short pw,ph;	// Image size
+	u_short tpage;	// Framebuffer page ID of texture
+	u_short mode;	// Color mode (0 - 4-bit, 1 - 8-bit, 2 - 16-bit, 3 - 24-bit)
+	u_short cx,cy;	// Image CLUT offset in the framebuffer
+	u_short clutid;	// TIM's CLUT ID
+}TEXTURE;
+
 // Defines something that can be added to the OT
 typedef struct
 {
     TRANSFORM*  transform;
     VERTEXBUFFER* vb;
+    TEXTURE* tex;
 }RENDERABLE;
 
 // Defines a frame's buffer resource
@@ -175,6 +193,7 @@ typedef struct
 extern GLOBALS *globals;
 extern RENDER_STATE *rs;
 
+void load_tim(u_long *inAddress, TEXTURE *outTexture);
 void init_transform(TRANSFORM* ioTrans);
 u_long align_size(u_long inSize, u_short inAlignment);
 void update_camera(VECTOR* position, SVECTOR* rotation);

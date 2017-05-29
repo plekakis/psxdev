@@ -81,3 +81,50 @@ void prim_set_colors_ft3(void* inMem, CVECTOR** inColors)
     POLY_FT3* asFT3 = (POLY_FT3*)inMem;
     setRGB0(asFT3, inColors[0]->r, inColors[0]->g, inColors[0]->b);
 }
+
+// SetUV
+void (*fncPrimSetUVs[PRIMIDX_MAX])(void* inMem, u_char* inUs, u_char* inVs);
+
+void prim_set_uvs_gt3(void* inMem, u_char* inUs, u_char* inVs)
+{
+    POLY_GT3* asGT3 = (POLY_GT3*)inMem;
+
+    setUV3
+    (   asGT3,
+        inUs[0], inVs[0],
+        inUs[1], inVs[1],
+        inUs[2], inVs[2]
+    );
+}
+
+void prim_set_uvs_ft3(void* inMem, u_char* inUs, u_char* inVs)
+{
+    POLY_FT3* asFT3 = (POLY_FT3*)inMem;
+
+    setUV3
+    (   asFT3,
+        inUs[0], inVs[0],
+        inUs[1], inVs[1],
+        inUs[2], inVs[2]
+    );
+}
+
+// SetTPageClut
+void (*fncPrimSetTPageClut[PRIMIDX_MAX])(void* inMem, u_short inClut, u_short inTPage);
+
+void prim_set_tpageclut_gt3(void* inMem, u_short inClut, u_short inTPage)
+{
+    POLY_GT3* asGT3 = (POLY_GT3*)inMem;
+
+    asGT3->clut = inClut;
+    asGT3->tpage = inTPage;
+}
+
+void prim_set_tpageclut_ft3(void* inMem, u_short inClut, u_short inTPage)
+{
+    POLY_FT3* asFT3 = (POLY_FT3*)inMem;
+
+    asFT3->clut = inClut;
+    asFT3->tpage = inTPage;
+}
+

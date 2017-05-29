@@ -92,6 +92,8 @@ void init_system(int x, int y, int level, unsigned long stack, unsigned long hea
     // initial clear color
     setColor(&globals->clearColor, 32, 127, 255);
 
+    globals->frameIdx = 0;
+
     // initialise function pointers for primitives
     fncInitPrimitive[PRIMIDX_G3] = &init_prim_g3;
     fncInitPrimitive[PRIMIDX_F3] = &init_prim_f3;
@@ -102,6 +104,12 @@ void init_system(int x, int y, int level, unsigned long stack, unsigned long hea
     fncPrimSetColors[PRIMIDX_F3] = &prim_set_colors_f3;
     fncPrimSetColors[PRIMIDX_GT3] = &prim_set_colors_gt3;
     fncPrimSetColors[PRIMIDX_FT3] = &prim_set_colors_ft3;
+
+    fncPrimSetUVs[PRIMIDX_GT3] = &prim_set_uvs_gt3;
+    fncPrimSetUVs[PRIMIDX_FT3] = &prim_set_uvs_ft3;
+
+    fncPrimSetTPageClut[PRIMIDX_GT3] = &prim_set_tpageclut_gt3;
+    fncPrimSetTPageClut[PRIMIDX_FT3] = &prim_set_tpageclut_ft3;
 }
 
 inline u_short get_prim_size(u_short inAttributes)
@@ -161,7 +169,6 @@ void alloc_vb(VERTEXBUFFER* outVB, u_short inNumVertices, u_short inStride, u_sh
 
     // allocate memory at this point if the vb is not dynamic
     // dynamic vbs use the double buffered scratch allocator
-
     if ((inUsage & VB_DYNAMIC) == 0)
     {
         outVB->primmem = (void*)calloc3((inNumVertices * outVB->primSize) / VERTEXCOUNT_PER_PRIM);
@@ -172,6 +179,7 @@ void alloc_vb(VERTEXBUFFER* outVB, u_short inNumVertices, u_short inStride, u_sh
 void update_vb(VERTEXBUFFER* ioVB, void* inVertices)
 {
     u_short numPrims = ioVB->num_vertices / VERTEXCOUNT_PER_PRIM;
+    const u_char isDynamic = (ioVB->usage & VB_DYNAMIC) != 0;
     void* vertices = inVertices;
     u_short primIdx;
     u_char vertexIdx;
@@ -179,7 +187,7 @@ void update_vb(VERTEXBUFFER* ioVB, void* inVertices)
     u_short posIdx = 0;
 
     // allocate memory for dynamic buffers
-    if ((ioVB->usage & VB_DYNAMIC) != 0)
+    if (isDynamic)
     {
         ioVB->primmem = ALLOC_MAIN_DB_SCRATCH((ioVB->num_vertices * ioVB->primSize) / VERTEXCOUNT_PER_PRIM, 16);
         ioVB->posmem = (SVECTOR*)ALLOC_MAIN_DB_SCRATCH(ioVB->num_vertices * sizeof(SVECTOR), 16);
@@ -191,7 +199,7 @@ void update_vb(VERTEXBUFFER* ioVB, void* inVertices)
 
         for (vertexIdx=0; vertexIdx<VERTEXCOUNT_PER_PRIM; ++vertexIdx)
         {
-            if ((ioVB->usage & VB_DYNAMIC) != 0)
+            if (isDynamic)
             {
                 const SVECTOR* vv = (const SVECTOR*)((u_char*)vertices + ioVB->stride * vertexIdx);
                 setVector(&ioVB->posmem[posIdx], vv->vx, vv->vy, vv->vz);
@@ -225,7 +233,19 @@ void update_vb(VERTEXBUFFER* ioVB, void* inVertices)
 
         if (ioVB->attributes & VTXATTR_TEXCOORD)
         {
-            next_offset += sizeof(SVECTOR);
+            u_char* uvs;
+            u_char us[VERTEXCOUNT_PER_PRIM];
+            u_char vs[VERTEXCOUNT_PER_PRIM];
+
+            for (vertexIdx=0; vertexIdx<VERTEXCOUNT_PER_PRIM; ++vertexIdx)
+            {
+                uvs = (u_char*)vertices + ioVB->stride * vertexIdx + next_offset;
+
+                us[vertexIdx] = uvs[0];
+                vs[vertexIdx] = uvs[1];
+            }
+
+            (*fncPrimSetUVs[ioVB->primIdx])(primmem, us, vs);
         }
 
         // advance
@@ -256,6 +276,8 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
         long otZ;
         VERTEXBUFFER* vb = inRenderable->vb;
         const u_short numPrims = vb->num_vertices / VERTEXCOUNT_PER_PRIM;
+        const u_short tpage = inRenderable->tex ? inRenderable->tex->tpage : 0;
+        const u_short clut = inRenderable->tex ? inRenderable->tex->clutid : 0;
         MATRIX modelRotation, modelTranslation;
 
         TRANSFORM* transform = inRenderable->transform;
@@ -285,7 +307,51 @@ void add_renderable(u_long* inOT, RENDERABLE* inRenderable)
                 otZ += RotTransPers(&vb->posmem[posIdx++], (long*)xstart[vertexIdx], &dummy0, &dummy1);
             }
 
+            // update clut and tpage
+            if (inRenderable->vb->attributes & VTXATTR_TEXCOORD)
+            {
+                (*fncPrimSetTPageClut[inRenderable->vb->primIdx])(primmem, clut, tpage);
+            }
+
             AddPrim(inOT, primmem);
         }
     }
+}
+
+void load_tim(u_long *inAddress, TEXTURE *outTexture) {
+    /*
+		0: 4-bit CLUT
+		1: 8-bit CLUT
+		2: 16-bit DIRECT
+		3: 24-bit DIRECT
+	*/
+
+	TIM_IMAGE timinfo;
+
+	// Get the TIM's header
+	if (OpenTIM(inAddress) == 0) {
+
+        ReadTIM(&timinfo);
+
+        // Upload the TIM image data to the framebuffer
+        LoadImage(timinfo.prect, timinfo.paddr);
+        DrawSync(0);
+
+        // Set parameters for outTexture
+        outTexture->px = timinfo.prect->x;
+        outTexture->py = timinfo.prect->y;
+        outTexture->pw = timinfo.prect->w;
+        outTexture->ph = timinfo.prect->h;
+        outTexture->tpage = GetTPage(timinfo.mode, 0, timinfo.prect->x, timinfo.prect->y);
+
+        // If TIM has a CLUT (if color depth is lower than 16-bit), upload it as well
+        if ((timinfo.mode & 3) < 2) {
+            LoadImage(timinfo.crect, timinfo.caddr);
+            DrawSync(0);
+
+            outTexture->cx = timinfo.crect->x;
+            outTexture->cy = timinfo.crect->y;
+            outTexture->clutid = GetClut(timinfo.crect->x, timinfo.crect->y);
+        }
+	}
 }

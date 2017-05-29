@@ -1,10 +1,5 @@
-/* OUF ka8arise o topos... */
-
-
 #include "helper.h"
 #include "app.h"
-
-RECT clearRect	={ 0, 0, SCREEN_X, SCREEN_Y };
 
 unsigned long ramsize =   0x00200000; // 2 Megabytes of RAM
 unsigned long stacksize = 0x800F8000; // 16 Kilobytes of Stack
@@ -15,18 +10,16 @@ int main()
 
     init_system(SCREEN_X, SCREEN_Y, 0, ramsize, stacksize);
 
-    // 256k of scratch
+    // 128k of scratch
     INIT_MAIN_SCRATCH(1024 * 128);
 
-    // and 128k of double buffered scratch. This memory is shared between the allocators, so each gets 64k
+    // and 64k of double buffered scratch. This memory is shared between the allocators, so each gets 64k
     INIT_MAIN_DB_SCRATCH(1024 * 64);
 
 	FntLoad(960, 256); // load the font from the BIOS into VRAM/SGRAM
 	SetDumpFnt(FntOpen(5, 20, SCREEN_X, SCREEN_Y, 0, 512)); // screen X,Y | max text length X,Y | autmatic background clear 0,1 | max characters
 
 	start();
-
-	globals->frameIdx = 0;
 
 	while (1) // draw and display forever
 	{
