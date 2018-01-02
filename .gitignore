@@ -9,3 +9,5 @@
 
 /source/which.h
 /source/alkis.c
+*.user
+PsxSandbox/Debug/
