@@ -1,0 +1,65 @@
+INCLUDE	= -I/usr/local/include
+DEFINES	=
+#CFLAGS	= $(INCLUDE) -ansiposix -fullwarn -g
+CFLAGS	= $(INCLUDE) -Xa -g
+LDFLAGS	= -g
+LIBS	= -lc -lm
+PROGRAM1	= gen
+PROGRAM2	= gen2
+PROGRAM	= $(PROGRAM1) $(PROGRAM2)
+SRCS1	= gen.c
+SRCS2	= gen2.c
+SRCS	= $(SRCS1) $(SRCS2)
+OBJS1	= gen.o
+OBJS2	= gen2.o
+OBJS	= $(OBJS1) $(OBJS2)
+RM	= /usr/bin/rm
+LINT	= /usr/bin/lint
+AR	= /usr/bin/ar
+DEPEND	= /usr/bin/X11/makedepend
+DATA1	= 04.lab 08.lab	\
+		12.lab 16.lab	\
+		20.lab 24.lab 28.lab	\
+		32.lab 36.lab	\
+		40.lab 48.lab	\
+		52.lab 56.lab	\
+		60.lab 64.lab
+DATA2	= 04_2.lab 08_2.lab	\
+		12_2.lab 16_2.lab	\
+		20_2.lab 24_2.lab 28_2.lab	\
+		32_2.lab 36_2.lab	\
+		40_2.lab 48_2.lab	\
+		52_2.lab 56_2.lab	\
+		60_2.lab 64_2.lab
+DATA	= $(DATA1) $(DATA2)
+MKHMD	= /usr/lib/cpp $(INCLUDE) |/usr/local/psx/bin/labp
+
+all: $(DATA)
+
+$(DATA1): $(PROGRAM1)
+	./gen -div `basename $@ .lab` >$@
+
+$(DATA2): $(PROGRAM2)
+	./gen2 -div `basename $@ .lab` >$@
+
+$(PROGRAM1): $(OBJS1)
+	$(CC) $(LDFLAGS) -o $(PROGRAM1) $(OBJS1) $(LIBS)
+
+$(PROGRAM2): $(OBJS2)
+	$(CC) $(LDFLAGS) -o $(PROGRAM2) $(OBJS2) $(LIBS)
+
+clean:
+	$(RM) -f $(PROGRAM) $(OBJS) $(DATA) MakeOut core
+
+lint: lint1 lint2
+
+lint1:
+	$(LINT) $(INCLUDE) $(DEFINES) $(SRCS1)
+
+lint2:
+	$(LINT) $(INCLUDE) $(DEFINES) $(SRCS2)
+
+depend:
+	$(DEPEND) $(INCLUDE) $(DEFINES) $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

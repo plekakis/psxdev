@@ -1,0 +1,148 @@
+# ----------------------------------------------------------------------------
+# - Project:    WATCOM Makefile
+# -
+# - Author:	David Virapen, stole of Vince and updated for my shit
+# ----------------------------------------------------------------------------
+
+ASM             = asmpsx
+CC              = ccpsx
+LINK            = psylink
+
+# ------------------------------------------------------------------------------
+
+OBJDIR		= obj
+
+# ------------------------------------------------------------------------------
+
+# Define to compile final version. If defined removes all pollhosts, set 2MB
+# and ramsize. Else use pollhosts and 8MB for development. 
+#FINAL		=
+
+# Define to compile with None2.lib. Otherwise, libsn.lib is used.
+#NONE2		=
+
+# Define to compile for NTSC (undefined for PAL).
+#NTSC		=
+
+# Define to compile with debug.
+DEBUG		=
+
+# ------------------------------------------------------------------------------
+
+CCOPTS		= -Wunused -comments-c++ -c -I.. -I.
+
+!ifdef FINAL
+CCOPTS		+= -DFINAL
+!endif
+
+!ifdef NONE2
+CCOPTS		+= -DLINKED_NONE2
+!endif
+
+!ifdef DEBUG
+CCOPTS		+= -DDEBUG
+!endif
+
+!ifdef NTSC
+CCOPTS		+= -DNTSC
+!endif
+
+# Optmise or debug.
+#CCOPTS		+= -O3 -mgpopt -G16
+CCOPTS		+= -O2 -mgpopt -G16
+#CCOPTS		+= -g
+
+# ------------------------------------------------------------------------------
+
+ASMOPTS         = /l /c
+
+LINKOPTS        = /m /c /g 
+
+# ------------------------------------------------------------------------------
+
+OBJS	=	$(OBJDIR)\main.obj	$(OBJDIR)\tmd_shit.obj	&
+		$(OBJDIR)\init.obj
+
+# ------------------------------------------------------------------------------
+
+!ifdef FINAL
+
+all: main.exe .SYMBOLIC
+
+!else
+
+all: main.cpe .SYMBOLIC
+
+!endif	
+	@ echo Compilation Successful!
+	@ echo -----------------------	
+
+!ifdef NONE2
+	@ echo 1: Link with None2.lib, not libsn.lib.
+!else
+	@ echo 1: Link with libsn.lib, not None2.lib.
+!endif
+
+!ifdef FINAL
+	@ echo 2: Compiled for final machine. EXE also created.
+!else
+	@ echo 2: Compiled for development.
+!endif	
+
+!ifdef NTSC
+	@ echo 3: Compiled for NTSC. 
+!else
+	@ echo 3: Compiled for PAL. 
+!endif
+
+# ------------------------------------------------------------------------------
+
+main.exe: main.cpe makefile
+	cpe2x /ce main.cpe
+
+# ------------------------------------------------------------------------------
+
+main.cpe: $(OBJS) main.lnk makefile 
+	$(LINK) $(LINKOPTS) @main.lnk,main.cpe,main.sym,main.map
+
+# ------------------------------------------------------------------------------
+
+$(OBJDIR)\main.obj: main.c main.h 
+	$(CC) $(CCOPTS) main.c -o $@
+	dmpsx -b $@
+
+$(OBJDIR)\init.obj: init.c
+	$(CC) $(CCOPTS) init.c -o $@
+	dmpsx -b $@
+
+$(OBJDIR)\tmd_shit.obj: tmd_shit.c
+	$(CC) $(CCOPTS) tmd_shit.c -o $@
+	dmpsx -b $@
+
+# ----------------------------------------------------------------------------
+
+load: .SYMBOLIC
+	pqbload tex&mods\textile2.tim 80100000
+	pqbload tex&mods\water1.tim   80105000
+	pqbload tex&mods\textile1.tim 80110000
+	pqbload tex&mods\theship.tmd  80130000
+	
+# ----------------------------------------------------------------------------
+
+bk: .SYMBOLIC
+	copy *.h	backup
+	copy *.c	backup
+	copy makefile	backup
+	copy *.lnk	backup
+	copy *.txt	backup
+		
+# ------------------------------------------------------------------------------
+
+clean: .SYMBOLIC
+	del *.exe
+	del *.cpe
+	del $(OBJDIR)\*.obj
+	del $(OBJDIR)\*.bak
+	del *.sym
+
+# ------------------------------------------------------------------------------

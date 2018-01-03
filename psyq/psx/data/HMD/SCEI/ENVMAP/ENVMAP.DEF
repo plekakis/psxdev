@@ -1,0 +1,21 @@
+/*
+	Constants and macros for labp (label processor).
+
+	Copyright (C) 1997 by Sony Computer Entertainment Inc.
+	All rights Reserved.
+
+	These definitions will be included in "hmd.def" in the future.
+
+	Ver 1.00	Nov 11, 1997	By M.Hattori
+		- macro for envmap
+	Ver 1.01	Nov 24, 1997	By N.Yoshioka
+		- cleaned up
+*/
+
+#define CTG_ENV    0x06
+#define ENV_SHARED 0x0100
+#define ENV1D      0x1000
+#define ENV2DL     0x2000
+#define ENV2DR     0x3000
+#define ENV2DRL    0x4000
+#define ENV2DOL    0x5000

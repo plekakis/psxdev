@@ -1,0 +1,26 @@
+		include "test.obj"
+		include "vsdie.obj"
+		include "vsex.obj"
+
+		inclib libapi.lib
+		inclib libcd.lib
+		inclib libetc.lib
+		inclib libgpu.lib
+		inclib libgs.lib
+		inclib libgte.lib
+		inclib libpress.lib
+		inclib libspu.lib
+		inclib libc.lib
+		inclib libcard.lib
+		inclib libcomb.lib
+		inclib libsnd.lib
+		inclib libsn.lib
+		include "2mbyte.obj"
+
+		org	$80010100
+		REGS	pc=__SN_ENTRY_POINT
+
+comdata	group
+code	group
+bssdata	group	bss
+

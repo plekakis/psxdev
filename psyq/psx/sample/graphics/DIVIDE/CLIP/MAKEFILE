@@ -1,0 +1,17 @@
+LIBDIR   = ../../../lib
+INCDIR   = ../../../include
+TADDR	 = 80040000	
+CC       = cc -EL -G 0 -O2 -I$(INCDIR)
+LIBS     = $(LIBDIR)/libgs.a $(LIBDIR)/libgpu.a $(LIBDIR)/libgte.a \
+	   $(LIBDIR)/libetc.a $(LIBDIR)/libc.a $(LIBDIR)/libapi.a 
+
+OBJS     = tuto0.o 
+
+all::	tuto0
+
+tuto0 : $(OBJS) 
+	ld -EL -N -T $(TADDR) -e tuto0 -o tuto0 $(OBJS) $(LIBS)
+
+tex : 
+	bload ../../data/tim/earth8.tim 80100000
+	squit

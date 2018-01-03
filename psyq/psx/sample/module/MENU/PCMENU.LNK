@@ -1,0 +1,35 @@
+
+	org	$80500000			; main load address
+text	group					; main text group
+bss	group	bss				; main data group
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include	menu.obj
+	include	pcexec.obj
+	include	pcload.obj
+	include	printerr.obj
+	include	string.obj
+	include	sound.obj
+	include	sdata.obj
+
+	inclib	"libmath.lib"
+	inclib	"libspu.lib"
+	inclib	"libsnd.lib"
+	inclib	"libsn.lib"
+	inclib	"libetc.lib"
+	inclib	"libcd.lib"
+	inclib	"libgte.lib"
+	inclib	"libgs.lib"
+	inclib	"libgpu.lib"
+	inclib	"libpress.lib"
+	inclib	"libcard.lib"
+	inclib	"libc.lib"
+	inclib	"libapi.lib"
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

@@ -1,0 +1,31 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+*** KANJI font viewer program ***
+
+< Overview >
+    This sample is used for mapping KANJI data extracted with kanjidiv
+    as 16-bit texture on a rectangle polygon. 
+
+< How to load the program >
+	> psymake
+	> pqbload kanji.out 80010000	(or > psymake load )
+
+        After the above commands execution, perform the following.
+
+	> run viewer
+
+< Application >
+    This viewer is created display 256 characters with15-dot font are
+    extracted. When the extract is performed with other sizes or different
+    number of characters, rewrite a part of the source file and recompile 
+    it to use. Main differences are as follows:
+	
+		Change of size:	               #define 	KFONT	15
+
+		Change of character number:	#define	KW	16
+				              #define KH	16
+
+		Change of resolution:
+				#define DOUBLE
+
+

@@ -1,0 +1,100 @@
+#
+#	Sample script for MovPack ver1.6
+#  	('#' Comment)
+#
+
+#
+#  == 1 ==
+#
+{
+	32							# Total Number of Channels	
+	c:\tmp\all1.xa		1		# output file
+    
+    #
+	# files to be interleaved (xa or str)	
+	#
+	# [filename]		[subheader]	[term type]	[length]
+	#					(0 or 1)	(0 - 2)
+	c:\tmp\xa0.xa		1			0			0						
+	c:\tmp\xa1.xa		1			0			0
+	c:\tmp\xa2.xa		1			0			0
+	c:\tmp\xa3.xa		1			0			0
+	c:\tmp\xa4.xa		1			0			0
+	c:\tmp\xa5.xa		1			0			0
+	c:\tmp\xa6.xa		1			0			0
+	c:\tmp\xa7.xa		1			0			0
+	c:\tmp\xa8.xa		1			0			0
+	c:\tmp\xa9.xa		0			2			1
+	c:\tmp\xa10.xa		1			1			2
+	c:\tmp\xa11.xa		0			2			3
+	c:\tmp\xa12.xa		0			1			4
+	c:\tmp\xa13.xa		1			0			0
+	c:\tmp\xa14.xa		1			0			0
+	c:\tmp\xa15.xa		1			0			0
+	c:\tmp\xa16.xa		1			0			0
+	c:\tmp\xa17.xa		1			0			0
+	c:\tmp\xa18.xa		1			0			0
+	c:\tmp\xa19.xa		1			0			0
+	c:\tmp\xa20.xa		1			0			0
+	c:\tmp\xa21.xa		1			0			0
+	c:\tmp\xa22.xa		1			0			0
+	c:\tmp\xa23.xa		1			0			0
+	c:\tmp\xa24.xa		1			0			0
+	c:\tmp\xa25.xa		1			0			0
+	c:\tmp\xa26.xa		1			0			0
+	c:\tmp\xa27.xa		1			0			0
+	c:\tmp\xa28.xa		1			0			0
+	c:\tmp\xa29.xa		1			0			0
+	c:\tmp\xa30.xa		1			0			0
+	c:\tmp\xa31.xa		1			0			0
+}						
+
+
+#
+#  == 2 ==
+#
+{
+	16							# Total Number of Channels	
+	c:\tmp\all2.xa		1		# output file
+
+	#
+	# files to be interleaved (xa or str)	
+	#
+	# [filename]		[subheader]	[term type]	[length]
+	#					(0 or 1)	(0 - 2)
+	c:\tmp\xa0.xa		0			1			10						
+	c:\tmp\xa1.xa		0			2			12
+	c:\tmp\xa2.xa		0			2			4
+	c:\tmp\xa3.xa		0			2			32
+	c:\tmp\xa4.xa		1			0			0
+	c:\tmp\xa5.xa		1			0			0
+	c:\tmp\xa6.xa		1			0			0
+	c:\tmp\xa7.xa		1			0			0
+	c:\tmp\xa8.xa		1			0			0
+	c:\tmp\xa9.xa		1			0			0
+	c:\tmp\xa10.xa		1			0			0
+}
+
+#
+#  == 3 ==
+#
+{
+	4							# Total Number of Channels	
+	c:\tmp\all3.xa		1		# output file
+
+	#
+	# files to be interleaved (xa or str)	
+	#
+	# [filename]		[subheader]	[term type]	[length]
+	#					(0 or 1)	(0 - 2)
+	c:\tmp\xa0.xa		1			1			5						
+	c:\tmp\xa1.xa		1			2			5
+	c:\tmp\xa2.xa		1			2			5
+	c:\tmp\xa3.xa		1			2			5
+}
+
+
+
+
+	
+

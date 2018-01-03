@@ -1,0 +1,79 @@
+User Guide for GenCTI 
+
+
+What does GenCTI do?
+
+Essentially GenCTI is designed to make to creation of cti ( cti, being the usual extension for CD emulator and CD cutting software control files) files easier for those people who have not constructed one before. It is not the aim of this program to generate fully any but the most simple and straightforward of control files. Saying that, the program does provide a certain amount of flexibilty, such as the specification of wildcard inclusions.
+
+
+What is this CD Emulator / CD cutting software?
+
+There are two programs which rely on these control files, namely, BuildCD ( with a flat model version known as BCDFlat ) and CTI2CD. BuildCD is for use with the PSY-Q CD emulator, and CTI2CD will cut CD gold discs ( presently on the Sony CDW-900E & Yamaha CDR-100 ) based on a control file.
+
+How do I use GenCTI?
+
+GenCTI is a DOS command line program. To run it and display a full list of options type:
+
+>gencti
+
+at the command prompt.
+
+The following will be displayed:
+
+GenCTI version 1.0 Beta
+Copyright (c) SN Systems Ltd. 26 March 1996
+
+Format: GenCTI outfile [options]
+Purpose: Automatically generates a cti file from the file contained          in the directory and subdirectories from where the progam is invoked.               Directory can be overidden, see options.'outfile' given default                               extension .cti
+Options:
+	/t=target		playstation - playstation specific
+				saturn - saturn specific
+				(default mode 1, data )
+	/dir=<dir>		specify directory to be root on CD
+	/system=<file>	specify filename for system file
+	/nosubdirs		do not recurse subdirectories
+	/wildcard=<file>	specify wildcard list
+	/audio=<dir>	specify directory for audio tracks
+
+Note: Only the first letter of each option needs to be specified
+      - or / may be used as switches.	
+	
+What do these options do?
+
+Option t	target.		This option explictly defines the target machine and generates a cti file suitable for the machine.
+
+Option dir	directory	By default the program will use the directory from where it is called s the root directory in the cti file. To overide this specify a different dir, ( full path ) with this option.
+
+Option system 	system file.	The system file is a special file, specific to individual machines/territories/developers which is positioned before the main disc data. This option enables the location and name of this system file to be specified and correctly included.
+
+Option nosubdirs		This option speaks for itself, sub directories will not be included. i.e the control file will only contain one directory, the root.
+
+Option wildcards		This option is a bit more involved than the others, reling on the creation of a wildcard file. Just create a text file including the wildcard defintions, each seperated by a newline/return and save. The wildcard definitions can be 31 characters maximum. This file is then added as the file specified in the option.
+
+Eg. View of example wildcard file  wild.wcd 
+
+*.bin
+s*.tex
+game?.aud
+t*.ma*
+*.dat
+lev*.00?
+
+the command line option would then appear as /wildcard=wild.wcd
+
+Presently a maximum of 15 defintions are allowed.
+
+Option audio			This option requires further explanation as well to avoid including these audio files twice. The directory specified for the location f audio tracks should not lie as a subdirectory off the directory specified as the root. Using this will generate a separate audio track for each file present in the audio directory.
+
+Note: Wildcards apply throughout the program if specified. i.e if wildcards are specified and an audio directory is specified the wildcards must contain inclusion information fot the audio files. E.G if the audio tracks all have extension .wav then include *.wav in your wildcard list.
+
+
+Further information on cti files may be found in PSY-Q CD emulator manual.
+
+If you have any difficulties or require support contact
+
+support@snsys.com
+
+
+
+

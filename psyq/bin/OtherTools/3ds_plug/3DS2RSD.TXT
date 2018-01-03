@@ -1,0 +1,71 @@
+Name   3ds2rsd - Converts 3DS file to PlayStation 3D model data files.
+=====
+
+Date  1995/Mar/22  Version 1.0 beta
+
+      Unsupported
+====
+
+Syntax
+=======
+
+    3ds2rsd [-v] <3DS File>
+
+
+Example
+========
+        3ds2rsd foo1.3ds
+
+ This will generats following RSD files in the current directory.
+
+        foo1.rsd, foo1.ply, foo1.mat, foo1.grp
+
+
+Installation
+=============
+  1) Set DOS environment variable 3DSDIR to the directory where
+     your 3D Studio is installed.
+
+     For instance if you have installted 3D Studio into C:\3ds4,
+     then you have to set,
+
+           set 3DDIR=c:\3ds4
+
+  2) Copy "dos4gw.exe" into directory which is one of the seach
+     path directories.
+
+  3) Copy "3ds2rsd.exe" into directory where is one of the search
+     path directories.
+
+
+Explanation
+===========
+
+ 1) The converter tries to converts following inforation in the 3DS file.
+
+     - Geometry
+     - Smoothness
+     - Color
+     - Texturemap UV
+     - Semitransparency
+
+
+ 2) You can only use BMP files for texture mapping.
+    Otherwise, UV value will be incorect.
+
+
+ 3) BMP files used for texture mapping will be converted into TIM files.
+
+
+ 4) Texture files (namely BMP files) are search along the path you
+    have specified as MAP-PATH in your "3ds.set" file.
+    Therefore you have to specify the direcotry where "3ds.set" may be found,
+    by the 3DSDIR enveiroment variable.
+
+
+Plan
+=====
+
+1) Limitations in the texture file variation will be soon fixed in the next
+   "Plug-in" version of the converter.
+

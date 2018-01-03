@@ -1,0 +1,37 @@
+
+
+
+
+                          Running EXE's of a CD!
+
+
+    Hi, there....
+
+    I have now found out how to make .exe files run from a cd. (many of you already know
+    this, but certainly didn't try to help people asking for this information!).
+    So, I had analyse the psx .exe files!
+
+    Ok, the way to do this is:
+
+    1) Make sure the .exe file you want put onto cd is run through eco2exe and combine2
+    (if it needs .dat files and/or the pslibs)
+
+    2) Take a look at the file size. It must be dividable by 2048 bytes, if not use a
+    program like HexWorkshop/Ultraedit to add a number zeroised bytes at the end of the
+    file, so that it's dividable with 2048 (giving an exact number!)
+
+    3) Take the new filesize and substract 2048 from it (filesize-2048). Hexedit the new
+    .exe file and goto offset 30 and write highest byte to it, then write the next byte to
+    offset 29.
+
+    4) Burn the file to a CD, (remember to edit .. system.cnf... whatever!) Enjoy, the
+    COOL psxdemo or game you just burned!!!
+
+    Greetings, Duke.
+
+    Any questions, or more detailed discribtion:
+
+    email : twilight31@hotmail.com
+
+    Upz! I will code a little utility to automaticly do this little trick in the near future.
+    (-Maybe late tonight!)

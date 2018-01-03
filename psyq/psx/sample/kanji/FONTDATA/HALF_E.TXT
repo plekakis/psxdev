@@ -1,0 +1,50 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+Character array of half-size (hankaku) font
+
+ Character array of half-size font data (got1[135]tat.h) is as follows.
+
+！”＃＄％＆’（）＊＋，－．／０
+１２３４５６７８９：；＜＝＞？＠
+ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰ
+ＱＲＳＴＵＶＷＸＹＺ［￥］＾＿｀
+ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐ
+ｑｒｓｔｕｖｗｘｙｚ｛｜｝￣¨＼
+∥。「」、・‐゛°“‘～ぁあぃい
+ぅうぇえぉおかがきぎくぐけげこご
+さざしじすずせぜそぞただちぢっつ
+づてでとどなにぬねのはばぱひびぴ
+ふぶぷへべぺほぼぽまみむめもゃや
+ゅゆょよらりるれろゎわゐゑをんァ
+アィイゥウェエォオカガキギクグケ
+ゲコゴサザシジスズセゼソゾタダチ
+ヂッツヅテデトドナニヌネノハバパ
+ヒビピフブプヘベペホボポマミムメ
+モャヤュユョヨラリルレロヮワヰヱ
+ヲンヴヵヶ
+
+Note:  Since there is no adequate text font for the 95th and 97th characters, 
+       dummy data is placed on the above list.
+       Their actual images are shown as below.
+
+	  " 95th character"  "97th character"
+	
+	．＠＠＠．．．＠	．．．＠．．．．
+	＠．．．＠＠＠．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．．．．．．
+	．．．．．．．．	．．．．．．．．
+	．．．．．．．．	．．．．．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+	．．．．．．．．	．．．＠．．．．
+
+	* 15-dot font (. = 0, @ = 1)
+	
+

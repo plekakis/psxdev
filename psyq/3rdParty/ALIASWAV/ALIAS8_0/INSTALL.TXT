@@ -1,0 +1,51 @@
+
+README file for Alias 8.0, Playstation development system Translator.
+
+This update file contains an unencrypted compressed tar file containing
+the PSX translator, source code, and demo PC viewer program.
+
+The major changes from the version of 7.5.1 are:
+
+1) adding controls for STP bit in TIM files
+2) adding control for freezing texture in VRAM, so its not moved
+3) RSD .mat file has option for what UV coordinates to use in VRAM space
+
+4) the "autoplace" button is currently disabled
+
+There is a html file PSX_doc.html which describes the Installation, use, 
+and current known limitations.
+
+
+Quick Version to Install:
+-------------------------
+
+Once the files are untar'd there will be the following files:
+
+Install.README      this file
+SO                  compressed tar file of the Translator
+doc/                directory containing the html version of the documentation
+                             
+
+Assuming that the downloaded file is placed into the user's HOME directory
+
+md SonyBBS
+cd SonyBBS
+tar xvf ~/AliasPSX.tar
+
+su -l root
+
+setenv ALIAS_LOCATION /usr/aw/alias
+
+$ALIAS_LOCATION/ODS/Games/bin/InstallGame -e -f ~/SonyBBS -s SO
+
+exit
+
+
+
+If would need to install into a local directory can add in the "-t directory"
+command line option to write to a directory tree.  Make sure that it exists
+before running the InstallGame script else will return error message of not
+being able to write to the given directory.  The given directory names should 
+be fully qualified names (no relative paths please).
+
+

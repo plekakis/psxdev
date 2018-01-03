@@ -1,0 +1,69 @@
+
+Disc CDROM CD.EMU
+	MapFile cd.map
+  CatalogNumber 0000000000000
+
+  LeadIn MODE1
+
+    Empty       1000
+    PostGap     150
+
+  EndTrack
+
+
+  Track MODE1
+
+     Pause      150
+
+Volume          ISO9660         cd.ISO
+
+  PrimaryVolume
+
+    SystemIdentifier                    "PSX"
+    VolumeIdentifier                    "PSXTEST"
+    VolumeSetIdentifier                 "PSXTEST"
+    PublisherIdentifier                 "SONY"
+    DataPreparerIdentifier              "SONY"
+    ApplicationIdentifier               "SONY"
+
+    Lpath
+    Mpath
+
+    Hierarchy
+
+        File            PSX.EXE
+        Source          PSX.EXE
+        EndFile
+
+        File            RCUBE.EXE
+        Source          RCUBE.EXE
+        EndFile
+
+        File            RCUBE.TIM
+        Source          RCUBE.TIM
+        EndFile
+
+        File            RCUBE.TMD
+        Source          RCUBE.TMD
+        EndFile
+
+    EndHierarchy
+
+  EndPrimaryVolume
+
+EndVolume
+
+    Empty       300
+    PostGap     150
+
+  EndTrack
+
+  LeadOut MODE1
+
+    Empty 500
+
+  EndTrack
+
+
+EndDisc
+

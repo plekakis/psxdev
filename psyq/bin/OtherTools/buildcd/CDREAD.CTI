@@ -1,0 +1,59 @@
+Disc XA_PSX     ;disk format
+
+  LeadIn XA             ;lead in track, track 0
+
+    Empty       1000    ;defines lead in size min (150)
+    PostGap     150     ;required gap at end of lead in
+
+  EndTrack              ; end of lead in track
+
+
+
+  Track XA                      ;start of XA (data) track
+
+    Pause      150              ;required pause in first track after lead in
+
+    Volume          ISO9660     ;define ISO 9660 volume
+    PrimaryVolume               ;start point of primary volume
+
+
+    SystemIdentifier        "PLAYSTATION"       ;required indetifier
+    VolumeIdentifier        "PSXTEST"           ; app specific identifiers
+    VolumeSetIdentifier     "PSXTEST"
+    PublisherIdentifier     "SONY"
+    DataPreparerIdentifier  "SONY"
+    ApplicationIdentifier   "SONY"
+
+    Lpath               ; Path tables as specified for PlayStation
+    OptionalLpath
+    Mpath
+    OptionalMpath
+
+    Hierarchy           ;start point of root directory definition
+	 
+
+
+	  File  debugdoc.txt
+	   XAFileAttributes  Form1 data
+	   Source readme.txt
+	  EndFile
+
+    EndHierarchy        ;ends root directory definition
+
+    EndPrimaryVolume    ;ends primary volume definition
+
+    EndVolume           ;ends ISO 9660 definition
+
+    PostGap  150        ;required to change track type
+
+  EndTrack              ;ends track definition
+
+
+  LeadOut  XA        ;required lead out track (must match previous track type)
+    Empty  150          ;required minimum lead out
+  EndTrack              ;ends track definition
+
+
+EndDisc ;ends disk definition
+
+

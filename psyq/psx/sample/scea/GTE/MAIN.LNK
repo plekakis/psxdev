@@ -1,0 +1,69 @@
+
+	org	$80010000
+
+;
+; Object files
+;
+
+
+; note: you do not need to include any of these if you are
+;       not using psx dynamic memory (the heap.)
+;	include "\PSX\LIB\2MBYTE.OBJ"
+;	include	"\PSX\LIB\8MBYTE.OBJ
+;	include	"\PSX\LIB\MALLOC.OBJ
+;	include	"\PSX\LIB\NONE2.OBJ
+
+	include	"main.obj"
+	include	"cube.obj"
+
+;
+; Library files
+;
+
+	inclib	LIBAPI.LIB
+	inclib	LIBC.LIB
+	inclib	LIBC2.LIB
+	inclib	LIBCARD.LIB
+	inclib	LIBCD.LIB
+	inclib	LIBETC.LIB
+	inclib	LIBGPU.LIB
+	inclib	LIBGTE.LIB
+	inclib	LIBPRESS.LIB
+	inclib	LIBSN.LIB
+	inclib	LIBSND.LIB
+	inclib	LIBSPU.LIB
+	inclib	LIBGS.LIB
+	inclib	LIBMATH.LIB
+	inclib	LIBTAP.LIB
+	inclib	LIBCOMB.LIB
+
+;
+; Data groups
+;
+
+text    group
+bss	group	bss
+
+;
+; C compiler created initialised data sections (text).
+;
+
+	section	.rdata,text
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+
+;
+; C compiler created uninitialised data sections (bss).
+;
+
+	section	.sbss,bss
+	section	.bss,bss
+
+;
+; Set Initialise/entry point.
+;
+
+	regs	pc=__SN_ENTRY_POINT
+
+

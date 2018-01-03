@@ -1,0 +1,91 @@
+all: tuto0 tuto1 tuto2 tuto3 tuto4 tuto5 tuto6
+	
+tuto0:
+	ccpsx -G 0 -Xo$80080000 tuto0.c -otuto0.cpe,tuto0.sym
+tuto1:
+	ccpsx -G 0 -Xo$80080000 tuto1.c -otuto1.cpe,tuto1.sym
+tuto2:
+	ccpsx -G 0 -Xo$80080000 tuto2.c -otuto2.cpe,tuto2.sym
+tuto3:
+	ccpsx -G 0 -Xo$80080000 tuto3.c -otuto3.cpe,tuto3.sym
+tuto4:
+	ccpsx -G 0 -Xo$80080000 tuto4.c -otuto4.cpe,tuto4.sym
+tuto5:
+	ccpsx -G 0 -Xo$80080000 tuto5.c -otuto5.cpe,tuto5.sym
+tuto6:
+	ccpsx -G 0 -Xo$80080000 tuto6.c -otuto6.cpe,tuto6.sym
+
+apd_save:
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto0.c c:\ps\lib\autopad.obj \
+	-otmdv50s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto1.c c:\ps\lib\autopad.obj \
+	-otmdv51s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto2.c c:\ps\lib\autopad.obj \
+	-otmdv52s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto3.c c:\ps\lib\autopad.obj \
+	-otmdv53s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto4.c c:\ps\lib\autopad.obj \
+	-otmdv54s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto5.c c:\ps\lib\autopad.obj \
+	-otmdv55s.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_SAVE tuto6.c c:\ps\lib\autopad.obj \
+	-otmdv56s.cpe
+
+apd_load:
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto0.c c:\ps\lib\autopad.obj \
+	-otmdv50l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto1.c c:\ps\lib\autopad.obj \
+	-otmdv51l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto2.c c:\ps\lib\autopad.obj \
+	-otmdv52l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto3.c c:\ps\lib\autopad.obj \
+	-otmdv53l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto4.c c:\ps\lib\autopad.obj \
+	-otmdv54l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto5.c c:\ps\lib\autopad.obj \
+	-otmdv55l.cpe
+	ccpsx -G 0 -Xo$80080000 -DAPD_LOAD tuto6.c c:\ps\lib\autopad.obj \
+	-otmdv56l.cpe
+
+for_menu:
+	ccpsx -G 0 -Xo$80080000 tuto0.c c:\ps\lib\none3.obj -otuto0.cpe,tuto0.sym
+	cpe2x tuto0.cpe
+	del   tuto0.cpe
+	
+	ccpsx -G 0 -Xo$80080000 tuto1.c c:\ps\lib\none3.obj -otuto1.cpe,tuto1.sym
+	cpe2x tuto1.cpe
+	del   tuto1.cpe
+
+	ccpsx -G 0 -Xo$80080000 tuto2.c c:\ps\lib\none3.obj -otuto2.cpe,tuto2.sym
+	cpe2x tuto2.cpe
+	del   tuto2.cpe
+
+	ccpsx -G 0 -Xo$80080000 tuto3.c c:\ps\lib\none3.obj -otuto3.cpe,tuto3.sym
+	cpe2x tuto3.cpe
+	del   tuto3.cpe
+
+	ccpsx -G 0 -Xo$80080000 tuto4.c c:\ps\lib\none3.obj -otuto4.cpe,tuto4.sym
+	cpe2x tuto4.cpe
+	del   tuto4.cpe
+
+	ccpsx -G 0 -Xo$80080000 tuto5.c c:\ps\lib\none3.obj -otuto5.cpe,tuto5.sym
+	cpe2x tuto5.cpe
+	del   tuto5.cpe
+
+	ccpsx -G 0 -Xo$80080000 tuto6.c c:\ps\lib\none3.obj -otuto6.cpe,tuto6.sym
+	cpe2x tuto6.cpe
+	del   tuto6.cpe
+
+
+load:
+        pqbload ..\data\pat16t.tim 80010000
+	pqbload ..\data\pat8t.tim  80020000
+	pqbload ..\data\pat4t.tim  80030000
+	pqbload ..\data\cube4t.tmd 80040000
+
+load5:
+        pqbload ..\data\pat16t.tim 80010000
+	pqbload ..\data\pat8t.tim  80020000
+	pqbload ..\data\pat4t.tim  80030000
+	pqbload ..\data\cube3.tmd  80040000
+

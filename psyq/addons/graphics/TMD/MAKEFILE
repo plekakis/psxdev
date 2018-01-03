@@ -1,0 +1,38 @@
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+MAKE	 = make
+TADDR	 = 80010000	
+CC       = cc -EL -G 0 -O 
+GCC      = gcc-el -G 0 -O -I$(INCDIR)
+CFLAGS   = -I$(INCDIR)
+LIBS     = $(LIBDIR)/libgpu.a \
+	   $(LIBDIR)/libgte.a \
+	   $(LIBDIR)/libetc.a \
+	   $(LIBDIR)/libc.a \
+	   $(LIBDIR)/libapi.a 
+
+all::	tuto0 tuto1 
+
+load :
+	psx smon
+	bload dino.tmd    80100000
+	bload earth.tmd   80120000
+	bload earth4.tim  80140000
+	squit
+
+tuto0.o : tuto0.c
+	$(GCC) -c tuto0.c -o tuto0.o
+	dmpsx tuto0.o -t $(INCDIR)/inline.tbl
+	
+tuto1.o : tuto1.c
+	$(GCC) -c tuto1.c -o tuto1.o
+	dmpsx tuto1.o -t $(INCDIR)/inline.tbl
+	
+tuto0 : tuto0.o db.o 
+	ld -EL -N -T $(TADDR) -e main -o tuto0 tuto0.o db.o  $(LIBS)
+
+tuto1 : tuto1.o db.o 
+	ld -EL -N -T $(TADDR) -e main -o tuto1 tuto1.o db.o  $(LIBS)
+
+clean::
+	rm -f tuto[01] *.o *~ 

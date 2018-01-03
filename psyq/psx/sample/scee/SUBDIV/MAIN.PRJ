@@ -1,0 +1,47 @@
+[SnMake]
+
+execdep = *.c *.obj
+maindep = main.prj main.lnk *.h
+asmdep = main.prj main.lnk *.h
+
+!ifdef(debugstr)
+
+cflags = -c -g -O2
+aflags = /l /zd /z
+lflags = -g
+
+!else
+
+cflags = -c -O2
+aflags = /l /zd /z
+lflags = -g
+!endif
+
+
+
+## ***************************************************************************
+## ********************* these are the low level modules *********************
+## ***************************************************************************
+
+patch.obj;  	main.c $(maindep)
+	resetps
+	run c:\psx\bin\snpatch.cpe
+
+
+main.obj;  	main.c $(maindep)
+ 	ccpsx	$(cflags) main.c
+
+floor.obj: 	floor.mip $(maindep)
+	asmpsx	$(aflags) floor.mip,floor.obj
+
+
+ 	del	main.cpe
+
+main.cpe;	$(execdep)
+ 	ccpsx	$(lflags) @main.lnk
+
+## ***************************************************************************
+
+
+swapdir=c:tmp\
+

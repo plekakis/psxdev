@@ -1,0 +1,25 @@
+@GRP970401
+# Number of Groups
+6
+# Group list
+TriceratopsHorns 1 206
+0-205
+TriceratopsSkin 6 3490
+206-213
+322-323
+432-439
+480-2212
+2215-2220
+2261-3993
+TriceratopsEyes 2 6
+214-216
+324-326
+TriceratopsToes 2 210
+217-321
+327-431
+TriceratopsMouth 2 80
+440-479
+2221-2260
+TriceratopsNostrils 2 4
+2213-2214
+3994-3995

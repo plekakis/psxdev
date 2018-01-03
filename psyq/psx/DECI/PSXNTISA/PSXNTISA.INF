@@ -1,0 +1,48 @@
+[strings]
+Disc_Desc = "PlayStation Board DECI (DTL-H2000/H2700)"
+ISAIRQ = 0
+ISAAddress = 0x1340
+
+[version]
+signature="$Windows NT$"
+
+[DefaultInstall]
+CopyFiles=psxNTisa.copy.sys, psxNTisa.copy.dll, psxNTisa.copy.inf, psxNTisa.copy.img
+AddReg=psxNTisaAddReg
+reboot
+
+[DestinationDirs]
+psxNTisa.copy.sys   = 12
+psxNTisa.copy.inf   = 17
+psxNTisa.copy.dll   = 11
+psxNTisa.copy.img   = 11
+
+[psxNTisa.copy.sys]
+psxNTisa.sys
+
+[psxNTisa.copy.dll]
+psx32.dll
+
+[psxNTisa.copy.inf]
+
+[psxNTisa.copy.img]
+h2000.img
+
+[psxNTisaAddReg]
+HKLM,"System\CurrentControlSet\Services\psxNTisa","DisplayName",0x00000000,"PlayStation Board DECI (DTL-H2000/H2700)"
+HKLM,"System\CurrentControlSet\Services\psxNTisa","Type",0x10001,1
+HKLM,"System\CurrentControlSet\Services\psxNTisa","Start",0x10001,1
+HKLM,"System\CurrentControlSet\Services\psxNTisa","Group",0x00000,"Extended Base"
+HKLM,"System\CurrentControlSet\Services\psxNTisa","ErrorControl",0x10001,1
+;HKLM,"System\CurrentControlSet\Services\psxNTisa","ImagePath",0x00020000,%12%\psxNTisa.sys
+HKLM,"System\CurrentControlSet\Services\psxNTisa","IRQ",0x10001,%ISAIRQ%
+HKLM,"System\CurrentControlSet\Services\psxNTisa","Address",0x10001,%ISAAddress%
+
+
+[SourceDisksNames]
+30=%Disc_Desc%,"",1
+
+[SourceDisksFiles]
+psx32.dll
+psxNTisa.sys
+h2000.img

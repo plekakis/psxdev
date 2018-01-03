@@ -1,0 +1,62 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect_0000 / 4;
+	9;	/* num of blocks */
+	0x00000000;
+	0x00000000;	/* dummy root */
+	PolyPrimSet_0000 / 4;
+	PolyPrimSet_0001 / 4;
+	PolyPrimSet_0002 / 4;
+	PolyPrimSet_0000 / 4;
+	PolyPrimSet_0001 / 4;
+	PolyPrimSet_0002 / 4;
+	0x00000000;	/* no post-process */
+
+CoordSect_0000:	/* 0x00000024 */
+	7;	/* num of coords */
+
+Coord_root:	/* 0x00000028 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, -600, 3000);	/* trans */
+	0;	/* super */
+
+Coord_right0:	/* 0x00000028 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		-150, 0, 0);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_right1:	/* 0x00000078 */
+	0x00000000;	/* flg */
+	COORDM(	1024, 0, 0,	/* rot */
+		0, 590, -49);	/* trans */
+	Coord_right0 / 4;	/* super */
+
+Coord_right2:	/* 0x000000c8 */
+	0x00000000;	/* flg */
+	COORDM(	-512, 0, 0,	/* rot */
+		0, 443, 7);	/* trans */
+	Coord_right1 / 4;	/* super */
+
+Coord_left0:	/* 0x00000028 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		150, 0, 0);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_left1:	/* 0x00000078 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, 590, -49);	/* trans */
+	Coord_left0 / 4;	/* super */
+
+Coord_left2:	/* 0x000000c8 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, 443, 7);	/* trans */
+	Coord_left1 / 4;	/* super */
+
+#include "leg.inc"

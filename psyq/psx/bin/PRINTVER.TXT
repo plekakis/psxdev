@@ -1,0 +1,63 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$
+
+
+-----------------------------------------------------------
+Printver is the new verison of pkver and can be found in the \psx\bin directory.
+
+<Addition of printver>
+- Pkver, used to check the version, was found not to show the version 
+of many files.  Printver is introduced in this release.
+
+<Deletion of pkver>
+- Consequently, pkver was deleted.
+
+___________________________________________________________
+USAGE:
+
+Name
+     printver - extract version information from library
+
+Format
+     printver  file ...
+
+Description
+The printver command searches the library files provided and outputs all the
+version information for the files.
+
+When multiple input files are specified for the file argument, the information
+for each library is output.
+
+Command line options are as follows.
+
+     -h
+     -help
+             Displays a brief help message.
+
+Output format
+The output from printver consists of: the library name; the date and time the
+library was compiled; and the version number of the library file.
+
+Examples
+Extract version information from libc.lib (the date/time of compilation and
+the version number shown in the example below are made up).
+
+     c:> printver libc.lib
+        libc     -- Apr 30, 00:00, 1997  [4.0]
+
+Extract version information from libsnd.lib and libspu.lib.
+
+     c:> printver libsnd.lib libspu.lib
+        libsnd   -- Apr 30, 01:00, 1997  [4.0]
+        libspu   -- Apr 30, 02:00, 1997  [4.0]
+
+Notes
+Regular expressions cannot be used for the file argument.
+
+The extraction of version information is supported for version 3.6 libraries
+and after (certain libraries are unsupported).
+
+It is possible for erroneous version information to be obtained when searching 
+library files, due to internal layout in the .lib file.
+
+------------------------------------------------------------
+Copyright (C) 1998. Sony Computer Entertainment Inc.

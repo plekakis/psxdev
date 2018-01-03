@@ -1,0 +1,458 @@
+PSDocId: Document Release 1.0 for Run-time Library Release 4.1$
+                                                          September 1997
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.1
+
+                         Library Changes, New Additions, and Known Bugs
+                                                        from Release 4.0
+-----------------------------------------------------------------------
+                      Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+----------------------------------------------------------------------
+
+Known Bugs and Cautions
+----------------------------------------------------------------------
+-The name, "Psy-Q", in the development tool hardware and software
+has been changed to "SDevTC" from this release.  The formal name
+is "Software Development Tool Chain".  Although the
+contents are the same as those of the former version, note that
+names of directory or environment variable have been changed to
+new ones in Runtime Library Version 4.1 (e.g. name, "PSYQ", has
+been changed to "PSSN").
+For details please refer to PSSN\README.1ST.
+
+-When option /wl is specified in psylink, the following warning
+ message is displayed: 
+
+           Redefinition of symbol '__fixunsdfsi' has been ignored
+           Redefinition of symbol '__fixunssfsi' has been ignored
+
+ This occurs because function with the name above exists both in
+ libsn and libmath.
+ When floating-point operation is not used, it does not affect
+ execution files.  Even in the case when floating-point operation
+ is used, any malfunction caused by using it has not be found so
+ far.  We are planning to solve this warning problem by next 
+ release. 
+
+
+- In libds, when the simple callback is set so that cover open/close 
+  recovery will be done in system, if player intentionally 
+  replaces disc with other one, system can not recognize it and
+  will read improper data, which may hinder continuing the game
+  play.
+
+   Note: The specification above is acceptable because the present
+         quality standard, TRC specifies that it is an optional 
+	   to deal with the case in which player intentionally
+          opens the cover or changes disc when application does not ask
+          player to. 
+
+-libapi.h has been newly created, and prototype statements in 
+  kernel.h have been integrated into libapi.h.  (kernel.h is now
+  dedicatedly used for event control services.)
+
+  Note that libapi.h (not kernel.h) should be included when 
+  libapi.lib is used. 
+
+
+DMPSX
+----------------------------------------------------------------------
+-inline_c.h macro
+
+		gte_ldsvrtrow0()
+
+The description above has been modified.  The reference for 
+Arguments, "r( r1 )", has been deleted because it was 
+unnecessary. 
+
+
+SDevTC (Former Psy-Q) Tool
+----------------------------------------------------------------------
+DEXBIOS 1.26
+---------------
+  -Using DTL-H2700 on the former version DEXBIOS caused malfunction
+   that "printf() works very slow though IRQ is set".   This 
+   malfunction has been fixed in this release.  In the same way of
+   H2000, using both IRQ interrupt and MESS1 together can make high
+   speed output possible. 
+
+SDevTC resetps.exe Version-Up
+--------------------------------
+-The bug that printf of libc2 in DTL-H2500 and DTL-H2700
+ does not work correctly has been fixed.
+ The new version of resetps.exe is version 1.08.
+
+SDevTC H2700 Flash Utility Added
+------------------------------------
+-Flash Utility for DTL-H2700 has been added.
+ The flash utility corresponds to resetps 1.08.
+
+Other Changes
+---------------
+-Please refer to PSSN\README_J.TXT.
+  
+
+Kernel Library (libapi)
+------------------------------------------------------------
+Header File Modified
+------------------------
+- In order to call a function of libapi.lib, libapi.h should be 
+  included in stead of kernel.h in source code.  Thus, please 
+  change the existing source code as to include libapi.h 
+  instead of kernel.h. 
+
+-Since bu_init is also defined in libapi.h, please delete
+ description of the definition in libapi.h.
+
+Library Bug Fix
+-----------------
+-The malfunction that the return values of InitPAD and StartPAD were 
+  not returned has been fixed.
+	  
+	-The malfunction that the values of "event" and "tcb" were set reverse 
+         in Setconf() has been fixed.
+
+
+Memory Card Library (libcard)
+------------------------------------------------------------
+Library Bug Fix
+------------------
+-The malfunction that the memory card insert/remove status change
+  cannot be detected when a mouse and a memory card is inserted 
+  into port-2 and slot-2 respectively because IOE event is 
+  incorrectly returned instead of the correct NEW_CARD event 
+  with the event by _card_info() when the memory card is 
+  removed/inserted, has been fixed. 
+
+
+CD-ROM Library/Streaming Library (libcd)
+---------------------------------------------
+Library Bug Fix
+------------------------------
+ -The malfunction that issuing CdPlay( 3, 0, 0 ) while having DA  
+  play by CdPlay() makes music restart from the first track  
+  has been fixed. 
+
+-The malfunction that StFunc1 and StFunc2, variables in libcd, 
+ had multiple definitions has been fixed.
+
+-In libcd of release 4.0, the warning, "Warning : Multiple 
+ declarations ...", occurred when libcd was linked after 
+ specifying /vm option in ccpsx.  The cause of this malfunction 
+ was that some variables used in libcd had multiple definitions. 
+ This malfunction has been fixed in this release 4.1.
+	 
+
+Extended CD-ROM Library (libds)
+---------------------------------------------
+Function Added
+------------------------------
+-The function, DsReadySystemMode(), that specifies whether or not
+ to retry when the disc cover is opened by the simple callback has 
+ been added. 
+
+Please refer to the function reference for details.
+
+Header File Modified
+------------------------------
+-Change has been made so that libds.h conforms to C++.
+
+
+Library Bug Fix
+------------------------------
+-The malfunction that in DsStartReadySystem() value does not 
+ return when process succeeds has been fixed.  In relation to 
+ this fix, change has been made, so that in DsRead() and DsPlay()
+ process will not be done (function execution will fail) when
+ the simple callback is in operation when function is being called.
+ This change will not affect the standard usage.
+ 
+-Prototype statement for DsGetToc() has been added.
+
+-The malfunction that the system does not respond even when
+ the disc cover is opened after it becomes DslNoCD when the cover
+ is closed without setting a disc, has been fixed. 
+
+-The malfunction that callback is not called when the cover of
+ disc is opened by the simple callback has been fixed.
+
+-Measure has been taken to the malfunction that DiskError
+ interrupt is not reported on rare occasion when read command
+ fails.  When DslStatRead is not set 20 seconds 
+ after command execution, callback routine set in DsSyncCallback()
+ and DsReadyCallback() are called as an error process.
+ Please specify recovery routine that reissues the command to
+ to either of the two: (Note that specifying 
+ recovery in both callbacks makes the command to be executed
+ twice).  Ready callback will be invoked first.
+
+       DsRead()
+       DsPlay()
+
+Since high level functions such as those above or the simple
+callbacks use function for retrying, application does not need 
+to take care of the recovery process. 
+
+-The improper reaction taken when the disc cover is opened 
+ during disc is being recognized by the system just after the
+ cover was opened/closed with the simple callback has been fixed.
+
+-The malfunction in recovery process caused when the cover is 
+  opened/closed with the simple callback has been fixed and the contents
+  has been made clear.  In release 4.0, command was reissued and 
+  process continued even after the cover was opened/closed during 
+  the simple callback was in operation and this has been found out to be
+  a side effect of the malfunction in the library.  Thus, the
+  improper reaction taken after the cover is opened/closed during
+  the simple callback is in operation has been fixed.
+  For the detail descriptions on the fix please refer to OVERVIEW
+  document.
+
+
+Basic Graphic Library (libgpu)
+---------------------------------------------------------------------------
+Functions and Structures Added
+---------------------------------------------
+-Data structure and function have been added.
+ Please refer to the function reference.
+
+	(Function)	
+	 SetDrawStp		Initializes STP bit process change 
+                                 primitive.
+	(Structure)
+	 DR_STP      		STP bit process change primitive
+
+-Following functions that is executed immediately without queuing
+ have been added: 
+
+      	LoadImage2
+		StoreImage2
+		MoveImage2
+		DrawOTag2
+
+Header File Modified
+------------------------------
+-The malfunction that the size of POLY_GT4 and DR_LOAD described
+ in the table of Primitive list in libgpu.h was incorrect has
+ been fixed.
+
+-libgpu.h has been changed since function and structure has been
+ added. 
+
+Library Bug Fix
+------------------------------
+-The malfunction that the next GPU non-blocking function is
+ blocked when polygon that requires drawing time is registered
+ at the end of OT, has been fixed. 
+
+-The part, func=()(,), of the message that is displayed when GPU
+ timeout occurred has been deleted. 
+
+
+Extended Graphics Library (libgs)
+------------------------------------------------------------
+Library Specifications Changed
+---------------------------------------------
+-MIMe primitive format of HMD has been changed to 
+ make data reusable.
+
+-Return value of interpolation driver for HMD animation has been
+ changed from void to int.  For details please refer to hmd.doc,
+libgs.doc, and gs.doc.
+
+-In HMD animation frame update driver GsU_03000000(), JUMP
+ sequence specifications have been changed as follows.
+ 	 (Before)
+         When SID CND is 0, SID is unconditionally overwritten with SID DST.
+	 (After)
+	 SID is not overwritten when SID CND is 0 and SID DST is 0.
+         SID is overwritten when SID CND is 0 but SID DST is not 0.
+	
+-The data type of a GsSEQ structure member "speed"
+ has been changed from unsigned char to signed char.
+	
+Functions Added
+------------------------------
+- GsInitRstVtxMIMe and GsInitRstNrmMIMe Functions have been added.
+
+- The following drivers have been added in HMD.   
+     	(Translucent Primitive Drivers)
+       	GsU_00200008, GsU_00200009, GsU_0020000c, GsU_0020000d, 
+       	GsU_00200010, GsU_00200011, GsU_00200014, GsU_00200015,    
+       	GsU_0120000c, GsU_0120000d, GsU_01200014, GsU_01200015
+
+      	(Primitive Drivers for Automatic Division)
+       	GsU_00080008, GsU_00080009, GsU_0008000c, GsU_0008000d,
+       	GsU_00080010, GsU_00080011, GsU_00080014, GsU_00080015,
+       	GsU_000a0008, GsU_000a0009, GsU_000a000c, GsU_000a000d,
+       	GsU_000a0010, GsU_000a0011, GsU_000a0014, GsU_000a0015,
+       	GsU_000c0048, GsU_000c0049, GsU_000c004c, GsU_000c004d,
+       	GsU_000c0050, GsU_000c0051, GsU_000c0054, GsU_000c0055
+
+      	(Primitive Drivers for the Ground-ZIMEN)
+       	GsU_05000000, GsU_05000001
+
+      	(Interpolation Drivers for Animation -Coordinates System-)
+       	Interpolation of Bezier and Bsprine has been available. 
+       	GsU_03000020, GsU_03000030, GsU_03000002, GsU_03000003,
+	GsU_0300000a, GsU_0300000b, GsU_03000012, GsU_03000013,
+	GsU_0300001a, GsU_0300001b, GsU_03000022, GsU_03000023,
+	GsU_0300002a, GsU_0300002b, GsU_03000032, GsU_03000033,
+	GsU_0300003a, GsU_0300003b
+
+	 (Interpolation Drivers for Animation -General Purpose-)
+	Interpolation drivers for HMD animation which can be 
+	generally used have been added.  This has made 
+	animation of general-purpose-use parameters such as 
+	color or MIMe parameter available.
+
+	GsU_03010110, GsU_03010111, GsU_03010121, GsU_03010141,	
+	GsU_03010171, GsU_03010112, GsU_03010122, GsU_03010142,		
+	GsU_03010172, GsU_03010182	
+	
+	GsU_03010210, GsU_03010211, GsU_03010221, GsU_03010241,	
+	GsU_03010271, GsU_03010212, GsU_03010222, GsU_03010242,	
+	GsU_03010272
+	
+	GsU_03010310, GsU_03010311, GsU_03010321, GsU_03010341,	
+	GsU_03010371, GsU_03010312, GsU_03010322, GsU_03010342,	
+	GsU_03010372
+	
+Function Deleted
+------------------------------
+-GsMap*MIMe function group has been deleted.
+
+Header Files Modified
+------------------------------
+-Argument structure for HMD MIMe primitive driver in libgs.h has
+ been changed. 
+
+-GsMIMePrimHeader structure in libgs.h has been deleted.
+
+-Prototype of interpolation driver for HMD animation has been
+ changed from void to int.
+
+-The data type of a GsSEQ structure member "speed"
+ has been changed from unsigned char to signed char.
+
+Library Bug Fix
+------------------------------  	
+-The malfunction that when quadrangle is used in HMD, it is not
+  displayed correctly has been fixed.
+     	    	
+-The malfunction that accurate calculation is not carried out in 
+         GsU_04010010() has been fixed.
+
+-The functions below have been corresponded to 2M VRAM mode for 
+ arcade.
+         GsSortBg, GsSortFastBg, GsSortFixBg16, GsSortFixBg32
+ 	
+
+Basic Geometry Library (libgte)
+---------------------------------------------
+Library Bug Fix
+------------------------------
+-The malfunction that switching of depth queue (ON/OFF) is, on 
+  rare occasions, not done correctly for one polygon when interrupt
+  occurs at "branch delay slot" where COP2 instruction is placed in,
+  the following, has been fixed.
+
+         RotMeshPrimS_F3, RotMeshPrimS_FT3, RotMeshPrimS_GT3
+         RotMeshPrimR_F3, RotMeshPrimR_FT3, RotMeshPrimR_GT3
+
+-HMD common primitive driver (GsU_01......) has been rewritten in
+Assembler and improved in process speed.
+
+- unsigned long rcossin_tbl[4096], the table used in functions such
+as RotMatrix(), has been fixed so that the same value as that of
+rsin()/rcos() will result.  With this fix prevent the value from 
+jumping around 90-degree angle.  The old table remains with 
+name rcossin_tbl_0[].
+
+-The error in selecting elements when minor matrix is calculated in
+EigenMatrix has been corrected. 
+
+
+
+Memory Card Easy Access Library (libmcrd)
+---------------------------------------------
+Library Bug Fix
+------------------------------
+-Check mechanism has been added to MemCardReadFile() and 
+MemCardWriteFile() to solve the possible file information lost
+when MemCardReadFile() or MemCardWriteFile() is issued
+to the file that has already been opened by MemCardOpen(). 
+	
+
+Basic Sound Library (libspu)
+---------------------------------------------
+Function Enhanced
+~~~~~~~~~~~~~~~~
+- The second argument, voice can be set as bit pattern by specifying 
+SPU_BIT as the first argument for the following functions:
+SpuSetNoiceVoice(), SpuSetPitchLFOVoice(), and SpuSetReverbVoice()
+
+
+Extended Sound Library (libsnd)
+---------------------------------------------
+Functions and Structures Added
+---------------------------------------------
+-Please refer to the function reference for details.
+
+	 (Structure)
+          SndVolume2          	   Volume
+          SndRegisterAttr     	   Voice Attribute
+          SndVoiceStats       	   Voice Status
+
+     	 (Function)
+          SsSetVoiceMask       	   Sets the voice numbers that 
+                                   should not be used in libsnd. 
+                               	   
+          SsGetVoiceMask       	   Obtains the voice number that
+                                   should not be used in libsnd.
+                               	   
+          SsQueueKeyOn         	   Sets voices to key-on queue.
+          SsQueueReverb        	   Sets on/off of reverb to reverb queue.
+                               	  
+          SsQueueRegisters         Sets register attribute to register 
+                                   queue.
+          SsGetActualProgFromProg  Obtains execution program number.
+          SsSetVoiceSettings       Sets voice attribute.
+          SsPitchFromNote          Obtains pitch value.
+          SsVoiceCheck             Checks voice tone attribute.
+          SsBlockVoiceAllocation   Blocks voice allocation.
+          SsUnBlockVoiceAllocation Makes blocked voice allocation 
+                                   effective.
+	                          
+          SsAllocateVoices         Allocates voices.
+
+
+Header File Modified
+------------------------------
+-libsnd.h has been changed since function and structure have been added.
+
+Library Bug Fix
+------------------------------
+-The malfunction that the reverberations remain even after SEQ 
+  has been stopped when reverb is specified for SEQ playback,
+  has been fixed.  
+
+-The malfunction that the volume did not smoothly change on 
+ some settings or the sound is cut off while the volume change
+ on some music in SsSetSeq(Sep)Crescendo(Decrescendo), has been 
+ fixed.
+ Note that we recommend you to set "v_time" given for these function,
+ to be an integral multiple of "vol". 
+
+-In "Ut" functions, inconsistency between the volume value of 
+ effect sound set and the obtained volume value has been resolved.
+
+-The malfunction that noise was emitted at unexpected time if 
+ noise source was used with SEQ in libsnd of release 4.0 has been
+ fixed.  It is also possible to use the previously suggested method
+ of directly calling the libspu/libsnd function with the Programmer 
+ Tool(PC) or sampling the noise sound itself and using it as an
+ ordinary sound wave form.
+

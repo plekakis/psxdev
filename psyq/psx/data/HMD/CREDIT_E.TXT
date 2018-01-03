@@ -1,0 +1,15 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+			     Copyright(C) 1997 Sony Computer Entertainment Inc.
+			     				   All rights reserved.
+
+The following model data in this directory are made from the data created by
+Viewpoint DataLabs (USA) and distributed by NewTek Incorporated (USA).
+
+	scei/anim/tri3/*
+	scei/anim/tri4/*
+	scei/anim/ufo/*
+	scei/basic/tri.hmd
+	scei/mime/legs/*
+	scei/mime/triaxes.hmd
+	scei/mime/trirpy.hmd

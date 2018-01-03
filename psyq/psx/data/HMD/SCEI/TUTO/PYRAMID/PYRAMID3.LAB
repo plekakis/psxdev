@@ -1,0 +1,178 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect / 4;
+	5;	/* num of blocks */
+	0x00000000;	/* no pre-process */
+	PolyPrimSet_pyramid / 4;
+	PolyPrimSet_cube / 4;
+	PolyPrimSet_pyramid / 4;
+	0x00000000;	/* no post-process */
+
+CoordSect:
+	3;	/* num of coords */
+
+Coord_0000:
+	0x00000000;	/* flg */
+	MATRIX(	/* matrix */
+		 4096,     0,     0,
+		    0,  4096,     0,
+		    0,     0,  4096,
+		    0,  -100,     0);
+	MATRIX(	/* workm */
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0);
+	SVECTOR(    0,     0,     0);	/* rot */
+	0;	/* super */
+
+Coord_0001:
+	0x00000000;	/* flg */
+	MATRIX(	/* matrix */
+		 4096,     0,     0,
+		    0,  4096,     0,
+		    0,     0,  4096,
+		    0,   150,     0);
+	MATRIX(	/* workm */
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0);
+	SVECTOR(    0,     0,     0);	/* rot */
+	Coord_0000 / 4;	/* super */
+
+Coord_0002:
+	0x00000000;	/* flg */
+	MATRIX(	/* matrix */
+		 4096,     0,     0,
+		    0,  4096,     0,
+		    0,     0,  4096,
+		    0,   100,     0);
+	MATRIX(	/* workm */
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0);
+	SVECTOR(    0,     0,     0);	/* rot */
+	Coord_0000 / 4;	/* super */
+
+PrimHdrSect:
+	1;	/* num prim hdrs */
+
+PolyPrimHdr_0000:
+	4;	/* hdr size */
+	M(PolySect / 4);
+	M(VertSect / 4);
+	M(NormSect / 4);
+	M(CoordSect / 4);
+
+PolyPrimSet_pyramid:
+	TERMINATE;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(2);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(INI)|PRIM_TYPE(TRI);
+	H(2); M(H(4));	/* size, data */
+	(Poly_pyramid_F3 - PolySect) / 4;
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD);
+	H(2); M(H(1));	/* size, data */
+	(Poly_pyramid_F4 - PolySect) / 4;
+
+PolyPrimSet_cube:
+	TERMINATE;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD);
+	H(2); M(H(6));	/* size, data */
+	(Poly_cube_F4 - PolySect) / 4;
+
+PolySect:
+
+Poly_pyramid_F3:
+	/* Flat Triangle */
+	B(0); B(0); B(255); B(0x20);    /* R, G, B, code */
+	H(3); H(0);     /* norm0, vert0 */
+	H(5); H(6);     /* vert1, vert2 */
+	B(0); B(255); B(0); B(0x20);    /* R, G, B, code */
+	H(4); H(0);     /* norm0, vert0 */
+	H(6); H(7);     /* vert1, vert2 */
+	B(0); B(255); B(255); B(0x20);    /* R, G, B, code */
+	H(5); H(0);     /* norm0, vert0 */
+	H(7); H(8);     /* vert1, vert2 */
+	B(255); B(0); B(0); B(0x20);    /* R, G, B, code */
+	H(6); H(0);     /* norm0, vert0 */
+	H(8); H(5);     /* vert1, vert2 */
+
+Poly_pyramid_F4:
+	/* Flat Quadrangle */
+	B(255); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(0); H(5);     /* norm0, vert0 */
+	H(8); H(6);     /* vert1, vert2 */
+	H(7); H(0);     /* vert3,   - */
+
+Poly_cube_F4:
+	/* Flat Quadrangle */
+	B(0); B(0); B(255); B(0x28);    /* R, G, B, code */
+	H(9); H(9);	/* norm0, vert0 */
+	H(11); H(1);	/* vert1, vert2 */
+	H(3); H(0);	/* vert3,   - */
+	B(0); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(10); H(10);	/* norm0, vert0 */
+	H(9); H(2);	/* vert1, vert2 */
+	H(1); H(0);	/* vert3,   - */
+	B(0); B(255); B(255); B(0x28);    /* R, G, B, code */
+	H(7); H(12);	/* norm0, vert0 */
+	H(10); H(4);	/* vert1, vert2 */
+	H(2); H(0);	/* vert3,   - */
+	B(255); B(0); B(0); B(0x28);    /* R, G, B, code */
+	H(8); H(11);	/* norm0, vert0 */
+	H(12); H(3);	/* vert1, vert2 */
+	H(4); H(0);	/* vert3,   - */
+	B(255); B(0); B(255); B(0x28);    /* R, G, B, code */
+	H(1); H(1);	/* norm0, vert0 */
+	H(3); H(2);	/* vert1, vert2 */
+	H(4); H(0);	/* vert3,   - */
+	B(255); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(2); H(10);	/* norm0, vert0 */
+	H(12); H(9);	/* vert1, vert2 */
+	H(11); H(0);	/* vert3,   - */
+
+VertSect:
+	SVECTOR(    0,  -100,     0);	/* vert[0] */
+	SVECTOR( -150,   150,  -150);	/* vert[1] */
+	SVECTOR( -150,   150,   150);	/* vert[2] */
+	SVECTOR(  150,   150,  -150);	/* vert[3] */
+	SVECTOR(  150,   150,   150);	/* vert[4] */
+
+	/* bottom of the pyramid */
+	SVECTOR(  150,     0,  -150);	/* vert[5] */
+	SVECTOR( -150,     0,  -150);	/* vert[6] */
+	SVECTOR( -150,     0,   150);	/* vert[7] */
+	SVECTOR(  150,     0,   150);	/* vert[8] */
+
+	/* top of the cube */
+	SVECTOR( -150,     0,  -150);	/* vert[9] */
+	SVECTOR( -150,     0,   150);	/* vert[10] */
+	SVECTOR(  150,     0,  -150);	/* vert[11] */
+	SVECTOR(  150,     0,   150);	/* vert[12] */
+
+NormSect:
+	SVECTOR(    0,  4096,     0);	/* norm[0] */
+	SVECTOR(    0,  4096,     0);	/* norm[1] */
+	SVECTOR(    0, -4096,     0);	/* norm[2] */
+
+	/* side of the pyramid */
+	SVECTOR(    0, -2896, -2896);	/* norm[3] */
+	SVECTOR(-2896, -2896,     0);	/* norm[4] */
+	SVECTOR(    0, -2896,  2896);	/* norm[5] */
+	SVECTOR( 2896, -2896,     0);	/* norm[6] */
+
+	/* side of the cube */
+	SVECTOR(    0,     0,  4096);	/* norm[7] */
+	SVECTOR( 4096,     0,     0);	/* norm[8] */
+	SVECTOR(    0,     0, -4096);	/* norm[9] */
+	SVECTOR(-4096,     0,     0);	/* norm[10] */

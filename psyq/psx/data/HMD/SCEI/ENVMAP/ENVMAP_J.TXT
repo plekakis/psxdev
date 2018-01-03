@@ -1,0 +1,227 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+疑似環境マップサンプルについて				Jan 12, 1998
+							Apr 21, 1998
+
+	Copyright(C) 1998 Sony Computer Entertainment Inc.
+	All Rights Reserved.
+
+<疑似環境マップ概要>
+
+	疑似環境マップドライバでは、以下の 2 通りの方法が可能です。
+
+	1) 1 次元マップ
+
+	1 次元マップとは、プリミティブドライバで透視変換を行う際に、
+	スクリーン座標に投影した法線の Y 成分を、テクスチャアドレスに
+	影響させることにより、金属のような質感を出す方法です。
+
+	サンプルの 1 次元マップ用のテクスチャは、X 方向にグラデーション
+	がかけられてるので、スクリーン座標に投影した法線の Y 成分を
+	テクスチャアドレスの U 成分に影響させています。
+
+	2) 2 次元マップ（反射や屈折)
+
+	2 次元マップとは、プリミティブドライバの透視変換を行う際に、
+	スクリーン座標に投影した法線の X 成分と Y 成分の両方を、
+	テクスチャアドレスに影響させることにより、反射や屈折のような
+	効果を与える方法です。
+
+	Library 4.2 では、疑似環境マップはβ版としてのリリースです。
+	将来のバージョンでは仕様等が、予告なく変更される可能性があります。
+
+<疑似環境マッププリミティブドライバについて>
+
+	現在対応済みのプリミティブ
+
+	1) ドライバ関数
+
+	Aliases     ID              Primitive types
+	---------   ----------      --------------------------------
+	GsUSCAL2    0x06000100      envmap shared calculate
+	GsUE1G3     0x0600100c      envmap 1D gour tri
+	GsUE1G4     0x06001014      envmap 1D gour quad
+	GsUE1SG3    0x0600110c      envmap 1D shared gour tri
+	GsUE1SG4    0x06001114      envmap 1D shared gour quad
+	GsUE2LG3    0x0600200c      envmap 2D reflect gour tri
+	GsUE2LG4    0x06002014      envmap 2D reflect gour quad
+	GsUE2RG3    0x0600300c      envmap 2D refract gour tri
+	GsUE2RG4    0x06003014      envmap 2D refract gour quad
+	GsUE2RLG3   0x0600400c      envmap 2D both gour tri
+	GsUE2RLG4   0x06004014      envmap 2D both gour quad
+	GsUE2OLG3   0x0600500c      envmap 2D org+reflect gour tri
+	GsUE2OLG4   0x06005014      envmap 2D org+reflect gour quad
+	************************************************************
+
+	2) LAB ファイル用マクロ宣言(envmap.def) 
+
+	#define CTG_ENV    0x06     /* category ID */
+	#define ENV_SHARED 0x0100   /* envmap shared ID */
+	#define ENV1D      0x1000   /* envmap 1D */
+	#define ENV2DL     0x2000   /* envmap 2D reflect */
+	#define ENV2DR     0x3000   /* envmap 2D refract */
+	#define ENV2DRL    0x4000   /* envmap 2D both */
+	#define ENV2DOL    0x5000   /* envmap 2D org+reflect */
+
+<疑似環境マップ用のデータの作成について>
+
+	以下の 3 つの変更が必要です。
+
+	1) 環境マップテクスチャ
+
+	data/scei/envmap/texture 以下のテクスチャを使用する場合を、
+	例にします。
+
+	ENV1D?.TIM   1 次元マップ用
+	ENV2D?1.TIM  2 次元マップ反射用
+	ENV2D?2.TIM  2 次元マップ屈折用
+
+	HMD 逆アセンブラ・アセンブラを利用してイメージプリミティブ
+	として追加します。
+
+	2) プリミティブタイプの変更 (1 次元マップの場合)
+
+	HMD 逆アセンブラ・アセンブラを利用してプリミティブタイプ
+	を環境マッププリミティブに変更します。
+
+	1. グーロー 3 角形に環境マップを割り当てる場合
+
+		DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(IIP|TRI);
+		-> DEV_ID(SCE)|CTG(CTG_ENV)|DRV(0)|PRIM_TYPE(ENV1D|IIP|TRI);
+
+	2. 共有計算プリミティブを環境マップ用に変更する場合
+
+		DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(0);
+		-> DEV_ID(SCE)|CTG(CTG_ENV)|DRV(0)|PRIM_TYPE(ENV_SHARED);
+
+	3. 共有ポリゴンプリミティブを環境マップ用に変更する場合
+
+		DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(TRI|IIP);
+		-> DEV_ID(SCE)|CTG(CTG_ENV)
+			|DRV(0)|PRIM_TYPE(ENV_SHARED|ENV1D|TRI|IIP);
+
+	3) 環境マッププリミティブヘッダセクション
+
+	疑似環境マップドライバを使用する場合は、
+	環境マッププリミティブヘッダセクションが必要です。
+	HMD 逆アセンブラ・アセンブラを利用してプリミティブヘッダ
+	を差し替えて下さい。
+	以下は、環境マッププリミティブヘッダセクションの例です。
+
+	注意）環境マッププリミティブヘッダセクションのサイズや
+	      パラメタ類は、将来変更される場合があります。
+
+1. 1 次元マップのみの場合
+********************************************************************
+PolyPrimHdr_0000:
+	14; /* hdr size */
+	M(Poly_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(ImagePrim_0000 / 4);  /* 1D envmap tex */
+	0;
+	0;
+	0;
+	0;
+	/* 1D envmap */
+	B(2); B(0); B(4); B(0); /* 1D: texmode, (none), material, (none) */
+	/* 2D reflection */
+	B(0); B(0); B(0); B(0);
+	B(0); B(0); B(0); B(0);
+	/* 2D refraction */
+	B(0); B(0); B(0); B(0);
+	B(0); B(0); B(0); B(0);
+	M(CoordSect_0000 / 4);
+********************************************************************
+
+	パラメタの説明）
+
+	1D envmap tex : 1 次元マップ用テクスチャのイメージプリミティブ
+			セクションへのリンク
+			（例では、セクションの頭を指定。）
+	1D texmode    : テクスチャモード(例では 2 を指定)
+	1D material   : マテリアル(以下を参照)
+
+	1 次元マップのマテリアルは、例で使用しているテクスチャファイルの
+	場合、以下のように作成されています。
+
+	   0: blue to black
+	   2: brass
+	   4: gold
+	   6: red
+	   8: gradation blue (test)
+	  10: mono (test)
+	  12: all blown (test)
+	  14: gradation blown (test)
+
+2. 1 次元 + 2 次元マップ(反射と屈折両方の場合 16 ビットテクスチャ)
+********************************************************************
+PolyPrimHdr_0000:
+	14; /* hdr size */
+	M(Poly_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(ImagePrim_0000 / 4 + 0);      /* for 1D envmap */
+	M(ImagePrim_0000 / 4 + 3);      /* reflection tex */
+	0;      /* reflection clut */
+	M(ImagePrim_0000 / 4 + 6);      /* refraction tex */
+	0;      /* refraction clut */
+	/* 1D envmap */
+	B(2); B(0); B(4); B(0);     /* 1D: texmode, (none), material, (none) */
+	/* 2D reflection */
+	B(2); B(1); B(120); B(0);   /* texmode, abr, reflect rate, (none) */
+	B(0); B(0); B(0); B(0);
+	/* 2D refraction */
+	B(2); B(1); B(120); B(0);       /* texmode, abr, refract rate, (none)*/
+	B(0); B(0x50); B(0x80); B(0x78);/* (none), r, g, b */
+	M(CoordSect_0000 / 4);
+********************************************************************
+
+3. 1 次元 + 2 次元マップ(反射と屈折両方の場合 8 ビットテクスチャ)
+********************************************************************
+	PolyPrimHdr_0000:
+	14; /* hdr size */
+	M(Poly_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(ImagePrim_0000 / 4);          /* for 1D envmap */
+	M(ClutImagePrim_0000 / 4);      /* reflection tex */
+	M(ClutImagePrim_0000 / 4 + 3);  /* reflection clut */
+	M(ClutImagePrim_0000 / 4 + 6);  /* refraction tex */
+	M(ClutImagePrim_0000 / 4 + 9);  /* refraction clut */
+	/* 1D envmap */
+	B(2); B(0); B(4); B(0);     /* 1D: texmode, (none), material, (none) */
+	/* 2D reflection */
+	B(1); B(1); B(120); B(0);   /* texmode, abr, reflect rate, (none) */
+	B(0); B(0); B(0); B(0);
+	/* 2D refraction */
+	B(1); B(1); B(120); B(0);       /* texmode, abr, refract rate, (none)*/
+	B(0); B(0x50); B(0x80); B(0x78);/* (none), r, g, b */
+	M(CoordSect_0000 / 4);
+********************************************************************
+
+	パラメタの説明）
+
+	reflection tex  : 反射用テクスチャのイメージプリミティブ
+			  セクションへのリンク
+	reflection clut : 反射用テクスチャCLUTのイメージプリミティブ
+			  セクションへのリンク
+	refraction tex  : 屈折用テクスチャのイメージプリミティブ
+			  セクションへのリンク
+	refraction clut : 屈折用テクスチャCLUTのイメージプリミティブ
+			  セクションへのリンク
+	/* 2D reflection */
+	2D texmode      : テクスチャモード
+	2D abr          : 半透明レート
+	2D reflect rate : 反射率
+	/* 2D refraction */
+	2D texmode      : テクスチャモード
+	2D abr          : 半透明レート
+	2D refract rate : 屈折率
+	2D r, g, b      : 基調となる色の指定(将来、変更される可能性有り)
+
+	2 次元マップのテクスチャには、4、8、16 ビットが使用できますが、
+	反射・屈折の両方や、テクスチャ + 反射など、1 つのドライバで
+	ポリゴン 2 枚書きの場合は、8 ビットカラーでは毎ポリゴンごとに
+	CLUT を読み直してしまうので描画効率は悪いです。
+	その場合、CLUT を共有することで描画効率をあげることが可能です。

@@ -1,0 +1,67 @@
+#
+# Makefile (Borland Make)
+# Mike Acton
+#
+
+#
+# Compile and Linker Flags
+#
+
+DEBUG= -O2
+
+#
+# The first target is built if nothing is specified on the make command line
+#
+
+all: main.cpe main.lnk
+
+main.cpe: main.obj \
+          cube.obj 
+          psylink /m /c /g @$*.lnk,$*.cpe,$*.sym,$*.map
+
+#
+# 'run' commands
+#
+
+run: main.cpe main.lnk
+  c:\psx\bin\delay
+  c:\psx\bin\resetps 1
+  c:\psx\bin\delay
+  c:\psx\bin\run /w4 c:\psx\bin\snpatchw
+  c:\psx\bin\delay
+  c:\psx\bin\run /w4 main
+
+debug: main.cpe main.lnk
+  c:\psx\bin\delay
+  c:\psx\bin\resetps 1
+  c:\psx\bin\delay
+  c:\psx\bin\run /w4 c:\psx\bin\snpatchw
+  c:\psx\bin\delay
+  c:\psx\bin\dbugpsx /emain.cpe main.sym
+
+#
+# Compile dependencies
+#
+
+main.obj:      main.c
+cube.obj:      cube.c
+
+#
+# Implicit rules
+#
+
+.c.obj:
+  ccpsx -comments-c++ -Wall -c $(DEBUG) $*.c -o $*.obj
+  dmpsx $*.obj
+.s.o:
+  asmpsx /o c+ /l /zd $*.s,$*.o,$*.sym
+
+#
+# Other targets
+#
+
+clean:
+   del *.cpe
+   del *.obj
+   del *.sym
+   del *.map

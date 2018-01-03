@@ -1,0 +1,72 @@
+CD Emulator tools History
+=========================
+
+20 Aug 98:
+----------
+BUILDCD 2.43
+BCDFLAT 2.43
+
+- Fixed bug in ECC generation for XA sectors. This never appeared to be a problem
+  for CD emulation, but when used in conjunction with STRIPISO to cut CD's, if
+  your CDR didn't auto-generate the ECC values, then the CD would be unreadable.
+
+
+6 July 98:
+----------
+UPDATECD 1.21
+
+- Fixed bug I introduced in 1.20 concerning updating of MAP file.
+
+
+3 June 98, New releases:
+------------------------
+CDDISK 1.19
+UPDATECD 1.20
+BUILDCD 2.42
+BCDFLAT 2.42
+
+
+- All 4 have been rebuilt to fix the problem with the Quantum Fireball SE.
+  Previous versions would fail with the following error:
+
+  C:\WINDOWS>CDDISK -n 0
+  Error in opening SCSI device 0, Error 0x06F0
+  CDbios error string 'Unknown error code (F0)'
+
+---
+
+UPDATECD:
+- Fixed: Map file/UpdateCD date seperator discrepency
+
+---		        
+
+BCDFLAT:
+- Fixed: Source/Output files that were not on current drive, EG:
+  > C:
+  > BCDFLAT CD.CTI -mD:CD.MAP
+
+  (This also fixes source files within the script that reference other drives.)
+
+---
+
+BUILDCD & BCDFLAT:
+- XA interleaved files (XASOURCE) now show correct byte size in their
+  file record, this is:
+      Number of CD Sectors * 2048
+
+- XA interleaving now sets Subheader File#=1 & Channel#'s start from 0.
+  This complies with the CDROM XA standard and also MOVPACK.
+  This may cause problems, since previous versions wouldn't accept
+  Channel#0, so you may have to update your script(CTI) to the correct
+  channel numbering scheme (valid channels are 0 to 31).
+
+- XA interleaved audio sectors now setup the Subheader's Coding Information
+  bytes correctly for ADPCM_B & ADPCM_C.
+
+------------------------------------------------------------------------------
+
+Comments, bug reports and anomolies should be directed to:
+
+support@snsys.com
+
+

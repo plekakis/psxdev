@@ -1,0 +1,125 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+┌─────────────────────────────────────┐
+│									　　│
+│			　　Dot-file structure      			　　│
+│									　　│
+├─────────────────────────────────────┤
+│	          Continuous fixed-length data file 			　　│
+└─────────────────────────────────────┘
+
+< General file structure >
+  1) File contents
+    * Data file of character forming information 
+      Every data in the font data file is necessary to form characters, and the 
+      following data is not included.
+         ** File header 
+         ** JIS code
+         ** data except for character forming information 
+    * Non-compression data
+      No compression processing is performed for the font data file. 
+
+  2) Data contents
+    * Continuous structure of fixed-length data
+      In each dot size, 1 character data length is fixed, and the file is
+      only the continuity of the fixed-length data.
+　    Thus, the file size is found as "1 character data length * number of
+      characters".
+　　　Example:  24*24 JIS first level full-size character 
+                Size = 24*24 / 8 = 72 bytes / 1 character 
+		┌─────┬─────┬─∥─┬─────┐
+		│     1    │     2    │　∥　│　　　　　│
+		└─────┴─────┴─∥─┴─────┘
+		｜　　　　　｜　　　　　　　　　　　　　　　｜
+		 － 72 bytes 　　　　　　　　　　　　　　　 ｜
+		｜　　　　　　　　　　　　　　　　　　　　　｜
+		 ─────────　213,480 bytes  ─────
+
+  3) File units and number of data
+    * Basic set
+         (1) JIS full-size non-KANJI
+         (2) JIS full-size first level KANJI 
+         (3) JIS full-size second level KANJI
+         (4) JIS full-size characters for vertical writing
+  
+      The content of data in a font is as follows:
+        (1) JIS non-KANJI        :   524 characters
+           Note: A head space is included.  
+	┌─────┬─────┬─∥─┬─────┐
+	│     1    │     2    │　∥　│　　 524  │
+	└─────┴─────┴─∥─┴─────┘
+	(2) JIS first level KANJI   :   2,965 characters  
+	┌─────┬─────┬─∥─┬─────┐
+	│     1    │     2    │　∥　│　　2965　│
+	└─────┴─────┴─∥─┴─────┘
+	(3) JIS second level KANJI :   3,388 characters
+	┌─────┬─────┬─∥─┬─────┐
+	│     1    │     2    │　∥　│　　3388　│
+	└─────┴─────┴─∥─┴─────┘
+	(4) JIS characters for vertical writing  :  55 characters
+	┌─────┬─────┬─∥─┬─────┐
+	│     1    │     2    │　∥　│　　  55　│
+	└─────┴─────┴─∥─┴─────┘
+
+┌─────────────────────────────────────┐
+│									　　│
+│				Data structure				　　│
+│									　　│
+├─────────────────────────────────────┤   
+     Start with upper-left point, horizontal slice, byte expanding downward		　　│
+└─────────────────────────────────────┘
+
+< General data structure >
+  1) Byte-expansion
+    * "Byte boundary" specification for horizontal direction
+      When expanding the font data downward, there is a byte-boundary
+      specification for the horizontal direction. Thus, when there is 
+      remainder after dividing the horizontal size of a character by 8, the
+      size is adjust to be the closest multiple of 8, which must be also more than 
+      its original size. Padding is performed, and in some bits (some dots), 
+      dummy data (bit off) is stored.
+    * Start with upper-left point , horizontal slice, expanding downward
+      In the following way, the data will be expanded.
+      Example:  24*24 (1 to 72 bytes)
+　
+		┌──┬──┬──┐		┌──┐
+		│   1│   2│   3│		│   1│
+		├──┼──┼──┤		├──┤
+		│   4│   5│   6│		│   2│
+		├──┼──┼──┤		├──┤
+		＝＝＝＝＝＝＝＝＝＝		＝＝＝＝
+		├──┼──┼──┤		├──┤
+		│  67│  68│  69│		│  71│
+		├──┼──┼──┤		├──┤
+		│  70│  71│  72│		│  72│
+		└──┴──┴──┘		└──┘
+		　Byte Expansion		 on file
+
+  2) Bit expansion
+    * 1 bit is 1 dot.
+      1 bit of the data corresponds to 1 dot used when forming characters.
+      Expansion of each bit will be started from the upper bit. 
+
+		 MSB
+		┌─────────────┬───────∥
+	     Bit│  7  6  5  4  3  2  1  0　│  7  6  5  4  ∥
+		│…………………………………│…………………∥
+		│　　　　0th byte   　　　　│　　　　　　　∥
+		├─────────────┼───────∥
+	　　　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+
+  3) Actual data example (8*8)
+    Example:     Shift-JIS code:    88ae     "旭"
+         Data：40-47-F5-57-55-57-50-9F ( 8*8/8=8 bytes / 1 character)
+
+		40 : 0100-0000 --- □■□□□□□□
+		47 : 0100-0111 --- □■□□□■■■
+		F5 : 1111-0101 --- ■■■■□■□■
+		57 : 0101-0111 --- □■□■□■■■
+		55 : 0101-0101 --- □■□■□■□■
+		57 : 0101-0111 --- □■□■□■■■
+		50 : 0101-0000 --- □■□■□□□□
+		9F : 1001-1111 --- ■□□■■■■■
+
+
+

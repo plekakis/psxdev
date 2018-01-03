@@ -1,0 +1,604 @@
+#include "dialog.h"
+
+extern next_error();
+extern add_error_file(string errfile);
+extern void _insert_sorted (string to_insert, int top, int bottom);
+extern int delete_error_file (string full_name, int delete_buffer_too);
+extern _save_state();
+extern _restore();
+
+_init(void)
+{
+	global string makefile="makefile.mak";
+	global int gotolabbuff;
+
+	assign_to_key ("<Alt-Plus>", "edit_next_buffer");
+	assign_to_key ("<Left>", "prev_char");
+	assign_to_key ("<Right>", "next_char");
+	assign_to_key ("<Ctrl-Left>", "left");
+	assign_to_key ("<Ctrl-Right>", "right");
+	assign_to_key ("<Backspace>", "real_backspace");
+
+	assign_to_key("<Ctrl-G>", "goto_label");
+	assign_to_key("<Ctrl-F>", "return_from_label");
+	assign_to_key("<Ctrl-W>", "writeall");
+	assign_to_key("<Ctrl-V>", "evaluate_exp");
+	assign_to_key("<Ctrl-F9>", "set_make_file");
+	assign_to_key("<Ctrl-F10>","make_debug_prog");
+	assign_to_key("<Alt-F9>", "make_prog");
+	assign_to_key("<F9>", "debug_prog");
+
+	gotolabbuff = create_buffer("GOTOLABBUFF", NULL, 1);
+
+	autoload("prompt", "_insert_sorted");
+	autoload("errorfix", "delete_error_file");
+}
+
+//===================================================================
+
+replacement _save_state ()
+{
+	insert("[psyq]\n");
+	insert("makefile="+makefile+"\n");
+
+	returns (_save_state ());
+}
+
+//===================================================================
+
+replacement _restore ()
+{
+	int reading, eqpos;
+	string str;
+
+	_restore ();
+	top_of_buffer ();
+
+	if (search_fwd ("<\\[psyq\\]>")) {
+		down ();
+		str=read();
+		if (substr(str, 1, 9) == "makefile=")
+//			makefile = substr(str, 10);
+			makefile = trim(substr(str, 10));
+	}
+}
+
+//===================================================================
+// A proper back space
+
+real_backspace ()
+{
+	if (prev_char() > 0)
+		delete_char();
+}
+
+//===================================================================
+// Go to label that the cursor is on
+
+#define startname "[A-Za-z_.\@]"
+#define inname "[0-9A-Za-z_.]"
+#define notinname "[~0-9A-Za-z_.\@]"
+#define matchname startname+inname+"+"+notinname
+
+goto_label()
+{
+
+	int startbuff, startline, startcol, line, col, done, found, buff;
+
+	string label, buffname, savepos, filename;
+
+	if (search_string(inname, read(1))) {
+		save_position();
+		search_back(notinname);
+		next_char();
+		label = read(search_fwd(matchname)-2);
+		restore_position();
+	} else
+		if (get_parm(0, label, "Goto label : ") == 0)
+			return;
+
+	if (! search_string(startname, substr(label, 1, 1)))
+		error("Cursor is not on a valid label");
+	else {
+		message("Searching ...");
+
+		// if name starts with @ then prefix with \ so it's treated as a literal @
+
+		if (substr(label, 1, 1) == "@")
+			label = "\\"+label;
+
+		inq_names(filename, NULL, NULL);
+		startbuff = inq_buffer();
+		inq_position(startline, startcol);
+		done = 0;
+		found = 0;
+
+		do {
+			if (! inq_system()) {
+				inq_position(line, col);
+				top_of_buffer();
+				found = done = search_fwd("<"+label+notinname);
+				if (! found)
+					move_abs(line, col);
+			} else
+				found = FALSE;
+
+			if (! found) {
+				set_buffer(next_buffer(1));
+				done = inq_buffer() == startbuff;
+				if (! done) {
+					inq_names(NULL, NULL, buffname);
+					message("Searching %s for label %s", buffname, label);
+				}
+			}
+		} while (! done);
+
+		if (found) {
+			message("Found label %s", label);
+			buff = inq_buffer();
+			set_buffer(gotolabbuff);
+			top_of_buffer();
+			sprintf(savepos, "%9.9u%9.9u%s\n", startline, startcol, filename);
+			insert(savepos);
+			set_buffer(buff);
+			attach_buffer(buff);
+		} else
+			message("Could not find label %s", label);
+	}
+}
+
+//===================================================================
+// Return from last goto_label
+
+return_from_label()
+{
+	int buff, line, col, found;
+	string pos, filename, file;
+
+	buff = inq_buffer();
+	set_buffer(gotolabbuff);
+	top_of_buffer();
+	pos = read(18);
+	if (substr(pos, 1, 1) != "\n") {
+		filename = read();
+		filename = substr(filename, 19, strlen(filename)-19); // remove \n
+		top_of_buffer();
+		delete_line();
+
+		line = atoi(substr(pos, 1, 9));
+		col = atoi(substr(pos, 10, 9));
+		set_buffer(buff);
+		do {
+			inq_names(file, NULL, NULL);
+			found = (file == filename);
+			if (! found)
+				set_buffer(next_buffer(1));
+		} while ((! found) && (inq_buffer() != buff));
+
+		if (found) {
+			attach_buffer(inq_buffer());
+			move_abs(line, col);
+		} else {
+			if (exist(filename)) {
+				edit_file(filename);
+				move_abs(line, col);
+			} else
+				error("Cannot return to file %s", filename);
+		}
+	} else {
+		error("Nowhere to go back to");
+		set_buffer(buff);
+	}
+}
+
+//===================================================================
+// Write out all non-system files that have changed
+
+writeall()
+{
+	int current_buffer;
+	string filename;
+
+	current_buffer = inq_buffer();
+
+	message("Saving files");
+
+	do {
+		if (inq_modified() && !inq_system()) {  
+			inq_names(filename);
+			message("Saving %s ...", filename);
+			write_buffer();
+		}
+		set_buffer(next_buffer(1));
+	} while (inq_buffer() != current_buffer);
+
+	message("All buffers saved");
+}
+
+
+//===================================================================
+// Allow user to enter new make file name
+
+set_make_file()
+{
+	int currbuff, menubuff, attrib, looping, num_files, num_dirs,
+		 lines, cols, ty, by;
+	string filename, currdir, dir;
+
+	global int _menu_line;
+
+	getwd("", currdir);
+	currbuff=inq_buffer();
+	inq_screen_size(lines, cols);
+
+	do {
+		menubuff=create_buffer("Files", NULL, 1);
+		set_buffer(menubuff);
+
+		getwd("", dir);
+		if (substr(dir, strlen(dir), 1) != "\\")
+			dir += "\\";
+
+		num_files = 0;
+		num_dirs = 0;
+
+		file_pattern("*.*");
+
+		while (find_file(filename, NULL, NULL, NULL, attrib)) {
+			if (attrib & 0x10) {
+				filename = lower(filename);
+				_insert_sorted(filename+"\\", 1, num_dirs);
+				num_dirs++;
+			}
+		}
+
+		file_pattern("*.mak");
+
+		while (find_file(filename, NULL, NULL, NULL, attrib)) {
+			if ((attrib & (~0xe1)) == 0) {
+				filename = lower(filename);
+				_insert_sorted(filename, num_dirs + 1, num_dirs+num_files);
+				num_files++;
+			}
+		}
+
+		end_of_buffer();
+		delete_line();
+
+		_menu_line = 0;
+
+		by = lines - 6;
+		ty = by - num_dirs - num_files - 1;
+		if (ty < 3)
+			ty = 3;
+
+		_process_menu(10, by, 25, ty, NULL, "", NULL, menubuff,
+							"_make_action", TRUE);
+
+		if (_menu_line) {
+			goto_line(_menu_line);
+			filename = read();
+			if (substr(filename, strlen(filename)-1, 1) == "\\") {
+				dir = dir + substr(filename, 1, strlen(filename)-2);
+				cd(dir);
+				looping = TRUE;
+			} else {
+				makefile = dir + substr(filename, 1, strlen(filename)-1);
+				message("Make file set to : "+makefile);
+				looping = FALSE;
+			}
+		} else
+			looping = FALSE;
+
+		set_buffer(currbuff);
+		delete_buffer(menubuff);
+	} while (looping);
+
+	cd(currdir);
+}	  
+
+//===================================================================
+// Action routine for make file menu
+
+_make_action (int event, int line)
+{
+	if (event == DIALOG_PICK_MENU) {
+		_menu_line = line;
+		_dialog_esc();
+	}
+
+	returns (TRUE);
+}
+
+//===================================================================
+// Get error file name
+
+string get_errfile()
+{
+	int		loc;
+	string	errfile, ext;
+
+	inq_names (errfile, ext, NULL);
+	loc = rindex(errfile ,substr(errfile,3,1) ); /* find last '\' */
+	errfile = substr(errfile,1,loc)+"errors.err";
+
+	/* errfile = substr(errfile, 1, strlen(errfile)-strlen(ext))+"err"; */
+	returns errfile;
+}
+
+//
+// del *.err
+//
+void del_errfiles()
+{
+	string	errfile;
+
+	file_pattern("*.err");
+	while(find_file(errfile))
+		del(errfile);
+}
+
+//===================================================================
+// Evaluate an expression using the debugger
+
+evaluate_exp()
+{
+	int currbuff, scrapbuff;
+	string errfile, str, exp, ch;
+
+	errfile = get_errfile();
+	delete_error_file(errfile, TRUE);
+
+	currbuff = inq_buffer();
+
+	if (inq_marked()) {
+		copy();
+		scrapbuff = inq_scrap();
+		set_buffer(scrapbuff);
+		str = read();
+		set_buffer(currbuff);
+	} else
+		if (get_parm(0, str, "Evaluate : ") == 0)
+			return;
+
+	exp = "";
+	while (strlen(str) > 0) {
+		ch = substr(str, 1, 1);
+		str = substr(str, 2);
+		if ((ch != " ") && (ch != "\t") && (ch != "\n"))
+			exp += ch;
+	}
+
+	if (strlen(exp) > 0) {
+		if (dos("psymake /f"+makefile+" /dexp="+exp+" evaluate >&"+errfile) > 0)
+			error("Could not evaluate expression");
+		else {
+			scrapbuff = create_buffer("EVALRES", errfile, 1);
+			set_buffer(scrapbuff);
+			top_of_buffer();
+			down();
+			exp = read();
+			set_buffer(currbuff);
+			delete_buffer(scrapbuff);
+			if (strlen(exp) > 0)
+				message("Result : $"+substr(exp, 1, strlen(exp)-1));
+			else
+				error("Could not evaluate expression");
+		}
+	}
+}
+
+//===================================================================
+// Build the program and enter the debugger
+
+make_debug_prog()
+{
+	string errfile;
+
+	errfile = get_errfile();
+	delete_error_file(errfile, TRUE);
+	writeall();
+//	del_errfiles();
+	if (dos("psymake /f"+makefile+" asmnorun >&"+errfile) > 0)
+		{
+		add_error_file(errfile);
+		next_error();
+		}
+	else
+		if (dos("psymake /f"+makefile+" debug >&"+errfile) > 0)
+			{
+			add_error_file(errfile);
+			next_error();
+			}
+}
+
+//===================================================================
+// Build the program
+
+make_prog()
+{
+	string errfile;
+
+	errfile = get_errfile();
+	delete_error_file(errfile, TRUE);
+	writeall();
+//	del_errfiles();
+	if (dos("psymake /f"+makefile+" assemble >&"+errfile) > 0)
+		{
+		add_error_file(errfile);
+		next_error();
+		}
+	else
+		message("Compilation successful.");
+}
+
+//===================================================================
+// Enter the debugger
+
+debug_prog()
+{
+	string errfile;
+
+	errfile = get_errfile();
+	delete_error_file(errfile, TRUE);
+	writeall();
+//	del_errfiles();
+	if (dos("psymake /f"+makefile+" debug >&"+errfile) > 0)
+		{
+		add_error_file(errfile);
+		next_error();
+		}
+}
+
+//===================================================================
+// replacement functions for those in errorfix.cb to allow numerics
+// in file name extensions
+
+#define	WARNING	  1
+
+string add_to_path (string path, string file_name);
+
+/*
+**		_next_error, _prev_error, _error_info:
+**
+**		These routines are the default routines for locating error
+**	information.  They can be enhanced with file extension specific
+**	error location functions that are written for a specific compiler.
+**
+**		The _next_error and _prev_error macros move the cursor to the
+**	next and previous error message, respectively.	They return TRUE
+**	if another error message is found, and FALSE otherwise.
+**
+**		_error_info takes a given line in the error buffer (located by
+**	the _next and _previous error routines) and returns the information
+**	needed by BRIEF to locate the error message.  It returns 0 if there
+**	is no error message, 1 if the error is a warning, and 2 if it's an
+**	error.  It also returns the line and column in the file the error
+**	corresponds to, as well as the message that should be displayed at
+**	the bottom of the window.
+*/
+
+/*
+**		_next_error, _prev_error:
+**
+**		Both of these routines are passed the extension of the file that
+**	has been compiled and the full file name.  Although the generic
+**	routines don't make use of this information, extension-specific
+**	routines could.
+*/
+
+replacement int _next_error (~string)
+{
+	returns (search_fwd ("<*.[a-zA-Z0-9][~ \t\n]@[ \t,(:][ \t]@{line }@\\c[0-9]", 1, 0));
+}
+
+replacement int _prev_error (~string)
+{
+	returns (search_back ("<*.[a-zA-Z0-9][~ \t\n]@[ \t,(:][ \t]@{line }@\\c[0-9]", 1, 0));
+}
+
+/*
+**		_error_info:
+**
+**		This routine parses a given error line and returns information
+**	about it.  It is passed the following parameters:
+**
+**		Parameter				Description
+**		---------				-----------
+**			0						The name of the file the error was in.
+**
+**		The following are write-only parameters passed back to the calling
+**	function:
+**
+**		Parameter				Description
+**		---------				-----------
+**			1						The line of the file the error was on.
+**			2						The column of the file the error was on.
+**									If 0 is passed back, the first non-blank
+**									character is assumed.
+**			3						The actual error message, minus any useless
+**									information.
+**
+**		Finally, this last parameter is the buffer identifier of the source
+**	buffer.
+**
+**		Parameter				Description
+**		---------				-----------
+**			4						The full file name of the file the errors are
+**									in.  This macro may reset this name if the
+**									errors are found in a different buffer.
+**
+**			5						The file that "owns" the errors -- could be
+**									different than parameter 4 if we're in an
+**									include file, and the error file is owned
+**									by a source file.
+**
+**		_error_info returns an integer corresponding to the level of the
+**	error encountered.
+**
+**		Error Code				Meaning
+**		----------				-------
+**			0						No error
+**			1						Warning error in source file
+**			-1 					Warning error in another file
+**			2						"Normal" error in source file
+**			-2 					"Normal" error in another file
+**			3						Actual line (not original) error in source file.
+**			-3						Actual line (not original) error in another file.
+**			4						Actual line (not original) warning in source file.
+**			-4						Actual line (not original) warning in another file.
+**
+**		This information is used by the next_error driver to determine
+**	how to display the message.
+*/
+
+replacement int _error_info (string error_file, int, int, string, string file_name, string base_name)
+{
+	int	length,
+			position,
+			error_level,
+			error_line;
+
+	string	error_text;
+
+	if (!(error_line = atoi (read (10))))
+		if (read (1) == "0")
+			error_line = 1;
+		else
+			return (FALSE);
+
+	save_position ();
+	beginning_of_line ();
+	error_text = trim (ltrim (read ()));
+	restore_position ();
+
+	error_level = WARNING + !index (lower (error_text), "warning");
+
+	/*
+	**		If the error file name isn't found in the error text, we have to do
+	**	more work...
+	*/
+
+	if (!index (lower (error_text), lower (error_file)))
+		{
+		position = search_string ("<*\\c[~ \t\"()'`]+.[a-zA-Z0-9][~ \t\n\"()'`]@[ \t,\"()'`:]", error_text, length);
+		error_file = substr (error_text, position, length - 1);
+
+		if (!index ("/\\", substr (error_file, 1, 1)) && substr (error_file, 2, 1) != ":")
+			file_name = add_to_path (substr (base_name, 1, rindex (base_name, substr (base_name, 3, 1)) - 1), error_file);
+		else
+			file_name = error_file;
+
+		error_level *= -1;
+		}
+	error_text = trim (ltrim (read ()));
+	error_text = substr (error_text, search_string ("['`\"a-zA-Z]", error_text));
+
+	put_parm (1, error_line);
+	put_parm (2, 0);
+	put_parm (3, error_text);
+	put_parm (4, file_name);
+	returns (error_level);
+}
+
+

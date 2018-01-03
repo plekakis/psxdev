@@ -1,0 +1,73 @@
+
+===========
+DATE:
+04/02/98
+
+
+===========
+FILE:
+demodisc.zip
+
+
+==========
+SIZE:
+202 KBytes
+
+
+======================
+CONTENTS OVERVIEW:
+
+This file contains the source code hook for use in the Demo Sampler 
+CD used by the European developers. It was updated to work
+with Library 4.0, although the bootstrap code should work
+with any version of libcd. Please contact SCEE's developer
+support (dev_support@interactive.sony.com) 
+for more information. Developers who need 
+to create code for the North American Demo Sampler CD
+should continue to use the code in \PSX\SAMPLE\SCEA\SAMPLER,
+which is a derivative of SCEE's work and is 
+maintained by LifeLike.
+
+
+==================
+INSTRUCTIONS:
+Use PkUnzip or WinZip to extract the contents of this file to
+a suitable directory. Read the "readme.txt" that appears in the 
+root directory.  Each of the other directories also has
+a "readme.txt" that you should read.
+
+===================
+CONTENTS IN DETAIL:
+
+This code was written by SCEE's Allan J Murphy, Paul Holman, Vince Diesi, 
+Richard Milner, and David Virapen, among others.
+It contains the following directories.
+
+bs:             Bootstrap program source, and a readme. 
+                This boots the machine, and will load and run your program 
+                under the conditions it will have on the demo disk.
+
+docs:		Contains an MS Word and Text version of the document
+		describing how the playable game segments should be
+		constructed.
+
+none2:          This directory contains a reworking of the SCEI none2.obj,
+                which is a replacement for libsn.lib, allowing your program
+                to return to the calling program (ie bs.exe) properly.
+                This version includes the libsn variables __heapbase et al.
+
+setsp:          This directory contains 2 PC utilities for working with
+                PlayStation .EXE files - dumpexe, which dumps the information
+                from the XF_HDR info at the start of an EXE file, and setsp,
+                which can be used to set the correct stack pointer in a
+                PlayStation .EXE file (as the cpe2x converter does not, and
+                the demo disk needs to know where the stack goes).
+
+example:        This directory has an example program which runs under bs.exe,
+                and shows how to retrieve arguments from the parent, and set
+                up and close down the various subsystems without breaking
+                anything.
+
+
+====================================================================
+Copyright (C) 1998.  Sony Computer Entertainment America Inc.

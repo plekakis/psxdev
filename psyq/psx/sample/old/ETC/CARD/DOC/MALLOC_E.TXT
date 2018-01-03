@@ -1,0 +1,24 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+------------------------------------------------------------------------------
+  Memory Allocation                         Revision 1.1
+
+  File       : MALLOC_E.TXT
+  Date       : 95.10.17
+  Written By : Keiso Shimakawa
+------------------------------------------------------------------------------
+
+The following functions have been added to the SUPER-X Library and TURTLE Graphics Library.
+
+[Format]     int   malloc_superx()
+[Synopsis]   Allocates memory for use by the SUPER-X Library.
+	     Returns 0 on success, -1 on failure.
+
+[Format]     void  free_superx()
+[Synopsis]   Frees an allocated area of memory for the SUPER-X Library.
+
+[Format]     int   malloc_turtle()
+[Synopsis]   Allocates memory for use by the TURTLE Graphics Library.
+	     Returns 0 on success, -1 on failure.
+
+[Format]     void  free_turtle()
+[Synopsis]   Frees an allocated area of memory for the TURTLE Graphics Library.

@@ -1,0 +1,266 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect / 4;
+	4;	/* num of blocks */
+	0x00000000;	/* no pre-process */
+	PolyPrimSet_pyramid / 4;
+	PolyPrimSet_cube / 4;
+	ShredPolyPrimSet / 4;	/* post-process */
+
+CoordSect:
+	2;	/* num of coords */
+
+Coord_0000:
+	0x00000000;	/* flg */
+	MATRIX(	/* matrix */
+		 4096,     0,     0,
+		    0,  4096,     0,
+		    0,     0,  4096,
+		    0,  -100,     0);
+	MATRIX(	/* workm */
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0);
+	SVECTOR(    0,     0,     0);	/* rot */
+	0;	/* super */
+
+Coord_0001:
+	0x00000000;	/* flg */
+	MATRIX(	/* matrix */
+		 2896,     0,  2896,
+		    0,  4096,     0,
+		-2896,     0,  2896,
+		    0,   150,     0);
+	MATRIX(	/* workm */
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0,
+		    0,     0,     0);
+	SVECTOR(    0,   512,     0);	/* rot */
+	Coord_0000 / 4;	/* super */
+
+PrimHdrSect:
+	2;	/* num prim hdrs */
+
+PolyPrimHdr_0000:
+	4;	/* hdr size */
+	M(PolySect / 4);
+	M(VertSect / 4);
+	M(NormSect / 4);
+	M(CoordSect / 4);
+
+SharedPrimHdr:
+	5;	/* hdr size */
+	M(SharedPolySect / 4);
+	M(SharedVertSect / 4);
+	M(CalcedVertSect / 4);
+	M(SharedNormSect / 4);
+	M(CalcedNormSect / 4);
+
+PolyPrimSet_pyramid:
+	SharedPrimSet_pyramid / 4;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(2);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(INI)|PRIM_TYPE(TRI);
+	H(2); M(H(4));	/* size, data */
+	(Poly_pyramid_F3 - PolySect) / 4;
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD);
+	H(2); M(H(1));	/* size, data */
+	(Poly_pyramid_F4 - PolySect) / 4;
+
+SharedPrimSet_pyramid:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+	
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	4;		/* num of shared vertices */
+	(VertSect_pyramid - SharedVertSect) / 8;	/* src */
+	(CalcedVert_pyramid - CalcedVertSect) / 8;	/* dst */
+	4;		/* num of shared normal vectors */
+	(NormSect_pyramid - SharedNormSect) / 8;	/* src */
+	(CalcedNorm_pyramid - CalcedNormSect) / 8;	/* dst */
+
+PolyPrimSet_cube:
+	SharedPrimSet_cube / 4;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD);
+	H(2); M(H(6));	/* size, data */
+	(Poly_cube_F4 - PolySect) / 4;
+
+SharedPrimSet_cube:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+	
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	4;		/* num of shared vertices */
+	(VertSect_cube - SharedVertSect) / 8;		/* src */
+	(CalcedVert_cube - CalcedVertSect) / 8;	/* dst */
+	4;		/* num of shared normal vectors */
+	(NormSect_cube - SharedNormSect) / 8;		/* src */
+	(CalcedNorm_cube - CalcedNormSect) / 8;		/* dst */
+
+ShredPolyPrimSet:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(STP)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(4));	/* size, data */
+	(SharedPolySect - SharedPolySect) / 8;
+
+PolySect:
+
+Poly_pyramid_F3:
+	/* Flat Triangle */
+	B(0); B(0); B(255); B(0x20);    /* R, G, B, code */
+	H(3); H(0);     /* norm0, vert0 */
+	H(5); H(6);     /* vert1, vert2 */
+	B(0); B(255); B(0); B(0x20);    /* R, G, B, code */
+	H(4); H(0);     /* norm0, vert0 */
+	H(6); H(7);     /* vert1, vert2 */
+	B(0); B(255); B(255); B(0x20);    /* R, G, B, code */
+	H(5); H(0);     /* norm0, vert0 */
+	H(7); H(8);     /* vert1, vert2 */
+	B(255); B(0); B(0); B(0x20);    /* R, G, B, code */
+	H(6); H(0);     /* norm0, vert0 */
+	H(8); H(5);     /* vert1, vert2 */
+
+Poly_pyramid_F4:
+	/* Flat Quadrangle */
+	B(255); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(0); H(5);     /* norm0, vert0 */
+	H(8); H(6);     /* vert1, vert2 */
+	H(7); H(0);     /* vert3,   - */
+
+Poly_cube_F4:
+	/* Flat Quadrangle */
+	B(0); B(0); B(255); B(0x28);    /* R, G, B, code */
+	H(9); H(9);	/* norm0, vert0 */
+	H(11); H(1);	/* vert1, vert2 */
+	H(3); H(0);	/* vert3,   - */
+	B(0); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(10); H(10);	/* norm0, vert0 */
+	H(9); H(2);	/* vert1, vert2 */
+	H(1); H(0);	/* vert3,   - */
+	B(0); B(255); B(255); B(0x28);    /* R, G, B, code */
+	H(7); H(12);	/* norm0, vert0 */
+	H(10); H(4);	/* vert1, vert2 */
+	H(2); H(0);	/* vert3,   - */
+	B(255); B(0); B(0); B(0x28);    /* R, G, B, code */
+	H(8); H(11);	/* norm0, vert0 */
+	H(12); H(3);	/* vert1, vert2 */
+	H(4); H(0);	/* vert3,   - */
+	B(255); B(0); B(255); B(0x28);    /* R, G, B, code */
+	H(1); H(1);	/* norm0, vert0 */
+	H(3); H(2);	/* vert1, vert2 */
+	H(4); H(0);	/* vert3,   - */
+	B(255); B(255); B(0); B(0x28);    /* R, G, B, code */
+	H(2); H(10);	/* norm0, vert0 */
+	H(12); H(9);	/* vert1, vert2 */
+	H(11); H(0);	/* vert3,   - */
+
+SharedPolySect:
+	/* Gouraud Quadrangle */
+	B(0); B(0); B(255); B(0x38);    /* R, G, B, code */
+	H(0); H(1);	/* norm0, vert0 */
+	H(0); H(0);	/* norm1, vert1 */
+	H(6); H(4);	/* norm2, vert2 */
+	H(6); H(6);	/* norm3, vert3 */
+	B(0); B(255); B(0); B(0x38);    /* R, G, B, code */
+	H(1); H(2);	/* norm0, vert0 */
+	H(1); H(1);	/* norm1, vert1 */
+	H(7); H(5);	/* norm2, vert2 */
+	H(7); H(4);	/* norm3, vert3 */
+	B(0); B(255); B(255); B(0x38);    /* R, G, B, code */
+	H(2); H(3);	/* norm0, vert0 */
+	H(2); H(2);	/* norm1, vert1 */
+	H(4); H(7);	/* norm2, vert2 */
+	H(4); H(5);	/* norm3, vert3 */
+	B(255); B(0); B(0); B(0x38);    /* R, G, B, code */
+	H(3); H(0);	/* norm0, vert0 */
+	H(3); H(3);	/* norm1, vert1 */
+	H(5); H(6);	/* norm2, vert2 */
+	H(5); H(7);	/* norm3, vert3 */
+
+VertSect:
+	SVECTOR(    0,  -100,     0);	/* vert[0] */
+	SVECTOR( -150,   150,  -150);	/* vert[1] */
+	SVECTOR( -150,   150,   150);	/* vert[2] */
+	SVECTOR(  150,   150,  -150);	/* vert[3] */
+	SVECTOR(  150,   150,   150);	/* vert[4] */
+
+SharedVertSect:
+
+VertSect_pyramid:
+	/* bottom of the pyramid */
+	SVECTOR(  150,     0,  -150);	/* vert[5] */
+	SVECTOR( -150,     0,  -150);	/* vert[6] */
+	SVECTOR( -150,     0,   150);	/* vert[7] */
+	SVECTOR(  150,     0,   150);	/* vert[8] */
+
+VertSect_cube:
+	/* top of the cube */
+	SVECTOR( -150,     0,  -150);	/* vert[9] */
+	SVECTOR( -150,     0,   150);	/* vert[10] */
+	SVECTOR(  150,     0,  -150);	/* vert[11] */
+	SVECTOR(  150,     0,   150);	/* vert[12] */
+
+CalcedVertSect:
+
+CalcedVert_pyramid:
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+
+CalcedVert_cube:
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+
+NormSect:
+	SVECTOR(    0,  4096,     0);	/* norm[0] */
+	SVECTOR(    0,  4096,     0);	/* norm[1] */
+	SVECTOR(    0, -4096,     0);	/* norm[2] */
+
+SharedNormSect:
+
+NormSect_pyramid:
+	/* side of the pyramid */
+	SVECTOR(    0, -2896, -2896);	/* norm[3] */
+	SVECTOR(-2896, -2896,     0);	/* norm[4] */
+	SVECTOR(    0, -2896,  2896);	/* norm[5] */
+	SVECTOR( 2896, -2896,     0);	/* norm[6] */
+
+NormSect_cube:
+	/* side of the cube */
+	SVECTOR(    0,     0,  4096);	/* norm[7] */
+	SVECTOR( 4096,     0,     0);	/* norm[8] */
+	SVECTOR(    0,     0, -4096);	/* norm[9] */
+	SVECTOR(-4096,     0,     0);	/* norm[10] */
+
+CalcedNormSect:
+
+CalcedNorm_pyramid:
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+
+CalcedNorm_cube:
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */

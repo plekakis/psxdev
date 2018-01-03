@@ -1,0 +1,240 @@
+========
+FILE:
+Lib43_cw.ZIP
+
+=========
+DATE:
+June 22, 1998
+
+===================
+CONTENTS OVERVIEW:
+
+This file  contains library 4.3 headers and files
+for CodeWarriors working under Windows 95 
+Refer to the "Contents in Detail"
+below for more information about changes
+from Library 4.2.  
+
+===============
+INSTRUCTIONS:
+
+Use PKUNZIP or WinZip to extract the contents
+to the appropriate directories according 
+to your CodeWarrior documentation.
+
+
+=====================
+CONTENTS IN DETAIL:
+
+Read the following release note for more information
+about this library. Please note that some of the 
+documentation referred to below  is in the translation
+queue.
+
+
+[------------------------------------------------------------]
+
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$
+                                                            June 1998
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.3
+
+                        Library Changes, New Additions, and Known Bugs 
+                                                       from Release 4.2   
+=====================================================================
+
+Copyright (C) 1994 - 1998 Sony Computer Entertainment Inc.
+                                      All Rights Reserved.
+
+PlayStation and PlayStation logos are trademarks of Sony Computer
+Entertainment Inc.  Metrowerks, the Metrowerks logo, CodeWarrior, 
+and Software at Work are registered trademarks of Metrowerks Inc
+All other trademarks are property of their respective owners and/or 
+their licensors.         
+
+
+=======================================================================
+
+Known Bugs and Cautions
+---------------------------------------------------------------------------
+         -libpad.lib(controller library) has been added to support the 
+          Analog Controller(DUAL SHOCK). libpad.lib not only supports
+          the Analog Controller(DUAL SHOCK), but also supports all
+          other controllers including GUNCON and Multi tap. In order to 
+          use the functions of the Analog Controller(DUAL SHOCK) it is 
+          necessary to have libpad.lib. Therefore, for future controller 
+          control we recommend libpad.lib. Please note that libpad.lib 
+          cannot be used together with the current libgun.lib, 
+          libtap.lib and libpad.lib.
+          Furthermore, in libapi.lib, the SendPad() function has been 
+          deleted. Therefore, in order to use the vibration feature of 
+          the Analog Controller(SCPH-1180), libpad.lib will be needed.
+          Please note that it is necessary to use the latest version for 
+          libapi.lib, libapi.h, libpad.lib and libpad.h.  
+          
+          Please refer to Runtime Library Overview and Reference manuals
+          for details.
+
+        - Regarding polygon non-active/active sub-division, the HMD 
+          primitive driver function for libgs has restrictions. 
+          For the (maximum)number of sub-divisions, do not set a number
+          which is not defined in GsUNIT_DIV1 - 5 of libgs.h or 
+          DIV2x2 - DIV32x32 of hmd.def.
+          Please especially note that the number "0" will not work.
+         
+
+        - bsearch function in the C Standard Library(libc/c2) does not
+          work correctly.  This malfunction is planned to be fixed in
+          the next release. 
+
+All product and company names mentioned herein may be the trademarks of 
+their respective owners.  
+
+
+
+Kernel Library(libapi)
+---------------------------------------------------------------------------
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -When standard input/output functions such as firstfile function,
+          open, read are executed on different devices, for some orders 
+          and combinations of executions, standard input/output functions 
+          such as open and read did not work properly. This malfunction
+          has been corrected.
+                  
+         -When executing free3() after changing the size of an area 
+          allocated in malloc3() using realloc3(), the area was not 
+          completely freed. This malfunction has been corrected.
+          
+Functions Deleted
+~~~~~~~~~~~~~~~~~
+         -Following the new addition of libpad.lib, SendPad()
+          has been deleted. 
+
+
+
+C Standard Library(libc/c2)
+---------------------------------------------------------------------------
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -When memset() was used, there was a warning while compiling the 
+          software. This malfunction has been corrected by commenting out
+          the memset() argument within memory.h.
+
+
+
+Link Cable Library(libcomb)
+---------------------------------------------------------------------------
+##Functions Added and Header File Modified
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         -For all features currently implemented using the _comb_control 
+          functions, highly readable macro functions have been defined 
+          and added to libcomb.h.
+          Please refer to function references for details.
+
+
+        
+Extended CD-ROM Library(libds)
+---------------------------------------------------------------------------
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -After issuing primitive commands DslPlay,DslReadN, DslReadS, 
+          some parts of the internal status were not initialized even after
+          calling DsFlush(). This malfunction has been corrected.
+        
+
+
+Basic Graphic Library (libgpu)
+---------------------------------------------------------------------------
+##Functions(macro) Added
+~~~~~~~~~~~~~~~~~~~~~~~~
+         -Macronized SetTexWindow(), setTexWindow() has been added to 
+          libgpu.h.  
+
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -Up till now, functions such as AddPrim,SetPolyF3 have been linked
+          as one object. These functions have been separated into individual
+          objects as to avoid unnecessary links.
+
+         -The malfunction of GPU timeout occurring when using setLineG3/G4
+          has been corrected. 
+
+         -The malfunction of GPU timeout occurring when executing 
+          BreakDraw()/ContinueDraw() has been corrected. 
+          
+         -The library has been modified so that the standard display area
+          (position on the actual display)set in libgpu is to be displayed
+          in the center of the screen of a regular TV set. 
+
+
+
+Extended Graphics Library (libgs)
+---------------------------------------------------------------------------
+##Functions Added
+~~~~~~~~~~~~~~~~~~
+         -Translucent primitive driver with no light calculation for HMD 
+          has been added. 
+
+         -Dual-side primitive driver for HMD has been added. 
+
+         -Pseudo environment map primitive driver Beta version has been added. 
+
+        Please refer toÅuAppendix A: Primitive Type ListÅvin hmd.doc for
+        details of the new functions added.               
+
+
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~~      
+
+          -The malfunction that address errors occur when using the following 
+           GsSortObject5(J) low level functions has been corrected. 
+
+          GsPrstF3GL(), GsPrstF3GLFG(), GsPrstF3GNL(),
+          GsPrstG3GL(), GsPrstG3GLFG(), GsPrstG3GNL()
+
+          -In HMD animation, when switching SID the current sequence ID 
+           did not transist. This malfunction has been corrected. 
+
+
+
+Basic Geometry Library(libgte)
+---------------------------------------------------------------------------
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -The malfunction that the return value for ApplyRotMatrix() 
+          returned an incorrect value has been corrected. 
+
+
+
+Memory Card Easy Access Library(libmcrd)
+---------------------------------------------------------------------------
+##Library Specification Changed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+           -For the functions MemCardExist, MemCardAccept, MemCardReadData, 
+            MemCardWriteData, MemCardReadFile, and MemCardWriteFile, the
+            retry process after communication errors has been improved.
+
+
+
+Extended Sound Library(libsnd)
+---------------------------------------------------------------------------
+##Functions Added
+~~~~~~~~~~~~~~~~~
+         -The following functions have been added:
+
+          SsSeqPlayPtoP()       Play a specific section for SEP/SEQ 
+
+          SsSeqSkip()           Increase the play pointer for SEP/SEQ
+
+          SsSetCurrentPoint()   Set data address retrieved from
+                                SsGetCurrentPoint() for SEP/SEQ 
+
+
+##Library Bug Fix
+~~~~~~~~~~~~~~~~~
+         -When a callback function is set by NRPN in a SEQ with a 
+          infinite loop and the value given to that callback function
+          is over 19, at some point the system hung up.
+          This malfunction has been corrected. 

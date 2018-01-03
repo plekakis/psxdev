@@ -1,0 +1,5 @@
+@RSD940102
+PLY=bspline.ply
+MAT=bspline.mat
+#GRP=bspline.grp
+NTEX=0

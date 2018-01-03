@@ -11,3 +11,5 @@
 /source/alkis.c
 *.user
 PsxSandbox/Debug/
+psyq/SCEE_DEV_CD/
+*.map

@@ -1,0 +1,34 @@
+
+	org	$80040000
+
+text	group				; main text group
+bss	group	bss			; main data group
+l1	group	file("l1.bin")		; loadable level group
+l2	group	over(l1),file("l2.bin")	; the levels groups
+l3	group	over(l1),file("l3.bin")	; all overlay each other
+
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include	main.obj
+	include	address.obj
+
+	include	level1.obj
+	include	level2.obj
+	include	level3.obj
+
+	inclib	"c:\gnumips\lib\libc.lib"	; all library code will go into main code
+	inclib	"c:\gnumips\lib\libc2.lib"
+	inclib	"c:\gnumips\lib\libgs.lib"
+	inclib	"c:\gnumips\lib\libgte.lib"
+	inclib	"c:\gnumips\lib\libgpu.lib"
+	inclib	"c:\gnumips\lib\libetc.lib"
+	inclib	"c:\gnumips\lib\libapi.lib"
+	inclib	"c:\gnumips\lib\libsn.lib"
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

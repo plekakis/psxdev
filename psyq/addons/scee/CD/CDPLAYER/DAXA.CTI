@@ -1,0 +1,80 @@
+Disc XA_PSX     ;disk format
+
+  LeadIn XA             ;lead in track, track 0
+    Empty       1000    ;defines lead in size min (150)
+    PostGap     150     ;required gap at end of lead in
+  EndTrack              ; end of lead in track
+
+
+
+  Track XA                      ;start of XA (data) track
+
+    Pause      150              ;required pause in first track after lead in
+
+    Volume          ISO9660     ;define ISO 9660 volume
+    PrimaryVolume               ;start point of primary volume
+
+
+    SystemIdentifier        "PLAYSTATION"       ;required indetifier
+    VolumeIdentifier        "TEST"           ; app specific identifiers
+    VolumeSetIdentifier     "TEST"
+    PublisherIdentifier     "SCEE"
+    DataPreparerIdentifier  "TEST"
+    ApplicationIdentifier   "TEST"
+
+    Lpath               ; Path tables as specified for PlayStation
+    OptionalLpath
+    Mpath
+    OptionalMpath
+
+    Hierarchy           ;start point of root directory definition
+	 
+ 	  File  TEST.DAT;1
+ 	   XAFileAttributes  Form1 data
+ 	   Source  c:\autoexec.bat
+ 	  EndFile
+
+ 	  
+ 	  EndHierarchy        ;ends root directory definition
+	  
+    EndPrimaryVolume    ;ends primary volume definition
+	  
+ 	      EndVolume           ;ends ISO 9660 definition
+ 	  
+	      PostGap  150        ;required to change track type
+
+   	    EndTrack              ;ends track definition
+
+; end of the xa track 
+
+
+  Track AUDIO
+    Pause  150
+    Source  t:\dave\jungle1.raw
+  EndTrack
+
+  Track AUDIO
+    Pause  150
+    Source  t:\dave\perdu.raw
+  EndTrack
+
+  Track AUDIO
+    Pause  150
+    Source  t:\dave\rap.raw
+  EndTrack
+
+  Track AUDIO
+    Pause  150
+    Source t:\dave\suspenc.raw
+  EndTrack
+
+
+; note that the leadout track must be the same type as the last track
+
+  LeadOut  AUDIO
+   Empty  150
+  EndTrack
+ 	
+          EndDisc
+
+

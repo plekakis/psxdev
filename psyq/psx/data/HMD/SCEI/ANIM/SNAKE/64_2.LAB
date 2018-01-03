@@ -1,0 +1,2542 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect / 4;
+	27;	/* num of blocks */
+	AnimPrimSet / 4;	/* pre-process */
+	0;	/* null coordinate */
+	SharedPrimSet_0000 / 4;
+	SharedPrimSet_0001 / 4;
+	SharedPrimSet_0002 / 4;
+	SharedPrimSet_0003 / 4;
+	SharedPrimSet_0004 / 4;
+	SharedPrimSet_0005 / 4;
+	SharedPrimSet_0006 / 4;
+	SharedPrimSet_0007 / 4;
+	SharedPrimSet_0008 / 4;
+	SharedPrimSet_0009 / 4;
+	SharedPrimSet_0010 / 4;
+	SharedPrimSet_0011 / 4;
+	SharedPrimSet_0012 / 4;
+	SharedPrimSet_0013 / 4;
+	SharedPrimSet_0014 / 4;
+	SharedPrimSet_0015 / 4;
+	SharedPrimSet_0016 / 4;
+	SharedPrimSet_0017 / 4;
+	SharedPrimSet_0018 / 4;
+	SharedPrimSet_0019 / 4;
+	SharedPrimSet_0020 / 4;
+	SharedPrimSet_0021 / 4;
+	SharedPrimSet_0022 / 4;
+	SharedPrimSet_0023 / 4;
+	SharedPolyPrimSet / 4;
+
+CoordSect:
+	25;	/* num of coords */
+
+Coord_root:
+	0x00000000;	/* flg */
+	COORDM(0, 1024, 0,	/* rot */
+		0, 0, 0);	/* trans */
+	0;	/* super */
+
+Coord_0000:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_0001:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0000 / 4;	/* super */
+
+Coord_0002:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0001 / 4;	/* super */
+
+Coord_0003:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0002 / 4;	/* super */
+
+Coord_0004:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0003 / 4;	/* super */
+
+Coord_0005:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0004 / 4;	/* super */
+
+Coord_0006:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0005 / 4;	/* super */
+
+Coord_0007:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0006 / 4;	/* super */
+
+Coord_0008:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0007 / 4;	/* super */
+
+Coord_0009:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0008 / 4;	/* super */
+
+Coord_0010:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0009 / 4;	/* super */
+
+Coord_0011:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0010 / 4;	/* super */
+
+Coord_0012:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0011 / 4;	/* super */
+
+Coord_0013:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0012 / 4;	/* super */
+
+Coord_0014:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0013 / 4;	/* super */
+
+Coord_0015:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0014 / 4;	/* super */
+
+Coord_0016:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0015 / 4;	/* super */
+
+Coord_0017:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0016 / 4;	/* super */
+
+Coord_0018:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0017 / 4;	/* super */
+
+Coord_0019:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0018 / 4;	/* super */
+
+Coord_0020:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0019 / 4;	/* super */
+
+Coord_0021:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0020 / 4;	/* super */
+
+Coord_0022:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0021 / 4;	/* super */
+
+Coord_0023:
+	0x00000000;	/* flg */
+	COORDM(0, 0, 0,	/* rot */
+		0, 0, 100);	/* trans */
+	Coord_0022 / 4;	/* super */
+
+PrimHdrSect:
+	2;	/* num prim hdrs */
+
+SharedPrimHdr:
+	6;	/* hdr size */
+	M(SharedPoly / 4);
+	M(SharedVert / 4);
+	M(CalcedVert / 4);
+	M(SharedNorm / 4);
+	M(CalcedNorm / 4);
+	M(CoordSect / 4);
+
+AnimPrimHdr:
+	5;	/* hdr size */
+	5;	/* anim hdr size */
+	M(InterpFuncSect / 4);
+	M(CtrlSect / 4);
+	M(ParamSect / 4);
+	M(CoordSect / 4);
+
+SharedPrimSet_0000:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(INI)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	0;	/* src */
+	0;	/* dst */
+	6;	/* num of shared normal vectors */
+	0;	/* src */
+	0;	/* dst */
+
+SharedPrimSet_0001:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	6;	/* src */
+	6;	/* dst */
+	6;	/* num of shared normal vectors */
+	6;	/* src */
+	6;	/* dst */
+
+SharedPrimSet_0002:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	12;	/* src */
+	12;	/* dst */
+	6;	/* num of shared normal vectors */
+	12;	/* src */
+	12;	/* dst */
+
+SharedPrimSet_0003:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	18;	/* src */
+	18;	/* dst */
+	6;	/* num of shared normal vectors */
+	18;	/* src */
+	18;	/* dst */
+
+SharedPrimSet_0004:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	24;	/* src */
+	24;	/* dst */
+	6;	/* num of shared normal vectors */
+	24;	/* src */
+	24;	/* dst */
+
+SharedPrimSet_0005:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	30;	/* src */
+	30;	/* dst */
+	6;	/* num of shared normal vectors */
+	30;	/* src */
+	30;	/* dst */
+
+SharedPrimSet_0006:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	36;	/* src */
+	36;	/* dst */
+	6;	/* num of shared normal vectors */
+	36;	/* src */
+	36;	/* dst */
+
+SharedPrimSet_0007:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	42;	/* src */
+	42;	/* dst */
+	6;	/* num of shared normal vectors */
+	42;	/* src */
+	42;	/* dst */
+
+SharedPrimSet_0008:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	48;	/* src */
+	48;	/* dst */
+	6;	/* num of shared normal vectors */
+	48;	/* src */
+	48;	/* dst */
+
+SharedPrimSet_0009:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	54;	/* src */
+	54;	/* dst */
+	6;	/* num of shared normal vectors */
+	54;	/* src */
+	54;	/* dst */
+
+SharedPrimSet_0010:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	60;	/* src */
+	60;	/* dst */
+	6;	/* num of shared normal vectors */
+	60;	/* src */
+	60;	/* dst */
+
+SharedPrimSet_0011:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	66;	/* src */
+	66;	/* dst */
+	6;	/* num of shared normal vectors */
+	66;	/* src */
+	66;	/* dst */
+
+SharedPrimSet_0012:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	72;	/* src */
+	72;	/* dst */
+	6;	/* num of shared normal vectors */
+	72;	/* src */
+	72;	/* dst */
+
+SharedPrimSet_0013:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	78;	/* src */
+	78;	/* dst */
+	6;	/* num of shared normal vectors */
+	78;	/* src */
+	78;	/* dst */
+
+SharedPrimSet_0014:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	84;	/* src */
+	84;	/* dst */
+	6;	/* num of shared normal vectors */
+	84;	/* src */
+	84;	/* dst */
+
+SharedPrimSet_0015:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	90;	/* src */
+	90;	/* dst */
+	6;	/* num of shared normal vectors */
+	90;	/* src */
+	90;	/* dst */
+
+SharedPrimSet_0016:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	96;	/* src */
+	96;	/* dst */
+	6;	/* num of shared normal vectors */
+	96;	/* src */
+	96;	/* dst */
+
+SharedPrimSet_0017:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	102;	/* src */
+	102;	/* dst */
+	6;	/* num of shared normal vectors */
+	102;	/* src */
+	102;	/* dst */
+
+SharedPrimSet_0018:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	108;	/* src */
+	108;	/* dst */
+	6;	/* num of shared normal vectors */
+	108;	/* src */
+	108;	/* dst */
+
+SharedPrimSet_0019:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	114;	/* src */
+	114;	/* dst */
+	6;	/* num of shared normal vectors */
+	114;	/* src */
+	114;	/* dst */
+
+SharedPrimSet_0020:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	120;	/* src */
+	120;	/* dst */
+	6;	/* num of shared normal vectors */
+	120;	/* src */
+	120;	/* dst */
+
+SharedPrimSet_0021:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	126;	/* src */
+	126;	/* dst */
+	6;	/* num of shared normal vectors */
+	126;	/* src */
+	126;	/* dst */
+
+SharedPrimSet_0022:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	132;	/* src */
+	132;	/* dst */
+	6;	/* num of shared normal vectors */
+	132;	/* src */
+	132;	/* dst */
+
+SharedPrimSet_0023:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	6;	/* num of shared vertices */
+	138;	/* src */
+	138;	/* dst */
+	6;	/* num of shared normal vectors */
+	138;	/* src */
+	138;	/* dst */
+
+SharedPolyPrimSet:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)
+		|PRIM_TYPE(TRI|IIP);
+	H(2); M(H(276));	/* size, data */
+	(SharedPoly - SharedPolySect) / 4;
+
+SharedPolySect:
+
+SharedPoly:
+	/* ring 0 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(0); H(0);	/* vert0, norm0 */
+	H(6); H(6);	/* vert1, norm1 */
+	H(1); H(1);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(1); H(1);	/* vert0, norm0 */
+	H(6); H(6);	/* vert1, norm1 */
+	H(7); H(7);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(1); H(1);	/* vert0, norm0 */
+	H(7); H(7);	/* vert1, norm1 */
+	H(2); H(2);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(2); H(2);	/* vert0, norm0 */
+	H(7); H(7);	/* vert1, norm1 */
+	H(8); H(8);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(2); H(2);	/* vert0, norm0 */
+	H(8); H(8);	/* vert1, norm1 */
+	H(3); H(3);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(3); H(3);	/* vert0, norm0 */
+	H(8); H(8);	/* vert1, norm1 */
+	H(9); H(9);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(3); H(3);	/* vert0, norm0 */
+	H(9); H(9);	/* vert1, norm1 */
+	H(4); H(4);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(4); H(4);	/* vert0, norm0 */
+	H(9); H(9);	/* vert1, norm1 */
+	H(10); H(10);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(4); H(4);	/* vert0, norm0 */
+	H(10); H(10);	/* vert1, norm1 */
+	H(5); H(5);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(5); H(5);	/* vert0, norm0 */
+	H(10); H(10);	/* vert1, norm1 */
+	H(11); H(11);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(5); H(5);	/* vert0, norm0 */
+	H(11); H(11);	/* vert1, norm1 */
+	H(0); H(0);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(0); H(0);	/* vert0, norm0 */
+	H(11); H(11);	/* vert1, norm1 */
+	H(6); H(6);	/* vert2, norm2 */
+
+	/* ring 1 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(6); H(6);	/* vert0, norm0 */
+	H(12); H(12);	/* vert1, norm1 */
+	H(7); H(7);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(7); H(7);	/* vert0, norm0 */
+	H(12); H(12);	/* vert1, norm1 */
+	H(13); H(13);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(7); H(7);	/* vert0, norm0 */
+	H(13); H(13);	/* vert1, norm1 */
+	H(8); H(8);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(8); H(8);	/* vert0, norm0 */
+	H(13); H(13);	/* vert1, norm1 */
+	H(14); H(14);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(8); H(8);	/* vert0, norm0 */
+	H(14); H(14);	/* vert1, norm1 */
+	H(9); H(9);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(9); H(9);	/* vert0, norm0 */
+	H(14); H(14);	/* vert1, norm1 */
+	H(15); H(15);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(9); H(9);	/* vert0, norm0 */
+	H(15); H(15);	/* vert1, norm1 */
+	H(10); H(10);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(10); H(10);	/* vert0, norm0 */
+	H(15); H(15);	/* vert1, norm1 */
+	H(16); H(16);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(10); H(10);	/* vert0, norm0 */
+	H(16); H(16);	/* vert1, norm1 */
+	H(11); H(11);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(11); H(11);	/* vert0, norm0 */
+	H(16); H(16);	/* vert1, norm1 */
+	H(17); H(17);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(11); H(11);	/* vert0, norm0 */
+	H(17); H(17);	/* vert1, norm1 */
+	H(6); H(6);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(6); H(6);	/* vert0, norm0 */
+	H(17); H(17);	/* vert1, norm1 */
+	H(12); H(12);	/* vert2, norm2 */
+
+	/* ring 2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(12); H(12);	/* vert0, norm0 */
+	H(18); H(18);	/* vert1, norm1 */
+	H(13); H(13);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(13); H(13);	/* vert0, norm0 */
+	H(18); H(18);	/* vert1, norm1 */
+	H(19); H(19);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(13); H(13);	/* vert0, norm0 */
+	H(19); H(19);	/* vert1, norm1 */
+	H(14); H(14);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(14); H(14);	/* vert0, norm0 */
+	H(19); H(19);	/* vert1, norm1 */
+	H(20); H(20);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(14); H(14);	/* vert0, norm0 */
+	H(20); H(20);	/* vert1, norm1 */
+	H(15); H(15);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(15); H(15);	/* vert0, norm0 */
+	H(20); H(20);	/* vert1, norm1 */
+	H(21); H(21);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(15); H(15);	/* vert0, norm0 */
+	H(21); H(21);	/* vert1, norm1 */
+	H(16); H(16);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(16); H(16);	/* vert0, norm0 */
+	H(21); H(21);	/* vert1, norm1 */
+	H(22); H(22);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(16); H(16);	/* vert0, norm0 */
+	H(22); H(22);	/* vert1, norm1 */
+	H(17); H(17);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(17); H(17);	/* vert0, norm0 */
+	H(22); H(22);	/* vert1, norm1 */
+	H(23); H(23);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(17); H(17);	/* vert0, norm0 */
+	H(23); H(23);	/* vert1, norm1 */
+	H(12); H(12);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(12); H(12);	/* vert0, norm0 */
+	H(23); H(23);	/* vert1, norm1 */
+	H(18); H(18);	/* vert2, norm2 */
+
+	/* ring 3 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(18); H(18);	/* vert0, norm0 */
+	H(24); H(24);	/* vert1, norm1 */
+	H(19); H(19);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(19); H(19);	/* vert0, norm0 */
+	H(24); H(24);	/* vert1, norm1 */
+	H(25); H(25);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(19); H(19);	/* vert0, norm0 */
+	H(25); H(25);	/* vert1, norm1 */
+	H(20); H(20);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(20); H(20);	/* vert0, norm0 */
+	H(25); H(25);	/* vert1, norm1 */
+	H(26); H(26);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(20); H(20);	/* vert0, norm0 */
+	H(26); H(26);	/* vert1, norm1 */
+	H(21); H(21);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(21); H(21);	/* vert0, norm0 */
+	H(26); H(26);	/* vert1, norm1 */
+	H(27); H(27);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(21); H(21);	/* vert0, norm0 */
+	H(27); H(27);	/* vert1, norm1 */
+	H(22); H(22);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(22); H(22);	/* vert0, norm0 */
+	H(27); H(27);	/* vert1, norm1 */
+	H(28); H(28);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(22); H(22);	/* vert0, norm0 */
+	H(28); H(28);	/* vert1, norm1 */
+	H(23); H(23);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(23); H(23);	/* vert0, norm0 */
+	H(28); H(28);	/* vert1, norm1 */
+	H(29); H(29);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(23); H(23);	/* vert0, norm0 */
+	H(29); H(29);	/* vert1, norm1 */
+	H(18); H(18);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(18); H(18);	/* vert0, norm0 */
+	H(29); H(29);	/* vert1, norm1 */
+	H(24); H(24);	/* vert2, norm2 */
+
+	/* ring 4 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(24); H(24);	/* vert0, norm0 */
+	H(30); H(30);	/* vert1, norm1 */
+	H(25); H(25);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(25); H(25);	/* vert0, norm0 */
+	H(30); H(30);	/* vert1, norm1 */
+	H(31); H(31);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(25); H(25);	/* vert0, norm0 */
+	H(31); H(31);	/* vert1, norm1 */
+	H(26); H(26);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(26); H(26);	/* vert0, norm0 */
+	H(31); H(31);	/* vert1, norm1 */
+	H(32); H(32);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(26); H(26);	/* vert0, norm0 */
+	H(32); H(32);	/* vert1, norm1 */
+	H(27); H(27);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(27); H(27);	/* vert0, norm0 */
+	H(32); H(32);	/* vert1, norm1 */
+	H(33); H(33);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(27); H(27);	/* vert0, norm0 */
+	H(33); H(33);	/* vert1, norm1 */
+	H(28); H(28);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(28); H(28);	/* vert0, norm0 */
+	H(33); H(33);	/* vert1, norm1 */
+	H(34); H(34);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(28); H(28);	/* vert0, norm0 */
+	H(34); H(34);	/* vert1, norm1 */
+	H(29); H(29);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(29); H(29);	/* vert0, norm0 */
+	H(34); H(34);	/* vert1, norm1 */
+	H(35); H(35);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(29); H(29);	/* vert0, norm0 */
+	H(35); H(35);	/* vert1, norm1 */
+	H(24); H(24);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(24); H(24);	/* vert0, norm0 */
+	H(35); H(35);	/* vert1, norm1 */
+	H(30); H(30);	/* vert2, norm2 */
+
+	/* ring 5 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(30); H(30);	/* vert0, norm0 */
+	H(36); H(36);	/* vert1, norm1 */
+	H(31); H(31);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(31); H(31);	/* vert0, norm0 */
+	H(36); H(36);	/* vert1, norm1 */
+	H(37); H(37);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(31); H(31);	/* vert0, norm0 */
+	H(37); H(37);	/* vert1, norm1 */
+	H(32); H(32);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(32); H(32);	/* vert0, norm0 */
+	H(37); H(37);	/* vert1, norm1 */
+	H(38); H(38);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(32); H(32);	/* vert0, norm0 */
+	H(38); H(38);	/* vert1, norm1 */
+	H(33); H(33);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(33); H(33);	/* vert0, norm0 */
+	H(38); H(38);	/* vert1, norm1 */
+	H(39); H(39);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(33); H(33);	/* vert0, norm0 */
+	H(39); H(39);	/* vert1, norm1 */
+	H(34); H(34);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(34); H(34);	/* vert0, norm0 */
+	H(39); H(39);	/* vert1, norm1 */
+	H(40); H(40);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(34); H(34);	/* vert0, norm0 */
+	H(40); H(40);	/* vert1, norm1 */
+	H(35); H(35);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(35); H(35);	/* vert0, norm0 */
+	H(40); H(40);	/* vert1, norm1 */
+	H(41); H(41);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(35); H(35);	/* vert0, norm0 */
+	H(41); H(41);	/* vert1, norm1 */
+	H(30); H(30);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(30); H(30);	/* vert0, norm0 */
+	H(41); H(41);	/* vert1, norm1 */
+	H(36); H(36);	/* vert2, norm2 */
+
+	/* ring 6 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(36); H(36);	/* vert0, norm0 */
+	H(42); H(42);	/* vert1, norm1 */
+	H(37); H(37);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(37); H(37);	/* vert0, norm0 */
+	H(42); H(42);	/* vert1, norm1 */
+	H(43); H(43);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(37); H(37);	/* vert0, norm0 */
+	H(43); H(43);	/* vert1, norm1 */
+	H(38); H(38);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(38); H(38);	/* vert0, norm0 */
+	H(43); H(43);	/* vert1, norm1 */
+	H(44); H(44);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(38); H(38);	/* vert0, norm0 */
+	H(44); H(44);	/* vert1, norm1 */
+	H(39); H(39);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(39); H(39);	/* vert0, norm0 */
+	H(44); H(44);	/* vert1, norm1 */
+	H(45); H(45);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(39); H(39);	/* vert0, norm0 */
+	H(45); H(45);	/* vert1, norm1 */
+	H(40); H(40);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(40); H(40);	/* vert0, norm0 */
+	H(45); H(45);	/* vert1, norm1 */
+	H(46); H(46);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(40); H(40);	/* vert0, norm0 */
+	H(46); H(46);	/* vert1, norm1 */
+	H(41); H(41);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(41); H(41);	/* vert0, norm0 */
+	H(46); H(46);	/* vert1, norm1 */
+	H(47); H(47);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(41); H(41);	/* vert0, norm0 */
+	H(47); H(47);	/* vert1, norm1 */
+	H(36); H(36);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(36); H(36);	/* vert0, norm0 */
+	H(47); H(47);	/* vert1, norm1 */
+	H(42); H(42);	/* vert2, norm2 */
+
+	/* ring 7 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(42); H(42);	/* vert0, norm0 */
+	H(48); H(48);	/* vert1, norm1 */
+	H(43); H(43);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(43); H(43);	/* vert0, norm0 */
+	H(48); H(48);	/* vert1, norm1 */
+	H(49); H(49);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(43); H(43);	/* vert0, norm0 */
+	H(49); H(49);	/* vert1, norm1 */
+	H(44); H(44);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(44); H(44);	/* vert0, norm0 */
+	H(49); H(49);	/* vert1, norm1 */
+	H(50); H(50);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(44); H(44);	/* vert0, norm0 */
+	H(50); H(50);	/* vert1, norm1 */
+	H(45); H(45);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(45); H(45);	/* vert0, norm0 */
+	H(50); H(50);	/* vert1, norm1 */
+	H(51); H(51);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(45); H(45);	/* vert0, norm0 */
+	H(51); H(51);	/* vert1, norm1 */
+	H(46); H(46);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(46); H(46);	/* vert0, norm0 */
+	H(51); H(51);	/* vert1, norm1 */
+	H(52); H(52);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(46); H(46);	/* vert0, norm0 */
+	H(52); H(52);	/* vert1, norm1 */
+	H(47); H(47);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(47); H(47);	/* vert0, norm0 */
+	H(52); H(52);	/* vert1, norm1 */
+	H(53); H(53);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(47); H(47);	/* vert0, norm0 */
+	H(53); H(53);	/* vert1, norm1 */
+	H(42); H(42);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(42); H(42);	/* vert0, norm0 */
+	H(53); H(53);	/* vert1, norm1 */
+	H(48); H(48);	/* vert2, norm2 */
+
+	/* ring 8 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(48); H(48);	/* vert0, norm0 */
+	H(54); H(54);	/* vert1, norm1 */
+	H(49); H(49);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(49); H(49);	/* vert0, norm0 */
+	H(54); H(54);	/* vert1, norm1 */
+	H(55); H(55);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(49); H(49);	/* vert0, norm0 */
+	H(55); H(55);	/* vert1, norm1 */
+	H(50); H(50);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(50); H(50);	/* vert0, norm0 */
+	H(55); H(55);	/* vert1, norm1 */
+	H(56); H(56);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(50); H(50);	/* vert0, norm0 */
+	H(56); H(56);	/* vert1, norm1 */
+	H(51); H(51);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(51); H(51);	/* vert0, norm0 */
+	H(56); H(56);	/* vert1, norm1 */
+	H(57); H(57);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(51); H(51);	/* vert0, norm0 */
+	H(57); H(57);	/* vert1, norm1 */
+	H(52); H(52);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(52); H(52);	/* vert0, norm0 */
+	H(57); H(57);	/* vert1, norm1 */
+	H(58); H(58);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(52); H(52);	/* vert0, norm0 */
+	H(58); H(58);	/* vert1, norm1 */
+	H(53); H(53);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(53); H(53);	/* vert0, norm0 */
+	H(58); H(58);	/* vert1, norm1 */
+	H(59); H(59);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(53); H(53);	/* vert0, norm0 */
+	H(59); H(59);	/* vert1, norm1 */
+	H(48); H(48);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(48); H(48);	/* vert0, norm0 */
+	H(59); H(59);	/* vert1, norm1 */
+	H(54); H(54);	/* vert2, norm2 */
+
+	/* ring 9 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(54); H(54);	/* vert0, norm0 */
+	H(60); H(60);	/* vert1, norm1 */
+	H(55); H(55);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(55); H(55);	/* vert0, norm0 */
+	H(60); H(60);	/* vert1, norm1 */
+	H(61); H(61);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(55); H(55);	/* vert0, norm0 */
+	H(61); H(61);	/* vert1, norm1 */
+	H(56); H(56);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(56); H(56);	/* vert0, norm0 */
+	H(61); H(61);	/* vert1, norm1 */
+	H(62); H(62);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(56); H(56);	/* vert0, norm0 */
+	H(62); H(62);	/* vert1, norm1 */
+	H(57); H(57);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(57); H(57);	/* vert0, norm0 */
+	H(62); H(62);	/* vert1, norm1 */
+	H(63); H(63);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(57); H(57);	/* vert0, norm0 */
+	H(63); H(63);	/* vert1, norm1 */
+	H(58); H(58);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(58); H(58);	/* vert0, norm0 */
+	H(63); H(63);	/* vert1, norm1 */
+	H(64); H(64);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(58); H(58);	/* vert0, norm0 */
+	H(64); H(64);	/* vert1, norm1 */
+	H(59); H(59);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(59); H(59);	/* vert0, norm0 */
+	H(64); H(64);	/* vert1, norm1 */
+	H(65); H(65);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(59); H(59);	/* vert0, norm0 */
+	H(65); H(65);	/* vert1, norm1 */
+	H(54); H(54);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(54); H(54);	/* vert0, norm0 */
+	H(65); H(65);	/* vert1, norm1 */
+	H(60); H(60);	/* vert2, norm2 */
+
+	/* ring 10 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(60); H(60);	/* vert0, norm0 */
+	H(66); H(66);	/* vert1, norm1 */
+	H(61); H(61);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(61); H(61);	/* vert0, norm0 */
+	H(66); H(66);	/* vert1, norm1 */
+	H(67); H(67);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(61); H(61);	/* vert0, norm0 */
+	H(67); H(67);	/* vert1, norm1 */
+	H(62); H(62);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(62); H(62);	/* vert0, norm0 */
+	H(67); H(67);	/* vert1, norm1 */
+	H(68); H(68);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(62); H(62);	/* vert0, norm0 */
+	H(68); H(68);	/* vert1, norm1 */
+	H(63); H(63);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(63); H(63);	/* vert0, norm0 */
+	H(68); H(68);	/* vert1, norm1 */
+	H(69); H(69);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(63); H(63);	/* vert0, norm0 */
+	H(69); H(69);	/* vert1, norm1 */
+	H(64); H(64);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(64); H(64);	/* vert0, norm0 */
+	H(69); H(69);	/* vert1, norm1 */
+	H(70); H(70);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(64); H(64);	/* vert0, norm0 */
+	H(70); H(70);	/* vert1, norm1 */
+	H(65); H(65);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(65); H(65);	/* vert0, norm0 */
+	H(70); H(70);	/* vert1, norm1 */
+	H(71); H(71);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(65); H(65);	/* vert0, norm0 */
+	H(71); H(71);	/* vert1, norm1 */
+	H(60); H(60);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(60); H(60);	/* vert0, norm0 */
+	H(71); H(71);	/* vert1, norm1 */
+	H(66); H(66);	/* vert2, norm2 */
+
+	/* ring 11 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(66); H(66);	/* vert0, norm0 */
+	H(72); H(72);	/* vert1, norm1 */
+	H(67); H(67);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(67); H(67);	/* vert0, norm0 */
+	H(72); H(72);	/* vert1, norm1 */
+	H(73); H(73);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(67); H(67);	/* vert0, norm0 */
+	H(73); H(73);	/* vert1, norm1 */
+	H(68); H(68);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(68); H(68);	/* vert0, norm0 */
+	H(73); H(73);	/* vert1, norm1 */
+	H(74); H(74);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(68); H(68);	/* vert0, norm0 */
+	H(74); H(74);	/* vert1, norm1 */
+	H(69); H(69);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(69); H(69);	/* vert0, norm0 */
+	H(74); H(74);	/* vert1, norm1 */
+	H(75); H(75);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(69); H(69);	/* vert0, norm0 */
+	H(75); H(75);	/* vert1, norm1 */
+	H(70); H(70);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(70); H(70);	/* vert0, norm0 */
+	H(75); H(75);	/* vert1, norm1 */
+	H(76); H(76);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(70); H(70);	/* vert0, norm0 */
+	H(76); H(76);	/* vert1, norm1 */
+	H(71); H(71);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(71); H(71);	/* vert0, norm0 */
+	H(76); H(76);	/* vert1, norm1 */
+	H(77); H(77);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(71); H(71);	/* vert0, norm0 */
+	H(77); H(77);	/* vert1, norm1 */
+	H(66); H(66);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(66); H(66);	/* vert0, norm0 */
+	H(77); H(77);	/* vert1, norm1 */
+	H(72); H(72);	/* vert2, norm2 */
+
+	/* ring 12 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(72); H(72);	/* vert0, norm0 */
+	H(78); H(78);	/* vert1, norm1 */
+	H(73); H(73);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(73); H(73);	/* vert0, norm0 */
+	H(78); H(78);	/* vert1, norm1 */
+	H(79); H(79);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(73); H(73);	/* vert0, norm0 */
+	H(79); H(79);	/* vert1, norm1 */
+	H(74); H(74);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(74); H(74);	/* vert0, norm0 */
+	H(79); H(79);	/* vert1, norm1 */
+	H(80); H(80);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(74); H(74);	/* vert0, norm0 */
+	H(80); H(80);	/* vert1, norm1 */
+	H(75); H(75);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(75); H(75);	/* vert0, norm0 */
+	H(80); H(80);	/* vert1, norm1 */
+	H(81); H(81);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(75); H(75);	/* vert0, norm0 */
+	H(81); H(81);	/* vert1, norm1 */
+	H(76); H(76);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(76); H(76);	/* vert0, norm0 */
+	H(81); H(81);	/* vert1, norm1 */
+	H(82); H(82);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(76); H(76);	/* vert0, norm0 */
+	H(82); H(82);	/* vert1, norm1 */
+	H(77); H(77);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(77); H(77);	/* vert0, norm0 */
+	H(82); H(82);	/* vert1, norm1 */
+	H(83); H(83);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(77); H(77);	/* vert0, norm0 */
+	H(83); H(83);	/* vert1, norm1 */
+	H(72); H(72);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(72); H(72);	/* vert0, norm0 */
+	H(83); H(83);	/* vert1, norm1 */
+	H(78); H(78);	/* vert2, norm2 */
+
+	/* ring 13 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(78); H(78);	/* vert0, norm0 */
+	H(84); H(84);	/* vert1, norm1 */
+	H(79); H(79);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(79); H(79);	/* vert0, norm0 */
+	H(84); H(84);	/* vert1, norm1 */
+	H(85); H(85);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(79); H(79);	/* vert0, norm0 */
+	H(85); H(85);	/* vert1, norm1 */
+	H(80); H(80);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(80); H(80);	/* vert0, norm0 */
+	H(85); H(85);	/* vert1, norm1 */
+	H(86); H(86);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(80); H(80);	/* vert0, norm0 */
+	H(86); H(86);	/* vert1, norm1 */
+	H(81); H(81);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(81); H(81);	/* vert0, norm0 */
+	H(86); H(86);	/* vert1, norm1 */
+	H(87); H(87);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(81); H(81);	/* vert0, norm0 */
+	H(87); H(87);	/* vert1, norm1 */
+	H(82); H(82);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(82); H(82);	/* vert0, norm0 */
+	H(87); H(87);	/* vert1, norm1 */
+	H(88); H(88);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(82); H(82);	/* vert0, norm0 */
+	H(88); H(88);	/* vert1, norm1 */
+	H(83); H(83);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(83); H(83);	/* vert0, norm0 */
+	H(88); H(88);	/* vert1, norm1 */
+	H(89); H(89);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(83); H(83);	/* vert0, norm0 */
+	H(89); H(89);	/* vert1, norm1 */
+	H(78); H(78);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(78); H(78);	/* vert0, norm0 */
+	H(89); H(89);	/* vert1, norm1 */
+	H(84); H(84);	/* vert2, norm2 */
+
+	/* ring 14 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(84); H(84);	/* vert0, norm0 */
+	H(90); H(90);	/* vert1, norm1 */
+	H(85); H(85);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(85); H(85);	/* vert0, norm0 */
+	H(90); H(90);	/* vert1, norm1 */
+	H(91); H(91);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(85); H(85);	/* vert0, norm0 */
+	H(91); H(91);	/* vert1, norm1 */
+	H(86); H(86);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(86); H(86);	/* vert0, norm0 */
+	H(91); H(91);	/* vert1, norm1 */
+	H(92); H(92);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(86); H(86);	/* vert0, norm0 */
+	H(92); H(92);	/* vert1, norm1 */
+	H(87); H(87);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(87); H(87);	/* vert0, norm0 */
+	H(92); H(92);	/* vert1, norm1 */
+	H(93); H(93);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(87); H(87);	/* vert0, norm0 */
+	H(93); H(93);	/* vert1, norm1 */
+	H(88); H(88);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(88); H(88);	/* vert0, norm0 */
+	H(93); H(93);	/* vert1, norm1 */
+	H(94); H(94);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(88); H(88);	/* vert0, norm0 */
+	H(94); H(94);	/* vert1, norm1 */
+	H(89); H(89);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(89); H(89);	/* vert0, norm0 */
+	H(94); H(94);	/* vert1, norm1 */
+	H(95); H(95);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(89); H(89);	/* vert0, norm0 */
+	H(95); H(95);	/* vert1, norm1 */
+	H(84); H(84);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(84); H(84);	/* vert0, norm0 */
+	H(95); H(95);	/* vert1, norm1 */
+	H(90); H(90);	/* vert2, norm2 */
+
+	/* ring 15 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(90); H(90);	/* vert0, norm0 */
+	H(96); H(96);	/* vert1, norm1 */
+	H(91); H(91);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(91); H(91);	/* vert0, norm0 */
+	H(96); H(96);	/* vert1, norm1 */
+	H(97); H(97);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(91); H(91);	/* vert0, norm0 */
+	H(97); H(97);	/* vert1, norm1 */
+	H(92); H(92);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(92); H(92);	/* vert0, norm0 */
+	H(97); H(97);	/* vert1, norm1 */
+	H(98); H(98);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(92); H(92);	/* vert0, norm0 */
+	H(98); H(98);	/* vert1, norm1 */
+	H(93); H(93);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(93); H(93);	/* vert0, norm0 */
+	H(98); H(98);	/* vert1, norm1 */
+	H(99); H(99);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(93); H(93);	/* vert0, norm0 */
+	H(99); H(99);	/* vert1, norm1 */
+	H(94); H(94);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(94); H(94);	/* vert0, norm0 */
+	H(99); H(99);	/* vert1, norm1 */
+	H(100); H(100);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(94); H(94);	/* vert0, norm0 */
+	H(100); H(100);	/* vert1, norm1 */
+	H(95); H(95);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(95); H(95);	/* vert0, norm0 */
+	H(100); H(100);	/* vert1, norm1 */
+	H(101); H(101);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(95); H(95);	/* vert0, norm0 */
+	H(101); H(101);	/* vert1, norm1 */
+	H(90); H(90);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(90); H(90);	/* vert0, norm0 */
+	H(101); H(101);	/* vert1, norm1 */
+	H(96); H(96);	/* vert2, norm2 */
+
+	/* ring 16 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(96); H(96);	/* vert0, norm0 */
+	H(102); H(102);	/* vert1, norm1 */
+	H(97); H(97);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(97); H(97);	/* vert0, norm0 */
+	H(102); H(102);	/* vert1, norm1 */
+	H(103); H(103);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(97); H(97);	/* vert0, norm0 */
+	H(103); H(103);	/* vert1, norm1 */
+	H(98); H(98);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(98); H(98);	/* vert0, norm0 */
+	H(103); H(103);	/* vert1, norm1 */
+	H(104); H(104);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(98); H(98);	/* vert0, norm0 */
+	H(104); H(104);	/* vert1, norm1 */
+	H(99); H(99);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(99); H(99);	/* vert0, norm0 */
+	H(104); H(104);	/* vert1, norm1 */
+	H(105); H(105);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(99); H(99);	/* vert0, norm0 */
+	H(105); H(105);	/* vert1, norm1 */
+	H(100); H(100);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(100); H(100);	/* vert0, norm0 */
+	H(105); H(105);	/* vert1, norm1 */
+	H(106); H(106);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(100); H(100);	/* vert0, norm0 */
+	H(106); H(106);	/* vert1, norm1 */
+	H(101); H(101);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(101); H(101);	/* vert0, norm0 */
+	H(106); H(106);	/* vert1, norm1 */
+	H(107); H(107);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(101); H(101);	/* vert0, norm0 */
+	H(107); H(107);	/* vert1, norm1 */
+	H(96); H(96);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(96); H(96);	/* vert0, norm0 */
+	H(107); H(107);	/* vert1, norm1 */
+	H(102); H(102);	/* vert2, norm2 */
+
+	/* ring 17 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(102); H(102);	/* vert0, norm0 */
+	H(108); H(108);	/* vert1, norm1 */
+	H(103); H(103);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(103); H(103);	/* vert0, norm0 */
+	H(108); H(108);	/* vert1, norm1 */
+	H(109); H(109);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(103); H(103);	/* vert0, norm0 */
+	H(109); H(109);	/* vert1, norm1 */
+	H(104); H(104);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(104); H(104);	/* vert0, norm0 */
+	H(109); H(109);	/* vert1, norm1 */
+	H(110); H(110);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(104); H(104);	/* vert0, norm0 */
+	H(110); H(110);	/* vert1, norm1 */
+	H(105); H(105);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(105); H(105);	/* vert0, norm0 */
+	H(110); H(110);	/* vert1, norm1 */
+	H(111); H(111);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(105); H(105);	/* vert0, norm0 */
+	H(111); H(111);	/* vert1, norm1 */
+	H(106); H(106);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(106); H(106);	/* vert0, norm0 */
+	H(111); H(111);	/* vert1, norm1 */
+	H(112); H(112);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(106); H(106);	/* vert0, norm0 */
+	H(112); H(112);	/* vert1, norm1 */
+	H(107); H(107);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(107); H(107);	/* vert0, norm0 */
+	H(112); H(112);	/* vert1, norm1 */
+	H(113); H(113);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(107); H(107);	/* vert0, norm0 */
+	H(113); H(113);	/* vert1, norm1 */
+	H(102); H(102);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(102); H(102);	/* vert0, norm0 */
+	H(113); H(113);	/* vert1, norm1 */
+	H(108); H(108);	/* vert2, norm2 */
+
+	/* ring 18 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(108); H(108);	/* vert0, norm0 */
+	H(114); H(114);	/* vert1, norm1 */
+	H(109); H(109);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(109); H(109);	/* vert0, norm0 */
+	H(114); H(114);	/* vert1, norm1 */
+	H(115); H(115);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(109); H(109);	/* vert0, norm0 */
+	H(115); H(115);	/* vert1, norm1 */
+	H(110); H(110);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(110); H(110);	/* vert0, norm0 */
+	H(115); H(115);	/* vert1, norm1 */
+	H(116); H(116);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(110); H(110);	/* vert0, norm0 */
+	H(116); H(116);	/* vert1, norm1 */
+	H(111); H(111);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(111); H(111);	/* vert0, norm0 */
+	H(116); H(116);	/* vert1, norm1 */
+	H(117); H(117);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(111); H(111);	/* vert0, norm0 */
+	H(117); H(117);	/* vert1, norm1 */
+	H(112); H(112);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(112); H(112);	/* vert0, norm0 */
+	H(117); H(117);	/* vert1, norm1 */
+	H(118); H(118);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(112); H(112);	/* vert0, norm0 */
+	H(118); H(118);	/* vert1, norm1 */
+	H(113); H(113);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(113); H(113);	/* vert0, norm0 */
+	H(118); H(118);	/* vert1, norm1 */
+	H(119); H(119);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(113); H(113);	/* vert0, norm0 */
+	H(119); H(119);	/* vert1, norm1 */
+	H(108); H(108);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(108); H(108);	/* vert0, norm0 */
+	H(119); H(119);	/* vert1, norm1 */
+	H(114); H(114);	/* vert2, norm2 */
+
+	/* ring 19 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(114); H(114);	/* vert0, norm0 */
+	H(120); H(120);	/* vert1, norm1 */
+	H(115); H(115);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(115); H(115);	/* vert0, norm0 */
+	H(120); H(120);	/* vert1, norm1 */
+	H(121); H(121);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(115); H(115);	/* vert0, norm0 */
+	H(121); H(121);	/* vert1, norm1 */
+	H(116); H(116);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(116); H(116);	/* vert0, norm0 */
+	H(121); H(121);	/* vert1, norm1 */
+	H(122); H(122);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(116); H(116);	/* vert0, norm0 */
+	H(122); H(122);	/* vert1, norm1 */
+	H(117); H(117);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(117); H(117);	/* vert0, norm0 */
+	H(122); H(122);	/* vert1, norm1 */
+	H(123); H(123);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(117); H(117);	/* vert0, norm0 */
+	H(123); H(123);	/* vert1, norm1 */
+	H(118); H(118);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(118); H(118);	/* vert0, norm0 */
+	H(123); H(123);	/* vert1, norm1 */
+	H(124); H(124);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(118); H(118);	/* vert0, norm0 */
+	H(124); H(124);	/* vert1, norm1 */
+	H(119); H(119);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(119); H(119);	/* vert0, norm0 */
+	H(124); H(124);	/* vert1, norm1 */
+	H(125); H(125);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(119); H(119);	/* vert0, norm0 */
+	H(125); H(125);	/* vert1, norm1 */
+	H(114); H(114);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(114); H(114);	/* vert0, norm0 */
+	H(125); H(125);	/* vert1, norm1 */
+	H(120); H(120);	/* vert2, norm2 */
+
+	/* ring 20 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(120); H(120);	/* vert0, norm0 */
+	H(126); H(126);	/* vert1, norm1 */
+	H(121); H(121);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(121); H(121);	/* vert0, norm0 */
+	H(126); H(126);	/* vert1, norm1 */
+	H(127); H(127);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(121); H(121);	/* vert0, norm0 */
+	H(127); H(127);	/* vert1, norm1 */
+	H(122); H(122);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(122); H(122);	/* vert0, norm0 */
+	H(127); H(127);	/* vert1, norm1 */
+	H(128); H(128);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(122); H(122);	/* vert0, norm0 */
+	H(128); H(128);	/* vert1, norm1 */
+	H(123); H(123);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(123); H(123);	/* vert0, norm0 */
+	H(128); H(128);	/* vert1, norm1 */
+	H(129); H(129);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(123); H(123);	/* vert0, norm0 */
+	H(129); H(129);	/* vert1, norm1 */
+	H(124); H(124);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(124); H(124);	/* vert0, norm0 */
+	H(129); H(129);	/* vert1, norm1 */
+	H(130); H(130);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(124); H(124);	/* vert0, norm0 */
+	H(130); H(130);	/* vert1, norm1 */
+	H(125); H(125);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(125); H(125);	/* vert0, norm0 */
+	H(130); H(130);	/* vert1, norm1 */
+	H(131); H(131);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(125); H(125);	/* vert0, norm0 */
+	H(131); H(131);	/* vert1, norm1 */
+	H(120); H(120);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(120); H(120);	/* vert0, norm0 */
+	H(131); H(131);	/* vert1, norm1 */
+	H(126); H(126);	/* vert2, norm2 */
+
+	/* ring 21 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(126); H(126);	/* vert0, norm0 */
+	H(132); H(132);	/* vert1, norm1 */
+	H(127); H(127);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(127); H(127);	/* vert0, norm0 */
+	H(132); H(132);	/* vert1, norm1 */
+	H(133); H(133);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(127); H(127);	/* vert0, norm0 */
+	H(133); H(133);	/* vert1, norm1 */
+	H(128); H(128);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(128); H(128);	/* vert0, norm0 */
+	H(133); H(133);	/* vert1, norm1 */
+	H(134); H(134);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(128); H(128);	/* vert0, norm0 */
+	H(134); H(134);	/* vert1, norm1 */
+	H(129); H(129);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(129); H(129);	/* vert0, norm0 */
+	H(134); H(134);	/* vert1, norm1 */
+	H(135); H(135);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(129); H(129);	/* vert0, norm0 */
+	H(135); H(135);	/* vert1, norm1 */
+	H(130); H(130);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(130); H(130);	/* vert0, norm0 */
+	H(135); H(135);	/* vert1, norm1 */
+	H(136); H(136);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(130); H(130);	/* vert0, norm0 */
+	H(136); H(136);	/* vert1, norm1 */
+	H(131); H(131);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(131); H(131);	/* vert0, norm0 */
+	H(136); H(136);	/* vert1, norm1 */
+	H(137); H(137);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(131); H(131);	/* vert0, norm0 */
+	H(137); H(137);	/* vert1, norm1 */
+	H(126); H(126);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(126); H(126);	/* vert0, norm0 */
+	H(137); H(137);	/* vert1, norm1 */
+	H(132); H(132);	/* vert2, norm2 */
+
+	/* ring 22 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(132); H(132);	/* vert0, norm0 */
+	H(138); H(138);	/* vert1, norm1 */
+	H(133); H(133);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(133); H(133);	/* vert0, norm0 */
+	H(138); H(138);	/* vert1, norm1 */
+	H(139); H(139);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(133); H(133);	/* vert0, norm0 */
+	H(139); H(139);	/* vert1, norm1 */
+	H(134); H(134);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(134); H(134);	/* vert0, norm0 */
+	H(139); H(139);	/* vert1, norm1 */
+	H(140); H(140);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(134); H(134);	/* vert0, norm0 */
+	H(140); H(140);	/* vert1, norm1 */
+	H(135); H(135);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(135); H(135);	/* vert0, norm0 */
+	H(140); H(140);	/* vert1, norm1 */
+	H(141); H(141);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(135); H(135);	/* vert0, norm0 */
+	H(141); H(141);	/* vert1, norm1 */
+	H(136); H(136);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(136); H(136);	/* vert0, norm0 */
+	H(141); H(141);	/* vert1, norm1 */
+	H(142); H(142);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(136); H(136);	/* vert0, norm0 */
+	H(142); H(142);	/* vert1, norm1 */
+	H(137); H(137);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(137); H(137);	/* vert0, norm0 */
+	H(142); H(142);	/* vert1, norm1 */
+	H(143); H(143);	/* vert2, norm2 */
+	B(255); B(0); B(0); B(0x30);	/* r, g, b, code */
+	H(137); H(137);	/* vert0, norm0 */
+	H(143); H(143);	/* vert1, norm1 */
+	H(132); H(132);	/* vert2, norm2 */
+	B(255); B(255); B(255); B(0x30);	/* r, g, b, code */
+	H(132); H(132);	/* vert0, norm0 */
+	H(143); H(143);	/* vert1, norm1 */
+	H(138); H(138);	/* vert2, norm2 */
+
+SharedVert:
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+	SVECTOR(  30,    0,    0);
+	SVECTOR(  15,   25,    0);
+	SVECTOR( -14,   25,    0);
+	SVECTOR( -30,    0,    0);
+	SVECTOR( -15,  -25,    0);
+	SVECTOR(  14,  -25,    0);
+
+AnimPrimSet:
+	TERMINATE;	/* next prim */
+	AnimPrimHdr / 4;
+	M(1);	/* num of types */
+
+AnimPrim:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(INI|CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_NONE);
+	H(169); M(H(24));	/* size, data */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0000 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0000); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0001 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0055); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0002 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x00aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0003 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0100); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0004 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0155); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0005 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x01aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0006 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0200); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0007 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0255); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0008 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x02aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0009 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0300); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0010 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0355); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0011 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x03aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0000 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0012 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0000); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0013 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0055); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0014 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x00aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0015 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0100); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0016 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0155); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0017 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x01aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0018 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0200); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0019 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0255); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0020 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x02aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0021 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0300); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0022 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x0355); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+	SECT_OFFSET(4 /* CoordSect */)
+		|OFFSET_IN_SECT((Coord_0023 - CoordSect) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff);	/* stream id, speed(fixed), src intr idx */
+	H(0x03aa); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((Ctrl_0001 - CtrlSect) / 4); B(0); B(0);	/* start idx, start sid, travering */
+
+InterpFuncSect:
+	M(1);	/* num of types */
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_LINEAR|TI_NONE);
+
+CtrlSect:
+
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((CtrlEnd - CtrlSect) / 4);
+CtrlBegin:
+Ctrl_0000:
+	SEQD(NORMAL)|TYPE_IDX(0)|TFRAME(64)
+		|PARAM_IDX((Key_0000 - ParamSect) / 4);
+Ctrl_0001:
+CtrlEnd:
+	SEQD(NORMAL)|TYPE_IDX(0)|TFRAME(64)
+		|PARAM_IDX((Key_0001 - ParamSect) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((CtrlBegin - CtrlSect) / 4);
+
+ParamSect:
+Key_0000:
+	64; 0; 0;
+Key_0001:
+	-64; 0; 0;
+
+CalcedVert:
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+	H(0); H(0); H(0); H(0);	/* vx, vy, otz, p */
+
+SharedNorm:
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+	SVECTOR(4096,    0,    0);
+	SVECTOR(2048, 3547,    0);
+	SVECTOR(-2047, 3547,    0);
+	SVECTOR(-4096,    0,    0);
+	SVECTOR(-2048, -3547,    0);
+	SVECTOR(2047, -3547,    0);
+
+CalcedNorm:
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+	H(0); H(0); H(0); H(0x0000);	/* r, g, b, pad */
+

@@ -1,0 +1,1825 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 60
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 0 0 0 1 1 1
+  30 0 0 0 0
+  0 0 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject blballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  -3 3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  -3 3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  -3 3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject lballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  0 3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject slballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  3 3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  3 3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  3 3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject bballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  -3 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  -3 0 0 0 0 0 1 1 1
+  30 0 0 0 0
+  -3 0 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject nballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 0 0 0 1 1 1
+  30 0 0 0 0
+  0 0 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject sballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  3 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  3 0 0 0 0 0 1 1 1
+  30 0 0 0 0
+  3 0 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject bsballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  4
+  -3 -3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  -3 -3 0.01 0 0 0 1 1 1
+  20 0 0 0 0
+  -3 -3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  -3 -3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject fballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 -3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 -3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  0 -3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject bslballs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  3 -3 0 0 0 0 1 1 1
+  0 0 0 0 0
+  3 -3 0 0 0 0 1 1 1
+  30 0 0 0 0
+  3 -3 0 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ParentObject 1
+BoneFalloffType 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -1.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -1 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -1 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -1 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection -135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 -135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 -90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 -135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -3.000000
+BoneRestDirection 135.000001 0.000000 0.000000
+BoneRestLength 1.000000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneLimitedRange 1
+BoneMinRange 1.000000
+BoneMaxRange 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0 0 -3 135 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -3 90.38667 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -3 135 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  3
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+  -2 2 -2 45 35 0 1 1 1
+  30 0 0 0 0
+  -2 2 -2 45 35 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  3
+  0 0 -9.085926 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -9.085926 0 0 0 1 1 1
+  30 0 0 0 0
+  0 0 -9.085926 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 2
+ZoomFactor 3.200000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 3
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 5.165280
+GridNumber 40
+GridSize 2.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

@@ -1,0 +1,52 @@
+;Codewright Project File (do not remove or modify this line)
+[Files]
+C:\coombsey\ps\texwin\CTRLLER.H
+C:\coombsey\ps\texwin\texwin.pjt
+C:\coombsey\ps\texwin\DATAFILE.ASM
+C:\coombsey\ps\texwin\DATAFILE.bak
+C:\coombsey\ps\texwin\GRAPH.bak
+C:\coombsey\ps\texwin\GRAPH.C
+C:\coombsey\ps\texwin\graph.obj
+C:\coombsey\ps\texwin\MAIN.C
+C:\coombsey\ps\texwin\MAIN.H
+C:\coombsey\ps\texwin\MAIN.LNK
+C:\coombsey\ps\texwin\main.obj
+C:\coombsey\ps\texwin\MAKEFILE.MAK
+C:\coombsey\ps\texwin\texwin.bak
+
+
+[State]
+
+
+[Editor]
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=1
+
+[Compiler]
+TagSetFile=''
+BrowseSetFile=''
+CompilerNewExt=.pas
+CompilerNewExt=.ini
+CompilerNewExt=.txt
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+
+[VersionControl:PVCS]
+VCSSetCmd=VCS_CHECKIN_ID,'put -n -T@%Q -M@%Q %b%e',0x8000040
+VCSSetCmd=VCS_CHECKINLOCK_ID,'put -n -T@%Q -M@%Q -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUT_ID,'get -y %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUTLOCK_ID,'get -y -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOCK_ID,'vcs -y -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKUNLOCK_ID,'vcs -y -u %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLABEL_ID,'vcs -y -v"${VCSLABEL}" %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOG_ID,'vlog %b%e',0x8000040
+VCSSetCmd=VCS_CHECKPROP_ID,'vlog -b %b%e',0x8000040
+VCSSetCmd=VCS_CHECKDIFF_ID,'vdiff -r %b%e',0x8000040
+VCSSetCmd=VCS_CHECKMENU_ID,'pvcsvmwn',0x8000000
+VCSSetCmd=VCS_ADD_ID,'vcs -i -t@%Q %b%e',0x8000040
+VCSSetCmd=VCS_REMOVE_ID,'del /f %b%{??v|___}e',0x8000040

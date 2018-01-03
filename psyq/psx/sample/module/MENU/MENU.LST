@@ -1,0 +1,976 @@
+; MENU.LST
+
+;;;;;;;;;;;;;;;;;;;;;;; COMMON ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;-ITEM 256
+-FIXROOT psx\
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;; CD ;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\cd\
+
+"earth" earth\earth.exe
+-SENTJ "球面に動画を張り付ける例"
+-SENTE "Example to map a moving picture \n\t\ton a curved surface"
+-DATA 1
+ ..\..\data\tmd\earth.tmd 80120000
+
+"tuto0" movie\tuto0.exe
+-SENTJ "シンプルなストリーミングプログラム"
+-SENTE "simple streamig program"
+
+"tuto1" movie\tuto1.exe
+-SENTJ "任意解像度版"
+-SENTE "free resolutions"
+
+"tuto2" movie\tuto2.exe
+-SENTJ "オンメモリストリーミング"
+-SENTE "on memory streaming"
+
+"tuto3" movie\tuto3.exe
+-SENTJ "フレーム落ちを抑制したサンプル"
+-SENTE "avoiding frame skip"
+
+"str3d" str3d\tuto0.exe
+-SENTJ "３Dオブジェクトを動画をバックに動かす"
+-SENTE "tmdviewer with a moving picture in \nbackground"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3.tmd 80040000
+
+"tuto0" tuto\tuto0.exe
+-SENTJ "CD プレイヤー(1): 市販のオーディオＣＤを使用"
+-SENTE "CD player (1): use audio CD"
+
+"tuto1" tuto\tuto1.exe
+-SENTJ "CD プレイヤー(2): 市販のオーディオＣＤを使用"
+-SENTE "CD player (2): use audio CD"
+
+"tuto2" tuto\tuto2.exe
+-SENTJ "CD-DA の２点間の自動リピート演奏: 市販のオーディオＣＤを使用"
+-SENTE "CD-DA auto repeat; use audio CD"
+
+"tuto3" tuto\tuto3.exe
+-SENTJ "トラック間の自動リピート演奏: 市販のオーディオＣＤを使用"
+-SENTE "track-to-track auto repeat: use audio \nCD"
+
+"tuto4" tuto\tuto4.exe
+-SENTJ "高速コマンド: 市販のオーディオＣＤを使用"
+-SENTE "High-speed command: use audio CD"
+
+"tuto5" tuto\tuto5.exe
+-SENTJ "CD-XA の２点間の自動リピート演奏"
+-SENTE "CD-XA auto repeat" tuto\tuto5.exe
+
+"tuto6" tuto\tuto6.exe
+-SENTJ "マルチチャンネル CD-XA の演奏"
+-SENTE "multi-chanel interleaved CD-XA"
+
+"tuto7" tuto\tuto7.exe
+-SENTJ "CD-ROM のファイルをバックグラウンドで読む"
+-SENTE "read data in background"
+
+"tuto8" tuto\tuto8.exe
+-SENTJ "複数のファイルをまとめてバックグラウンドで読む"
+-SENTE "read many files in background"
+
+"tuto9" tuto\tuto9.exe
+-SENTJ "実行モジュールを読み出して子プロセスとして起動"
+-SENTE "load and exec program"
+
+"tuto10" tuto\tuto10.exe ; NEW
+-SENTJ "ファイル単位の CD-ROM アクセス(exit: SELECT+START)"
+-SENTE "high level CD-ROM file access(exit: SELECT+START)"
+
+"tuto11" tuto\tuto11.exe ; NEW
+-SENTJ "CD の種類を調べる"
+-SENTE "test CD type"
+
+;;;;;;;;;;;;;;;;;;;;;;; CMPLR ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\cmplr\
+"scratch" scratch\scratch.exe
+-SENTJ "スクラッチパッドエリア使用サンプル"
+-SENTE "Scratch pad area used Sample"
+
+;;;;;;;;;;;;;;;;;;;;;;; DS ;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\ds\
+
+"tuto0" tuto\tuto0.exe
+-SENTJ "CD プレイヤー(1): 市販のオーディオＣＤを使用"
+-SENTE "CD player (1): use audio CD"
+
+"tuto1" tuto\tuto1.exe
+-SENTJ "CD プレイヤー(2): 市販のオーディオＣＤを使用"
+-SENTE "CD player (2): use audio CD"
+
+"tuto2" tuto\tuto2.exe
+-SENTJ "CD-DA の２点間の自動リピート演奏: 市販のオーディオＣＤを使用"
+-SENTE "CD-DA auto repeat; use audio CD"
+
+"tuto3" tuto\tuto3.exe
+-SENTJ "トラック間の自動リピート演奏: 市販のオーディオＣＤを使用"
+-SENTE "track-to-track auto repeat: use audio \nCD"
+
+"tuto4" tuto\tuto4.exe
+-SENTJ "高速コマンド: 市販のオーディオＣＤを使用"
+-SENTE "High-speed command: use audio CD"
+
+"tuto5" tuto\tuto5.exe
+-SENTJ "CD-XA の２点間の自動リピート演奏"
+-SENTE "CD-XA auto repeat" tuto\tuto5.exe
+
+"tuto6" tuto\tuto6.exe
+-SENTJ "マルチチャンネル CD-XA の演奏"
+-SENTE "multi-chanel interleaved CD-XA"
+
+"tuto7" tuto\tuto7.exe
+-SENTJ "CD-ROM のファイルをバックグラウンドで読む"
+-SENTE "read data in background"
+
+"tuto8" tuto\tuto8.exe
+-SENTJ "複数のファイルをまとめてバックグラウンドで読む"
+-SENTE "read many files in background"
+
+"tuto9" tuto\tuto9.exe
+-SENTJ "実行モジュールを読み出して子プロセスとして起動"
+-SENTE "load and exec program"
+
+"tuto10" tuto\tuto10.exe
+-SENTJ "ファイル単位の CD-ROM アクセス(exit: SELECT+START)"
+-SENTE "high level CD-ROM file access(exit: SELECT+START)"
+
+"tuto11" tuto\tuto11.exe
+-SENTJ "CD の種類を調べる"
+-SENTE "test CD type"
+
+"tuto12" tuto\tuto12.exe
+-SENTJ "先行シークで DA を再生した場合の曲のスタートまでの時間の比較"
+-SENTE "test CD type"
+
+"tuto13" tuto\tuto13.exe
+-SENTJ "先行シークで XA を再生した場合の曲のスタートまでの時間の比較"
+-SENTE "test CD type"
+
+"tuto14" tuto\tuto14.exe
+-SENTJ "複数のファイルを連続でリードする場合と、\n一つ一つシークしてリードした場合の比較"
+-SENTE "test CD type"
+
+;;;;;;;;;;;;;;;;;;;;;;; ETC ;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\etc\
+
+"card" card\card.exe
+-SENTJ "カードマネージャ \nメモリーカードを１側に差して下さい。"
+-SENTE "Card Manager"
+
+"mcrd0" mcrd\tuto0\main.exe
+-SENTJ "メモリーカードにファイル(じゃんけん)生成。\n空きのあるメモリーカードを１側に差して下さい。(表示はありません)"
+-SENTE "Create a Sample Icon Data\n\t\t\tfor Memory Card"
+
+"mcrd1" mcrd\tuto1\main.exe
+-SENTJ "スロット１のメモリカードのファイルリストを表示"
+-SENTE "Card Manager"
+
+"mcrd2" mcrd\tuto2\main.exe
+-SENTJ "スロット１のファイルをスロット２に選択コピー"
+-SENTE "Card Manager"
+
+; "comb" comb\link.exe
+; -SENTJ "対戦ケーブルサンプル \n単独で実行して下さい."
+; -SENTE "Link Cable Sample\nExecute this sample individually."
+
+"mouse" mouse\mouse.exe
+-SENTJ "マウス\nマウスを使用(exit: SELECT)"
+-SENTE "Mouse\nuse mouse(exit: SELECT)"
+
+;"sio1" sio\tuto1\tuto1.exe
+;-SENTJ "SIO ドライバサンプル"
+;-SENTE "SIO driver"
+
+;"sio2" sio\tuto2\tuto2.exe
+;-SENTJ "SIO ドライバサンプル"
+;-SENTE "SIO driver"
+
+"thread" thread\balls.exe
+-SENTJ "スレッドサンプル"
+-SENTE "thread sample"
+
+;;;;;;;;;;;;;;;;;;;;; GRAPHICS ;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\graphics\
+
+"basic" basic\main.exe
+-SENTJ "基本機能デモ"
+-SENTE "basic graphics demonstration"
+
+"bgsample" bg\bgsample\bgsample.exe
+-SENTJ "ＢＧ面の描画関数でＢＧデータを表示"
+-SENTE "background sample"
+-DATA 3
+ ..\..\data\tim\bgsample.tim 80180000
+ ..\..\data\bgd\bgsample.bgd 80100000
+ ..\..\data\cel\bgsample.cel 80140000
+
+"fix32" bg\fix32\fix32.exe
+-SENTJ "ＢＧ高速描画関数でＢＧデータを表示"
+-SENTE "background sample (high-speed)"
+-DATA 6
+ ..\..\data\tim\fix32.tim  80180000
+ ..\..\data\cel\fix32.cel  80140000
+ ..\..\data\bgd\fix32_0.bgd 80100000
+ ..\..\data\bgd\fix32_1.bgd 80101000
+ ..\..\data\bgd\fix32_2.bgd 80102000
+ ..\..\data\bgd\fix32_3.bgd 80103000
+
+"clutfog0" clutfog\tuto0_m.exe
+-SENTJ "CLUT を使ったテクスチャのデプスキューイング \n(CLUT を毎フレーム直接書き換える方式)"
+-SENTE "textured polygon with depth queue (by \noverwriting a CLUT per frame)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"clutfog1" clutfog\tuto1_m.exe
+-SENTJ "CLUT を使ったテクスチャのデプスキューイング \n(参照するCLUTを変更する方式)"
+-SENTE "textured polygon with depth queue (by \nchanging reference CLUT)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"clutfog2" clutfog\tuto2_m.exe
+-SENTJ "CLUT を使ったテクスチャのデプスキューイング \n(DR_MOVE を使って CLUT を変更する方式)"
+-SENTE "textured polygon with depth queue (by \nchanging CLUT with DR_MOVE primitive)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"clutfog3" clutfog\tuto3_m.exe
+-SENTJ "CLUT を使ったテクスチャのデプスキューイング \n(DR_LOAD を使って CLUT を変更する方式)"
+-SENTE "textured polygon with depth queue (by \nchanging CLUT with DR_LOAD primitive)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"active" divide\active\tuto0.exe
+-SENTJ "active sub - divideのサンプル (dmpsx を使用)"
+-SENTE "Sub-division sample (with dmpsx)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"dmpsx" dmpsx\gcube.exe
+-SENTJ "DMPSXによる高速化サンプルプログラム"
+-SENTE "High-speed (with dmpsx)"
+
+"clip" divide\clip\tuto0_m.exe
+-SENTJ "テクスチャの歪みを防ぐための Divide 関数の使用例 \n(exit: SELECT+L2+R2)"
+-SENTE "sample for using Divide functions to \navoid distortion of texture \n(exit: SELECT+L2+R2)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"fballs" fballs\balls.exe
+-SENTJ "GPU描画高速(若干)"
+-SENTE "decrease drawing time a little"
+
+"gsgpu" gsgpu\main.exe
+-SENTJ "Gs オブジェクトと GPU プリミティブを混在させる"
+-SENTE "GPU primitives with GS objects"
+-DATA 2
+ ..\..\data\tim\mado.tim 80180000
+ ..\..\data\tmd\mado.tmd 80100000
+
+"tuto0" hmd\anim\tuto0.exe
+-SENTJ "汎用的な HMD アニメーション ビューワ \n（exit: SELECT+START）"
+-SENTE "general HMD animation.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\anim\tri3\tri.hmd 80010000
+
+"tuto1" hmd\anim\tuto1.exe
+-SENTJ "SIDによるインターラクラクティブアニメーション \n（exit: SELECT+START）"
+-SENTE "Realtime Motion Switch #1.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\anim\tri3\tri.hmd 80010000
+
+"tuto2" hmd\anim\tuto2.exe
+-SENTJ "仮想キーフレームによるインタラクティブアニメーション \n（exit: SELECT+START）"
+-SENTE "Realtime Motion Switch #2.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\anim\cube0\cube0.hmd 80010000
+
+"tuto3" hmd\anim\tuto3.exe
+-SENTJ "視点アニメーションを含む汎用的な HMD アニメーションビューワ \n（exit: SELECT+START）"
+-SENTE "general HMD animation.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\anim\tri4\tri.hmd 80010000
+
+"tuto0" hmd\basic\tuto0.exe
+-SENTJ "汎用的な HMD ビューワ \n（exit: SELECT+START）"
+-SENTE "general HMD viewer.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\basic\tri.hmd 80010000
+
+"tuto1" hmd\basic\tuto1.exe
+-SENTJ "共有ポリゴンを使用した HMD ビューワ \n（exit: SELECT+START）"
+-SENTE "HMD viewer using shared polygons.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\basic\flag.hmd 80010000
+
+"tuto2" hmd\basic\tuto2.exe
+-SENTJ "HMD を使用したシャトルビューワ \n（exit: SELECT+START）"
+-SENTE "shuttle viewer using HMD format.\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\basic\shuttle.hmd 80010000
+
+"tuto3" hmd\basic\tuto3.exe
+-SENTJ "固定分割を使用した HMD ビューワ \n（exit: SELECT+START）"
+-SENTE "HMD viewer using sub divide.\n(exit:SELECT+START)"
+-DATA 1
+ ..\..\data\hmd\scei\basic\jimen.hmd 80010000
+
+"HMD MIMe" hmd\mime\tuto0.exe
+-SENTJ "HMD によるマイムアニメーションサンプル \n関節マイム (joint-axes-mime: 回転軸を使った内挿)"
+-SENTE "Joint Axes MIMe with HMD"
+-DATA 1
+ ..\..\data\hmd\scei\mime\triaxes.hmd 80010000
+
+"HMD MIMe" hmd\mime\tuto0.exe
+-SENTJ "HMD によるマイムアニメーションサンプル \n頂点、法線マイム (vertex/normal-mime)"
+-SENTE "Vertex/Normal MIMe with HMD"
+-DATA 1
+ ..\..\data\hmd\scei\mime\puyo.hmd 80010000
+
+"HMD MIMe" hmd\mime\tuto0.exe
+-SENTJ "HMD によるマイムアニメーションサンプル \n関節マイム (joint-rpy-mime: RPY 角の内挿)"
+-SENTE "Joint RPY MIMe with HMD"
+-DATA 1
+ ..\..\data\hmd\scei\mime\trirpy.hmd 80010000
+
+"jimen" jimen\jimen.exe
+-SENTJ "歪まないテクスチャーマッピング用関数サンプル"
+-SENTE "undistorted texture mapping"
+-DATA 1
+ ..\..\data\tim\stones.tim 801a0000
+
+"qmesh0" mesh\qmesh\qmesh0.exe
+-SENTJ "QMESH関数の例...スクリーンクリップ"
+-SENTE "sample of QMESH function...screen clip"
+
+"qmesh1" mesh\qmesh\qmesh1.exe
+-SENTJ "QMESH関数の例...地形"
+-SENTE "sample of QMESH function...terrain data"
+
+"rmesh" mesh\rmesh\rmesh.exe
+-SENTJ "RMESH関数の描画モード一覧(exit: SELECT+L2+R2)"
+-SENTE "browsing RMESH functions drawing mode(exit: SELECT+L2+R2)"
+-DATA 1
+ ..\..\data\tim\rcube.tim 80020000
+
+"smesh0" mesh\smesh\smesh0.exe
+-SENTJ "SMESH関数の描画性能(exit: SELECT+L2+R2)"
+-SENTE "drawing performance of SMESH functions(exit: SELECT+L2+R2)"
+-DATA 1
+ ..\..\data\tim\rcube.tim 80070000
+
+"smesh1" mesh\smesh\smesh1.exe
+-SENTJ "SMESH関数の描画モード一覧(exit: SELECT+L2+R2)"
+-SENTE "browsing SMESH functions' drawing mode(exit: SELECT+L2+R2)"
+-DATA 1
+ ..\..\data\tim\earth4.tim 80070000
+
+"smesh2" mesh\smesh\smesh2.exe
+-SENTJ "正２０面体（イコサ）をつくる例"
+-SENTE "icosahedron"
+-DATA 1
+ ..\..\data\tim\rcube.tim 80120000
+
+"joint" mime\joint\tuto0_m.exe
+-SENTJ " 階層構造モデルの関節 MIMe アニメーション \n(exit: SELECT+START)"
+-SENTE "Joint MIMe animation of articulated model.\n(exit: SELECT+START)"
+-DATA 4
+  ..\..\data\tmd\torso.tmd 80100000
+  ..\..\data\tmd\leg.tmd   80104000
+  ..\..\data\tmd\arm.tmd   80108000
+  ..\..\data\tmd\head.tmd  8010C000
+
+"vertex" mime\vertex\mime_m.exe
+-SENTJ "ぷよで(MIMe Interactive Animation) \n(exit: SELECT+L2+R2)"
+-SENTE "MIMe Interactive Animation . \n(exit: SELECT+L2+R2)"
+-DATA 3
+ ..\..\data\tmd\md0.tmd 800d0000
+ mime\vertex\md0.vdf  80090000
+ mime\vertex\md0.ndf  800b0000
+
+"vjmime0" mime\vjmime\tuto0_m.exe
+-SENTJ "階層構造モデルの関節マイム+頂点マイム併用アニメーション \n(exit: SELECT+START)"
+-SENTE "Joint MIMe animation of articulated model with vertex MIMe.\n(exit: SELECT+START)"
+-DATA 2
+ ..\..\data\tmd\base.tmd 80100000
+ mime\vjmime\base.vdf 80108000
+
+"vjmime1" mime\vjmime\tuto1_m.exe
+-SENTJ "階層構造モデルの関節マイムアニメーション (Bパッドでモデル変形可) \n(exit: SELECT+START)"
+-SENTE "Joint MIMe animation of articulated model (use pad B to deform models).\n(exit: SELECT+START)"
+-DATA 1
+ ..\..\data\tmd\base.tmd 80100000
+
+"mipmap" mipmap\mipmap.exe
+-SENTJ "ミップマップ"
+-SENTE "mip-map"
+-DATA 2
+ ..\..\data\tmd\block.tmd 80100000
+ ..\..\data\tim\block.tim 80120000
+
+"60frame" misc\60frame\60frame.exe
+-SENTJ "60フレームと30フレームの違い"
+-SENTE "difference between 60 frames and 30 \nframes"
+-DATA 8
+ ..\..\data\tim\giuli_bd.tim 80010000
+ ..\..\data\tim\giuli_fr.tim 80020000
+ ..\..\data\tim\giuli_pl.tim 80030000
+ ..\..\data\tim\giuli_tl.tim 80040000
+ ..\..\data\tim\giuli_tr.tim 80050000
+ ..\..\data\tim\giuli_wn.tim 80060000
+ ..\..\data\tim\wheel256.tim 80070000
+ ..\..\data\tmd\giulieta.tmd 80080000
+
+"getode" misc\getode\getode.exe
+-SENTJ "インターレースモードでの VSync 同期"
+-SENTE "Using Vsync with Interlace Mode"
+
+"oden" oden\oden.exe
+-SENTJ "リアルタイムでライティングの計算を行なうサンプル \n(exit: SELECT + START)"
+-SENTE "performing the real-time lighting \ncalculation.\n(exit: SELECT + START)"
+-DATA 2
+ ..\..\data\tim\oden.tim 801c0000
+ ..\..\data\tmd\oden.tmd 80040000
+
+"phong" phong\phong.exe
+-SENTJ "フォンシェーディングとグーローシェーディングの比較"
+-SENTE "comparing Phong with Gouraud shading"
+
+"ppm" ppm\ppm.exe
+-SENTJ "歪まないテクスチャーマッピング関数"
+-SENTE "perspective mapping"
+-DATA 1
+ ..\..\data\tim\earth4.tim 80180000
+
+"arot" rotate\arot\arot.exe   ; NEW
+-SENTJ "２つの任意回転角をスムーズに内挿する"
+-SENTE "smooth interpolation of two arbitrary \nrotation angles"
+
+"intrpol" rotate\intrpol\main_m.exe  ; NEW
+-SENTJ "各種の回転の内挿デモ \n(exit: SELECT + START)"
+-SENTE "various kinds of interpolating about \nrotation (exit: SELECT + START)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"mat2rot" rotate\mat2rot\tuto0_m.exe  ; NEW
+-SENTJ "回転マトリクスからオイラー角を求める例 \n(exit: SELECT+L2+R2)"
+-SENTE "Get Euler's angles from rotation \nmatrix (exit: SELECT+L2+R2)"
+-DATA 1
+ ..\..\data\tim\earth8.tim 80100000
+
+"rotmat" rotmat\a_dif_rm.exe
+-SENTJ "RotMatrix関数とRotMatrix_gte関数の比較 \n(exit: SELECT)"
+-SENTE "compare RotMatrix_gte to RotMatrix \n(exit: SELECT)"
+
+"screen" screen\screen.exe
+-SENTJ "フレームバッファビューア"
+-SENTE "Frame buffer viewer"
+
+"shadow" shadow\shadow.exe
+-SENTJ "ポリゴンクリップつき影つけ"
+-SENTE "shadowing with polygon clip"
+
+"tuto1" texaddr\wave\a_tuto1.exe
+-SENTJ "チューニングサンプル レベル１"
+-SENTE "Tunning sample (level 1)"
+-DATA 5
+ ..\..\data\tim\sky.tim     80018000
+ ..\..\data\tim\tile.tim    80068000
+ ..\..\data\tim\black.tim   80090000
+ ..\..\data\tmd\clock.tmd   800C8000
+ ..\..\data\tmd\gwave15.tmd 800D0000
+
+"tuto2" texaddr\wave\a_tuto2.exe
+-SENTJ "チューニングサンプル レベル２"
+-SENTE "Tunning sample (level 2)"
+-DATA 5
+ ..\..\data\tim\sky.tim     80018000
+ ..\..\data\tim\tile.tim    80068000
+ ..\..\data\tim\black.tim   80090000
+ ..\..\data\tmd\clock.tmd   800C8000
+ ..\..\data\tmd\gwave15.tmd 800D0000
+
+"tuto3" texaddr\wave\a_tuto3.exe
+-SENTJ "チューニングサンプル レベル３"
+-SENTE "Tunning sample (level 3)"
+-DATA 5
+ ..\..\data\tim\sky.tim     80018000
+ ..\..\data\tim\tile.tim    80068000
+ ..\..\data\tim\black.tim   80090000
+ ..\..\data\tmd\clock.tmd   800C8000
+ ..\..\data\tmd\gwave15.tmd 800D0000
+
+"wave" texaddr\wave\wave.exe
+-SENTJ "波と時計"
+-SENTE "Wave and Clock"
+-DATA 5
+ ..\..\data\tim\sky.tim     80018000
+ ..\..\data\tim\tile.tim    80068000
+ ..\..\data\tim\black.tim   80090000
+ ..\..\data\tmd\clock.tmd   800C8000
+ ..\..\data\tmd\gwave14.tmd 800D0000
+
+"tmdpmd" tmdpmd\tmdpmd.exe
+-SENTJ "低レベル TMD/PMD オビュジェクトビューア"
+-SENTE "low-level TMD/PMD object viewer"
+-DATA  6
+ ..\..\data\pmd\\share.pmd   800d0000
+ ..\..\data\pmd\\noshare.pmd 800e0000
+ ..\..\data\tim\\pat.tim     800f0000
+ ..\..\data\tmd\\dino.tmd    80100000
+ ..\..\data\tmd\\earth.tmd   80120000
+ ..\..\data\tim\\earth4.tim  80140000
+
+"tuto0" tmdview\lowlevel\tuto0.exe ; NEW
+-SENTJ "下位関数を直接呼ぶ (フラット三角)"
+-SENTE "Direct calling of lowlevel functions \n3 sided polygon, flat"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80120000
+ ..\..\data\tim\pat8.tim  80140000
+ ..\..\data\tim\pat4.tim  80160000
+ ..\..\data\tmd\cube3.tmd 80100000
+
+"tuto1" tmdview\lowlevel\tuto1.exe ; NEW
+-SENTJ "下位関数を直接呼ぶ (グーロー四角 dmpsx を使用)"
+-SENTE "Direct calling of lowlevel functions \n4 sided polygon, gouraud"
+-DATA 4
+ ..\..\data\tim\pat16.tim  80120000
+ ..\..\data\tim\pat8.tim   80140000
+ ..\..\data\tim\pat4.tim   80160000
+ ..\..\data\tmd\cube4g.tmd 80100000
+
+"tuto2" tmdview\lowlevel\tuto2.exe ; NEW
+-SENTJ "スキマ問題に対応 (dmpsx を使用)"
+-SENTE "eliminate a gap between polygons \n(with dmpsx)"
+-DATA 4
+ ..\..\data\tim\pat16.tim  80120000
+ ..\..\data\tim\pat8.tim   80140000
+ ..\..\data\tim\pat4.tim   80160000
+ ..\..\data\tmd\cube4g.tmd 80100000
+
+"tuto3" tmdview\lowlevel\tuto3.exe ; NEW
+-SENTJ "ミップマップ版 (dmpsx を使用)"
+-SENTE "mipmap version (with dmpsx)"
+-DATA 4
+ ..\..\data\tim\pat16m0.tim 80120000
+ ..\..\data\tim\pat16m1.tim 80140000
+ ..\..\data\tim\pat16m2.tim 80160000
+ ..\..\data\tmd\cube4gm.tmd 80100000
+
+"rcube" tmdview\rcube\main.exe
+-SENTJ "3Dの各種エフェクト"
+-SENTE "various effects for 3D"
+-DATA 2
+ ..\..\data\tmd\rcube.tmd 80010000
+ ..\..\data\tim\rcube.tim 80020000
+
+"shuttle" tmdview\shuttle\tuto0.exe
+-SENTJ "階層座標系を使ったアニメーション"
+-SENTE "animation using hierarchy coordinates"
+-DATA 1
+ ..\..\data\tmd\shuttle1.tmd 80040000
+
+"tmdview3" tmdview\tmdview3\tuto0.exe
+-SENTJ "PMDフォーマット ビューワー"
+-SENTE "PMD format viewer"
+-DATA 2
+ ..\..\data\tim\pat.tim 80010000
+ ..\..\data\pmd\share.pmd 80040000
+
+"tuto0" tmdview\tmdview4\tuto0.exe
+-SENTJ "シンプルなTMD viewer GsDOBJ2"
+-SENTE "simple TMD viewer using GsDOBJ2"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto1" tmdview\tmdview4\tuto1.exe
+-SENTJ "ジャンプテーブル版 (プログラムサイズが小さい)"
+-SENTE "using jump table to reduce \nthe program size"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3.tmd 80040000
+
+"tuto2" tmdview\tmdview4\tuto2.exe
+-SENTJ "能動的自動分割"
+-SENTE "active sub division"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto3" tmdview\tmdview4\tuto3.exe
+-SENTJ "GsDOBJ2を使ったスプリット画面のサンプル"
+-SENTE "sample code for split screen \nusing GsDOBJ5"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto4" tmdview\tmdview4\tuto4.exe
+-SENTJ "GsDOBJ2を使ったオブジェクトの使い回し \n及び複数オーダリングテーブル"
+-SENTE "multi ot and using same object \nwith different handlers"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto5" tmdview\tmdview4\tuto5.exe
+-SENTJ "マルチスクリーン座標系"
+-SENTE "multi screen coordinate sample"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto6" tmdview\tmdview4\tuto6.exe
+-SENTJ "モデルを動かすのではなく 視点を主観的に動かしたサンプル"
+-SENTE "sample code of subjective move"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3g.tmd 80040000
+
+"tuto7" tmdview\tmdview4\tuto7.exe
+-SENTJ "マテリアル減衰に対応した下位関数を使用する"
+-SENTE "using GsSortObject4J() and using \nmaterial attenuation in GsDOBJ2"
+-DATA 1
+ ..\..\data\tmd\venus3g.tmd 80040000
+
+"tuto0" tmdview\tmdview5\tuto0.exe
+-SENTJ "シンプルなtmd viewer GsDOBJ5版"
+-SENTE "simple tmdviewer using GsDOBJ5"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+"tuto1" tmdview\tmdview5\tuto1.exe
+-SENTJ "画面分割"
+-SENTE "multi-screen"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+"tuto2" tmdview\tmdview5\tuto2.exe
+-SENTJ "複数OTを使い オブジェクト単位のZソート"
+-SENTE "Z-sorting object by object using OTs"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+"tuto3" tmdview\tmdview5\tuto3.exe
+-SENTJ "自動分割 （固定分割数)"
+-SENTE "sub division (fixed division number)"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+"tuto4" tmdview\tmdview5\tuto4.exe
+-SENTJ "スクリーン座標系をスケーリングすることで遠くまで見える"
+-SENTE "scaling the screen coordinates"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+"tuto5" tmdview\tmdview5\tuto5.exe
+-SENTJ "ジャンプテーブル版 (プログラムサイズを小さくする)"
+-SENTE "jump table to reduce the program size"
+-DATA 4
+ ..\..\data\tim\pat16.tim 80010000
+ ..\..\data\tim\pat8.tim  80020000
+ ..\..\data\tim\pat4.tim  80030000
+ ..\..\data\tmd\cube3.tmd 80040000
+
+"tuto6" tmdview\tmdview5\tuto6.exe
+-SENTJ "主観視的移動（誤差あり)"
+-SENTE "subjective moving (error included)"
+-DATA 4
+ ..\..\data\tim\pat16t.tim 80010000
+ ..\..\data\tim\pat8t.tim  80020000
+ ..\..\data\tim\pat4t.tim  80030000
+ ..\..\data\tmd\cube4t.tmd 80040000
+
+
+"janken" tod\janken\janken.exe
+-SENTJ "複数の tod のインタラクティブなアニメーション"
+-SENTE "Multiple interactive tod animation."
+-DATA 10
+ ..\..\data\tmd\te.tmd      800c0000
+ ..\..\data\tod\appear.tod  800e0000
+ ..\..\data\tod\jaanken.tod 80100000
+ ..\..\data\tod\n_g.tod     80120000
+ ..\..\data\tod\n_c.tod     80140000
+ ..\..\data\tod\n_p.tod     80160000
+ ..\..\data\tod\g_n.tod     80180000
+ ..\..\data\tod\c_n.tod     801a0000
+ ..\..\data\tod\p_n.tod     801c0000
+ ..\..\data\tod\disapp.tod  801e0000
+
+"todview" tod\todview\todview.exe
+-SENTJ "シンプルなアニメーション"
+-SENTE "Simple animation"
+-DATA 2
+ ..\..\data\tmd\te.tmd      800c0000
+ ..\..\data\tod\jaanken.tod 800e0000
+
+"trr" trr\trr.exe
+-SENTJ "TransRot系関数のサンプル"
+-SENTE "sample of TransRot functions"
+
+"tuto" tuto\main.exe
+-SENTJ "基本チュートリアル"
+-SENTE "basic tutorial"
+
+"walk" walk\walk.exe
+-SENTJ "物体を物体の表面に拘束して動かす"
+-SENTE "moving one object constraining on \nanother one"
+-DATA 6
+ ..\..\data\pmd\venus.pmd 80040000
+ ..\..\data\pmd\c0sv1.pmd 80080000
+ walk\chara0.sv 80090000
+ walk\chara1.sv 800a0000
+ walk\chara2.sv 800b0000
+ walk\chara3.sv 800c0000
+
+"zimen" zimen\main.exe
+-SENTJ "地面"
+-SENTE "Teerian"
+
+;;;;;;;;;;;;;;;;;;;;;;; KANJI ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\kanji\
+
+; "asc2sjis" asc2sjis\
+; 
+
+"chinese1" chinese\viewer\view15.exe
+-SENTJ "中国語フォントデータ(簡体字フォント)のビューア"
+-SENTE "Viewer for the chinese font data"
+-DATA 2
+ chinese\fontdata\cxgb15g.dot 80010000
+ chinese\fontdata\codetbl.txt 80050000
+
+"chinese2" chinese\viewer\view15.exe
+-SENTJ "中国語フォントデータ(繁体字フォント)のビューア"
+-SENTE "Viewer for the chinese font data"
+-DATA 2
+ chinese\fontdata\cxbig15g.dot 80010000
+ chinese\fontdata\codetbl.txt 80050000
+
+"chinese3" chinese\viewer\view8.exe
+-SENTJ "中国語フォントデータ(半角フォント)のビューア"
+-SENTE "Viewer for the chinese font data"
+-DATA 1
+ chinese\fontdata\hlf15g.dot 80010000
+
+"kanjidiv" kanjidiv\viewer.exe
+-SENTJ "任意に切り出した文字イメージのビューア"
+-SENTE "Viewer for the selected characters"
+-DATA 1
+ kanjidiv\kanji.out 80010000
+
+"kanjifnt" kanjifnt\main.exe
+-SENTJ "フォントデータヘッダの使用例(１文字が表示されます。)"
+-SENTE "Sample for using the font data headers"
+
+"sjiscode" sjiscode\codeview.exe
+-SENTJ "内蔵フォントデータのビューア"
+-SENTE "Viewer for the built-in font data"
+
+;;;;;;;;;;;;;;;;;;;;;;; MATH ;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\math\
+
+"tree" tree\tree.exe
+-SENTJ "三角関数を用いて樹木曲線を描く"
+-SENTE "Drawing a tree curve by the \ntrigonometric function"
+
+;;;;;;;;;;;;;;;;;;;;;; MODULE ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;-ROOT \psx\sample\module\
+;
+;MODULE\EXECMENU\ANIM
+;MODULE\EXECMENU\BALLS
+;MODULE\EXECMENU
+;MODULE\EXECMENU\RCUBE
+;MODULE\OVERMENU
+
+;;;;;;;;;;;;;;;;;;;;;;;  PAD  ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\pad\
+"anlgctrl" anlgctrl\main.exe
+-SENTJ "デュアルショック テスト(exit: SELECT)"
+-SENTE "dual shock test(exit: SELECT)"
+
+"dungeon" dungeon\main.exe
+-SENTJ "ダンジョン テスト(exit: SELECT)"
+-SENTE "dungeon test(exit: SELECT)"
+-DATA 7
+ ..\..\data\tmd\wall0.tmd 80090000
+ ..\..\data\tmd\wall1.tmd 80090100
+ ..\..\data\tmd\wall2.tmd 80090200
+ ..\..\data\tmd\wall3.tmd 80090300
+ ..\..\data\tmd\yuka.tmd  80090400
+ ..\..\data\tim\moss.tim  80090800
+ ..\..\data\tim\yuka.tim  80092000
+
+;;;;;;;;;;;;;;;;;;;;;;; PRESS ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\press\
+"tuto" tuto\main.exe
+-SENTJ "チュートリアル"
+-SENTE "simple tutorial"
+
+;;;;;;;;;;;;;;;;;;;;;;; SOUND ;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+-ROOT \psx\sample\sound\
+
+"3deffect" 3deffect\3d.exe
+-SENTJ "3D サウンド <libsnd>"
+-SENTE "3D sound"
+-DATA 2
+ ..\..\data\vab\demo.vh 80020000
+ ..\..\data\vab\demo.vb 80025000
+
+"balls" balls\balls.exe
+-SENTJ "サウンドとグラフィックの組み合わせ例 <libsnd>"
+-SENTE "combination of sound with graphics"
+-DATA 3
+ ..\..\data\vab\sample.vh 80020000
+ ..\..\data\vab\sample.vb 80025000
+ ..\..\data\seq\mozart.seq 80010000
+
+"basic" basic\basic.exe
+-SENTJ "基本演奏その１ <libsnd> \n画面表示はありません。"
+-SENTE "a basal performance 1"
+-DATA 4
+ ..\..\data\vab\sample.vh   80030000
+ ..\..\data\vab\sample.vb   80032a20
+ ..\..\data\sep\sample.sep   80010000
+ ..\..\data\seq\sinfonie.seq 80015000
+
+"cdvol" cdvol\cdvol.exe
+-SENTJ "デコードエリアのデータ読み込み \n市販のオーディオＣＤを使用"
+-SENTE "CD playback and SPU-decoded data \nfetching : use audio CD"
+
+"mutual" mutual\mutual.exe
+-SENTJ "波形データの分割転送 <libsnd>"
+-SENTE "Transferring divided waveform data \n<libsnd>"
+
+"simple" simple\simple.exe
+-SENTJ "基本演奏その２ <libsnd>(exit:SELECT+START)"
+-SENTE "a basal performance 2(exit:SELECT+START)"
+-DATA 3
+ ..\..\data\vab\sample.vh 80015000
+ ..\..\data\vab\sample.vb 80020000
+ ..\..\data\seq\fuga.seq   80010000
+
+"jump" simple\jump.exe
+-SENTJ "「基本演奏その2」のジャンプテーブル化 <libsnd>"
+-SENTE "a basal performance 2 (jump table) .."
+-DATA 3
+ ..\..\data\vab\sample.vh 80015000
+ ..\..\data\vab\sample.vb 80020000
+ ..\..\data\seq\fuga.seq   80010000
+
+"stream1" stream\tuto1.exe
+-SENTJ "描画処理と SPU ストリーミング \n(exit: △)"
+-SENTE "Graphics processing and SPU streaming \n(exit: △)"
+-DATA 8
+;-DATA 14
+ ..\..\data\vab\tr1l_pad.vb 800a0000
+ ..\..\data\vab\tr1r_pad.vb 8011a000
+ ..\..\data\vab\tr2l_pad.vb 80194000
+ ..\..\data\vab\tr2r_pad.vb 8020e000
+ ..\..\data\vab\tr3l_pad.vb 80288000
+ ..\..\data\vab\tr3r_pad.vb 80302000
+ ..\..\data\vab\tr4l_pad.vb 8037c000
+ ..\..\data\vab\tr4r_pad.vb 803f6000
+;..\..\data\vab\tr5l_pad.vb 80470000
+;..\..\data\vab\tr5r_pad.vb 804ea000
+;..\..\data\vab\tr6l_pad.vb 80564000
+;..\..\data\vab\tr6r_pad.vb 805de000
+;..\..\data\vab\tr7l_pad.vb 80658000
+;..\..\data\vab\tr7r_pad.vb 806d2000
+
+"stream2" stream\tuto2.exe
+-SENTJ "CD ストリーミングと SPU ストリーミング \n(exit: SELECT + START)"
+-SENTE "CD streaming and SPU streaming \n(exit: SELECT + START)"
+-DATA 8
+;-DATA 14
+ ..\..\data\vab\tr1l_pad.vb 800a0000
+ ..\..\data\vab\tr1r_pad.vb 8011a000
+ ..\..\data\vab\tr2l_pad.vb 80194000
+ ..\..\data\vab\tr2r_pad.vb 8020e000
+ ..\..\data\vab\tr3l_pad.vb 80288000
+ ..\..\data\vab\tr3r_pad.vb 80302000
+ ..\..\data\vab\tr4l_pad.vb 8037c000
+ ..\..\data\vab\tr4r_pad.vb 803f6000
+;..\..\data\vab\tr5l_pad.vb 80470000
+;..\..\data\vab\tr5r_pad.vb 804ea000
+;..\..\data\vab\tr6l_pad.vb 80564000
+;..\..\data\vab\tr6r_pad.vb 805de000
+;..\..\data\vab\tr7l_pad.vb 80658000
+;..\..\data\vab\tr7r_pad.vb 806d2000
+
+"tuto1" tuto\tuto1.exe
+-SENTJ "ピッチ指定/キーオン/キーオフ \n画面表示はありません"
+-SENTE "Key on/off"
+
+"tuto2" tuto\tuto2.exe
+-SENTJ "ミュート \n画面表示はありません"
+-SENTE "Sound Muting"
+
+"tuto3" tuto\tuto3.exe
+-SENTJ "SPU 割り込み処理 \n画面表示はありません"
+-SENTE "SPU interrupt handling"
+
+"tuto4" tuto\tuto4.exe
+-SENTJ "ノイズ音源と細かなピッチ指定 \n画面表示はありません"
+-SENTE "Noise Generator and Fine Pitch"
+
+"tuto5" tuto\tuto5.exe
+-SENTJ "波形データの分割転送 <libspu>"
+-SENTE "Transferring divided waveform data \n<libspu>"
+
+"tuto6" tuto\tuto6.exe
+-SENTJ "リバーブ （exit: SELECT+START）" 
+-SENTE "Reverberation templates  (exit: SELECT+START)"
+
+"xse" xse\xse.exe
+-SENTJ "オートエフェクト \n(exit: SELECT + START)"
+-SENTE "auto effect \n(exit: SELECT + START)"
+-DATA 2
+ ..\..\data\vab\xse.vh 80010000
+ ..\..\data\vab\xse.vb 80015000
+

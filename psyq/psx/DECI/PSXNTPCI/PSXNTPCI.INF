@@ -1,0 +1,41 @@
+[version]
+signature="$Windows NT$"
+
+[DefaultInstall.Services]
+AddService=psxNTpci,0x2,psxNTpci.addservice
+
+[DefaultInstall]
+CopyFiles=psxNTpci.copy.sys, psxNTpci.copy.dll, psxNTpci.copy.inf
+reboot
+
+[DestinationDirs]
+psxNTpci.copy.sys   = 12
+psxNTpci.copy.inf   = 17
+psxNTpci.copy.dll   = 11
+
+[psxNTpci.copy.sys]
+psxNTpci.sys
+
+[psxNTpci.copy.dll]
+psx32.dll
+
+[psxNTpci.copy.inf]
+psxNTpci.inf
+
+[psxNTpci.addservice]
+;  Update Registry
+DisplayName    = "PlayStation Board DECI (DTL-H2500)"
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 1                  ; SERVICE_SYSTEM_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\psxNTpci.sys
+
+[SourceDisksNames]
+30=%Disc_Desc%,"",1
+
+[SourceDisksFiles]
+psx32.dll
+psxNTpci.sys
+
+[strings]
+Disc_Desc = "PlayStation Board DECI (DTL-H2500)"

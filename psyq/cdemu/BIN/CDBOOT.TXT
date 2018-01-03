@@ -1,0 +1,139 @@
+**************************************
+*** CDBoot DEX CD Emulator READ.ME ***
+**************************************
+
+
+Versions 3.x and 6.x are identical except that version 6.x reports
+information back to the PC so that the PC can show the current CD activity
+on screen.  This is achieved with the use of the CDMON.COM TSR.
+
+If you install version 3.x of the boot code then no information will be
+passed back to the PC but you do not need to worry about the interrupt
+at all.
+
+
+
+Installation:
+=============
+
+Either use the 'Load boot program' option from CDDisk
+Or enter  CDDISK -bCDBOOT32.BIN
+
+To update CDBOOT on your SCSI drive:
+------------------------------------
+- Stop emulation: (necessary since emulator hogs the SCSI drive)
+    RESETPS 1	(allow DEX target to be selected)
+    RUN SelCD	(suspend emulation)
+    Install new CDBOOT using CDDISK
+
+- Restart emulation:
+    RESETPS 1	(force emulator to load new CDBOOT code from SCSI drive)
+    RUN SelEmu	(restart emulation)
+
+
+
+To use 6.x:
+-----------
+
+Run the program  CDMON
+
+This will install a TSR which will display information from the CD
+emulator in the top right of a standard text screen.  This information
+will continuously update as the emulation progresses.  It can be switched
+on and off by holding down the *left* hand control and shift keys and
+pressing C.
+
+This display will only work if :
+
+(1)  You install version 6.x of the boot code    and
+(2)  You have the PC hardware interrupt configured on the CD emulator
+     card and you have informed CDBIOS of the interrupt number.
+
+If you install version 6.x of the boot code but do not have the interrupt
+set up properly or use an old version of CDBIOS then the emulator will
+fail to function correctly.
+
+If the PC executes programs that disable interrupts for an extensive
+amount of time then version 6.x of the CD emulator may not function
+correctly.
+
+
+
+NEW for v3.3:
+-------------
+
+CDNOSK33 - This version is identical to CDBOOT33 except no seek simulation is done.
+
+
+
+
+Note for H2500 users:
+---------------------
+Don't use RESETPS v1.04.
+This sends an 'OPEN DOOR' signal to the emulator giving the impression that
+the emulator has crashed!
+Use RESETPS v1.05+
+
+
+
+
+
+Version history:
+----------------
+
+3.7/6.7  - TC: 02.Sep.97
+- Fixed a problem that caused problems with a certain Sony CD demo:
+    DTL-S2002 (LIB v4.0) :: PSX\SAMPLE\DS\TUTO7
+- This fix may well cause the problem fixed in v3.2 to show up again.
+  If anyone suspects this is happening email me (tom@snsys.com) & use
+  v3.6 instead.
+
+
+3.6/6.6  - TC: 06.Jun.97
+- CDBOOT35 + CDEMUPRM didn't work correctly if CDBIOS was installed without
+  interrupts.
+
+
+3.5/6.5  - TC: 21.Apr.97
+- Use in conjunction with CDEMUPRM.EXE to adjust error & seek parameters.
+
+
+3.4/6.4  - TC: 24.Jan.97
+- Continuously trying to Play DA until successful (in a tight loop)
+  would fail, since the simulated seek count would be reset each time.
+  The upshot of this is that \psx\sample\cd\tuto\tuto3 now works!
+
+
+3.3/6.3  - TC: 02.Dec.96
+- Zero seek version.
+- Some bug fixes.
+
+
+3.2/6.2  - TC: 30.May.96
+- Certain combinations of DEX board & Emulator card occasionally caused
+  infinite seeking symptoms.
+  This release has modified various time critical sections of code to be
+  more tolerant to hardware timing thresholds.
+
+
+3.1/6.1	 - TC: 11.Apr.96
+- CD-DA now works after loading of CD-ROM data (why was this never reported?)
+- More robust CD image swapping.
+
+
+3.0/6.0  - TC: 24.Jan.96
+- Door open simulation (use MultiCD).
+- Ability to change to another CD image (use MultiCD).
+
+
+1.8/2.8  - TC
+- This version attempts to model the lens seeks correctly, and as with
+  1.7 (& 2.7) longer arm seeks are also simulated better.
+  It gives much better seeking accuracy that the older releases 1.5 and
+  1.6.
+
+1.7/2.7  - TC
+1.6/2.6  - MD
+1.5/2.5  - MD
+1.0..1.4 - MD
+

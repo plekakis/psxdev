@@ -1,0 +1,65 @@
+;Codewright Project File (do not remove or modify this line)
+[ProjInit]
+ProjSetConfigFlags=0x04010940
+ProjCheckPath='C:\coombsey\ps\disort\\'
+
+[Files]
+C:\coombsey\ps\disort\CTRLLER.H
+C:\coombsey\ps\disort\DATAFILE.ASM
+C:\coombsey\ps\disort\GRAPH.C
+C:\coombsey\ps\disort\MAIN.C
+C:\coombsey\ps\disort\MAIN.H
+C:\coombsey\ps\disort\MAIN.LNK
+C:\coombsey\ps\disort\MAKEFILE.MAK
+C:\coombsey\ps\disort\TMD.C
+C:\coombsey\ps\disort\TMD.H
+C:\coombsey\ps\disort\effects.c
+C:\coombsey\ps\disort\effects.h
+
+[State]
+SysSetCwd='C:\PS\sample\graphics\GSGPU'
+SrchSetFlags=0x0410600b
+FileSortMode=0x0
+StateWindowFrame=135,135,768,530,0x63097fca
+_StateHistory=FILELIST,'C:\coombsey\ps\PROFILER\PROFILE.C','C:\coombsey\ps\PROFILER\PROFILE.H','C:\PS\include\GTEMAC.H','C:\coombsey\JUNK\CHOPPER\MAIN.C','C:\coombsey\ps\disort\effects.c','C:\coombsey\ps\disort\effects.h','C:\coombsey\ps\blur\MAIN.C','C:\PS\sample\graphics\GSGPU\MAIN.C','C:\PS\sample\graphics\GSGPU\TUTO0.C'
+_StateHistory=SEARCH,'distort_num','coord','draw','mein','32','tim','col','disr','dist','draw_distorti'
+_StateHistory=REPLACE,'outer_product','g3','ship','main'
+_StateHistory=XSYMBOL,'FRAME_X','draw_object_g3','load_texture','for','init_distortion_cells','if','test_new_tmd_code','update_distortion_cells','draw_distortion_cell','PadKeyIsPressed'
+_StateHistory=EDITFILE,'C:\coombsey\wildcard\CODE\SRC\CBFDATA.C_V','C:\coombsey\ps\PROFILER\PROFILE.H','C:\coombsey\ps\PROFILER\PROFILE.C','C:\PS\include\GTEMAC.H','C:\coombsey\JUNK\CHOPPER\MAIN.C','C:\coombsey\ps\blur\MAIN.C','C:\PS\sample\graphics\GSGPU\MAIN.C','C:\PS\sample\graphics\GSGPU\TUTO0.C'
+_StateHistory=DIRECTORY,'G:\DevSupp\Internal\From_SCEI\src\Psx42\SRC','G:\DevSupp\Internal\From_SCEI\src\Psx42\SMPL_EJ','G:\DevSupp\Internal\From_SCEI\src\Psx40\SRC'
+_StateHistory=FGREP,'applymatrix'
+_StateHistory=GREPSCOPE,'*.h','*.c','*.*'
+_StateHistory=FGREPDIR,'G:\DevSupp\Internal\From_SCEI\src\Psx42\SRC','G:\DevSupp\Internal\From_SCEI\src\Psx42\SMPL_EJ','G:\DevSupp\Internal\From_SCEI\src\Psx40\SRC'
+
+[Editor]
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=1
+
+[Compiler]
+TagSetFile=''
+BrowseSetFile=''
+CompilerNewExt=.pas
+CompilerNewExt=.ini
+CompilerNewExt=.txt
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+
+[VersionControl:PVCS]
+VCSSetCmd=VCS_CHECKIN_ID,'put -n -T@%Q -M@%Q %b%e',0x8000040
+VCSSetCmd=VCS_CHECKINLOCK_ID,'put -n -T@%Q -M@%Q -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUT_ID,'get -y %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUTLOCK_ID,'get -y -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOCK_ID,'vcs -y -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKUNLOCK_ID,'vcs -y -u %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLABEL_ID,'vcs -y -v"${VCSLABEL}" %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOG_ID,'vlog %b%e',0x8000040
+VCSSetCmd=VCS_CHECKPROP_ID,'vlog -b %b%e',0x8000040
+VCSSetCmd=VCS_CHECKDIFF_ID,'vdiff -r %b%e',0x8000040
+VCSSetCmd=VCS_CHECKMENU_ID,'pvcsvmwn',0x8000000
+VCSSetCmd=VCS_ADD_ID,'vcs -i -t@%Q %b%e',0x8000040
+VCSSetCmd=VCS_REMOVE_ID,'del /f %b%{??v|___}e',0x8000040

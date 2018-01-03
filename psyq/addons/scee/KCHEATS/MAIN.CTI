@@ -1,0 +1,348 @@
+Disc XA_PSX     ;disk format
+
+LeadIn XA             ;lead in track, track 0
+    Empty       1000    ;defines lead in size min (150)
+    PostGap     150     ;required gap at end of lead in
+  EndTrack              ; end of lead in track
+
+
+
+  Track XA                      ;start of XA (data) track
+
+    Pause      150              ;required pause in first track after lead in
+
+    Volume          ISO9660     ;define ISO 9660 volume
+    PrimaryVolume               ;start point of primary volume
+
+
+    SystemIdentifier        "PLAYSTATION"       ;required indetifier
+    VolumeIdentifier        "DAVE"           ; app specific identifiers
+    VolumeSetIdentifier     "DAVE"
+    PublisherIdentifier     "DAVE"
+    DataPreparerIdentifier  "DAVE"
+    ApplicationIdentifier   "DAVEDEMO"
+
+    Lpath               ; Path tables as specified for PlayStation
+    OptionalLpath
+    Mpath
+    OptionalMpath
+
+
+;****************************************************************************
+
+    Hierarchy           ;start point of root directory definition
+
+
+
+                
+   ;****************************************************************************
+   Directory TIM
+   ;****************************************************************************
+
+          File  DWARNING.TIM;1
+           XAFileAttributes  Form1 data
+              Source  TIM\DWARNING.TIM
+          EndFile
+
+  	  File  COPYRGHT.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\COPYRGHT.TIM
+ 	  EndFile
+
+  	  File  POWER1.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source TIM\POWER1.TIM
+ 	  EndFile
+
+   	  File  POWER2.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\POWER2.TIM
+ 	  EndFile
+
+   	  File  POWER3.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\POWER3.TIM
+ 	  EndFile
+
+   	  File CREDIT.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\CREDIT.TIM
+ 	  EndFile
+
+  	  File  FIRSTBCK.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source TIM\FIRSTBCK.TIM
+ 	  EndFile
+ 
+  	  File  MAINBACK.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\MAINBACK.TIM
+           EndFile
+  
+  	  File  MCSCREEN.TIM;1
+ 	   XAFileAttributes  Form1 data
+              Source  TIM\MCSCREEN.TIM
+ 	  EndFile
+
+   	  File  ALPHA.TIM;1
+ 	   XAFileAttributes  Form1 data
+	      Source  TIM\ALPHA.TIM
+ 	  EndFile
+
+   	  File  GAMEICON.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\GAMEICON.TIM
+ 	  EndFile
+ 
+   	  File  MAINSPRT.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\MAINSPRT.TIM
+ 	  EndFile
+ 
+   	  File  ELEM.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\ELEM.TIM
+ 	  EndFile
+ 
+   	  File  SAVE.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\SAVE.TIM
+ 	  EndFile
+
+   	  File  WAITSPRT.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\WAITSPRT.TIM
+ 	  EndFile
+
+   	  File  FIRSTELM.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\FIRSTELM.TIM
+ 	  EndFile
+
+   	  File  SONY.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\SONY.TIM
+ 	  EndFile
+
+   	  File  START.TIM;1
+ 	   XAFileAttributes  Form1 data
+	   Source  TIM\START.TIM
+ 	  EndFile
+
+
+
+
+
+   ;****************************************************************************
+    EndDirectory
+   ;****************************************************************************
+
+
+
+                
+   ;****************************************************************************
+   Directory SAVEDATA 
+   ;****************************************************************************
+        
+
+   ;************CRAZY IVAN
+      
+        File  CI.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\CI.SAV
+ 	EndFile
+
+
+   ;************JUMPING FLASH
+
+        File  JF.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\JF.SAV
+ 	EndFile
+
+   ;************TEKKEN
+
+        File  TE.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\TE.SAV
+ 	EndFile
+
+   ;************AIRCOMBAT
+
+        File  AC.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\AC.SAV
+ 	EndFile
+
+   ;************DISCWORLD
+
+        File  DW.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\DW.SAV
+ 	EndFile
+
+   ;************DESTRUCTION DERBY
+
+        File  DD.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\DD.SAV
+ 	EndFile
+
+   ;************WIPEOUT
+
+        File  WO.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\WO.SAV
+ 	EndFile
+
+   ;************KILEAK
+
+        File  KI.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\KI.SAV
+ 	EndFile
+
+   ;************RIDGE RACER
+
+        File  RR.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\RR.SAV
+ 	EndFile
+
+
+   ;************LEMMINGS3D
+
+        File  LE.SAV;1
+ 	XAFileAttributes  Form1 data
+	Source SAVEDATA\LE.SAV
+ 	EndFile
+
+
+   ;****************************************************************************
+    EndDirectory
+   ;****************************************************************************
+
+   ;****************************************************************************
+   Directory ALERT
+   ;****************************************************************************
+
+
+   ;************ALERT1 game saved ok            card full
+      
+        File  ALERT1.TIM;1
+ 	XAFileAttributes  Form1 data
+	Source ALERT\ALERT1.TIM
+ 	EndFile
+
+
+   ;************ALERT2 format                   are you sure
+      
+        File  ALERT2.TIM;1
+ 	XAFileAttributes  Form1 data
+	Source ALERT\ALERT2.TIM
+ 	EndFile
+
+
+
+   ;************ALERT3 overwrite                are you sure
+      
+        File  ALERT3.TIM;1
+ 	XAFileAttributes  Form1 data
+	Source ALERT\ALERT3.TIM
+ 	EndFile
+
+
+
+   ;************ALERT4 no card                  save failed                          
+      
+        File  ALERT4.TIM;1
+ 	XAFileAttributes  Form1 data
+	Source ALERT\ALERT4.TIM
+ 	EndFile
+
+
+   ;****************************************************************************
+    EndDirectory
+
+   ;****************************************************************************
+
+
+
+
+
+   ;****************************************************************************
+   Directory STR
+   ;****************************************************************************
+
+
+   ;************ game streams 
+                       
+
+        File  TEKKEN.STR;1
+ 	XAFileAttributes  Form1 video
+	Source STR\TEKKEN.STR
+ 	EndFile
+
+
+
+   ;****************************************************************************
+    EndDirectory
+   ;****************************************************************************
+
+
+   ;****************************************************************************
+   Directory SND
+   ;****************************************************************************
+
+   ;************ game streams 
+                       
+        File  VB.SND;1
+	XAFileAttributes  Form1 data
+	Source SOUND\VB.SND
+ 	EndFile
+
+ 	 
+        File  VH.SND;1
+	XAFileAttributes  Form1 data
+	Source SOUND\VH.SND
+ 	EndFile
+
+
+   ;****************************************************************************
+    EndDirectory
+   ;****************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+    EndHierarchy        ;ends root directory definition
+	  
+    EndPrimaryVolume    ;ends primary volume definition
+	  
+ 	      EndVolume           ;ends ISO 9660 definition
+ 	  
+	      PostGap  150        ;required to change track type
+
+   	    EndTrack              ;ends track definition
+
+; end of the xa track 
+
+
+; note that the leadout track must be the same type as the last track
+
+  LeadOut  XA
+   Empty  150
+  EndTrack
+ 	
+EndDisc
+
+

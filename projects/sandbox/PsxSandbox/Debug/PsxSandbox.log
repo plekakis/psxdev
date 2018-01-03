@@ -1,0 +1,44 @@
+﻿Build started 1/3/2018 8:50:34 PM.
+Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
+Build:
+  call build.bat
+  Could Not Find E:\psxdev\projects\sandbox\PsxSandbox\main.exe
+  Starting compilation...
+  CPE2X Ver1.5
+  Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
+  convert from main.cpe to main.EXE for Europe area
+  pc0:800167dc  t_addr:80010000  t_size:00009000
+  Compile success! Copying to cd-rom ...
+  MKPSXISO 1.10 - PlayStation ISO Image Maker
+  2017 Meido-Tek Productions (Lameguy64)
+  
+  Building ISO Image: ..\demo.bin + ..\demo.cue
+    Track #1 data:
+      Identifiers:
+        System       : PLAYSTATION
+        Application  : PLAYSTATION
+        Volume       : DEMO
+        Publisher    : CONVEX
+  
+      License file: C:\psyq\cdgen\LCNSFILE\LICENSEE.dat
+  
+      Parsing directory tree...
+        Files Total: 2
+        Directories: 1
+        Estimated filesystem size: 2511936 bytes (1068 sectors)
+  
+      Building filesystem... 
+        Packing system.txt... Done.
+        Packing main.exe... Done.
+        Writing filesystem... Ok.
+        Writing license data...Ok.
+  
+  ISO image generated successfully.
+  Total image size: 2511936 bytes (1068 sectors)
+  
+  Finished!
+Done Building Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.32

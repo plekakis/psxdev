@@ -1,0 +1,124 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+                                                                Oct. 1998
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.4
+
+                       Sample Changes and New Additions, and Known Bugs
+                                                       from Release 4.3   
+---------------------------------------------------------------------------
+                      Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+---------------------------------------------------------------------------
+
+Known Bugs and Cautions
+---------------------------------------------------------------------------
+< Known Bugs >
+
+- data\hmd\scei\envmap\star09
+- data\hmd\scei\envmap\venus26
+	These 2D environment mapping data of HMD environment mapping (beta 
+	version) can not be converted correctly HMD -> LAB -> HMD.
+	This problem will be fixed in the future release.
+
+- sample\sound\stream
+	When channel starts/stops are repeatedly executed during SPU
+        streaming execution, the SPU streaming might go into a loop.
+        This problem will be fixed in the next release. 
+
+
+Directory Structure Changes
+---------------------------------------------------------------------------
+
+- sample\graphics\hmd\pdriver
+	Deleted due to the disclosure of the source code for the HMD 
+	primitive driver.
+
+
+New Additions
+---------------------------------------------------------------------------
+
+- sample\kanji\chinese\fontdata
+- sample\kanji\chinese\viewer
+	Chinese font data and Chinese font data viewer were added.
+
+- sample\mcx\primitiv
+	A sample, which can visually check the input/output information on 
+	each function of the PDA library (libmcx), was added.
+
+- sample\etc\mcgui\tuto0
+	A sample, which uses the Memory Card GUI module, was added.
+
+- data\hmd\scei\anim\ring
+        New HMD sample data "ring" was added. Almost all of the primitive
+        types are included in this data.
+	
+- data\hmd\scei\comb\walkrun
+	A new HMD sample "walkrun" was added.  This is automated Joint 
+	MIMe which uses a general-purpose animation.   
+
+
+Existing Samples Improved, Changed and Corrected
+---------------------------------------------------------------------------
+
+- sample\etc\card
+	In card.c, the text name (HEAD.Title) of the file to be saved to 
+	the Memory Card appeared as illegal characters.  This has been 
+	fixed.
+
+- sample\etc\comb\tuto3
+	In remote.c, OpenEvent() which should be called in the critical 
+	section was performed outside the critical section.  This has been 
+	fixed.
+
+- sample\cd\tuto
+- sample\ds\tuto
+- sample\module\menu
+	In the following samples, a change was made so that a message such 
+	as "Use DTL-S2320" or "Use DTL-S2310" is not displayed on the 
+	screen.
+  
+	sample\cd\tuto\
+		tuto5,tuto6,tuto7,tuto8,tuto9
+	sample\ds\tuto\
+		tuto5,tuto6,tuto7,tuto8,tuto9
+	sample\module\menu\	
+		menu.1st, readme_j.txt
+
+- sample\sound\balls
+	The data to be downloaded, which are described in makefile.mak, 
+	were changed from simple.vh and simple.vb to sample.vh and 
+	sample.vb.
+
+- sample\sound\stream
+	When tuto1 and tuto2 were executed from sample\module\menu\pcmenu, 
+	they were not able to return to the menu.  This problem has been 
+	fixed.
+
+- sample\sound\cdvol
+	A change was made so that the CD-ROM is played from the second 
+	track when this sample is executed from sample\module\menu\pcmenu.
+
+- sample\pad\anlgctrl
+- sample\pad\dungeon
+	A change was made so that the above samples can be executed from 
+	sample\module\menu\pcmenu.
+
+- sample\graphics\hmd
+	In all the samples included in the above directory, the display of 
+	CPU calculation time "H-count" is enabled.
+
+- sample\module\execmenu
+	Returns from the child program to the parent program were disabled 
+	occasionally.  This problem has been fixed.
+
+- sample\module\menu
+	A change was made so that Chinese font viewer introduced in this
+	release can be activated from the menu.
+
+- data\hmd\scei\equip\pp
+- data\hmd\scei\equip\snowman
+	In the World Camera/Light primitive header in pp_world.hmd and 
+	snowman.hmd included in the above directories, unnecessary 
+	pointers for the coordinates were included.  These pointers 
+	were deleted.

@@ -1,0 +1,322 @@
+
+                                                                            98.11.09
+                                                           Software Development Dept.
+                                                     Sony Computer Entertainment Inc.
+
+＜PDA development tool, DTL-H4000 startup manual＞
+
+
+
+This manual explains the startup procedures including the program setup for the 
+smooth operation with DTL-H4000.  For details of ARM Software Delopment
+Toolkit (SDT), please refer to the individual manual provided.
+
+
+- 1 - Hardware setup
+
+Connect PC parallel port, Multi-ICE and DTL-H4000 as described in the diagram below.
+
+
+                                          +-------+
+                                          |       | Infrared module
+                                          +---+---+
+                                              |
+                                    +---------+---------+
+                                    |       +---+       * Headphone output
+                                    |   LCD |   |   O   @ Headphone volume
+PC parallel port +-------------+    |       +---+  LED  |
+<-               |             |    |                   |
+=================*  Multi-ICE  *====* JTAG output       |
+                 |             |    |                   |
+                 +-------------+    |     O             |
+                                    |   O   O      O    |
+                 Voltage adjustment @     O             |
+      Voltage fix/adjustable switch # .......           # RESET button
+                                +---*   Voltage level   |
+                                |   +---------+---------+
+--------------------------------+             |
+<- AC adaptor                             +---+---+
+                                          |       | MEMORY CARD output
+                                          +-------+
+
+                              Diagram 1 DTL-H4000 overview
+
+                             
+- 2 - Software setup
+
+Following softwares are to be used.
+
+  1. DTL-H4000 supplied CD-R "DTL-H4000 StartUp Kit"
+  2. DTL-S2804(ARM SDT) supplied CD-ROM "ARM Software Delopment Toolkit"
+
+  * DTL-H2803(Multi-ICE) supplied CD-ROM should not be used.
+
+1）Install CD-ROM "ARM Software Development Toolkit".
+    （WINDOWS\SETUP.EXE）
+    ARM Project Manager,ARM Debugger for Windows will be installed.
+
+2）Install CD-R "DTL-H4000 StartUp Kit"（SETUP\SETUP.EXE）.
+    Multi-ICE Server,Multi-Processor Debugger will be installed.
+    （NOTE）
+    Use "Multi-Processor Debugger" for DTL-H4000.
+    Please note that the "ARM Debugger for Windows" described at the step 1
+    cannot be used.  "Debugger" mentioned in this document refers to 
+    "Multi-Processor Debugger".
+
+3）Copy FLASH\flash.exe contained in the CD-R "DTL-H4000 StartUp Kit" to 
+   the pathed directory.
+
+4）Startup "Multi-ICE Server" which has been installed at the step 2.
+    Please confirm if the diagram appears by executing [File->Auto-Configure] at
+    the initial startup. ARM7TDMI letters should appear in green which means processed 
+    properly.  By checking [Auto-Configure] in [Setting->Start-up Options] process,
+    Auto-Configure will be automatically executed at the startup from the second time.
+ 
+5）Download the boot application into Boot memory domain(0x04000000) of DTL-H4000.  
+   Execute \download.bat in the CD-R "DTL-H4000 StartUp Kit".
+
+6）Press the RESET button of DTL-H4000.  Check if the word, "Hello", is displayed 
+   on LCD screen.
+
+- 3 - To build sample program
+
+Followings explains how to build the sample program(\PDA).
+
+1）Start up ARM Project Manager.  Execute [File ->Open] which opens PDAsmpl\PDA.apj.
+   Build tree, [PDA applications], will be displayed.
+
+2）Double click to open [PDA applications].
+   Two trees, [Release] and [Debug] will be displayed.
+
+3）Click [Release]  to open and while it is selected, execute
+   [Project->Build PDA.apj "Release" ] to build. 
+   PDAsmpl\Release\PDA.axf.ro(Split Binaly) will be created.
+
+4）For symbolic debug, execute [Project→Build PDA.apj "Debug" ] to build while [Debug] 
+   is selected. PDAsmpl\Debug\PDA.axf(ARM ELF Image Format) will be created.
+
+Although a warning "armlink...Unsupported call from ARM code to Thumb symbol MenuSnd in Main.
+o(MAIN)." appears, the build is completed properly.
+
+- 4 - To download sample programs into H4000
+
+* For the first time
+  To startup a sample from the boot application, MEMORY CARD FAT has to be 
+  written in the management block domain(0x8000000-0x8001fff).
+  FAT can be easily created when this is processed through PS library. 
+
+1) Press the RESET button to start up from the boot application.
+
+2) Insert MEMORY CARD output into the controller box of DTL-H2000(2500,2700).
+
+3) Flip the switch located by the DC power connector to the voltage fix
+   (where the voltage level is always maximum).  Kernel recognize that the PS 
+   has been inserted.  Images on the LCD display will be flipped vertically.
+
+4) Build the PS writing program by executing PSprog\
+      > cd psprog
+      > psymake
+
+5)Start up the PS program to write a sample into DTL-H4000.
+      （eg. when used with H2500）
+      > h25bios
+      > mess1
+      > psymake run
+
+6) Reverse the switch by the DC power connector to voltage adjustment side.
+
+  * From the second time
+
+  Since FAT has already been created at the initial process, "flash.exe"
+  can be used to rewrite. However, the same process will be required
+  in case block number increases. 
+
+  1)Write PDAsmpl\Release\PDA.axf.ro into DTL-H4000.
+      DO NOT put option -e (otherwise FAT will be erased)
+      > flash -m0 -f8002000 -v PDA.axf.ro
+
+  2)Press the RESET button to start up the boot application.
+
+
+ - 5 - To debug sample program
+
+  * Debugging procedures
+  1)Start up Multi-ICE Server.
+
+  2)Start up Multi-Processor Debugger.
+      （NOTE）
+      At the initial startup, the error message will appear.  In that case,   
+      bring [Channel Viewers] to the [Enabled] state while [Configure] is selected.
+      The error message will no longer appear from the next time.
+
+  3)For symbolic debug, execute [File->load symbols only], to load
+    ARM ELF Image Format file, PDAsmpl\Debug\PDA.axf.  Source file,
+    boot.s, will be appeared automatically.
+
+  4)[View->Registers->Current Mode].  Registers window will appear.
+
+  5)Double click  [psr] in the Registers window to change to 0xd3 (%nzcvIFt_SVC32).
+
+  6)Double click [pc] in the Registers window to change to  0x04000000 
+    (top address of the kernel)
+
+  7)[Execute->Go].
+      Kernel、bootup application will be starting up.
+      The word, "Hello", will appear on LCD screen.
+
+  8) Select an application icon of your choice from the boot application.
+     User program will be executed.  When symbolic debug is executed,
+     the process will once stop as Break point(BP) is set up at "main".
+      
+  9)To set up BP
+      With DTL-H4000, BP can be set up in two positions, however, with setting up Default, 
+      only 1 position is available and when step execution, BP cannot be set with no operation. 
+      Open [View->Debugger Internals] window. Change the values of [semihosting_enabled] 
+      and [Vector_Catch] to zero (0).  Now BP can be used at two different positions
+      on Debugger.
+   
+
+ *Use of script file
+
+  Most steps stated above can be automated by using the script file.
+  PDAsmpl\Dbgscr.txt is attached for a sample.  
+  Edit and utilize it according to the application you debug.
+  It can also be executed automatically at the startup point by
+  the Debugger command line option(-script filename)r.
+
+  1)Execute [View ->Command] to display the Command window.
+  2)Execute the script file.
+      （Example）
+      ARMsd Command Interface
+      Debug: obey c:\PDAsmpl\dbgscr.txt
+
+
+
+- 6 - To create a new Project
+
+Followings explains general steps and parameter setting to create a new project 
+when developing DTL-H4000.  The sample is used for example here.
+
+* To create Project on your own
+
+1)Start up ARM Project Manager 
+2)Define the Project
+  1. Execute [File->New] to select [Project] 
+  2. New Project setting dialogue will appear.
+  3. Specify [THUMB-ARM Interworking Image] for [Type] 
+     Assign any name for [Project Name] and [Project Directory] .
+  4. Project window will be open and build tree, [THUMB-ARM Interworking Image] ,
+     will be displayed.
+
+3)To set up the common parameter of "Release" and "Debug".
+  1. Click [THUMB-ARM Interworking Image] to be selected.
+  2. Execute [Project->Tool Configuration for xxxx.apj->armlink->Set] to display
+     the [Linker Configuration] setting dialogue.
+  3. Set up 0x02000000 at [Read-Only] and 0x200 at [Read-Write] in the 
+     [Entry and Base] tag respectively.   
+  4. Set up boot.o at [Object File] and set up BOOT at [Area Name] in the 
+     [Image Layout] tag.
+  5. Execute [Project->Tool Configuration for xxxx.apj->armcc->Set] to display
+     the [Compiler Configuration] setting dialogue.
+  6. Shift [ARM6] to [ARM7TM] of [Processor] in the [Target] tag.
+  7. Switch OFF [Software stack check] and [Frame pointer] at [APCS3 Qualifiers] 
+     in the [Target] tag.
+
+4）To set up the build environment of "Debug"
+      1. Open build tree.  Click [Debug] to be selected.
+      2. Execute [Project->Tool Configuration for "Debug"->armlink->Set] to 
+         display the [Linker Configuration] setting dialogue.
+      3. Set up [ARM ELF image format] at [Output Formats] in the [Output] tag.
+      4. Specify the list file in the [Listings] tag where necessary.
+     
+5）To set up the build environment of "Release"
+  1. Open build tree.  Click [Release] to be selected.
+  2. Execute [Project->Tool Configuration for "Release"->armlink->Set] to display
+     [Linker Configurartion] setting dialogue.
+  3. Set up [Split RO and RW(binary)] at [Output Formats] in the [Output] tag.
+  4. Specify the list file in the [Listings] tag where necessary.
+  5. Execute [Project->Tool Configuration for "Release"->armcc->Set] to display
+     the [Compiler configuration] setting dialogue.
+  6. Switch ON [Enable debug table generation] at [Debug Control] in the
+     [C & Debug] tag.  Same applies to tcc.  Switching ON increases the volume
+     size, however, it is necessary for the C source debug operation. 
+     It is effective to switch OFF for the master creation.(With "Debug", ON is default)
+
+  6）To specify the source file [when assembler source is specified] 
+      1. Open [Release] or [Debug] tree.
+      2. Select [ASM-Sources].
+      3. Execute [Project->Add files to Project](can be specified multiple 
+         files).  When C source, Object and Library exist, the same operation applies.
+  
+  7) To build [Release] 
+      1. Select [Release] in the tree.
+      2. Build by executing either [Project->Build PDA.apj "Release" ] or 
+         [Build Release] icon which can be found at the bottom left in the window. 
+  
+  8) To build [Debug]
+      1. Select [Debug] in the tree.
+      2. Execute [Project->Build PDA.apj "Debug"] or build by [Build Debug]
+         which can be found at the bottom left in the window.
+
+* Using template file for PDA
+  Project template file, "PDAtemp.apj", is attached.
+  This can be used when it is placed in the template directory for
+  the ARM Project Manager.  Minimal settings has already been done which 
+  saves manual settings.
+
+  1) To place "PDAtemp.apj" in the template directory.
+      > copy PDAtemp.apj C:\ARM211A\Template
+  2）To define "Project"
+      1. Execute [File->New] to select [Project].
+      2. New Project set up dialogue will be displayed.
+      3. Specify [PDA applications] for [Type] .
+         Assign any name for [Project Name] or [Project Directory] .
+      4. Project window will be open.  Build tree,  [PDA applications],
+         will be displayed.
+  3）Specify the source file.
+  4）Build [Release] .
+  5）Build [Debug]. 
+
+- 7 - Flow of debug 
+
+A brief flow of debug is as follows.
+
+1）Start up Multi-ICE Server、Project manager.
+2）Source is changed by editor.
+3）Build by "Project Manager".
+4）Binary style "axf file" is written using PS library or flash.exe.
+   (Finish Debugger since the file cannot be written when the Debugger
+    is starting up.)
+5）Starting up Debugger.  Symbolic information will be loaded where necesssary.
+6）Execute/Debug.
+7）Return to step 2.
+
+
+- 8 - About Kernel and the boot application 
+
+Kernel is located in the boot memory domain(0x04000000～) and it dominates 
+0～0x1ff within the static RAM(0～0x7ff).  Therefore, RAM domain for user will be
+0x200～0x7ff.  Brief explanation of the operaion when Power is on/Reset is as follows.
+ 
+[Kernel]
+1）Remap
+2）Set up exception handler/interrupt vector
+3）Set up stack point(SP) of individual mode
+4）Set up kernel service
+5）Swith to the user mode
+6）Start up the boot application(jump to 0x04001e00)
+
+[Boot application]
+1）Clock setting display 
+2）Analyze FAT information(0x8000000-0x8001fff), display icons in reference
+   to header of the individual application.
+3）Once application has been selected, the application will be mapped on the 
+   virtual address (0x02000000～).
+4) Start up the application from the virtual address.
+
+For details of the kernel and the boot application, please refer to the 
+"PDA kernel specification".
+
+*** END ***
+
+

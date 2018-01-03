@@ -1,0 +1,169 @@
+##############################
+##  Sample script for MovConv
+##############################
+#
+# < Available functions >
+#	Avi2strMdecAv()
+#	Avi2strMdecV()
+#	Avi2strMdecC()
+#	Yuv2strMdecAv()
+#	Yuv2strMdecV()
+#	Yuv2strMdecC()
+#	Rgb2strMdecAv()
+#	Rgb2strMdecV()
+#	Rgb2strMdecC()
+#	Wav2xa()
+#	MakeAv()
+#	MakeV()
+#
+# < Arguments >
+#	CD-ROM speed:		'x1' or 'x2'
+#	Frame rate:		'10fps', '12.5fps', '15fps', '16.7fps', '20fps', '25fps' or '30fps'
+#	Number of channels: 	'1', '2' or '4'
+#	MDEC version:		'2' or '3'
+#	Frequency of audio:		'37.8KHz' or '18.9KHz'
+#	Stereo or Mono:		'Stereo' or 'Mono'
+#	Maximum frame size:	ex. '10sectors', '20000bytes'
+#	Frame mode:		'FixedFrameSize', 'VariableFrameSize'
+#	Video format name:		'strMDEC', 'bs'
+# 
+
+#######################
+## Avi -> Str (MDEC)
+#######################
+Avi2strMdecAv(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\out1.str,	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	1,		# Number of channels
+	2,                                  # MDEC version
+	37.8KHz,		# Frequency of audio
+	Mono		# Stereo or Mono
+);
+
+Avi2strMdecV(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\out2.str, 	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	2,		# Number of channels
+	2		# MDEC version
+);
+
+Avi2strMdecC(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\out3.str, 	# Output file name
+	10sectors,	# Maximum size for one frame
+	FixedFrameSize,	# Fixed frame size or not
+	2		# MDEC version
+);
+
+#######################
+## Yuv -> Str (MDEC)
+#######################
+Yuv2strMdecAv(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,		# Width
+	240,		# Height
+	c:\tmp\out4.str,	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	1,		# Number of channels
+	2,                                  # MDEC version
+	37.8KHz,		# Frequency of audio
+	Mono		# Stereo or Mono
+);
+
+Yuv2strMdecV(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,		# Width
+	240,		# Height
+	c:\tmp\out5.str, 	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	2,		# Number of channels
+	2		# MDEC version
+);
+
+Yuv2strMdecC(
+	c:\tmp\data0000.yuv,	# Input file name
+	256,		# Width
+	176,		# Height
+	c:\tmp\out6.str, 	# Output file name
+	10sectors,	# Maximum size for one frame
+	FixedFrameSize,	# Fixed frame size or not
+	2		# MDEC version
+);
+
+
+#######################
+## Rgb -> Str (MDEC)
+#######################
+Rgb2strMdecAv(
+	c:\tmp\data0000.rgb,	# Input file name
+	256,		# Width
+	176,		# Height
+	c:\tmp\out7.str,	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	1,		# Number of channels
+	2,                                  # MDEC version
+	37.8KHz,		# Frequency of audio
+	Mono		# Stereo or Mono
+);
+
+Rgb2strMdecV(
+	c:\tmp\data0000.rgb,	# Input file name
+	256,		# Width
+	176,		# Height
+	c:\tmp\out8.str, 	# Output file name
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	2,		# Number of channels
+	2		# MDEC version
+);
+
+Rgb2strMdecC(
+	c:\tmp\data0000.rgb,	# Input file name
+	256,		# Width
+	176,		# Height
+	c:\tmp\out9.str, 	# Output file name
+	10sectors,	# Maximum size for one frame
+	FixedFrameSize,	# Fixed frame size or not
+	2		# MDEC version
+);
+
+#######################
+## Wav -> Xa
+#######################
+Wav2xa(
+	c:\tmp\data.wav,	# Input file name
+	c:\tmp\data.xa,	# Output file name
+	37.8KHz,		# Frequency of xa audio 
+	Stereo		# Stereo or Mono for xa audio
+);
+
+#######################
+## MakeAv (Interleave encoded data)
+#######################
+MakeAv(
+	c:\tmp\data.str,	# Video file name
+	strMDEC,		# Video format name
+	c:\tmp\data.xa,	# Audio file name
+	c:\tmp\out10.str,	# Output file name (audio & video)	
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	1,		# Number of channels
+	37.8KHz,		# Frequency of audio 
+	Stereo		# Stereo or Mono
+);
+
+MakeV(
+	c:\tmp\data.str,	# Video file name
+	strMDEC,		# Video format name
+	c:\tmp\out11.str,	# Output file name (video)	
+	x2,		# CD-ROM speed
+	15fps,		# Frame rate
+	1		# Number of channels
+);

@@ -1,0 +1,238 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+PlayStation DECI driver Version 1.4
+
+
+Installing the PlayStation DECI driver
+
+ * Introduction
+   The PlayStation DECI driver is a Windows (95/NT) driver that enables the
+PlayStation development board to be used with various tools. Please install the
+driver according to the instructions below when using CodeWarrior R4 or later,
+or other tools that require the DECI driver.
+
+   Note that SDevTC, which works with dexbios, h25bios, etc., cannot be used in
+conjunction with the DECI driver.
+
+
+ * Operating system and machine
+   Support is provided for the four combinations given below. Select the 
+appropriate one for your operating system and machine.
+
+  A. Windows95 and the DTL-H2000/DTL-H2700
+  B. Windows95 and the DTL-H2500
+  C. WindowsNT and the DTL-H2000/DTL-H2700
+  D. WindowsNT and the DTL-H2500
+
+
+ * Installation
+
+  A. Installing the DTL-H2000/DTL-H2700 for Windows95.
+
+   A-1. Setting up the hardware
+
+     Connect the DTL-H2000/H2700 to the PC by following the instructions for
+the development board or those in the start-up manual.
+
+   A-2. Initializing the board (DTL-H2700 only)
+
+     Please update the DTL-H2700 to the latest firmware release. The update can
+be performed by executing the following commands from the DOS prompt or DOS.
+This operation is not necessary for the DTL-H2000.
+       > cd deci\flash27
+       > flash 1340
+       (1340 is the I/O Address for the DTL-H2700.)
+
+   A-3. Disabling settings for CW R3 and earlier, and SDevTC environments
+
+     If a driver from CW R3 or earlier is installed, please uninstall the old
+driver. Select Start Menu -> Settings -> Control Panel -> System -> Device
+Manager -> PlayStation -> DTL-H2000 delete.
+
+     In the SDevTC environment, if loading of dexbios takes place in
+config.sys, remove or comment out the line.
+
+   A-4. Specifying the I/O Address and the IRQ
+     Copy deci\psx95isa to an appropriate location on the hard disk.
+     Double click the deci\psx95isa\psx95isa.inf in the copied files.
+
+     Find the line beginning with ;IRQConfig=
+
+     If an IRQ is to be used, first delete the initial ; then enter the board
+setting such as 10, 12, 15 (e.g., IRQConfig=10).
+     If an IRQ is not used, leave the ; as is.
+
+     A line beginning with IOConfig= should appear next. Specify the I/O
+address in this line, as in IOConfig=1240-124b(3ff::)
+
+     The initial values are set to IRQ: none, I/O address: 1340.
+
+   A-5. Installing the driver
+       Select Start Menu -> Settings -> Control Panel -> Hardware. To start the
+installation, follow the procedure below.
+       a. Click on "Next".
+       b. Select "No" for automatic detection, then click on "Next".
+       c. Select "Other device" and click on "Next".
+       d. Select "Have disk". For the copy source, specify the directory
+containing psx95isa.inf as described above in section A-4.
+       e. Select PlayStation Board DECI (DTL-H2000/H2700) and click on
+"Next". The port address will be displayed. Click on "Next".
+       f. Click on "Finish" to complete installation of the driver.
+
+
+  B. Installing the DTL-H2500 for Windows95
+
+   B-1. Setting up the hardware
+
+Connect the DTL-H2500 to the PC by following the instructions for the
+development board or those in the start-up manual.
+
+   B-2. Initializing the board
+
+Please update the DTL-H2500 to the latest firmware release. The update can be
+performed by executing the following commands from the DOS prompt or DOS.
+       > cd deci\flash25
+       > flash
+
+   B-3. Disabling settings for CW R3 and earlier, and SDevTC environments
+
+     If drivers are not being used they should be deleted. Otherwise the other
+devices would recognize the board as a PCI card.
+     Start Menu -> Settings -> Control Panel
+     System -> Device Manager -> Other Devices -> PCI Card -> Delete
+
+If a driver from CW R3 or earlier is present, it should be uninstalled.
+       Start Menu -> Settings -> Control Panel
+       System -> Device Manager -> PlayStation -> DTL-H2500 -> Delete
+
+   B-4. Installing the driver
+       Select Start Menu -> Settings -> Control Panel -> Hardware. To start
+installing, follow the procedure below.
+       a. Click on "Next".
+       b. Select "No" for automatic detection, then click on "Next".
+       c. Select "Other device" and click on "Next".
+       d. Select "Have disk". Specify deci\psx95Pci as the copy source.
+       e. Select PlayStation Board DECI (DTL-H2500) and click on "Next". The
+board is Plug-and-Play compatible so select "Next". Click "Finish" to complete
+installation of the driver.
+
+
+  C. Installing the DTL-H2000/DTL-H2700 for WindowsNT
+
+   C-1. Setting up the hardware
+
+Connect the DTL-H2000/DTL-H2700 to the PC by following the instructions for the
+development board or those in the start-up manual.
+
+   C-2. Initializing the board (DTL-H2700 only)
+
+Please update the DTL-H2700 to the latest firmware release. Update the firmware
+by copying the files in deci\flash27 to a bootable floppy disk and executing
+the following commands. This operation is not needed for the DTL-H2000.
+       > cd deci\flash27
+       > flash 1340
+       (1340 is the I/O Address for the DTL-H2700.)
+
+   C-3. Specifying the I/O Address and the IRQ
+Copy deci\psxNTisa to an appropriate place on the hard disk. Double click
+deci\psxNTisa\psxNTisa.inf on the hard disk.
+
+     Find the line beginning with ISAIRQ=
+
+When using an IRQ, enter the board setting such as 10, 11, 12, 15 (e.g.,
+ISAIRQ=10). If no IRQ is used, enter a 0.
+
+The next line should be one beginning with ISAAddress=. Enter the I/O address
+here (e.g., ISAAddress=0x1240).
+
+Initial settings are IRQ: none, I/O address: 1340.
+
+   C-4. Installing the driver
+Right-click the psxNTisa.inf file that was copied at step C-3.
+Select the Install option from the menu.
+This completes installation of the driver.
+
+
+  D. Setting up the DTL-H2500 for WindowsNT
+
+   D-1. Setting up the hardware
+
+Connect the DTL-H2500 to the PC by following the instructions for the
+development board or those in the start-up manual.
+
+   D-2. Initializing the board
+
+
+Please update the DTL-H2500 to the latest firmware release. Update the firmware
+by copying the files in deci\flash25 to a bootable floppy disk and executing
+the following commands.
+       > cd deci\flash25
+       > flash
+
+   D-3. Installing the driver
+Right-click the psxNTPCi.inf file in the deci\psxNTPCi directory.
+Select the Install option from the menu.
+     This completes the installation of the driver.
+
+
+ * Temporarily disabling the driver
+The driver should be disabled when using the SDevTC tool. Each time the driver
+is changed, the firmware must be updated to the appropriate version. To
+determine the proper firmware version, see the instructions for the
+corresponding tool.
+
+  A.B. Disabling drivers under Windows95
+       Start Menu -> Settings -> Control Panel
+       System -> Device Manager -> PlayStation -> PlayStation Board DECI (DTL-H2....)
+Under Device Usage, check "Disable for this hardware configuration".
+
+  C.D. Disabling drivers under WindowsNT
+       Start Menu -> Settings -> Control Panel -> Device -> PlayStation Board
+DECI (DTL-H2....). If the state is started, click Cancel and press the Start-up
+button to switch to manual mode.
+
+
+ * Re-enabling drivers
+Drivers that were disabled using the procedure described above can be
+re-enabled in the following manner.
+
+Update the version of the firmware using the same steps that were used during
+installation.
+
+  A.B. Re-enabling drivers under Windows95
+       Start Menu -> Settings -> Control Panel
+       System -> Device Manager -> PlayStation -> PlayStation Board deci
+(dtl-H2....)
+
+Under Device Usage, uncheck "Disable for this hardware configuration".
+
+  C.D. Re-enabling drivers under WindowsNT
+       Start Menu -> Settings -> Control Panel -> PlayStation Board DECI
+(DTL-H2....).
+
+Press the Startup button to switch to System. Press the Start button.
+
+
+ * Uninstalling
+
+  A.B. Uninstall drivers from Windows95
+       Start Menu -> Settings -> Control Panel
+       System -> Device Manager -> PlayStation -> PlayStation Board DECI
+(DTL-H2....). Select Delete.
+
+If there is an inf\other directory in the Windows System directory, delete the
+remaining settings files.
+
+Depending on the Windows95 version, settings files in the inf directory may be
+renamed oemxx.inf. These should be deleted.
+
+  C.D. Uninstall drivers from WindowsNT
+       Start Menu -> Settings -> Control Panel -> Device -> PlayStation Board
+DECI (DTL-H2....)
+       Click the Startup button. This will disable the driver.
+
+
+--
+Copyright (C) 1996, 1997, 1998 by Sony Computer Entertainment Inc.
+          All Rights Reserved.
+

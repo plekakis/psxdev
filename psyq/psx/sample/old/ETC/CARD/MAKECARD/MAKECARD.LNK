@@ -1,0 +1,17 @@
+text	group
+bss	group	bss
+	section	.rdata,text
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include "makecard.obj"
+
+	inclib	"libsn.lib"
+	inclib	"libcard.lib"
+	inclib	"libc.lib"
+	inclib	"libapi.lib"
+	regs	pc=__SN_ENTRY_POINT
+

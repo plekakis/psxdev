@@ -1,0 +1,5 @@
+@RSD940102
+PLY=bezier.ply
+MAT=bezier.mat
+#GRP=bezier.grp
+NTEX=0

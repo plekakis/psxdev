@@ -1,0 +1,24 @@
+V 0.8
+
+ > disasm h sample.exe sample.asm
+  generates code of sample.exe in sample.asm with values shown as hex
+
+ > disasm d sample.exe sample.asm
+  generates code of sample.exe in sample.asm with values shown as dec
+
+ Notes :       
+
+  [x] : x is a adress
+  $x  : x is a hex value
+
+ Dodger
+
+For BUG-REPORTS , comments blabla .... Creature@in-brb.de
+
+ greetz : hitmen , ezoray
+
+
+
+
+
+

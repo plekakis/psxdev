@@ -1,0 +1,36 @@
+[strings]
+Disc_Desc = "PlayStation Board PA (DTL-H2700)"
+ISAAddress = 0x134C
+
+[version]
+signature="$Windows NT$"
+
+[DefaultInstall]
+CopyFiles=psxNTpa.copy.sys, psxNTpa.copy.inf
+AddReg=psxNTpaAddReg
+reboot
+
+[DestinationDirs]
+psxNTpa.copy.sys   = 12
+psxNTpa.copy.inf   = 17
+
+[psxNTpa.copy.sys]
+psxNTpa.sys
+
+[psxNTpa.copy.inf]
+
+[psxNTpaAddReg]
+HKLM,"System\CurrentControlSet\Services\psxNTpa","DisplayName",0x00000000,"PlayStation Board PA (DTL-H2700)"
+HKLM,"System\CurrentControlSet\Services\psxNTpa","Type",0x10001,1
+HKLM,"System\CurrentControlSet\Services\psxNTpa","Start",0x10001,1
+HKLM,"System\CurrentControlSet\Services\psxNTpa","Group",0x00000,"Extended Base"
+HKLM,"System\CurrentControlSet\Services\psxNTpa","ErrorControl",0x10001,1
+;HKLM,"System\CurrentControlSet\Services\psxNTpa","ImagePath",0x00020000,%12%\psxNTpa.sys
+HKLM,"System\CurrentControlSet\Services\psxNTpa","Address",0x10001,%ISAAddress%
+
+
+[SourceDisksNames]
+30=%Disc_Desc%,"",1
+
+[SourceDisksFiles]
+psxNTpa.sys

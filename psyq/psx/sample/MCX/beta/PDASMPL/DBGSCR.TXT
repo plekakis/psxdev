@@ -1,0 +1,8 @@
+readsyms c:\PDAsmpl\debug\PDA.axf
+unbreak
+let $vector_catch = 0
+let $semihosting_enabled = 0
+let PSR = 0xd3
+let PC = 0x4000000
+break @startup
+go

@@ -1,0 +1,296 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+------------------------------------------------------------------------------
+Overview of the SUPER-X library         Revision 1.1
+
+File       : SUPERX_E.TXT
+Date       : 94.10.19
+Written By : Shinji Noda
+------------------------------------------------------------------------------
+
+The SUPER-X Library is composed of the following three modules:
+
+1. Texture management module ( Psxload )
+2. Sprite management module ( Spritex )
+3. Menu management module ( Menux )
+
+
+1. Texture management module 'PSXLOAD.C'
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+PSXgetInterlace
+PSXsetInterlace
+ClearTexture
+PSXloadTexture
+*****************************************************************************
+Usage
+
+*****************************************************************************
+[Format]  void PSXgetInterlace( void );
+[Summary] Obtains current Interlace mode. Return 1 if Interlace mode, 0 if
+non-interlace mode.
+
+[Format]  void PSXgetInterlace( int inter );
+[Summary] Specifies Interlace mode as inter.
+
+[Format]   void ClearTexture( void );
+[Summary] Initializes texture mapping management data. Must be executed once
+before PSXloadTexture() is used.
+
+[Format]  int PSXloadTexture( u_long* adrs, GsIMAGE* RectImage,
+_TPAGE* RectTpage );
+[Summary] Loads TIM data from the position specified by adrs into an available
+area in VRAM. Saves data to RectImage and RectTpage.  -1 is returned if loading
+fails. 0 is returned if loading is successful.
+
+
+2. Sprite management module 'SPRITEX.C'
+* Unless otherwise specified, a reference to "Sprites" indicates the SPRTX
+structure. This module uses the SPRTX structure for convenience, so that the
+module can be used without requiring knowledge of the contents of the structure.
+
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+MakeSpriteData
+MakeSpriteData2
+SetSpritePosition
+SetSpriteRGB
+SetSpriteTrans
+SetSpriteScale
+SetSpriteSize
+SetSpritePriority
+SetSpriteShadeTex
+AddSprite
+AddSprite2
+*****************************************************************************
+Usage
+
+*****************************************************************************
+[Format]  void MakeSpriteData( SPRTX* sprite, u_long* timdata, int mode );
+[Summary] Sets up Sprite. The texture specified in timdata is loaded into a free
+area of VRAM and is pasted to SPRT or POLY_FT4. ( mode : 0=SPRT, 1=POLY )
+
+[Format]  void MakeSpriteData2( SPRTX* sprite, GsIMAGE* rectImage,
+_TPAGE* rectTpage, int mode );
+[Summary] Sets up Sprite. Differs from MakeSpriteData in that no texture is
+loaded. Instead, a previously loaded address is specified by GsIMAGE and
+TPAGE.
+
+[Format]  void SetSpritePosition( SPRTX* sprite, short x, short y );
+[Summary] Sets display position. Specifies the central coordinate.
+
+[Format]  void SetSpriteRGB( SPRTX* sprite, short r, short g, short b );
+[Summary] Sets intensity. Values of 0-255 for r,g,b.
+
+[Format]  void SetSpriteTrans( SPRTX* sprite, int trans );
+[Summary] Sets semi-transparency. trans : 0=non-transparent, 1=semi-transparent
+
+[Format]  void SetSpriteScale( SPRTX* sprite, int w, int h );
+[Summary] Sets scale. Effective only for POLY-type Sprites.
+
+[Format]  void SetSpriteSize( SPRTX* sprite, int w, int h );
+[Summary] Sets default size. The size of a Sprite is generally the same as the
+texture that it uses, but this function is used when this is not the case. w, h are specified
+in pixels.
+
+[Format]  void SetSpritePriority( SPRTX* sprite, u_long pri );
+[Summary] Sets priorities for drawing primitives. Specifically, this indicates
+position in the OT table. Effective when AddSprite2() is used.
+
+[Format]  void SetSpriteShadeTex( SPRTX* sprite, int sw );
+[Summary] Specifies ShadeTex.  0=off, 1=on. Default is on.
+
+[Format]  void AddSprite( u_long* ot, SPRTX* sprite );
+[Summary] Enters Sprite into OT table as a drawing primitive.
+
+[Format]  void AddSprite2( DB *db, SPRTX* sprite );
+[Summary] Registers Sprite into OT table as a drawing primitive. The value set in
+SetSpritePriority is used as the OT table offset.
+
+*****************************************************************************
+Structures
+
+*****************************************************************************
+typedef struct {
+	short mode;   		/* 0=Sprite,  1=poly   */
+	SPRT sprt;  		/* pointer to SPRT structure for mode=0  */
+	POLY_FT4 poly;  	/* pointer to POLY structure for mode=1 */
+	short tpage;  		/*  for saving texture pages */
+	short x, y;  		/* Sprite position */
+	short w, h;  		/* Sprite size  */
+	short cx, cy;  		/* CLUT data storage position*/
+	short cw, ch;  		/* CLUT data storage size  */
+	short px, py;  		/* pixel data storage position */
+	short pw, ph;  		/* pixel data storage size */
+	short mx, my;  		/* offset to center coordinate */
+	DR_MODE dr_mode; 	/*      */
+	u_long priority; 	/* priority */
+} SPRTX;
+
+3. Menu management module 'MENUX.C'
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+MENUinit
+MENUend
+MENUsetItem
+MENUsetItem2
+MENUsetItem3
+MENUdrawItemAll
+MENUsetCurrentItem
+MENUgetCurrentItem
+MENUgetPolyPtr
+MENUgetSprtxPtr
+MENUidol
+MENUidol2
+MENUsetItemIntence
+MENUsetItemEffect
+MENUsetAnimationItem2
+MENUpushCurrentItem
+MENUpullCurrentItem
+MENUremoveItem
+MENUclrQueBuffer
+MENUgetRMENUFromId
+MENUgetSPRTFromId
+MENUChangeSprtx
+GetSprtxPtrFromMENUid
+GetItemFromID
+GetItemFromID2
+GetItemFromID3
+GetItemNumFromID
+CopyTarget
+CopySprite
+*****************************************************************************
+Usage
+
+*****************************************************************************
+
+[Format]  void  MENUinit( void );
+[Summary] Initializes menu system
+
+[Format]  void MENUend( void );
+[Summary] Exits menu system
+
+[Format]  int MENUsetItem( _RMENU* rm );
+[Summary] Registers item in menu system.
+The texture specified by tim in the RMENU structure is loaded into a free area of
+VRAM, and pasted onto POLY_FT4. If registration fails, -1 is returned.
+
+[Format]  int MENUsetItem2( _RMENU* rm, GsIMAGE* rectImage,
+_TPAGE* rectTpage );
+[Summary] Registers item in menu system.
+The difference between MENUsetItem2 and MENUsetItem  is that for MENUsetItem2, 
+a texture is not loaded. Instead,the address of a previously loaded texture 
+is specified by GsIMAGE and TPAGE. So, the RMENU structure tim is not used. 
+If registration fails, -1 is returned.
+
+[Format]  int MENUsetItem3( _RMENU* rm, SPRTX* sprite );
+[Summary] Registers item in menu system.
+As in MENUsetItem2, no texture is loaded. Instead, the SPRTX structure indicates a Sprite (or a polygon) onto which texture has been pasted. If registration fails, -1 is returned.
+
+[Format]  int MENUsetCurrentItem( int id );
+[Summary] Sets current item.
+An item to be activated is specified by id. All items that match the RMENU structure id are activated. 
+If no item matches the specified id, -1 is returned.
+
+[Format]  int MENUgetCurrentItem( void );
+[Summary] Gets current item.
+Returns the id for an item that is currently active.
+
+[Format]  void MENUpushCurrentItem( void );
+[Summary] Enters the current item into a queue buffer.
+Can be used when moving to a lower layer.
+
+[Format]  int MENUpullCurrentItem( void );
+[Summary] Retrieves the previous current item (top layer) from the queue buffer. The current item is not set, so this needs to be done by MENUsetCurrentItem after retrieval. If the queue buffer is empty (no top layer), -1 is returned.
+
+[Format]  void MENUclrQueBuffer( void );
+[Summary] Initializes queue buffer.
+
+[Format]  void MENUremoveItem( int id );
+[Summary] Removes item.
+All items matching id are removed.
+
+[Format]  void MENUidol( long pad );
+[Summary] Idling function for the menu system.
+Should be called periodically. Performs internal system operations. pad is the value obtained from the control pad.
+Should be called every 1/60 sec., if possible.
+
+[Format]  void MENUidol2( long pad )
+[Summary] Sets current item based on the value of pad.
+
+[Format]  void MENUdrawItemAll( DB* cdb );
+[Summary] Registers all items into the OT table as drawing primitives.
+
+[Format]  void MENUsetItemIntence( int id, int intence );
+[Summary] Sets intensity of item. intence=0-255.
+
+[Format]  void  MENUsetItemEffect( int id, int effect )
+[Summary] Applies an effect to an item having a specified id.
+
+[Format]  int MENUsetAnimationItem2( int i, SPRTX* sprite )
+[Summary] Sets a drawing Sprite for the specified item number i.
+
+[Format]  SPRTX* MENUgetSprtxPtr( int id );
+[Summary] Gets a pointer to the SPRTX structure for the item specified by id. If there is no match with id, a null pointer is returned.
+
+[Format]  POLY_FT4*  MENUgetPolyPtr( int id );
+[Summary] Gets a pointer to the polygon in the SPRTX structure for the item specified by id. If there is no match with id, a null pointer is returned.
+
+[Format]  _RMENU *MENUgetRMENUFromId( int id )
+[Summary] Gets a pointer to the MENU structure for the item specified by id.
+
+[Format]  _SPRTX *MENUgetSPRTFromId( int id )
+[Summary] Gets a pointer to the SPRTX structure for the item specified by id.
+
+[Format]  void MENUChangeSprtx( int id, SPRTX *sprt );
+[Summary] Changes the SPRTX structure for the item specified by id to sprt.
+
+[Format]  SPRTX *GetSprtxPtrFromMENUid( int num )
+[Summary] Gets a SPRTX structure pointer for item number num.
+
+[Format]  int GetItemFromID( int id )
+[Summary] Gets an item number for the specified id.
+If there is no match with id, -1 is returned.
+
+[Format]  int GetItemFromID2( int id, int cnt )
+[Summary] Gets item number cnt that matches id.
+If there is no specified id, -1 is returned.
+
+[Format]  int GetItemFromID3( int id )
+[Summary] Gets the number of items that match id.
+
+[Format]  int GetItemNumFromID( int id )
+[Summary] Gets the number of items that match id.
+
+[Format]  int CopyTarget( int id, int num )
+[Summary] num MENUs from id are copied from CARD 1 to CARD 2.
+
+[Format]  void CopySprite( int item, int x, int y )
+[Summary] The sprite for the specified item is set to coordinates (x,y).
+*****************************************************************************
+Structures
+
+*****************************************************************************
+typedef struct {
+	int group;  		/* Group ( 0=off )  */
+	int id;  		/* Item id ( 1 -  )  */
+	u_long tim;  		/* Texture address  */
+	int x;  		/* center coordinate ( x )  */
+	int y;  		/* center coordinate ( y )  */
+	int left;  		/* destination when left button is pressed ( id ) */
+	int right;  		/* destination when right button is pressed ( id ) */
+	int up;  		/* destination when up button is pressed ( id ) */
+	int down;  		/* destination when down button is pressed( id ) */
+	int effect;  		/* effect when in active state */
+	void (*drawFunc)( int event, SPRTX* sprt );
+				/*  pointer to drawing callback function */
+	void (*execFunc)( long pad );
+				/* pointer to callback function for when pad is pressed */
+	long pad;  		/* specification of button to call execFunc */
+} _RMENU;
+

@@ -1,0 +1,6 @@
+RSDTOOL - version 0.8a (1st July '97) - Still Beta, your feedback is essential !
+
+Requires DirectX 2.0 or 3,0, under Win95
+
+
+13-Oct-97	Updated - remove time out

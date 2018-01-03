@@ -1,0 +1,940 @@
+$PSDocId: Document Release 1.1 for Run-time Library Release 3.7$
+                                                                97.Jan.
+
+                                         PlayStation(R) Programmer Tool
+                                           Run-time Library Release 3.7
+
+                                         Changes from Release 3.6, 
+					 Enhancements, and Known bugs
+========================================================================
+                Copyright(C) 1996, 1997 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+
+Rev 1.1 - Changes by RV (2/20/97)
+	  Tab/spaces corrected in description of ENCSPUENV;
+	  Statment "the memory is removed during memory card formatting"
+	  changed to "the memory card is removed during memory card 
+	  formatting".
+
+========================================================================
+
+Known Bugs and Cautions
+========================================================================
+
+(Known Bugs)
+- In libgs, performing division by using GsA4div for GsSortObject4J lower
+  function will not reflect the TMD translucent information set in 
+  "attribute".  If you want to use the translucent attribute, the 
+  translucent flag of the TMD data must be set ON.	
+
+- In libsnd, the Reverb ON/OFF for each MIDI channel by SEQ NRPN 
+  data does not operate correctly.  If you wish to use this, 
+  prepare programs for both Reverb ON and OFF in VAB and switch 
+  them when necessary (treating as if two different instruments).  
+  This method, however, is only  recommended for those that use 
+  only a few kinds of tones since this method takes up memory by 
+  increasing VH. 
+   
+- In libapi, the function format() ends normally even for the error case where
+  the memory card is removed during memory card formatting. 
+  Please do not remove the memory card during formatting .  When 
+  the memory card is removed in the middle of formatting, system area for 
+  the memory card may be destroyed and may operate incorrectly after
+  that and need to be formatted again. 
+
+
+(Cautions)
+- In libsnd, a noise sound source such as SEQ is used, a noise may 
+  be produced at an unexpected place.  Thus if you want to use a noise, 
+  please use libspu/libsnd functions directly on the programmer 
+  tool(PC) or use sampled noise and treat it as the same way 
+  as the waveform.
+
+- In libcd, CdlSetloc must be issued to determine the reading 
+  position before issuing CdRead().  Without setting the reading 
+  position, repeating the CdRead()may fail to read in the right 
+  amount of data( as designed).
+
+- In libspu SpuSetVoiceAttr()/SpuGetVoiceAttr(), the correct pitch value 
+  cannot be set/obtained by using sample_note or note.  The value will 
+  contain considerably large errors.  In order to set/obtain the correct 
+  pitch, use the "pitch" attribute.
+
+- In libgun, vertical direction counter value stored into the buffer is 
+  the system clock value and is cleared at every H-BLANK.  Thus correct 
+  the value to reflect the screen size before actual use. 
+
+- In libgs, "sub", a member of GsCOORDINATE2 is no longer used.
+
+
+Samples Modified and Added
+========================================================================
+
+Graphics
+~~~~~~~~~~
+- SAMPLE\GRAPHICS\MIME\VJMIME. Joint MIMe animation of articulated model 
+  with vertex MIMe.
+
+  This is a sample program for manipulating an articulated model using 
+  the vertex multiple inbetweening method( hereafter refer to as 
+  vertex-MIMe) and/or two kinds of the joint multiple inbetweening method
+  (hereafter refer to as joint-MIMe);
+	- axes-MIMe:	interpolation by axes
+	- RPY-MIMe:	interpolation by roll, pitch, and yaw angles. 
+
+
+CD
+~~~~
+- Time-out retry feature was added to the movie play sample program; 
+  SAMPLE\CD\MOVIE\TUTO0.C.
+  This feature restarts playing the movie data picking up where it 
+  was left off in case it is halted due to, for example, opening a 
+  PS cover  by causing strNext() time-out.
+        
+
+libcomb
+~~~~~~~~~
+  psx\sample\etc\comb\tuto1	Sample for synchronous communication 
+  psx\sample\etc\comb\tuto2	Sample for synchronous write and 
+				asynchronous read
+  psx\sample\etc\comb\tuto3	Sample for asynchronous write and 
+				asynchronous read
+
+(Note) 	This sample program is for version 3.7 libcomb and will 
+	not run with any previous versions of libcomb. Sample 
+	programs for version 3.6 and earlier versions of libcomb 
+	will not run with Version 3.7 libcomb.
+
+  SAMPLE\ETC\GUN	Sample program for gun controller
+			When gun controller is attached to PS and the 
+			trigger is pulled, the position where the gun 
+			controller is facing is displayed on the screen. 
+
+
+Warning related to "obj" Files
+======================================================================
+ Deleted none.obj and none2.obj 
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PSX\LIB\NONE.OBJ and NONE2.OBJ were deleted.
+
+NONE*.OBJ is a startup routine for EXEC executable file.
+Since there are some bugs in NONE.OBJ, and NONE2.OBJ had a possible 
+bug of not clearing BSS area, both of them were deleted.  
+NONE3.OBJ processes the following before jumping to the main;
+
+	1. Clears SBSS and BSS area
+	2. Sets GP
+
+From now on, please use only the NONE3.OBJ.
+
+
+Psy-Q Tool
+========================================================================
+
+Psy-Q Tool Enhancements
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Following files and directories were added:
+
+	MAIN.C		Sample program for Message Output (Source)
+	MAIN.CPE	Sample program for Message Output (Executable file)
+	TESTMESS.COM	Utility for message output from PC stdout
+	SNPATCHJ.CPE	Patch module for H2000 (SNSystems version) 
+			Japanese version
+	SNPATCHW.CPE	Patch module for H2000 (SNSystems version) 
+			Worldwide version
+	SNPATCH.DOC	H2000 patch module document(English)
+	PREFSECT.EXE	Utility for overwriting group information
+	PREFSMPL	Sample program for PREFSECT
+	H25BIOS.COM	Psy-Q TSR BIOS for H2500
+	FLASH		Driver kit for H2500
+
+
+DMPSX
+========================================================================
+
+Macro Aded
+~~~~~~~~~~~~~
+gte_ApplyMatrixSV
+
+        Syntax    	gte_ApplyMatrixSV( r1, r2, r3 )
+
+        Arguments    	Matrix* r1
+                		SVECTOR* r2
+                		SVECTOR* r3
+
+        Explanation	Macro version of ApplyMatrixSV()
+
+        Remarks    	Warning: Destroys constant rotation matrix
+			(same as in the ApplyMatrixSV()).
+                          
+        See also:	ApplyMatrixSV()
+
+Library Bug Fixes
+~~~~~~~~~~~~~~~~~~~
+ The bug in gte_CompMatrix(r1,r2,r3) has been fixed.
+
+ Bugs in the following of gtemac.h have been fixed;
+
+	gte_RotColorDpq
+	gte_RotColorDpq3
+	gte_RotAverageNclipColorDpq3
+	gte_RotAverageNclipColorCol3
+
+  Following macros of inline_c.h and inline_o.h were deleted since it was 
+  found that the far color vectors could not be used for MVMVA, a standard 
+  matrix operation instruction;
+
+	gte_rtv0fc()
+	gte_rtv1fc()
+	gte_rtv2fc()
+	gte_rtirfc()
+	gte_llv0fc()
+	gte_llv1fc()
+	gte_llv2fc()
+	gte_llirfc()
+	gte_lcv0fc()
+	gte_lcv1fc()
+	gte_lcv2fc()
+	gte_lcirfc()
+
+  Following macros of inline_c.h were deleted;
+
+	gte_rtv0fc_b()
+	gte_rtv1fc_b()
+	gte_rtv2fc_b()
+	gte_rtirfc_b()
+	gte_llv0fc_b()
+	gte_llv1fc_b()
+	gte_llv2fc_b()
+	gte_llirfc_b()
+	gte_lcv0fc_b()
+	gte_lcv1fc_b()
+	gte_lcv2fc_b()
+	gte_lcirfc_b()
+
+- The bug caused by specifying more than two input files for NEWS version 
+  of dmpsx has been fixed.
+
+
+Kernel Library(libapi)
+========================================================================
+
+Bug fixes in Include Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Following function prototypes were added to malloc.h.  
+  These functions existed in the version 3.6 but their prototypes were not 
+  included in the include file;
+  
+	extern void InitHeap2 (unsigned long *, unsigned long);
+	extern void free2(void *);
+	extern void *malloc2(size_t);
+	extern void *calloc2(size_t, size_t);
+	extern void *realloc2(void *, size_t);
+
+- stdarg.h 
+
+	Before)	typedef char *va_list;
+	After)	typedef void *va_list;
+
+  This is to avoid C++ compile(CC1PLPSX) error "non-lvalue in assignment" 
+  caused by casting char type with the same type.
+
+- In kernel.h, function prototype _card_chan() has been fixed since it was 
+  incorrectly declared.
+
+
+
+CD-ROM Library/Streaming Library (libcd)
+========================================================================
+
+Function Added
+~~~~~~~~~~~~~~~~
+	CdReadBreak	Halts CdRead().
+
+Refer to the reference document for function detail.
+
+Function Modified
+~~~~~~~~~~~~~~~~~~
+  Default (CdSetDebug( 0 ) or no specification) for disk error message, 
+  DiskError, for DiskErrorCD has been changed to NO display.  
+  Thus in order to display an error message, set 1 or larger value to 
+  CdSetDebug().
+
+    
+Document Modified
+~~~~~~~~~~~~~~~~~~~
+Run-time Library Reference has been changed as follows;
+	
+	CdReadFile	Read a file on CD-ROM
+	
+	int CdReadFile (char *file, u_long *addr, int nbyte)
+
+	[Explanation]
+
+	Reads "nbyte" of the file on CD-ROM. "nbyte" must be multiple of 2048. 
+	Reads entire file when 0 is specified for "nbyte".  When NULL 
+ 	is specified for "file", it starts reading from the next byte 
+	after the byte read by the last CdReadFile.
+
+Description of CdReadFile has been enhanced. 
+
+
+Omission Found
+~~~~~~~~~~~~~~~~
+Since an omission was found in the reference manual, we will 
+add them in this document as follows;
+
+	CdGetSector  	Transfer sector buffer data to main memory
+
+        Syntax    	int CdGetSector(void *madr, int size)
+
+       	Arguments    	madr   	main memory address to which the data 
+ 				is transferred
+                	size    size of data to be transferred (long word)
+
+        Explanation 	Transfers sector data on the sector buffer to 
+			the main memory.  
+                       	Transferring is processed background.
+
+        Return value  	1       Successful
+               		0       Failed
+
+        Remarks	Sector size differs from mode to mode.
+                Although the data transfer can be divided in several 
+		times to different memory address, the sector data must 
+		be read in after the buffer becomes ready and before 
+		the buffer is overwritten by the next sector data.  
+		All data transfer will be completed upon function return.
+
+                Since the current CdGetSector() resets the buffer read 
+		pointer by Ready callback, there is no need to issue a 
+		dummy read to update the pointer.
+
+        See also:	CdDataSync()
+
+Descriptions Added 
+~~~~~~~~~~~~~~~~~~~~
+-Function descriptions for CheckCallback were added.
+
+
+Combat Cable Library(libcomb)
+========================================================================
+
+Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~
+-The bug that more than 8 bytes of data cannot be sent or received for 
+  synchronous write nor asynchronous read has been fixed.
+
+-The deadlock problem after long hour communication using synchronous 
+  write and asynchronous read has been fixed.
+
+-The bug that _comb_control( 2,0,0 ) cannot reset the baud rate has 
+  been fixed.
+
+Library Functional Specification Change 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- Since SR_DSR/CR_DTR is used for library internal communication control,
+  user application program cannot use SR_DSR/CR_DTR while communication.
+  However, it can be used to synchronize with the counter part during 
+  initialization.  In related to above, _comb_control( 3,*,* ) 
+  specification was changed; only the RTS/CTS operation.
+  (See Table 1 below)
+
+- Communication protocol is fixed to have character length of 8 bits, 
+  stop bit 1, without parity bit.  
+  Because of this change, _comb_control( 1,2,* ) is invalid.
+
+- To V-sync with counter part, V-sync reset command is added. 
+  (See Table 1 below). 
+
+  Table 1: Added/Changed Command
+  +---+---+--------------------------------------------------------------+
+  |cmd arg Description                                                   |
+  +---+---+--------------------------------------------------------------+
+  |1   2   Invalid ( set communication mode to param value)              |
+  |3   0   Set RTS==1 when param is 1                                    |
+  |        Set RTS==0 when param is 0                                    |
+  |    1   Return 1 when CTS==1, 0 otherwise                             |
+  |5   0   Reset V-sync signal                                           |
+  +---+---+--------------------------------------------------------------+
+
+(Note) Limitations
+- Max. baud rate of asynchronous write is 57600 bps.
+  Baud rate larger than this max. would result in overloaded and thus 
+  is impossible. 
+- Make sure to set the receive unit character to single character for 
+  asynchronous write.
+
+
+Basic Graphics Library (libgpu)
+========================================================================
+
+Modified Header File
+~~~~~~~~~~~~~~~~~~~~~~
+In libgpu.h, function prototype for GetODE() was added.
+
+In libgpu.h, structure for BLK_FILL and a macro setBlockFill() were 
+  deleted since there was a possible hung up when using BLK_FILL.  
+  Please do not use it.
+  
+
+Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~
+- When drawing by setting the drawing area clear flag ON(isbg=1) to 
+  the drawing environment structure (DRAWENV) and then registering 
+  DR_ENV primitive in OT, GPU became unstable on rare occasion.
+  This bug has been fixed in this version. 
+ 	
+Descriptions Added
+~~~~~~~~~~~~~~~~~~~~
+Function descriptions for GetODE() were added.
+
+There was an incorrect structure description for members, x0,y0,u0, 
+  and v0 of SPRT/SPRT_8, SPRT_16, TILE/TILE_1, and TILE_8/TILE_16.  
+  See below for correct descriptions;
+
+        Incorrect)
+                SPRT, SPRT_8, and SPRT_16
+                        x0,y0   Position of sprite(top right coordinate)
+                        u0,v0   Position of sprite texture within the 
+ 				texture page(top right coordinate)
+
+                TILE, TILE_1, and TILE_8/TILE_16
+                        x0,y0   Position of sprite(top right coordinate)
+
+        Correct)
+                SPRT/SPRT_8/SPRT_16
+                        x0,y0   Position of sprite(top left coordinate)
+                        u0,v0   Position of sprite texture within the 
+				texture page (top left coordinate)
+
+                TILE/TILE_1/TILE_8/TILE_16
+                        x0,y0   Position of sprite(top left coordinate)
+
+Document Modified
+~~~~~~~~~~~~~~~~~~~
+- Members of structures DR_MOVE and DR_LOAD, and argments of SetDrawMove() 
+  were changed.
+
+Omission Found
+~~~~~~~~~~~~~~~~
+Since an omission was found in the reference manual, we will add them in 
+this document as follows;
+
+
+LoadClut2		Load texture CLUT
+        
+	Syntax		u_short LoadClut2 (u_long *clut, int x, int y)
+
+	Arguments	clut	Texture color start address
+        		x, y	Destination frame buffer address
+        
+	Explanation	This function loads texture color data(CLUT) in 
+			the frame buffer(x,y),and calculates the ID of 
+			the loaded texture CLUT. 
+        
+	Return value	CLUT ID for the loaded CLUT
+        
+	Remarks		Load Clut2() transmits 16 palette entries whereas 
+			LoadClut() transmits 256 palette entries. 
+			LoadClut2() internally invokes LoadImage().
+
+   ------
+
+SetDrawLoad		Initializes the content of the LoadImage primitive.
+        
+	Syntax	void SetDrawLoad (DR_LOAD *p, RECT *rect)
+        
+	Arguments	p	Destination rectangular area primitive
+			rect	Destination rectangular area
+	Explanation	This function initializes the destination 
+			rectangular area primitive. By registering the 
+			initialized primitive in OT using AddPrim(), 
+			the rectangular area can be transferred just 
+			as in the LoadImage() function.
+	Return value	None
+
+   ------
+
+SetDrawTPage		Initializes the content of texture page change primitive
+
+	Syntax		void SetDrawTPage (DR_TPAGE *p, int dfe, int dtd, int
+						tpage)
+
+	Arguments	p	Texture page setting primitive
+	        	dfe	Flag for drawing to a display area
+                        	0: No drawing in display area
+	                        1: Drawing in display area
+	        	dtd	Dither processing flag
+        	                0: Dither processing not performance
+	                        1: Dither processing performance
+	        	tpage	Texture page
+
+	Explanation	This function initializes the texture page change 
+			primitive. By registering the initializes primitive 
+			in OT using AddPrim(), the texture page can be 
+			changed while drawing.
+
+	Return value	None
+
+
+Extended Graphics Library (libgs)
+========================================================================
+
+Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~
+- In libgs, using both depth queuing and automatic division functions
+  (e.g. GsAdivF4, etc.) at the same time made the color of the flat 
+  square polygon and Gouraud square polygon  displayed incorrectly.  
+  This bug has been fixed.
+- The bug that when POLY_FT3 is automatically divided, the priority 
+  differed depending on the depth queuing status (ON or OFF), has been fixed.
+- Data type of the external variables, HWD0 and DWD0 in the reference 
+  manual were described incorrectly. 
+
+	Incorrect)
+		Ext. Var Name	Type		Description
+		---------------+---------------+-------------------------
+		HWD0		u_long		Horizontal resolution
+		VWD0		u_long		Vertical resolution
+
+	Correct)
+		Ext. Var Name	Type		Description
+		---------------+---------------+-------------------------
+		HWD0		long		Horizontal resolution
+		VWD0		long		Vertical resolution
+
+
+Basic Geometry Library (libgte)
+========================================================================
+
+Document Modified
+~~~~~~~~~~~~~~~~~~~
+Please see the NOTES below when using following libgte functions;
+        	RotPMD_F3, RotPMD_G3, RotPMD_FT3, RotPMD_GT3
+        	RotPMD_F4, RotPMD_G4, RotPMD_FT4, RotPMD_GT4
+        	RotSMD_F3, RotSMD_G3, RotSMD_FT3, RotSMD_GT3
+        	RotSMD_F4, RotSMD_G4, RotSMD_FT4, RotSMD_GT4
+        	RotRMD_F3, RotRMD_G3, RotRMD_FT3, RotRMD_GT3
+        	RotRMD_F4, RotRMD_G4, RotRMD_FT4, RotRMD_GT4
+
+[Notes]
+	There may be a possible error when placing a model data
+	(PRIMITIVE Gp) on the scratch pad.
+
+Functions Added
+~~~~~~~~~~~~~~~~~
+- Following double sided polygon functions for GsSortObject4J were added.
+  These functions do not perform notbackface clip but all other features 
+  are the same as the ones with the function name without 'B' at the end.  
+  Refer to the function reference for detail.
+
+  GsTMDdivF3LB()   GsTMDdivF3LFGB()   GsTMDdivF3NLB()   GsTMDdivNF3B()
+  GsTMDdivF4LB()   GsTMDdivF4LFGB()   GsTMDdivF4NLB()   GsTMDdivNF4B()
+  GsTMDdivG3LB()   GsTMDdivG3LFGB()   GsTMDdivG3NLB()   GsTMDdivNG3B()
+  GsTMDdivG4LB()   GsTMDdivG4LFGB()   GsTMDdivG4NLB()   GsTMDdivNG4B()
+  GsTMDdivTF3LB()  GsTMDdivTF3LFGB()  GsTMDdivTF3NLB()  GsTMDdivTNF3B()
+  GsTMDdivTF4LB()  GsTMDdivTF4LFGB()  GsTMDdivTF4NLB()  GsTMDdivTNF4B()
+  GsTMDdivTG3LB()  GsTMDdivTG3LFGB()  GsTMDdivTG3NLB()  GsTMDdivTNG3B()
+  GsTMDdivTG4LB()  GsTMDdivTG4LFGB()  GsTMDdivTG4NLB()  GsTMDdivTNG4B()
+  GsTMDfastF3LB()  GsTMDfastF3LFGB()  GsTMDfastF3NLB()  GsTMDfastNF3B()
+  GsTMDfastF4LB()  GsTMDfastF4LFGB()  GsTMDfastF4NLB()  GsTMDfastNF4B()
+  GsTMDfastG3LB()  GsTMDfastG3LFGB()  GsTMDfastG3NLB()  GsTMDfastNG3B()
+  GsTMDfastG4LB()  GsTMDfastG4LFGB()  GsTMDfastG4NLB()  GsTMDfastNG4B()
+  GsTMDfastTF3LB() GsTMDfastTF3LFGB() GsTMDfastTF3NLB() GsTMDfastTNF3B()
+  GsTMDfastTF4LB() GsTMDfastTF4LFGB() GsTMDfastTF4NLB() GsTMDfastTNF4B()
+  GsTMDfastTG3LB() GsTMDfastTG3LFGB() GsTMDfastTG3NLB() GsTMDfastTNG3B()
+  GsTMDfastTG4LB() GsTMDfastTG4LFGB() GsTMDfastTG4NLB() GsTMDfastTNG4B()
+
+Modified Header File
+~~~~~~~~~~~~~~~~~~~~~~
+- Function prototypes for RotMatrixZYX and ApplyMatrixSV were added to 
+  libgte.h.
+
+- There were some errors in libgte.h, the header file for libgte.  
+  Please correct them as follows: 
+
+  Line number 396 of libgte.h
+  In RotColorMatDpq declaration, 7th argument "flag" had an incorrect 
+  data type:
+
+  (Incorrect)
+	extern long RotColorMatDpq ( SVECTOR *v0, SVECTOR *v1, CVECTOR *v2, 
+			    long *sxy, CVECTOR *v3, long matc, long flag );
+  (Correct)
+	extern long RotColorMatDpq ( SVECTOR *v0, SVECTOR *v1, CVECTOR *v2, 
+			    long *sxy, CVECTOR *v3, long matc, long *flag );
+
+
+
+Gun Library (libgun)
+========================================================================
+
+Added Header File
+~~~~~~~~~~~~~~~~~~~
+- libgun.h was added.
+
+
+Data Processing Library (libpress)
+========================================================================
+
+Functions Added
+~~~~~~~~~~~~~~~~~
+
+ DecDCTvlcBuild		Builds the VLC table
+
+	Syntax		void DecDCTvlcBuild (DECDCTTAB table)
+
+	Arguments	table	VLC Buffer
+
+	Explanation	This function builds the VLC table that will be used 
+			for DecDCTvlc2().  The size of the VLC table to be
+			built can be obtain beforehand by sizeof(DECDCTTAB).
+
+	Return value	none
+
+	Remarks		Since this is a block function, the VLC table must
+			be built with DecDCTvlcBuild() function before 
+			using DecDCTvlc2().  
+	
+   ------
+	
+  DecDCTvlc2		Decodes VLC
+
+	Syntax	int DecDCTvlc2(u_long *bs, u_long *buf, DECDCTTAB *table)
+
+	Arguments	bs	input bit stream
+			buf	output run level
+			table	VLC table
+
+	Explanation	This function builds the run-level intermediate 
+			format under "buf" by decoding the bit stream "bs" 
+			using the "table". The size of the decoded run level
+			can be obtained by DecDCTBufSize().  When 
+			the run level exceeds the value specified in 
+			DecDCTvlcSize2(),  DecDCTvlc2() will be 
+			suspended and the control will be returned to the 
+			application.  The suspended VLC decoding process can
+			be restarted by executing DecDCTvlc2(0, 0, table). 
+ 		
+	Return value	0	Decoding for all bit stream is successfully 
+				completed
+			1	returned with some bit stream left 
+				non-decoded. 
+			-1	Decode failed.
+
+	Remarks		Since this is a blocking function, the bit stream 
+			must be converted to a run level by DecDCTvlc2() 
+			before executing DecDCTin().
+
+   ------
+
+DecDCTvlcSize2		Sets max. size of single VLC decoding process. 
+
+	Syntax		int DecDCTvlcSize2(int size)
+
+	Arguments	size	Max. value(long word) of decoded run level
+
+	Explanation	This function gives the value representing a max. 
+			size of bit stream that can be decoded per 
+			decoding process.  DecDCTvlc2() will suspend 
+			decoding process when decoding the first block 
+			after number of words specified by "size".
+			In case of "size" 0, decoding process will not be 
+			suspended.  Default value is 0.  
+
+	Return value	Max. run level set immediate before.
+
+	
+	Remarks		Since this is a blocking function, the bit stream 
+			must be converted to a run level by DecDCTvlc2() 
+			before executing DecDCTin().
+
+	
+Detail Descriptions
+        Current DecDCTvlc function requires internal inverted table
+	of size approx. 64KB for fast decoding VLC (Variable Length Code).  
+	Since this table takes too much memory space, it is difficult 
+	to place the movie (actually DecDCTvlc() ) along with the 
+	start-up menu and an application on the memory at the same time.
+	Thus the movie program must be separated from others and must be
+	loaded at every usage.  This was a reason why it takes long  time
+	to load a game.
+       
+        In order to solve the problem stated above, VLC table was changed 
+	so that the table itself can be compressed in this new version. 
+	Only the compressed VLC table of size 4KB is kept on the memory, 
+	and it will be expanded in the work area (64KB) only when 
+	playing the movie, and release the work area when the movie ends. 
+
+        This would not save any memory space during the movie play, but 
+	it can eliminate unnecessary space for the table when not playing 
+	the movie. 
+
+        With this specification change, following functions were added.
+
+        ===================================================================
+        Name                    Description
+        -------------------------------------------------------------------
+        DecDCTvlcBuild()        Decodes VLC table itself
+        DecDCTvlc2()            DecDCTvlc() using uncompressed VLC table
+        DecDCTvlsSize2()        DecDCTvlcSize2()
+        -------------------------------------------------------------------
+
+        DecDCTvlc2() has the modified version of the previous DecDCTvlc() 
+	function so that the pointer to the VLC table can be specified 
+	externally.
+        DecDCTvlcSize2() has the same spec as the previous version.
+        Note that there is no change in DecDCTvlc() nor DecDCTvlcSize().
+
+Procedure 
+
+        1) Generate VLD table by using DeCDCTvlcBuild().
+        2) Decode VLC by using DecDCTvlc2() specifying the pointer to the 
+	   VLC table that was decoded in the step 1). 
+        3) Release VLD table when the movie ends.
+
+        u_long          mdec_bs[BS_SIZE];
+        u_long          mdec_image[IMG_SIZE];
+        u_long          mdec_rl[RL_SIZE];
+        DECDCTTAB       table;
+
+        DecDCTvlcBuild(table);                  /* expand table */
+        DecDCTvlc2(mdec_bs, mdec_rl, table);    /* deocde VLC */
+        DecDCTin(mdec_rl, 0);                   /* send run-level */
+        DecDCTout(mdec_image, total);           /* recieve data */
+        DecDCToutSync(0);                       /* wait */
+
+Sample Program
+        Refer to SAMPLE\PRESS\TUTO.
+
+Others
+        "DecDCTvlc2() and DecDCTvlc()" and "DecDCTvlcSize() and
+        DecDCTvlcSize2()" may be merged with specification of 
+        DecDCTvlc2() and DecDCTvlcSize2() respectively in the future.
+
+Omission Found
+~~~~~~~~~~~~~~~~
+Since an omission was found in the reference manual, we will 
+add them in this document as follows;
+
+EncSPU  	Encodes 16-bit PCM data into PlayStation 
+		original waveform format         
+----------------------------------------------------------------
+       	Syntax  	long EncSPU (ENCSPUENV *es_env)
+
+       	Argument  	
+		es_env  SPU encode environment attribute structure
+
+       	Explanation    	
+		This function encodes the PCM data specified 
+		in a member "src" of the SPU encode environment 
+		attribute structure, "es_env" into the PlayStation
+		original waveform data(VAG, without header information)
+		and returns the encoded data in a member "dest".  
+		
+		Specify the user area address for both members "src" and
+ 		"dest" of the SPU encode environment attribute structure,
+		"es_env".               
+              
+        	Divided encoding can be done by specifying an attribute to
+		a member "proceed" of the SPU encode environment 
+		structure, "es_env".		
+                	
+        	Return Value  
+		ENCSPU_ENCODE_ERROR is returned for a size error
+		of encoded PlayStation original waveform data. 
+		
+        
+ENCSPUENV      SPU encode environment attribute structure
+----------------------------------------------------------------
+        	Structrue  
+	       typedef struct {
+                    short *src;
+                    short *dest;
+                    long   size;
+                    long   loop_start;
+                    char   loop;
+                    char   byte_swap;
+                    char   proceed;
+                    char   pad4;
+                } ENCSPUENV;
+        Member
+	      	src 		16-bit PCM data address
+               	dest   	 	PlayStation original waveform data
+               	size    	16-bit PCM data size(in bytes)
+                loop_start  	PCM data loop start point(in bytes)
+               	loop   		Loop waveform generation specification:
+                     	ENCSPU_ENCODE_LOOP:    
+				Generate loop waveform data
+                     	ENCSPU_ENCODE_NO_LOOP: 
+				Generate non-loop waveform data
+               	byte_swap      	PCM data endian specification:
+                        ENCSPU_ENCODE_ENDIAN_BIG:    
+				16-bit big endian
+                        ENCSPU_ENCODE_ENDIAN_LITTLE: 
+				16-bit little endian
+                proceed 	Whole/Divided encoding specification:
+                        ENCSPU_ENCODE_WHOLE
+                               	Whole encoding
+                        ENCSPU_ENCODE_START
+                               	Start divided encoding
+                        ENCSPU_ENCODE_CONTINUE
+                               	Continue divided encoding
+                        ENCSPU_ENCODE_END
+                               	End divided encoding
+               	pad4   		System reserved
+
+       	Explanation    
+		This structure is used to specify the SPU encode
+		 environment attributes for EncSPU() function.
+
+ 	Remarks
+		When 0 is specified for "loop", "loop_start" will be
+		ignored.
+
+
+Serial I/O for Debugging Library (libsio)
+========================================================================
+
+Deleted Library Command
+~~~~~~~~~~~~~~~~~~~~~~~~~
+Following commands in _sio_control() were deleted;
+
+	cmd	arg
+	0	4	Returns number of characters received.
+	1	4	Sets receive unit character to the 
+			value of param.
+
+
+Extended Sound Library (libsnd)
+========================================================================
+Specification added 
+~~~~~~~~~~~~~~~~~~~~~~
+Bank change (Control Change 0) was added to the SEQ(MIDI) support.
+
+Bug Fix in Library
+~~~~~~~~~~~~~~~~~~~~
+In SsSeqPlay and SsSepPlay  the bug that setting multiple repeat play 
+  nor SSPLAY_INFINITY (unlimited play) only played once has been fixed.
+
+Library Functional Specification Change 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Functional specification of SsChannelMute() was changed so that mute 
+  channel can be changed even during SEQ playing .  In the previous 
+  versions, mute channel could be changed only at the SEQ open.  
+
+Document Modified
+~~~~~~~~~~~~~~~~~~~
+Due to SsChannelMute() functional specification change, a part of 
+  Explanation was changed.
+
+
+Basic Sound Library (libspu)
+========================================================================
+Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~
+The bug that SpuSetTransferStartAddr() returns an invalid Return value 
+  has been fixed.
+
+The bug that incorrect values were returned in ar, sr, and s_mode of 
+  the following functions has been fixed;
+
+	SpuGetVoiceAttr()
+	SpuGetVoiceAR()
+	SpuGetVoiceARAttr()
+	SpuGetVoiceSR()
+	SpuGetVoiceSRAttr()
+
+
+Added Functions
+~~~~~~~~~~~~~~~~~
+  Functions for setting the SPU common attribute and Reverb attribute 
+  individually were added as follows.  See reference manual for detail;
+
+	SpuSetCommonMasterVolume	Sets Master Volume
+	SpuSetCommonMasterVolumeAttr	Sets Master Volume/Master Vol. Mode
+	SpuSetCommonCDMix		Sets CD Input ON/OFF
+	SpuSetCommonCDVolume		Sets CD Input Volume
+	SpuSetCommonCDReverb		Sets CD Input Reverb ON/OFF
+	SpuGetCommonMasterVolume	Obtains Master Volume
+	SpuGetCommonMasterVolumeX	Obtains Current Master Volume
+	SpuGetCommonMasterVolumeAttr	Obtains Master Volume/Master 
+					Vol. Mode
+	SpuGetCommonCDMix		Obtains CD Input ON/OFF
+	SpuGetCommonCDVolume		Obtains CD Input Volume
+	SpuGetCommonCDReverb		Obtains CD Input Reverb ON/OFF
+	SpuSetReverbModeType		Sets Reverb Mode Type
+	SpuSetReverbModeDepth		Sets Reverb Mode Depth
+	SpuSetReverbModeDelayTime	Sets Reverb Delay Time
+	SpuSetReverbModeFeedback	Sets Reverb Feedback
+	SpuGetReverbModeType		Obtains Reverb Mode Type
+	SpuGetReverbModeDepth		Obtains Reverb Mode Depth
+	SpuGetReverbModeDelayTime	Obtains Reverb Mode Delay Time
+	SpuGetReverbModeFeedback	Obtains Reverb Mode Feedback
+
+
+Correction to change.txt in library 3.6
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In the "change.txt" for Library 3.6, the following statement may have been confusing:
+
+A member, low_priority was added to the structure, SpuStEnv.
+Setting SPU_ON to low_priority lower the streaming process priority. 
+The default value is SPU_OFF (do not lower the priority).
+
+
+This should be clarified for the lib 3.7 release to read:
+
+"Set low_priority to SPU_ON to lower streaming processing priority in relation to
+ other processing (ex: graphics). The default value is SPU_OFF, which leaves the 
+streaming priority set to normal.
+
+
+
+-----------------------------------------------
+Note for lib 3.7.3 (patch):
+This version of libsnd contains SsChannelMute:
+
+
+Syntax         long SsGetChannelMute (short sep_num, short seq_num)
+
+Arguments      sep_num  SEP access number
+seq_num  SEQ access number whithin SEP
+
+Explanation    This funcition obtains the MIDI channel bits which
+are muted.
+
+Return value   muted MIDI channels
+
+See also       SsChannelMute()
+
+
+
+=======================================================================
+
+Copyright (C) 1994 - 1997 Sony Computer Entertainment Inc.
+                                      All Rights Reserved.
+
+PlayStation and PlayStation logos are trademarks of Sony Computer
+Entertainment Inc. All other trademarks are property of their 
+respective owners and/or their licensors.
+
+
+SONY COMPUTER ENTERTAINMENT AMERICA
+919 East Hillsdale Blvd, 2nd Floor
+Foster City CA 94404
+650-655-8000    
+E-mail: DevTech_Support@interactive.sony.com
+WWW: http://www.scea.sony.com/dev
+Developer Support Hotline: 650-655-8181    
+
+SONY COMPUTER ENTERTAINMENT EUROPE
+Waverley House
+7-12 Noel Street
+London W1V 4HH
+E-mail: dev_support@interactive.sony.com
+WWW: http://www.scee.sony.co.uk
+                      FAX:  +44 (0) 171 390 4324
+Developer Support Hotline:  +44 (0) 171 390 1680
+
+========================================================================

@@ -1,0 +1,33 @@
+	org     $80010000       ; this can be omitted if you specify the
+				; org address on the linker command line
+
+
+text    group                   ; group containing defined data
+bss     group   bss             ; group containing unuinitialised data
+
+	section .rdata,text     ; sections created bye C compiler
+	section .text,text      ; specifying them here is not strictly necessary
+	section .data,text      ; but does ensure that they appear in tyhe correct
+	section .sdata,text     ; order in the linked output file
+
+	section .sbss,bss       ; the bss sections
+	section .bss,bss
+
+
+	inclib  "c:\ps\lib\libsn.lib"       ; a library file from the Sony standard libraries
+
+	inclib  "c:\ps\lib\libetc.lib"      ; another library file from Sony
+	inclib  "c:\ps\lib\libapi.lib"      ; another library file from Sony
+	inclib  "c:\ps\lib\libgte.lib"      ; another library file from Sony
+	inclib  "c:\ps\lib\libgpu.lib"      ; another library file from Sony
+	inclib  "c:\ps\lib\libcd.lib"       ; another library file from Sony
+
+	include "protest.obj"                   ; object file to read
+	include "profile.obj"                   ; object file to read
+	regs    pc=__SN_ENTRY_POINT     ; this initialises the program counter register so
+					; that the downloader sets the entry point before
+					; the program is executed
+
+					; SN_ENTRY_POINT is defined in a module in libsn.lib and
+					; clears the bss, sets up the heap, etc. before calling main()
+

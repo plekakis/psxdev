@@ -1,0 +1,30 @@
+text	group
+bss	group	bss
+	section	.rdata,text
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include "max.obj"
+	include "pad.obj"
+	include "emouse.obj"
+	include "vsync.obj"
+	include "maxinit.obj"
+	include "drawmax.obj"
+	include "menuset.obj"
+	include "card.obj"
+	include "c:/psx/lib/none2.obj"
+
+	inclib	"../lib/superx.lib"
+	inclib	"../lib/turtle.lib"
+
+	inclib	"libsn.lib"
+	inclib	"libetc.lib"
+	inclib	"libapi.lib"
+	inclib	"libc2.lib"
+	inclib	"libcard.lib"
+	inclib	"libgte.lib"
+	inclib	"libgpu.lib"
+	regs	pc=__SN_ENTRY_POINT

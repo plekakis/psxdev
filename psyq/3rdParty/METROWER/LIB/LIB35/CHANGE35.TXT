@@ -1,0 +1,1387 @@
+                                                              96.May
+
+                                      PlayStation(R) Programmer Tool
+                                         Runtime Library version 3.5
+
+                                 Changes from ver.3.4, New Features,
+                                                      and known bugs
+
+====================================================================
+                 Copyright (C) 1996 Sony Computer Entertainment Inc.
+                                                All Rights Reserved.
+====================================================================
+
+Known Bugs
+--------------------------------------------------------------------
+
+o   For interlace mode, when DRAWENV.dfe == 0, only either odd number
+    lines or even number lines are cleared by calling ClearImage()
+    for the area outside the drawing area.
+
+o   When analyzing a TMD primitive with the double faced polygon 
+    specified using  ReadTMD in libgpu, NULL may be returned even 
+    for the correct data.
+  
+o   In libsnd, using MIDI Control Change No. 7 and 11 in SEP data 
+    may not always work as expected.
+
+o   In libsnd, there is a bug in setting volume for the SEQ long 
+    note data in SsSeqSetVol. 
+
+o   Related to libgs document (To be corrected in future documentation 
+    release) the attribute bit 6 for luminance adjustment is incorrectly 
+    specified.
+
+    (Incorrect)  
+    attribute bit
+	6: Luminance Adjust
+	0: OFF	1: ON
+
+    (Correct)  
+    attribute bit
+	6: Luminance Adjust
+	0: ON	1: OFF
+
+o   In libgs GsSortObject4(), gradation polygon supports only 
+    triangles, not squares.
+
+o   In libspu, SpuWrite0() does not return the correct return values as 
+    described in the manual.  Thus, using the return values for different 
+    operations is meaningless.
+
+o   In libgte,  ApplyMatrix*() prototype declaration is not complete.  
+    If necessary, please add the following to libgte.h.
+
+            /* ApplyMatrix() Prototype */
+
+
+
+New Library: Gun Library(libgun)
+--------------------------------------------------------------------
+New library for gun control is released in this version.  The 
+following two functions are available.
+
+	InitGun()       Initialize a gun.
+	SelectGun()     Select a gun.
+
+
+## Important Instructions for the Gun Controller
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Problems: The gun controller may issue an interrupt to the system by 
+receiving a certain amount of light emitted from the TV monitor.  
+The system then saves the counter value read in upon interruption.  If 
+the time gap between the interruption and when the counter value is 
+saved is small enough, the counter value is close to the valid value.  
+Since there are many factors to extend this time gap, in reality, the 
+counter may hold invalid value.  For example,  when the system is in 
+the interrupt-protect state, when the system is processing other 
+interrupt, when DMA is processed, etc., the time gaps are large, 
+and the situations absolutely cannot be avoided due to the 
+hardware specifications.
+
+Remedies: When using the gun controller, avoid issuing interruptions 
+and DMA process during the screen display, and also make the screen 
+bright.  In case the above situation cannot be avoided during the 
+screen display, the counter values with large gap should be 
+appropriately corrected with the consideration of the fact that 
+several interruption per 1 frame will be issued for the current gun 
+library.  In order to implement this, initialization screen need to 
+be supplied and the luminance should be adjusted in the way several 
+interruptions occur.  Note when the luminance is set too high, 
+only one interruption is issued due to hardware characteristics.
+
+
+DMPSX
+--------------------------------------------------------------------
+
+## Macros Added
+~~~~~~~~~~~~~~~
+
+o   New macros are added in inline.h and inine.tbl. Refer to  
+    dmpsx documentation for details of the macros.
+
+## Bug Fixes in inline.h 
+~~~~~~~~~~~~~~~~~~~~~~~~
+o   The bug that caused a compile error when compiling a file 
+    including inline.h in C++ mode has been fixed.
+
+## Enhancement 
+~~~~~~~~~~~~~~~~~~~~~~~~
+o   Now corresponds to the object file compiled with the overlay 
+    option. 
+
+
+Standard Libraries(libc, libc2)
+--------------------------------------------------------------------
+
+## Bug Fixes in Libraries
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+o   The bug that caused incorrect result for bcmp and memcmp has 
+    been fixed.
+  
+o   Bug was found in non-disclosed functions atof and strtod.
+    (After fixes, atof and strtod are moved to LIBMATH.)
+
+o   The bug that caused GP reference error when linking to 
+    libc2 has been fixed.
+
+o   The amount of the stack consumed within printf() is reduced.
+    (This change is only for LIBC2 version. No changes in LIBC 
+    version.)
+
+o   In strtok(), 
+ 	  a. process now conforms ANSI standard
+ 	  b. the bag that caused an incorrect search when specifying
+ 	     a search string( 2nd argument) larger than 2 characters.
+ 
+    In the result of the change in "a.", please be aware that
+    the target string (1st argument) will be overwritten.  If the 
+    original string need to be saved, it is user's responsibility 
+    to make a copy using strcpy() or and the like. 
+
+
+## Functions Added
+~~~~~~~~~~~~~~~~~~
+atof	Converts a string to a floating-point equivalent
+
+	Syntax		
+		double atof(const char *s)
+
+	Argument	
+		s	string
+
+	Explanation
+		Converts a string "s" to its floating-point(double 
+                type equivalent.
+
+	Return value
+		Returns the result from converting input string "s"
+	        to a floating point equivalent in double type.
+	 	When the converted value overflows, either
+		+HUGE_VAL(1.797693134862316e+308) or -HUGE_VAL 
+		depending on the sign, will be returned.
+		0 is returned for underflow case.
+
+	Remarks	
+		Error handling is as follows;
+
+		Condition 	Returned Value	Error Type
+		--------------------------------------------------
+		Overflow	+/- HUGE_VAL	Region Error
+		Underflow      	0            	Region Error
+
+	Related Function
+		strtod
+
+
+strtod	Converts a string to a floating-point equivalent
+
+	Syntax	
+		double strtod(const char *s, char **endp)
+
+	Arguments
+		s	string
+		endp	holds a pointer to a string that was unable 
+                        to be converted.
+
+	Explanation
+		This function converts a string to a double type 
+                floating- point equivalent.
+
+		"s" must be one of the following;
+		[ws][sn][ddd]
+		where:	[ws]	white space(can be omitted)
+			[sn]	sign(can be omitted)
+			[ddd]	numeric string(can be omitted)
+
+	Stops converting upon encountering a character that was 
+        unable to be converted. If endp is not NULL, the pointer 
+        to the character in error is set to endp.
+
+	Return Value
+		Returns the result from converting input string "s"
+	        to a floating point in double type.
+	 	When the converted value overflows, either
+		+HUGE_VAL(1.797693134862316e+308) or -HUGE_VAL 
+		according to the sign, will be returned.
+		0 is returned for underflow case.
+
+	Remarks
+		Error handling is as follows;
+
+		Condition 	Returned Value	Error Type
+		------------------------------------------------------
+		Overflow	+/- HUGE_VAL	Area Error
+		Underflow      	0            	Area Error
+
+	Related Functions
+		atof
+		
+
+
+Basic Geometry Library(libgte)
+--------------------------------------------------------------------
+
+## Samples Added
+~~~~~~~~~~~~~~~~
+PSX\SAMPLE\GRAPHICS\TMD
+	New macro for inner loop using DMPSX.
+
+PSX\SAMPLE\GRAPHICS\ZIMEN
+	Sample program for creating undistorted ground using
+	polygon division.
+
+PSX\SAMPLE\GRAPHICS\JIMEN 
+	Sample program for creating undistorted ground without
+	using polygon division. 
+
+PSX\SAMPLE\GRAPHICS\ROTATE 
+	Example of matrix interpolation, effective for a matrix
+	animation that requires high-volume matrix patterns such
+	as in the 3D fighting games.   
+
+
+	
+	
+CD-ROM Library/Streaming Library (libcd)
+--------------------------------------------------------------------
+
+## Samples Added
+~~~~~~~~~~~~~~~~
+PSX\SAMPLE\CD\TUTO\TUTO10
+	Sample program using high level functions, ExaCdReadFile()
+	and CdReadExec().
+	
+PSX\SAMPLE\CD\TUTO\TUTO11
+        Checks the disk type.
+
+        This sample program is related to functions CdDiskReady()and 
+        CdGetDiskType(), newly released for this version and performs 
+        checking upon disc change for multiple-disc applications.
+
+        Right after a disc is placed and the disc cover is closed, 
+        checking starts.  In case a disc needs to be changed in the 
+        middle of an application, it is necessary to search for the 
+        end of the operation and to check the type of the disk just 
+        placed. This sample program shows how to check discs using 
+        the above two functions. 
+
+PSX\SAMPLE\CD\MOVIE\EARTH
+	LoadImage() can be inserted during drawing using the function 
+        BreakDraw().
+
+PSX\SAMPLE\CD\MOVIE\TUTO3
+	Movie that does not skip any frame.
+
+	The new feature reducing frame skip caused by the ring buffer 
+        overflow is added to tuto0.
+
+	This frame skip reduce can be achieved by lowering the average 
+        data transfer rate when decode cannot be done sufficiently  
+        by moving the disc head backward. 
+
+	This method cannot be used for the data with XA audio due to 
+        noise problem.  This sample program operates only in 
+        CdModeStream2 mode.
+
+	This method can be applied to play a movie that requires no 
+        frame skip or data without XA audio.
+	
+	In this program two functions  StRingStatus() and 
+        StGetBackloc() (available from Ver 3.5 ) are used.
+
+	This program checks the number of free sectors on the ring 
+        buffer by StRingStatus(), and when the number becomes lower 
+        than a certain value, issue CD-ROM access command after 
+        obtaining the point for backward by StGetBackloc() function 
+        as shown in the code below.
+
+        StRingStatus(&free,&over); /* added ring buffer status */
+        if(free<MINIMUM_FREE_SECTORS) {
+	    next_frame = StGetBackloc(&backloc); /* get the latest frame    */
+			   		         /* loc and id on ring buf  */
+	    StSetMask(1,next_frame,0xffffffff);  /* masking from cdrom data */
+            /* access backward to reduce trasfer rate */
+	    strKickCD(&backloc);
+	}
+
+	Above code is called once for every frame.
+
+	RING_SIZE should be large enough in order not to stop 
+        the movie.  When 7 or 8 frames can be placed in 
+        RING_SIZE - MINIMUM_SECTORS, movie will not stop even 
+        during data access.
+
+	MINIMUM_SECTORS should be larger than the number of 
+        sectors in one frame.
+
+	If not, some frames will be skipped.
+
+	
+## Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~~	
+o   CdRead() now checks sub-header of a data sector every time. 
+    By this check, an error can be detected even when one sector
+    is skipped due to stressed call of over 1/150 sec in the middle.
+    This check can also avoid blocking the internal process when
+    the disc cover is open. 
+  
+
+## Changes in Header Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+In libcd.h, callback related prototype became more strict.
+Thus extra warning messages may be produced at compilation for
+some source code. Compilation should end successfully as before.
+These warning messages can be eliminated by strictly defining
+the function prototype with appropriate argument types.
+
+	Example)
+	    a)	void callback();
+		CdSyncCallback(callback);
+
+	    b)	void callback(u_char, u_char *);
+		CdSyncCallback(callback);
+
+## Functions Added
+~~~~~~~~~~~~~~~~~~
+CdDiskSReady	Checks disc status.
+
+	Syntax	
+		int CdDiskReady( int mode )
+
+	Arguments
+		mode	Check mode
+			0: Blocking type
+			1: Non-blocking type
+
+	Explanation	
+		This function checks disc status whether a command 
+                can be issued.
+
+		Immediately after the disc cover is closed, a 
+                command cannot be issued for a few seconds. This 
+                function can check the state. The blocking type of 
+                this function holds until the state become stable
+                ( a command can be issued) before returning.
+
+		On the other hand, the non-blocking type just 
+                checks the status and returns without holding.
+
+	Return Value
+		CdlComplete	The state where a command can be 
+                                issued.
+
+		CdlDiskError	Blocking type
+				No discs or defected disc.
+
+				Non-blocking type
+				Not stable, no discs, or defected 
+                                disc.
+
+		CdlStatShellOpen Disc cover is open.
+
+	Remarks	
+		Recommended to use this function immediately after 
+                the disc cover is closed and wait until the state 
+                becomes stable. After this, check the disc format 
+                by CdGetDiskType(), and issue commands.
+
+	Note	
+		Following is the maximum wait time required for 
+                returning from a blocking type function call.
+
+		DebuggingStation:
+			CD-R		Maximum of 12 seconds
+			CD-DA		Maximum of 12 seconds
+			No disc		Approximately 5 seconds
+
+		PlayStation:
+			Black CD	Maximum of 3 seconds
+			CD-DA		Maximum of 5 seconds
+			No disc		Approximately 5 seconds
+
+		Although non-blocking type function returns 
+                immediately after checking the disc status, it 
+                cannot differentiate two error cases, the non-stable 
+                status and no disc case.  Thus it is recommended 
+                to manage the time out according to the wait time 
+                shown above.
+
+	        * This function does not operate correctly on 
+                  DTL-H2000.
+
+
+CdGetDiskType	Obtains disc format.
+
+	Syntax	
+		int CdGetDiskType( void )
+
+	Arguments	
+		None
+
+	Explanation	
+		This function obtains the disc format.
+		Currently only CD-ROM format can be recognized.
+
+
+	Return Value	
+		CdlCdromFormat		CD-ROM format
+		CdlOtherFormat		Other format
+
+		CdlStatShellOpen	Disc cover is open
+		CdlStatNoDisk		No discs
+
+	Remarks	
+		On DebuggingStation, although PlayStation disc 
+                (black disc), CD-R, and other CD-ROM(ISO9600 format) 
+                can be recognized as a CD-ROM, on PlayStation
+                (consumer model), only the PlayStation disc can 
+                be recognized as CD-ROM.
+
+		CD-DA is always recognized as "Other Format".
+
+	Note	
+		It is recommended to call CdDiskReady() function 
+                before calling this function right after the disc 
+                cover is closed.
+		
+	        * This function does not operate correctly on 
+                  DTL-H2000.
+
+
+StGetStatus     Returns the next frame status.
+		With this function, the status of the next frame 
+                can be obtained without affecting the internal 
+                status.
+
+        Syntax    
+		unsigned short StGetStatus(addr,header)
+		unsigned long **addr;
+		unsigned long **header;
+
+		addr   :Starting address of the user data region 
+                        for 1 frame of retrieved data.
+               	header :Starting address of sector header region 
+                        for 1 frame of retrieved data.	
+
+        Explanation
+		This function obtains the status of the next one 
+                frame of ring buffer data.
+
+		The internal state is not affected by calling 
+                this function.
+                
+                	Following is the possible status:
+                	StFREE      Next frame is not on the ring 
+                                    buffer.
+                	StCOMPLETE  Next frame is completely read 
+                                    into the ring buffer.
+                	StBUSY      Next frame is being read into 
+                                    the ring buffer.
+                	StLOCK      Next frame is being processed 
+                                    (one frame is obtained by 
+                                    calling StGetNext but StFreeRing 
+                                    has not been called).
+		   	
+        Return Value  
+		Next frame status as shown above.
+
+
+StNextStatus	Returns the status of the next frame.
+		This function checks whether the next frame data 
+                is available on the ring buffer without affecting 
+                the internal state.
+
+	Syntax	
+		unsigned short StNextStatus(addr,header)
+		unsigned long **addr;
+		unsigned long **header;
+
+		addr   :Starting address of the user data region for 
+                        1 frame of retrieved data.
+               	header :Starting address of sector header region for 
+                        1 frame of retrieved data.	
+
+	Explanation	
+		This function obtains the status of the next one 
+                frame on the ring buffer.
+		The internal state is not affected by calling 
+                this function.
+                	
+                	Following is the possible status:
+                	StFREE      Next frame is not on the ring 
+                                    buffer.
+                	StCOMPLETE  Next frame is completely read into 
+                                    the ring buffer.
+                	StBUSY      Next frame is being read into the 
+                                    ring buffer.
+                	StLOCK      Next frame is being processed 
+                                    (one frame is obtained by calling 
+                                    StGetNext but StFreeRing has not 
+                                    been called).
+
+	Return Value  
+		Status of the next frame shown above.
+
+
+StRingStatus	Returns the status of the ring buffer.
+	       	Frame skip caused by insufficient free space on the 
+                ring buffer can be prevented by calling this function.
+
+	Syntax	
+		void StRingStatus(free_sectors,over_sectors)
+		short *free_sectors,*over_sectors;
+
+		free_sectors:	returns the number of free sectors on
+				the ring buffer.
+
+		over_sectors:	difference between the sector 
+                                positions of CD-ROM data read in and 
+                                the sector positions currently being 
+                                processed.
+
+	Explanation	
+		This function reports the ring buffer status with 
+                two variables specified as arguments.
+		
+		The first argument, "free_sectors" is the number 
+                of sectors with no data in the unused area of the 
+                ring buffer. Larger the "free_sectors" is, the more 
+                free space on the ring buffer.
+		
+		The second argument, "over_sectors" is difference 
+                between the sector positions for CD-ROM data read 
+                in and the sector positions currently being processed. 
+                Larger the "over_sectors" is, more unprocessed data 
+                on the ring buffer.
+
+		The sum of "free_sectors" and "over_sectors" and the 
+                total ring buffer size is nearly equal.  The reason 
+                for not exact match in size is that when one frame 
+                cannot fit in completely at close to the end, rewind 
+                occurs.  
+
+	Return Value	
+		None
+
+
+StGetBackloc	Returns the location and ID of the first frame of 
+                the ring buffer in order to access frame data without 
+                any frame skip.  The frame skip due to ring buffer 
+                overflow can be avoided by re-accessing the frame 
+                location obtained by this function.  This function is 
+                not appropriate for data with XA AUIO since it requires 
+                data access.
+ 		
+	Syntax	
+		int StGetBackloc(loc)
+		CdlLOC *loc;
+
+	Explanation	
+		This function returns the latest location information 
+                and ID of the frame on the current ring buffer.
+
+		The location information obtained here is used as 
+                the access target value in order to avoid frame skip 
+                due to ring buffer overflow.
+		
+		Please refer to \psx\sample\cd\movie\tuto3.c for usage 
+                example.
+
+		This function is valid only for StModeStream2 mode.
+
+	Return Value	
+		Frame ID that should be used upon the streaming restart. 
+		-1 for error indicating non StModeStream2 mode.
+
+
+
+CdStatus	Obtains the latest CD-ROM status
+
+	Syntax	
+		int CdStatus(void) 
+
+	Arguments	
+		None
+	
+	Explanation	
+		This function obtains the latest reported CD-ROM status.
+
+	Return Value	
+		CD-ROM Status
+
+	Remarks	
+		This function operates in high speed since it only 
+                refers to the status in the main memory.  Status buffer 
+                is updated when a CD-ROM command is issued.
+
+		It is required to issue CdlNop command in order to 
+                explicitly obtain the latest state.
+	
+
+CdMode		Obtains the latest CD-ROM mode.
+
+	Syntax	
+		int CdMode(void) 
+
+	Arguments	
+		None
+	
+	Explanation	
+		This function returns the latest CD-ROM mode set.
+
+	Return Value	
+		CD-ROM mode
+
+	Remarks	
+		High speed since this function only refers to the 
+                status in the main memory.  Status buffer is updated 
+                when a CD-ROM command is issued.
+
+		It is required to issue CdlNop command in order to 
+                obtain the latest state explicitly.   
+
+
+CdLastPos	Obtains the CD-ROM location most recently accessed.
+
+	Syntax	
+		CdlLOC *CdLastPos(void) 
+
+	Arguments	
+		None
+	
+	Explanation	
+		This function returns the latest location that was 
+                specified by the sub command, 
+                CdlSetloc/CdlPlay/CdlSeekL/CdlSeekP/CdlRead/CdlReadS 
+		
+	Return Value	
+		Pointer to the structure, CdlLOC  containing the 
+                CD-ROM location 
+
+
+CdReadFile	Reads a file on CD-ROM 
+
+	Syntax	
+		int CdReadFile(char *file, u_long *addr, int nbyte)
+	
+	Arguments	
+		file	File name
+		addr	Main memory address to be read-in
+		nbyte	Data seize to be read-in
+
+	Explanation	
+		This function reads "nbyte" of the file on CD-ROM.
+		If 0 is specified in "nbyte", whole file is read.
+		If NULL is specified in "file", it starts reading 
+                from the last location of the previous CdReadFile 
+                call.
+
+	Return Value	
+		0		Read error
+		Other		Number of bytes read
+	
+	Remarks	
+		File name must include path specifications.
+		All lower case letters will be converted to capitals.
+		Reading is performed background, and CdreadSync() 
+                should be used to check the termination of reading.
+
+
+CdReadExec	Loads executable file from CD-ROM.
+
+	Syntax	
+		struct EXEC *CdReadExec(char *file)
+
+	Arguments	
+		file	Executable file name
+
+	Explanation	
+		This function loads an executable file specified by 
+                "file" from CD-ROM to main memory at the appropriate 
+                address.  In order to check if the reading is completed, 
+                CdReadSync() should be used.
+		The loaded file is executed as a child process 
+                using Exec().
+ 	
+	Return Value	
+		Structure "EXEC" for the executable file read.
+
+	Remarks	
+		Load address of the executable file should not overlap 
+                with the region of its parent process.
+ 
+
+CdPlay		Plays CD-DA tracks.
+	
+	Syntax	
+		int CdPlay(int mode, int *tracks, int offset)
+
+	Arguments	
+		mode	0: Stops playing
+	
+			1: Plays tracks specified by "tracks" in order.  
+                           Stop playing after playing all tracks.
+	
+			2: Plays tracks specified by "tracks" in order.
+			   After playing all tracks, go back to the 
+                           first track and repeat playing all tracks 
+                           again.
+			   
+			3: Returns an index of the array corresponding 
+                           to the track currently being played.
+			  	
+		tracks	Array specifying the track to be played. Must 
+                        ends with 0. 
+	
+		offset	Index of the "tracks" to be played.
+	
+	Explanation	
+		This function plays multiple tracks specified by the 
+                array "tracks" in order.
+		After playing the last track of the array, it 
+                repeats or stops playing according to the mode 
+                specified.
+	
+	Return Value	
+		Index of the "tracks" currently being played.  Not 
+                the track number.
+		-1 when it has already stopped playing.
+
+	Remarks	
+		All playing is done in the unit of track. The 
+                playing or stopping in the middle of the track is 
+                not allowed.
+
+
+Extended Graphics Library (libgs)
+--------------------------------------------------------------------
+
+## Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~~
+o   Pointer to the GsCELL table is passed in "index" of the structure 
+    GsMap. The bug that the system hang when displaying GsCELL table 
+    with contents of all 0xFFFF(transparent CELL) data has been fixed.
+
+o   The bug that the object is not displayed correctly using 
+    GsScaleScreen() after setting viewpoint by GsSetView2() has been 
+    fixed.
+
+
+## Samples Added
+~~~~~~~~~~~~~~~~
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO7
+	Sample program using material lighting of GsDOBJ2 in libgs.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO3
+	Sample program of "mipmap" for speeding up the drawing using 
+        various texture according to Z value.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TUTO1
+	Sample program of GsSortObject4() and its low level functions 
+        using DMPSX.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TUTO2
+	Sample program of changing the perspective transformation part 
+        of TUTO1 to TransRotPers().
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO3
+	Sample program of object viewing from two different viewpoints
+	using two divided screen.
+ 
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO4
+	Sample program of the usage of ordering tables.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO5
+	Sample program of changing screen coordinate scaling.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\TMDVIEW4\TUTO6
+	Sample program of changing viewpoint to a subjective view.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\LOWLEVEL\TUTO1
+	Sample program of GsSortObject4() and its low level functions
+	using DMPSX.
+
+PSX\SAMPLE\GRAPHICS\TMDVIEW\LOWLEVEL\TUTO2
+	Sample program of changing the perspective transformation part
+	of TUTO1 to TransRotPers().
+
+
+
+## Functions Added
+~~~~~~~~~~~~~~~~~~
+GsSetRefView2L  Sets viewpoint (High Precision Version)
+
+        Syntax    
+		int       GsSetRefView2L(pv)
+               	GsRVIEW2 *pv;
+
+        Arguments    
+		pv      Viewpoint Location Information(view/reference
+                        point type) 
+
+        Explanation  
+		This function calculates WSMATRIX using the viewpoint 
+                information.
+
+		The parameter is structure GsRVIEW2. 
+		It is not necessary to call this function for every 
+                frame if the viewpoint is not changed since WSMATRIX
+                is not changed.  However, if the viewpoint changes, 
+                this must be called for every frame to update.
+		
+		When setting a GsRVIEW2 member, "super" to values 
+                other than WORLD, GsSetRefFiew2L() must be called for 
+                every frame since the viewpoint moves in result of 
+                parent coordinate parameter change even when other 
+                parameters are not changed. 
+
+		The difference between GsSetRefView2L() and 
+                GsSetRefView2() is precision level. In GsSetRefView2L(), 
+                viewpoint whobbling caused by insufficient precision 
+                is improved compared with GsSetRefView2().
+
+		The execution time of GsSetRefView2L(),however, is 
+                doubled. 
+
+	Return Value
+		0 for successful viewpoint set
+		1 for error
+
+GsTMDfastG3M	Gouraud triangle(light source calculation material 
+                lighting)
+GsTMDfastG3MFG	Gouraud triangle(light source calculation 
+                FOG+material lighting)
+GsTMDfastTG3M	Gouraud texture triangle(light source calculation 
+                material lighting)
+GsTMDfastTG3MFG	Gouraud texture triangle(light source calculation 
+                FOG+material lighting)
+GsTMDfastG4M	Gouraud square(light source calculation material 
+                lighting)
+GsTMDfastG4MFG	Gouraud square(light source calculation FOG+material 
+                lighting)
+GsTMDfastTG4M	Gouraud texture square(light source calculation
+                material lighting)
+GsTMDfastTG4MFG	Gouraud texture square(light source calculation 
+                FOG+material lighting)
+
+	Syntax	
+		PACKET *GsTMDfastG3M(TMD_P_G3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastG3MFG(TMD_P_G3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastTG3M(TMD_P_TG3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastTG3MFG(TMD_P_TG3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastG4M(TMD_P_G4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastG4MFG(TMD_P_G4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastTG4M(TMD_P_TG4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax	
+		PACKET *GsTMDfastTG4MFG(TMD_P_TG4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+
+	Arguments	
+		op	Starting address of TMD data primitive
+		vp	Starting address of TMD data vertex
+		np	Starting address of TMD data normal line
+		pk	Starting address of GPU packet buffer
+		n	Number of primitives
+		shift	Number of bit to be shifted for OT sorting
+		scratch	Starting address of unused scratch pad
+
+	Explanation	
+		These are group of low level GsSortObject4J() functions 
+                and are thus needed to be registered as low level 
+                functions into GsFCALL4 before using. 
+
+		Only when lighting mode is set to "material ON", 
+                the luminance is attenuated according to the parameter 
+                given as GsDOBJ2 attribute at light source calculation.
+		
+
+	Return Value
+		Starting address of free packet area.
+
+GsTMDfastF3M	Flat triangle(light source calculation material 
+                lighting)
+GsTMDfastF3MFG	Flat triangle(light source calculation 
+                FOG+material lighting)
+GsTMDfastTF3M	Flat texture triangle(light source calculation 
+                material lighting)
+GsTMDfastTF3MFG	Flat texture triangle(light source calculation 
+                FOG+material lighting)
+GsTMDfastF4M	Flat square(light source calculation material 
+                lighting)
+GsTMDfastF4MFG	Flat square(light source calculation FOG+material 
+                lighting)
+GsTMDfastTF4M	Flat texture square(light source calculation 
+                material lighting)
+GsTMDfastTF4MFG	Flat texture square(light source calculation 
+                FOG+material lighting)
+
+
+	Syntax
+		PACKET *GsTMDfastF3M(TMD_P_F3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastF3MFG(TMD_P_F3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastTF3M(TMD_P_TF3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastTF3MFG(TMD_P_TF3 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastF4M(TMD_P_F4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastF4MFG(TMD_P_F4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax
+		PACKET *GsTMDfastTF4M(TMD_P_TF4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+	Syntax   
+		PACKET *GsTMDfastTF4MFG(TMD_P_TF4 *op,VERT *vp,
+			VERT *np,PACKET *pk,int n,int shift,
+			GsOT *ot,u_long *scratch);
+
+	Arguments	
+		op	Starting address of TMD data primitive
+		vp	Starting address of TMD data vertex
+		np	Starting address of TMD data normal line
+		pk	Starting address of GPU packet buffer
+		n	Number of primitives
+		shift	Number of bit to be shifted for OT sorting
+		scratch	Starting address of unused scratch pad
+
+	Explanation	
+		These are group of low level GsSortObject4J() 
+                functions and thus are needed to be registered as 
+                low level functions into GsFCALL4 before using. 
+
+		Only when lighting mode is set to "material ON", 
+                the luminance is attenuated according to the 
+                parameter given as GsDOBJ2 attribute at light 
+                source calculation.
+		
+
+	Return Value
+		Starting address of unused packet area.
+	
+
+GsTMDfastTG3L_FLIP	Gouraud texture triangle(light source 
+                        calculation normal line flip)
+GsTMDfastTG3LFG_FLIP	Gouraud texture triangle(light source 
+                        calculation FOG + normal line flip)
+GsTMDfastTG3NL_FLIP	Gouraud texture triangle(No light source 
+                        calculation normal line flip)
+GsTMDfastTNG3_FLIP	Gouraud texture triangle(No light source 
+                        calculation normal line flip)
+
+    Syntax	u_long *GsTMDfastTG3L_FLIP(primtop,vertop,nortop,s,n,
+                shift,otp)
+		u_long *GsTMDfastTG3LFG_FLIP(primtop,vertop,nortop,
+                s,n,shift, otp)
+		u_long *GsTMDfastTG3NL_FLIP(primtop,vertop,nortop,
+                s,n,shift,otp)
+		u_long *GsTMDfastTNG3_FLIP(primtop,vertop,s,n,
+                shift,otp)
+
+		TMD_P_TG3  *primtop;   /* TMD PRIMITIVE Starting Address */
+		(TMD_P_TNG3 *primtop;) /* GsTMDfastTNG3 is a packet      */ 
+		                       /* normal line                    */ 
+		SVECTOR *vertop;       /* TMD VERTEX Starting Address    */
+		SVECTOR *nortop;       /* TMD NORMAL Starting Address    */
+		POLY_GT3 *s;	       /* GPU packet buffer address      */
+		u_long  n;	       /* Number of process polygons     */
+		u_long  shift;	       /* Number of Z value bit to be 
+                                          right-shifted */ 
+				      /* when allocating upon OT allocation */
+		GsOT *otp;	      /* Pointer to OT                  */
+
+	
+    	Explanation	
+	   	These functions perform coordinate conversion, 
+                perspective transformation, backface clip normal 
+                line flip,(light source calculation), generate 
+                GPU packet on the buffer, then link to OT (used 
+                in GsSortObject4).
+
+    	Return Value	
+		Updated GPU packet buffer address
+
+    	Remarks	
+		Please refer to libgs.
+
+## Fixes in Function Specifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Material lighting is supported in GsSortObject4J().
+
+
+Basic Graphics Library (libgpu)
+--------------------------------------------------------------------
+
+## Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~~
+o   In FntLoad and KanjiFntOpen, the bug that caused overwriting the 
+    right side of the texture page with CLUT data due to loading CLUT 
+    data for 256 colors has been fixed.
+
+o   In SetDefDrawEnv(), the bug that incorrectly setting dfe members 
+    to 0 even for the non-interlace mode has been fixed. 
+	
+o   The bug that LoadImage() cannot be called for the line x=0, y=0 
+    has been fixed. 
+
+o   The bug that the interlace mode cannot be correctly discriminated 
+    by SetDefDispEnv() for PAL mode has been fixed.
+
+o   In MargePrim(), the bug that fails to merge primitives for
+    some memory initialization condition has been fixed. 
+
+o   The bug in KanjiFntPrint() that BAIKAKU characters are not drawn
+    when specifying "%c" in the print format has been fixed.
+
+o   The bug of hang up by the error message [ADDRESS_ERROR on -LOAD] 
+    upon calling PutDispENv() function has been fixed.
+
+
+## Structure Added
+~~~~~~~~~~~~~~~~~~
+DR_TPAGE	 Texture Page Change Primitive
+
+	Structure
+		typedef struct {
+			u_long	tag;
+			u_long	code[1];
+		} DR_TPAGE;
+
+	Member
+		tag	Next primitive hook(reserved)
+		code	Primitive ID
+
+	Explanation
+		DR_TPAGE primitive modifies current texture page 
+                settings during drawing.
+
+		SetDrawTPage() function changes the content 
+                settings.
+
+
+## Functions Added
+~~~~~~~~~~~~~~~~~~
+KanjiFntClose	Closes the printstream
+
+	Syntax
+		void KanjiFntClose(void)
+
+	Arguments
+		None
+									
+	Explanation
+		This function closes all the streams currently 
+                open and are used by KanjiFntPrint() and initialize 
+                the state.
+									
+	Return Value
+		None
+									
+	Remarks
+		Since KanjiFntClose() only initializes the internal 
+                state, this function operates even when there is no 
+                stream opened at the invocation of the function.
+
+KanjiFntPrint	Outputs to printstream 
+
+	Syntax
+		int KanjiFntPrint(int id, ...)
+									
+	Arguments
+		id	Printstream ID				
+		format	Print Format				
+									
+	Explanation
+		Send SJIS ZENKAKU string using printf() interface.
+										
+	Return Value
+		Number of characters within the stream.				
+										
+	Remarks
+		KANJI code must be the SJIS.
+		Although both ZENKAKU and HANKAKU characters can be 
+                mixed in the string, a HANKAKU character will be 
+                converted to ZENKAKU when it is drawn. 
+
+		HANKAKU KANA characters are not supported.		
+		Actual drawing of the string will be done at 
+                execution of KanjiFntFlush().						
+
+		When there is  ~p in the string format, all the 
+                characters after ~p  will be drawn in half-pitch.	
+
+
+LoadClut2	Loads Clut for 16 colors.
+
+	Syntax
+		u_short LoadClut2(u_long *clut, int x, int y)
+
+	Arguments
+		clut	Starting address of the texture color
+		x, y	Destination frame buffer address
+
+	Explanation
+		This function loads the texture color data(CLUT) 
+                starting at the address specified by "clut" to the 
+                frame buffer(x, y) and then calculates CLUT ID for 
+                the texture CLUT just loaded.
+		
+	Return Value
+		CLUT ID for loaded CLUT
+
+	Remarks
+		This function transfers the CLUT data of only 16 
+                colors.
+
+
+SetDrawTPage	Initializes the contents of texture page change 
+                primitive.
+
+	Syntax
+		void SetDrawTPage(DR_TPAGE *p,
+   				  int dfe, int dtd, int tpage)
+
+	Arguments
+		p	Texture page change primitive
+		dtd	Dither processing flag:
+			0: dither processing not performed
+			1: dither processing performed
+		dfe	Flag for drawing to a display area
+			0: no drawing in display area
+			1: drawing in display area
+		tpage	Texture page
+
+	Explanation
+		This function initializes the texture page change 
+                primitive. The texture page can be modified during 
+                drawing by registering an initialized primitive 
+                to OT by AddPrim().
+
+	Return Value
+		None
+
+
+Extended Sound Library (libsnd)
+--------------------------------------------------------------------
+
+## Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~~
+o   In SsSeqSetCrescendo and SsSeqSetDecrescendo, the bug that the 
+    volume does not change as specified has been fixed.	
+
+o   In NRPN of MIDI, the bug that the reberb does not work at SEQ 
+    playing has been fixed.
+
+o   In SEQ, the bug that caused an incorrect operation when using 
+    MIDI control change No. 7, 10, and 11 has been fixed.
+
+o   The bug that SsGetSerialVol() returns the incorrect value, 
+    1 smaller than the one set by SsSetSerial Vol() has been fixed.  
+  
+o   The bug that the address returned by SsUtGetVagAddrFromTone() 
+    does not reflect the program number has been fixed.
+
+
+## Changes in Header Files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+More readable macros as used for specifying CD in SsSetSerialVol() 
+and SsSetSerialAttr() has been added to libsnd.h.
+
+## Function Added
+~~~~~~~~~~~~~~~~~
+SsVabTransfer	Recognizes and transfers sound source data.
+
+	Syntax
+		short
+		SsVabTransfer	(unsigned char *vh_addr, 
+			       	 unsigned char *vb_addr,
+			       	 short vabid, short i_flag)
+
+	Arguments
+		vh_addr		Starting address of VH data
+		vb_addr		Starting address of VB data
+		vabid		VAB ID number
+		i_flag		= SS_IMMEDIATE...Immediately returns
+				return value (VAB ID number)
+				= SS_WAIT_COMPLETED...Waits until 
+                                transfer is completed
+
+	Explanation
+		This function recognizes a sound source header 
+                list(VH data) specified by vh_addr and transfers a 
+                sound source data(VB data) specified by s vb_addr, 
+                to the SPU sound buffer. The VAB ID number is 
+                specified in the argument "vabid" 
+                
+                When "vabid" is -1, the function searches for an 
+                empty VAB ID(0-15) and allocates. The "i_flag" 
+                determines whether the function should wait until 
+                transfer is completed or return immediately after 
+                the transfer starts (then checks with 
+                SsVabTransCompleted).
+
+	Return Value
+		VAB ID number for successful return.
+
+		For error case the following value is returned.
+		-1	 VAB ID cannot be allocated or invalid VH
+		-2	  	Invalid VB
+		-3 and lower	Other error 
+
+	Related Functions
+		SsVabOpenHead, SsVabTransBody, SsVabTransCompleted
+
+
+
+SsGetMute        Obtains mute attribute
+
+	Syntax
+      		char         SsGetMute (void)
+
+	Arguments
+	        None
+
+	Explanation
+	        This function obtains the mute attribute.
+
+	Return Value
+	        SS_MUTE_ON   Mute on
+	        SS_MUTE_OFF  Mute off
+
+	Related Function
+	        SsSetMute
+
+
+Data Processing Library (libpress)
+--------------------------------------------------------------------
+
+## Bug Fixes in Library
+~~~~~~~~~~~~~~~~~~~~~~~
+o   DecDCTvlc() became faster. The decompressing speed has been 
+    improved 150-200 % by optimizing re-access.
+
+
+## Sample Added
+~~~~~~~~~~~~~~~~
+PSX\SAMPLE\PRESS\TUTO\TUTO7
+	This sample program shows the usage of the functions 
+	DecDCTPutEnv and DecDCTGetEnv that change the MDEC internal 
+        parameters. This example dynamically changes the 
+        luminance value of the decompressed image at decoding.
+	
+## Functions Added
+~~~~~~~~~~~~~~~~~~	
+DECDCTENV	DCT decompression environment
+
+	Structure
+		typedef struct {
+			u_char	iq_y[64];	
+			u_char	iq_c[64];	
+			short	dct[64];	
+		} DECDCTENV;
+	
+	Member
+		iq_y		Luminance Quantization Table
+		iq_c		Chrominance Quantization Table
+		dct		System reserved
+
+	Explanation
+		Default table values for setting the DCT 
+                decompression parameters are shown below.
+	
+		iq_y:
+		      | 			 |
+		      |   2 16 19 22 26 27 29 34 | 
+		      |  16 16 22 24 27 29 34 37 | 
+		      |  19 22 26 27 29 34 34 38 | 
+		      |  22 22 26 27 29 34 37 40 | x 1/16
+		      |  22 26 27 29 32 35 40 48 | 
+		      |  26 27 29 32 35 40 48 58 | 
+		      |  26 27 29 34 38 46 56 69 | 
+		      |  27 29 35 38 46 56 69 83 | 
+		      | 			 |
+
+		iq_c:
+		      |  			 |
+		      |   2 16 19 22 26 27 29 34 | 
+		      |  16 16 22 24 27 29 34 37 | 
+		      |  19 22 26 27 29 34 34 38 | 
+		      |  22 22 26 27 29 34 37 40 | x 1/16
+		      |  22 26 27 29 32 35 40 48 | 
+		      |  26 27 29 32 35 40 48 58 | 
+		      |  26 27 29 34 38 46 56 69 | 
+		      |  27 29 35 38 46 56 69 83 | 
+		      | 			 |
+
+	Remarks
+		Note that iq_y, iq_c are placed in zigzag 
+                scan order.
+
+	
+DecDCTPutEnv	Sets image processing subsystem environment
+
+	Syntax
+		DECDCTENV *DecDCTPutEnv(DECDCTENV *env)
+	
+	Arguments
+		env	Decompressing environment
+
+	Explanation
+		This function sets the basic parameters related 
+                to macro-blocking decompression.
+	
+	Return Value
+		Starting address of env
+
+	
+DecDCTGetEnv	Obtains image processing subsystem environment.
+
+	Syntax
+		DECDCTENV *DecDCTGetEnv(DECDCTENV *env)
+	
+	Arguments
+		env	Decompressing environment
+	
+	Explanation
+		This function returns the current decompressing 
+                environment in env.
+
+	Return Value
+		Starting address of env
+
+==================================================================

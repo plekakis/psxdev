@@ -1,0 +1,9 @@
+@RSD970401
+PLY=tri0.ply
+MAT=tri0.mat
+GRP=tri0.grp
+PVT=tri.pvt
+COD=tri.cod
+#MSH=tri.msh
+NMOT=1
+MOT[0]=tri.mot

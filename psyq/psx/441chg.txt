@@ -1,0 +1,129 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4.1$    
+                                                            Oct. 1998
+                                       PlayStation(R) Programmer Tool
+                                          Runtime Library Release 4.4
+                       Library Changes, New Additions, and Known Bugs
+                                                     from Release 4.3
+----------------------------------------------------------------------
+                    Copyright(C) 1999 Sony Computer Entertainment Inc.
+                                                  All Rights Reserved.
+----------------------------------------------------------------------
+
+The following library and header files on this CD have been updated since the release of
+Runtime Library 4.4.  The version number of these libaries will appear as 4.4.1
+
+Libmcx
+Libds
+Mcgui 
+
+
+
+Following is the text files which accompanied each of the updated libraries.
+
+============================================
+
+To licensees
+                                                             Oct. 30, 1998
+                                                                       R&D
+                                          Sony Computer Entertainment Inc.
+
+			PDA Library (libmcx) version 4.4.1
+
+Libmcx version 4.4.1 will be released. The following malfunctions in libmcx 
+version 4.4 have been fixed in this version.
+
+[Bug-Fixes]
+The following malfunctions have been fixed in this version.
+
+- A program went into unstable operation sometimes during registration process
+execution.
+- The result of McxSetUIFS() was not reflected to the PDA boot application.
+- When no MOMORY CARD nor PDA was inserted the MEMORY CARD slot, McxSync() 
+did not return the correct result.
+- McxExecFlag() failed sometimes.
+ 
+[Changes]
+- The order of call of McxStartCom() and initialization funcitions has been 
+changed. 
+-  A special-purpose function, McxCardType(), has been added to judge whether
+the PDA is inserted into the MEMORY CARD slot or not.
+- With McxSync(), any of arguments, "cmd" and "result" may be given as zero 
+pointers if no return values are of interest.
+- The following function names have been changed.(Related descrition such as 
+macro names have been changed as well.)
+  version 4.4       version 4.4.1 
+  McxGetApr()       McxGetApl()
+  McxExecApr()      McxExecApl()
+
+
+==============================================================================
+
+To licensees
+                                                            Nov. 10, 1998
+                                                                 R&D Div.
+                                         Sony Computer Entertainment Inc.
+
+
+		Libds version 4.4.1 (bug-fixed version)
+
+Libds(.lib, .a) will be released. The following malfunction has been fixed
+in this version. Please use this version if your title under development 
+uses the libds and it requires disc change.
+
+< Symptom >
+With DsGetDiskType(), an infinite loop might occur in the library when 
+recognizing a disc other than the PlayStation disc. 
+
+< Remedy >
+The error handling for the command issue to the CD subsystem has been 
+enforced.
+
+< Contents of this package >
+libds.lib	ver.4.4.1
+libds.a		ver.4.4.1 (for NEWS/CodeWarrior)
+libds.h		
+readme_e.txt	this file
+
+< Note >
+This symptom doesn't occur with the similar function, CdGetDiskType(), 
+of the libcd.
+
+
+
+
+
+  McxFlushAcs()     McxFlashAcs()
+- The second argument of McxHideTrans() has been removed.
+  McxHideTrans(int, int) -> McxHideTrans(int)
+
+========================================================================
+
+To licensees
+                                                             Dec. 21, 1998
+                                                                       R&D
+                                          Sony Computer Entertainment Inc.
+
+		MEMORY CARD gui module (mcgui) version 4.4.1
+
+The mcgui version 4.4.1 will be released. The following malfunctions in mcgui 
+version 4.4 have been fixed in this version.
+
+[Changes since 4.4]
+
+- 0 was returned when the load process is executed with McGuiLoad(). This
+  problem has been fixed. Now 1 is returned.
+
+- 0 was returned when the save process is executed with McGuiSave(). This
+  problem has been fixed. Now 1 is returned.
+
+- dataBytes of the sMcGuiCards structure was not referred to properly on 
+  loading. This problem has been fixed.
+
+
+[Contents of this package]
+
+mcgui.obj  ver.4.4.1 (for SDevTC)
+mcgui.o    ver.4.4.1 (for NEWS)
+mcgui.h              header file
+readme.txt           this file  
+

@@ -1,0 +1,39 @@
+This directory contains launcher, a simple launch program based on the one for
+the full demo disk. There is a makefile for making launch.exe, the source for 
+launch, in case you need to make temporary changes (temporary, mind) and an 
+example cti file showing how to lay out an example program on the emulator to 
+be loaded by and run by launch. Incidentally, launch uses bs.lib, a specially 
+built subset of the full libraries. bs.lib is copyright SCEE.
+
+What does launch do ?
+
+Basically, it boots the machine and then loads and runs the executable at the 
+location specified in source. Currently, this location is sector 24. You will 
+likely need to modify this location to match your situation.
+
+If your code is all ok, and all is well, the dev system should printf to the 
+host:
+
+<Some stuff about the bs heap, data locations and so on>
+<Followed by the stuff from PadInit()>
+<and lastly:>
+
+Launcher: Set loc for seek
+Launcher: Program go.
+
+At this point, launch has seeked to your program and is loading it. Immediately
+after this, your program will be run. If something goes wrong, launch will 
+timeout and reboot the machine. This will probably cause repeated reboots, but
+you never know. Now your game should be running. 
+
+The executable will be loaded according to the XF_HDR data at the start of the
+.EXE, ie it should have correct info in it or all will be lost; the program
+is loaded to the address specified in the t_addr field, and the bss is cleared.
+
+If you have problems, etc, contact:
+
+Sony Computer Entertainment
+
+
+
+

@@ -1,0 +1,21 @@
+Very beta. - almost alpha
+
+cti2cd 
+
+1.write cti file
+
+2.run cti2cd 
+
+eg. cti2cd <file> -c<cutter> -r<cutter id> -x<speed> -t
+
+
+<file> specifies the cti file
+
+-t specifies test mode, use first time round. 
+-c cutter type, sony(1), yamaha(2), kodak(3) 
+-r scsi id of cutter
+
+Ensure correct aspi driver is installed for your adapter
+
+Only tested on 1540 compatibles.
+

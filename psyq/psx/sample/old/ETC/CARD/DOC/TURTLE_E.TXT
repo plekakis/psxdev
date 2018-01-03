@@ -1,0 +1,204 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+------------------------------------------------------------------------------
+Overview of TURTLE graphics library          Revision 1.0
+
+File       : TURTLE_E.TXT
+Date       : 10.19.94
+Written By : Keiso Shimakawa
+------------------------------------------------------------------------------
+
+The TURTLE Graphics Library is composed of the following three modules:
+
+1. pixmap operation module ( pixmap )
+2. Fractal button generation module ( makecow, bucket, nsreduct, spectrum, median,line, fractal )
+3. Automatic texture placement module ( texmap )
+
+*****************************************************************************
+Structures
+
+*****************************************************************************
+typedef struct {
+	short	x, y;
+} Point;
+
+typedef struct {
+	short	w, h;		/* bitmap size */
+	short	rowLWord;	/* offset to next row (*sizeof(long)) */
+	short	depth;		/* 1pixel/bits */
+	u_long	*baseAddr;	/* bitmap base address */
+} PixMap;
+
+typedef struct {
+	Point	*stack;	/* for bucket proc */
+	long	stack_size;
+} TDGlobals;
+
+extern TDGlobals	__gTD;
+
+
+1. pixmap operation module
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+ClearPixMap
+InvertPixMap
+CopyPixMap
+AndPixMap
+GetPixel
+SetPixel
+InitPixMap
+CalcPixMapRowSize
+CalcPixMapSize
+*****************************************************************************
+Usage
+
+*****************************************************************************
+
+[Format] void ClearPixMap( PixMap *bmp );
+[Summary] Clears bmp image
+
+[Format] void InvertPixMap( PixMap *bmp );
+[Summary] Inverts bmp image
+
+[Format] void CopyPixMap( PixMap *src, PixMap *dst );
+[Summary] Copies bmp image
+(src and dst must be the same size)
+
+[Format] void AndPixMap( PixMap *src1, PixMap *src2, PixMap *dst );
+[Summary] dst is the result of ANDing src1 and src2.
+(The 3 PixMaps must be the same size)
+
+[Format] u_long GetPixel( PixMap *bmp, short x, short y );
+[Summary] Gets the pixel value of the specified coordinate within the bmp.
+
+[Format] void SetPixel( PixMap *bmp, short x, short y, u_long color );
+[Summary] Sets the color value of the specified coordinate within the bmp.
+
+[Format] long InitPixMap( PixMap *bmp, short w, short h,u_long *addr, int depth );
+[Summary] Initializes PixMap structure.
+depth is the pixel depth of the resulting PixMap.
+addr is the address to the image buffer
+(no memory allocation is made)
+
+[Format] long CalcPixMapRowSize( short w, short depth );
+[Summary] Returns row size for the specified pixel depth (in longs)
+
+[Format] long CalcPixMapSize( short w, short h, short depth );
+[Summary] Returns the size of the image buffer for the specified pixel depth (in longs)
+2. Fractal button generation module
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+InitBucket
+Bucket
+MedianBitMap
+LineBitMap
+FillRectBitMap
+FractalLine
+DrawSpectrumGrad
+MaskCowPattern
+RandSpectrumColor
+ExpansionPixMap
+DeflationPixMap
+GetSpectrumCTable
+FindRect
+*****************************************************************************
+Usage
+
+*****************************************************************************
+
+[Format] void InitBucket( u_long *stack_addr, long stack_size );
+[Summary] Sets stack area and stack size for bucket (paint) processing
+
+[Format] void Bucket( PixMap *pm, short x, short y, u_long col );
+[Summary] Begins bucket (paint) processing starting with the pm seed position 
+
+[Format] void MedianBitMap( PixMap *pixmap );
+[Summary] Applies median filter to pixmap (eliminates noise)
+
+[Format] void LineBitMap( PixMap *pix, short x1, short y1,
+short x2, short y2, u_long col);
+[Summary] Draws a line having color col within pix
+
+[Format] void FillRectBitMap( PixMap *pix, RECT *rect, u_long col );
+[Summary] Paints rect with color col within pix
+
+[Format] void FractalLine( Point *p1, Point *p2, long w, long n,
+void (*func)(Point *p1, Point *p2, long user), long userData );
+[Summary] Draws a random fractal line.
+The actual line drawing is made by calling the func callback function.
+userData is passed on to the callback function.
+
+[Format] void DrawSpectrumGrad( RECT *rct )
+[Summary] Draws a quadrilateral that has a smooth gradation.
+
+[Format] void MaskCowPattern( u_short *addr, PixMap *tmpmap, PixMap *mskmap,
+long p1, long p2 )
+[Summary] The 16-bit image at addr is masked by a cow pattern.
+tmpmap, mskmap indicate memory addresses in which a temporary bitmap and a mask
+bitmap respectively are stored. The processing image size is obtained from tmpmap. 
+p1, p2 indicate random dot counts; p1 covers the entire map, and p2 covers 6/8 of the
+area within the map.
+
+[Format] void RandSpectrumColor( CVECTOR *rc )
+[Summary] Randomly returns a color from among the six colors RGBCMY.
+
+[Format] void ExpansionPixMap( PixMap *src, PixMap *dst )
+[Summary] Expands bitmap.
+
+[Format] void DeflationPixMap( PixMap *src, PixMap *dst )
+[Summary] Shrinks (deflates) bitmap.
+
+[Format] void GetSpectrumCTable( short *tbl )
+[Summary] Gets a 16-bit rainbow palette.
+
+[Format] int FindRect(PixMap *bmp, RECT *limit, short w, short h,
+short *x, short *y, u_long col )
+[Summary] Determines whether there is a rectangle having dimensions w x h that is 
+painted with the color col within the area of the bmp defined by limit. If such a
+rectangular region exists, x, y returns as the upper left coordinate. A returned
+value of 1 indicates open space, and a 0 indicates no open space.
+
+
+3. Automatic texture placement module
+*****************************************************************************
+List of functions
+
+*****************************************************************************
+InitTexMapManager
+ResetTexMap
+FindFreeArea
+UseTexMap
+UseClutMap
+UnuseTexMap
+*****************************************************************************
+Usage
+
+*****************************************************************************
+
+[Format] void InitTexMapManager( RECT *maskRect, RECT *clutRect )
+[Summary] Initializes the management environment.
+maskRect sets a protected area. In general, the area dedicated to a color
+table is set by the GPU drawing area and the clutRect display area.
+
+[Format] void ResetTexMap( void )
+[Summary] Initializes immediately after InitTexMapManager() is called.
+
+[Format] int FindFreeArea( short w, short h, short cw, short ch,
+RECT *freeArea, RECT *freeClut )
+[Summary] w, h indicate the size of the area to be found.
+cw, ch indicate the size of the color table to be found.
+freeArea returns the position data when the size requested by w, h is found.
+freeClut returns the position data when the size requested by cw, ch is found.
+The function returns a 1 if found, a 0 if failed.
+
+[Format] int UseTexMap( RECT *useArea )
+[Summary] Sets area where texture is positioned.
+
+[Format] int UseClutMap( RECT *useArea )
+[Summary] Sets area where color table is positioned.
+
+[Format] int UnuseTexMap( RECT *useArea )
+[Summary] Frees useArea.

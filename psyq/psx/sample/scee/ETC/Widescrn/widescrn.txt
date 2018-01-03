@@ -1,0 +1,37 @@
+SAMPLE	:Widescrn.zip
+AUTHOR	:Mark Baker, SCEE
+DATE	:24/9/98
+Copyright (C) 1998 by Sony Computer Entertainment.  All rights Reserved.
+
+PURPOSE	:  
+	A small addition to libgs to allow the aspect ratio to be set.
+
+DESCRIPTION:
+
+	Widescreen made easy!
+
+	A small addition to libgs to allow the aspect ratio to be set.
+
+	Includes:
+ 		* header, object & codewarrior library
+ 		* 3D example for both command line tools & codewarrior
+
+	coming soon... a modified sprite scaling function to support different aspect ratios.
+
+
+SEE ALSO:
+
+
+MAKING:
+
+
+RUNNING:
+
+
+NOTES:
+	Includes a 3D sample.
+
+FILES:
+	gs_set_aspect.o
+	widelib.A.lib
+	widelib.h

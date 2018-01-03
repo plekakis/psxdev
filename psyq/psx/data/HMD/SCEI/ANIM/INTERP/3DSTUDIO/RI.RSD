@@ -1,0 +1,7 @@
+# Created by Animetix Technologies Inc. PSX games module
+@RSD940102
+PLY=ri.ply
+MAT=ri.mat
+GRP=ri.grp
+# Number of TIM (Texture) Files
+NTEX=0

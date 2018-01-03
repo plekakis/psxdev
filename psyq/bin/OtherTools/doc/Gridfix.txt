@@ -1,0 +1,31 @@
+-------------------------------------------------------------------
+-- gRIDlOCK PSX-ISO License Tool                                 --
+-- Written by Gadget of gRIDlOCK                                 --
+-------------------------------------------------------------------
+Adds the correct License and territorial information to a PSX ISO
+image, allowing the CD to boot correctly on the Sony PlayStation.
+
+Instructions For Use: (WiNdows VerSioN)
+1. Press the Browse... button to select the ISO File to patch.
+
+2. Type in the message to appear on the boot screen.
+
+3. Press the License button.
+
+Instruction For Use: (DoS VerSioN)
+Syntax: GRIDFIX isofile message
+
+isofile - name of the ISO File to Patch
+message - Text to place on the boot screen under Licensed By gRIDlOCK.
+
+-------------------------------------------------------------------
+Note: This tool will not defeat the copy protection of the PlayStation!
+
+Thanks to Jihad of Hitmen for his HitLice program. This showed what was
+possible to fix the PSX cds.
+
+Greets to the rest of the Crew at gRIDlOCK
+Group Greets to BlackBag, Hitmen and Napalm
+Personals to Nagra, Danz, Jihad, Uncle_Git, JackRippr, Silpheed, Nik,
+Curlin, Barog, Madman, Brainwalk, Antiloop, and all I forgot in
+#PSXDEV

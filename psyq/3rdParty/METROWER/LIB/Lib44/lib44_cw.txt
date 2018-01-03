@@ -1,0 +1,82 @@
+SAMPLE	:	lib44_cw.zip
+AUTHOR	:	SCEI (conversion by Metrowerks)
+DATE	:	981104
+
+Copyright (C) 1998 by Sony Computer Entertainment.  All rights Reserved.
+
+PURPOSE	:	This file  contains library 4.3 headers and files
+		for CodeWarriors working under Windows 95
+
+
+DESCRIPTION:	See below
+
+SEE ALSO:
+
+MAKING:		Use PKUNZIP or WinZip to extract the contents
+		to the appropriate directories according 
+		to your CodeWarrior documentation.
+
+RUNNING:	
+
+NOTES:
+----------------------------------------------------------------------
+Known Bugs and Cautions
+----------------------------------------------------------------------
+
+<Exclusion of Memory Card GUI Module>
+- McGUI, the module which supports the Memory Card access in the user 
+interface level is not included in this release.  Due to technical problems 
+associated with converting this file for use with Codewarrior.  For more 
+information contact Metrowerks directly.
+
+
+<Limitations on libhmd>
+- The environment map is provided as a Beta version, because the 
+format may change in future releases without keeping compatibility.  
+The Beta-version primitives are not officially supported by SCE at 
+this point.  If you want to use them for creating titles, please do 
+so on your own responsibility.
+
+<Addition of libmcx>
+- Libmcx, the library to control the PDA, was added.
+
+
+<Deletion of libsn.a>
+- Libsn.a was deleted, because it was judged unnecessary.
+
+<Known Bugs>
+- In the Extended Sound Library (libsnd), the phonation of noise 
+currently does not work properly. Use the Basic Sound Library 
+(libspu) to use noises. This problem will be fixed in the next 
+release.
+
+- When channel starts/stops are repeatedly executed during SPU streaming
+execution, the SPU streaming might go into a loop. This problem will be 
+fixed in the next release. 
+
+FILES:	
+2MBYTE.O.lib
+8MBYTE.O.lib
+LIBAPI.A.lib
+LIBC.A.lib
+LIBC2.A.lib
+LIBCARD.A.lib
+LIBCD.A.lib
+LIBCOMB.A.lib
+LIBDS.A.lib
+LIBETC.A.lib
+LIBGPU.A.lib
+LIBGS.A.lib
+LIBGTE.A.lib
+LIBGUN.A.lib
+Libhmd.a.lib
+LIBMATH.A.lib
+LIBMCRD.A.lib
+Libmcx.a.lib
+Libpad.a.lib
+LIBPRESS.A.lib
+LIBSIO.A.lib
+LIBSND.A.lib
+LIBSPU.A.lib
+LIBTAP.A.lib
+NONE3.O.lib

@@ -1,0 +1,132 @@
+Document to explain the usage of CDEMUPRM.EXE for the CD Emulator
+=================================================================
+
+This utility allows you to select normal or zero seek timings; and
+also control errors within CD streams.
+
+
+Both settings are unaffected by RESETPS (which causes the CD emulator's
+micro controller to reload CDBOOT from the SCSI HD).
+
+
+
+Requirements:
+-------------
+Use at least CDBOOT35/CDBOOT65.
+
+
+
+
+Seek Control
+------------
+
+To select zero seek times:
+CDEMUPRM s 0
+
+
+To reset the seek time to the default algorithm parameters:
+CDEMUPRM s 1
+
+
+
+
+
+Error Control
+-------------
+
+General usage:
+CDEMUPRM e [prm1,,prmN]
+
+
+The error insertion algorithm is activated by the DEX issuing a
+CdlReadS command to the CD sub-system.
+This command is used to playback streams - if an error occurs, then
+the DEX will receive an interrupt, but the sub-system won't retry to
+read the sector.
+
+
+Errors can be inserted at a fixed frequency or randomly via seed &
+threshold parameters. A RESETPS will reset the internal parameters
+to what you originally specified, so that error patterns can be
+repeated on you CD sector stream.
+
+
+The error algorithm is done before a CD sector is signalled ready for
+the DEX to receive it. This means that error patterns can be reproduced,
+since during seeks (which vary for same seeks!) the Random() fn isn't
+called.
+
+
+    Rnd = Random()
+
+    err_Count--
+    if(err_Count==0)
+    {
+	err_Count=err_Period	// Reset the Count
+
+	if(Threshold>=Rnd)
+	    Signal to DEX that this sector contains an error.
+    }
+
+
+CDEmuPrm ERROR parameters:    Default values:
+  (UInt32)PERIOD	      0000 0000
+  (UInt16)THRESHOLD	      0000
+  (UInt47)SEED		      7FFF FFFF FFF8
+
+PERIOD is in CD sectors.
+THRESHOLD is a 16 bit unsigned WORD.
+SEED is a 47 bit WORD.
+
+
+--- To obtain a fixed frequency:
+Specify a PERIOD only.
+
+Eg: CDEMUPRM e 100
+This will setup the system to produce errors every 256 sectors.
+
+IMPORTANT: Use a PERIOD > 1.
+
+
+--- To obtain a random error pattern:
+Specify a PERIOD, THRESHOLD & an optional SEED.
+
+Eg: CDEMUPRM e 10 1000
+This will setup the system to produce an error every 16 sectors, but only
+if the current random value is >= 0x1000.
+
+
+Some values that could be useful:
+PERIOD	THRESHOLD	# of sectors read after 0x80 errors:
+0x10	0xF000		0x4000
+0x10	0x8000		0x0F00
+0x10	0x1000		0x0880
+
+
+--- To stop errors occurring:
+CDEMUPRM e
+This will set all parameters to their defaults.
+
+
+
+
+** Important Notes
+The way the parameters are modified is fundamentally:
+- Open door
+- Modify parameters
+- Close door
+
+So parameters can't be modified on the fly during streaming playback.
+You should set the parameters up at the start of your emulation session
+and only adjust them at suitable times; IE after a RESETPS 1.
+
+
+
+
+
+Contact me if you have any problems or suggestions:
+tom@snsys.com
+
+18.Apr.97
+
+

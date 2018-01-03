@@ -1,0 +1,24 @@
+
+	org	$80018000
+
+text	group				; main text group
+bss	group	bss			; main data group
+
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include	shadow.obj
+   include ..\..\startup\startup.obj
+
+   inclib  libapi.lib
+   inclib  libgpu.lib
+   inclib  libgte.lib
+   inclib  libetc.lib
+   inclib  libc.lib
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

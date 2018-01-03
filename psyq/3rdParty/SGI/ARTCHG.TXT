@@ -1,0 +1,70 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$
+                                                                May 1998
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.3
+
+                         Tool Changes and New Additions, and Known Bugs
+                                                       from Release 4.2   
+---------------------------------------------------------------------------
+                      Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+---------------------------------------------------------------------------
+
+The file names for SGI files are written the way they will appear after 
+decompressing sgiconv.taz.
+
+
+Known Bugs and Cautions
+---------------------------------------------------------------------------
+1. rsd2hmd.exe   1.5      Converter from new RSD to HMD
+	x86: /psxgraph/bin/rsd2hmd.exe
+	SGI: /3rd party/sgi/graphics/rsd2hmd
+
+	- The quadrangle polygon with lighting and texture will be
+	  converted to the polygon without lighting.
+	  This bug will be corrected at the next version.
+	- The code of POLY_FT3, POLY_FT4, POLY_GT3 and POLY_GT4 will not
+	  be converted correctly.
+	  This bug will be corrected at the next version.
+
+
+Existing Tools Improved, Changed and Corrected
+---------------------------------------------------------------------------
+1. hmd.def       1.20     Constants and Macros for labp
+	x86: /psxgraph/bin/hmd.def
+	SGI: /3rd party/sgi/graphics/hmd.def
+
+	- The macros for MTX has been deleted.
+	- The macros for ROT_XYZ - ROT_ZYX have been added.
+	- The macros for CTG_EQUIP has been added.
+
+2. mkmime.exe    1.11     MIMe HMD creator
+	x86: /psxgraph/bin/mkmime.exe
+	SGI: /3rd party/sgi/graphics/mkmime
+
+	- When executing with no argument, it may cause abnormal 
+	  termination. This bug has been corrected.
+
+3. tim2bmp.exe   1.2      Converter from TIM to BMP
+	x86: /psxgraph/bin/tim2bmp.exe
+
+	- When converting the data that the length of filename without 
+	  extension is over 8 characters, the output filename will have 
+	  no extension. This bug has been corrected.
+
+4. xhmd.exe      1.16     HMD Reverse Assembler
+	x86: /psxart/x86/graphics/xhmd.exe
+	SGI: /psxart/sgi/graphics/xhmd
+
+	- Six variations of rotation order for animation has been 
+	  supported.
+	- The image primitive header with no CLUT can have the value 1 
+	  for the size of header, but it will cause error. This bug has 
+	  been corrected.
+
+5. smf2seq.exe   2.3      sequence data convertor
+	x86: /psxart/x86/sound/smf2seq.exe
+
+	- The malfunction that the SEQ terminator bytes (FF 2F 00) are 
+	  written twice, has been fixed.

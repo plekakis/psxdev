@@ -1,0 +1,662 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.0$
+				 			     May, '97
+
+                                       PlayStation(R) Programmer Tool
+                                         Run-time Library Release 4.0
+
+       Library Changes, Enhancements, and Known bugs from Release 3.7
+
+                    Copyright(C) 1997 Sony Computer Entertainment Inc.
+                                                  All Rights Reserved.
+----------------------------------------------------------------------
+
+New Library
+----------------------------------------------------------------------
+- Extended CD-ROM library "libds.lib" has been added. This library can
+  provide a new interface using the kernel of libcd, the CD-ROM 
+  library already existed.
+
+- Memory card Easy access library "libmcrd.lib" has been added.
+  This library was designed for a standard user application and 
+  provides a small set of functions with simple user interface for an 
+  easy access to the memory card.
+
+
+Known Bugs and Cautions
+----------------------------------------------------------------------
+- Before issuing CdRead() with libcd, please make sure to set the 
+  starting location for read by issuing CdlSetloc.  Without proper
+  settings, it is not guaranteed to read in the correct data by issuing 
+  CdRead() repeatedly.
+
+- By the release of libds, libds.lib will be required for the operation 
+  of libcd.lib. Make sure that libds.lib is linked, even if you do not 
+  plan to use it. This measure has been taken for psyq.ini.
+
+- In libgs, when GsA4div is used to divide the lower functions of 
+  GsSortObject4J, the translucent information set by attribute will 
+  not be applied. In order to use the translucent information, please 
+  turn the transluscent flag On in the TMD data. This will not be changed
+  as it follows the functional spec.  
+
+- If the sum of the signed 16-bit integer, taken from lower 16 bit of 
+  each v0 component in VectorNormal and VectorNormalS of libgte, to the 
+  second power exceeds 2^31-1, then there will be an overflow exception.
+  This will not be changed as it follows the functional spec.
+
+- If the sum of the component of v0 in VectorNormalSS of libgte exceeds 
+  2^31-1, an overflow exception arises and calculations will not be carried
+  out correctly. This will not be changed as it follows the functional spec.
+
+- The horizontal direction counter value stored in the buffer of libgun 
+  is the value of the system clock, and it is cleared at every H-BLANK. 
+  To actually use it, please apply appropriate screen size corrections.
+
+- Turning ON/OFF of reverb for each MIDI channel by NRPN data of SEQ is 
+  not being supported. If you wish to have such operations, you must 
+  prepare a reverb Exist/Nonexist program and use it as a switch (please 
+  use it as a different musical instrument). This procedure, however, 
+  takes up memory since VH increases, but for cases where there are only 
+  a few tone types which turn the reverb ON/OFF, it is quite effective.
+  This will not be changed as it follows the functional spec.
+
+- If noise source is used with SEQ in libsnd, noise may be emitted at 
+  unexpected time.  In order to use noise, we suggest that you either use 
+  the function of libspu/libsnd directly with your programmer tool (PC), 
+  or sample the noise sound itself and use it as an ordinary sound wave.
+  This will be corrected in the next release.
+
+
+Tools added
+----------------------------------------------------------------------
+- pkver.exe tool, which finds out the release (version) information from 
+  run-time library file lib???.lib, has been added. Please refer to 
+  bin/pkver.txt for details.
+
+
+Firmware for CodeWarrior added
+----------------------------------------------------------------------
+- A firmware for CodeWarrior has been added. Please refer to CodeWarrior's 
+  manual for descriptions of operations.
+
+
+PSYQ Tool
+----------------------------------------------------------------------
+##Directory Structure Change
+
+- The directory structure of the tool for H2500 located in psyq/flash 
+  has been changed as follows:
+
+	psyq/flash -> psyq/flash25
+
+##File Change
+
+- The following tools have been converted to 32-bit versions. These can
+  be used in DOS window on Windows95 in the same manner as they were used 
+  before.
+
+	ASMPSX.EXE
+	ASPSX.EXE
+	CCPSX.EXE
+	PSYLIB.EXE
+	PSYLINK.EXE
+
+  The 16-bit versions had their names changed, as listed below, and they 
+  have been relocated to /PSYQ/DOS.
+  If you are conducting developments in DOS environment, please use these.
+
+	ASMPSXD.EXE
+	ASPSXD.EXE
+	CCPSXD.EXE
+	PSYLIBD.EXE
+	PSYLINKD.EXE
+
+  Files changed:
+
+	README_J.TXT
+	ASMPSX.EXE
+	ASPSX.EXE
+	CCPSX.EXE
+	PSYLIB.EXE
+	PSYLINK.EXE
+	PSYMAKE.EXE
+	DBUGPSX.EXE
+	DBG_READ.TXT
+	PSYQ.INI
+
+  New files added:
+
+	DOS/ASMPSXD.EXE
+	DOS/ASPSXD.EXE
+	DOS/CCPSXD.EXE
+	DOS/PSYLIBD.EXE
+	DOS/PSYLINKD.EXE
+
+
+GNU compiler (COMPILER)
+----------------------------------------------------------------------
+- The following tools have been converted to 32-bit versions. These 
+  can be used in DOS window on Windows95 in the same manner as they 
+  were used before.
+
+	CPPPSX.EXE
+	CC1PSX.EXE
+	CC1PLPSX.EXE
+
+  The 16-bit versions had their names changed, as listed below, and 
+  they have been relocated to /COMPILER/DOS.
+
+	DOS/CPPPSX.EXE
+	DOS/CC1PSX.EXE
+	DOS/CC1PLPSX.EXE
+
+DMPSX
+----------------------------------------------------------------------
+- Modification has been made so that if multiple text sections (those 
+  sections with the names ending with ".text") exist for a single object,
+  all text sections are made subject to conversions.
+
+
+Utility
+----------------------------------------------------------------------
+- The execution section of patchw has been deleted from 
+  PSX/BIN/NOPRINT.BAT. From now on, please use individual .bat file 
+  for executing noprint, patchw and patchj.
+
+
+Kernel library (libapi)
+----------------------------------------------------------------------
+##Function Added
+
+- Addition of high-speed memory control function groups
+
+  There were 2 lines of memory control functions; ROM routine version 
+  (malloc line) and on-memory version (malloc2 line). The following 
+  functions were added for the high-speed on-memory version: 
+
+	InitHeap3
+	malloc3
+	calloc3
+	realloc3
+	free3
+
+  The malloc line has a bug which makes it "incomplete memory release by 
+  free", but since it was a ROM routine, no modifications were possible.
+  This was retained solely for the purpose of compatibility.
+  The malloc2 line, on the other hand, also had some space for improvements.
+  By adding on malloc3, we shall have 3 lines of memory control functions. 
+  The following table shows these memory control functions:
+
+----------------------------------------------------------------------
+Description                   belonging to LIBAPI  belonging to LIBC/C2
+----------------------------------------------------------------------
+ROM routine call version          InitHeap()   		malloc()
+(malloc line)                       		    	realloc()
+                                            		calloc()
+                                            		free()
+----------------------------------------------------------------------
+On-memory operating version       InitHeap2()
+(malloc2 line)                    malloc2()
+                                  realloc2()
+                                  calloc2()
+                                  free2()
+----------------------------------------------------------------------
+High-speed on-memory              InitHeap3()
+operating version(malloc3 line)   malloc3()
+                                  realloc3()
+                                  calloc3()
+                                  free3()
+----------------------------------------------------------------------
+
+  The rough performance comparison of the 3 lines of memory control 
+  functions is shown below:
+
+Speed  |  Slow---------------------Fast
+Size   |
+-----------------------------------------------------------------
+Large  | malloc2 line
+       |
+  |    |                        malloc3 line
+       |
+Small  |            malloc line
+
+
+  Please refer to the function reference for the details concerning the 
+  following functions:
+
+	InitHeap3: Initializes heap segment
+       
+	malloc3: Allocates main memory
+       
+	calloc3: Allocates main memory
+       
+	realloc3: Changes heap memory allocation
+      
+	free3: Releases already allocated memory block
+      
+
+##Bug Fixes of library
+
+- The following bugs were fixed for the format function:
+
+	1) Normal termination return value was returned, even when the 
+           memory card was taken off during function execution.
+
+	2) Incompletely initialized memory cards, which were taken off
+           during the function executions were determined as "initialized"
+           card  by _card_load function, etc.
+
+- There was a problem with Ver.3.7, where "when malloc2() is called after 
+  being added to libapi, hang ups occur. This has been fixed. 
+
+
+##Modification of header file
+
+- EnterCriticalSection() in kernel.h was being declared as being "void", 
+  although it returns a value indicating whether EnterCriticalSection()
+  was in the critical section at the time of call, so the declaration 
+  was changed to "int".
+
+Memory Card library (libcard)
+----------------------------------------------------------------------
+##library bug fix
+
+- The problem where when the programs using a libcard of Rel. 3.5
+  or earlier and the programs using Rel. 3.6 and Rel. 3.7 version libcard 
+  are executed simultaneously by LoadExec(), hang ups occur. This has 
+  been fixed. 
+
+Kernel library (libc, libc2)
+----------------------------------------------------------------------
+##Library bug fix
+
+- The bug which caused hang ups when qsort() is executed under certain   
+  conditions, was fixed. In the earlier versions, malloc() was being 
+  called within qsort(), but the new version does not invoke memory 
+  function such as malloc(). This means that there is no longer any need 
+  to reserve heap sector.
+
+CD-ROM/Streaming library (libcd)
+----------------------------------------------------------------------
+##Modification of function
+
+- Since the output of CdlBackward in CdComStr() was "CdlBackword," it 
+  was fixed.
+
+- The modification has been made so that the operation speed of the CD 
+  is not changed internally in CdGetDiskType() .
+
+##Added function
+
+- Please refer to the function reference for details.
+
+  CdGetSector2 	transfers sector buffer data to the main memory. 
+		(Non-blocking type)
+
+
+Combat Cable Library (libcomb)
+----------------------------------------------------------------------
+##Library bug fix
+
+- Even when the wait call back function is set by  _comb_control(4,0,func),
+  when the combat cable was pulled off, the wait call back function was 
+  not being called. This problem has been fixed.
+
+- The function specification of wait call back is changed.
+
+- The problem of occasional hang ups with AddCOMB function and DelCOMB 
+  function was fixed.
+
+- While synchronized read and asynchronized write were being used, 
+  other interrupt processes were being affected. This problem has been 
+  fixed.
+
+##Modification of header file
+
+- Since the prototype statement of AddCOMB() and DelCOMB() were commented
+  out, they were included.
+
+
+Basic Graphics Library (libgpu)
+----------------------------------------------------------------------
+
+##Modification of library
+
+- The FCE-bit (both sided polygons) support is now available with 
+  ReadTMD().
+
+##Modification of header file
+
+- The following function prototype statements, which are for internal 
+  use from libgpu.h to libgpu have been deleted:
+
+	PutKanji(), hankanjitrans(), kanjitrans(), KanjiFntLoad(),
+	SetGraphQueue(), GetGraphType(), SetGraphReverse()
+
+- Following function prototype statements were added to libgpu.h:
+
+	IsIdleGPU(), KanjiFntClose()
+
+Extended Graphics Library (libgs)
+----------------------------------------------------------------------
+##Library bug fix
+
+- When the links were made with /wm option (warns for multiple declaration)
+  in psylink, the following warning occurs:
+
+	Multiple declaration of C global variable 'xxxxx'
+
+  The modification has been made not to cause this warning messages.
+
+
+##Added function
+
+- Function groups of the new data format HMD have been added.
+  Please refer to the respective documents for information concerning 
+  functions and HMD format.
+
+
+##Modification of header file
+
+- The following function prototype statements for internal use from 
+  libgs.h to libgs have been deleted:
+
+	gte_mul_matrix2(), gte_apply_matrixl(),gte_rotate_x_matrix(),
+	gte_rotate_y_matrix(), gte_rotate_z_matrix(),
+	gte_apply_matrixll(), gte_copy_matrix(), gte_init(),
+	gte_scale_matrix(), Gssub_make_matrix(),
+
+- The following function prototype statements, which are no longer in 
+  use by the library, have been deleted:
+
+	GsSetNearClip(), GsSetFarClip(), GsSortSpriteA(),
+	GsSortFastSpriteA(), GsInitCoord2param()
+
+- The following structures, which are no longer in use by the library, 
+  have been deleted:
+
+	GsZCLIP, GsMIMEV, GsMIMEN
+
+
+Basic Geometry Library (libgte)
+----------------------------------------------------------------------
+##Modification of header file
+
+- The following function prototype statements are added to libgte.h:
+
+	SetFogNearFar(), TransRot_32(), TransRotPers(),
+	TransRotPers3(), pers_map(), PhongLine()
+
+
+Gun Library (libgun)
+----------------------------------------------------------------------
+##Library bug fix
+
+- The change has been made to make the operation of libgun possible in 
+  the DECI environments other than the shipping condition of H2500.
+
+##Improvement of library
+
+- The precision of the gun has been improved. Please keep the set 
+  interrupt count low, since the DMA and interrupts are blocked during 
+  the interval of interrupt count specified by InitGUN() X H count.
+
+
+Serial Input/output library for Debugs (libsio)
+----------------------------------------------------------------------
+##Library bug fix
+
+- The problem where after executing DelSIO(), when Exec() is used to 
+  start another process, hang ups occurs, has been modified to make
+  sure that normal operations take place.
+
+##Added function
+
+- The function Sio1Callback(), which sets the call back by the interrupts 
+  by SIO1 is added.
+
+- Strengthening of functions which can be handled by _sio_control() has 
+  been carried out.
+
+	
+SN Library (libsn)
+----------------------------------------------------------------------
+##Added file
+
+- nonheap.obj is added to psx/lib. nonheap.obj, as 2mbyte.obj, is a
+  replacement OBJ for start up routine, but it does not call InitHeap() 
+  at start up. Other than this feature, there are no other differences 
+  from ordinary operations.
+  please link nonheap.obj when there is a problem with "heap area set 
+  prior to main function."
+  For details concerning the start up routine, please refer to the latest 
+  information summary below:
+
+<Concerning start up routine>
+The operation of start up routine included in LIBSN.LIB, and respective 
+replacement OBJ  noheap.obj, 2mbyte.obj, 8mbyte.obj, none2.obj, none3.obj
+are described.
+
+There were some problems with libsn.lib for library versions earlier than 
+3.1. To avoid this problem, it was necessary to use replacement OBJ 
+instead of using the start up routine. The replacement OBJ for such use
+was 2mbyte.obj or 8mbyte.obj.
+
+For versions 3.1 and later, these 2mbyte.obj and 8mbyte.obj are no longer 
+required.  With versions 3.1 and later, the heap sector for SP initial 
+values or at the start up can be set by defining the two variables of 
+_ramsize and _stacksize in the program. If you are defining two variables, 
+please make sure that both are defined. If only one of two is being 
+defined, error occurs at the time of establishing a link.
+
+	int _ramsize = 0x00200000;      /* RAM SIZE */
+	int _stacksize = 0x00008000;    /* STACK SIZE */
+
+According to the definition above;
+
+	SP initial value:  0x801ffff8
+	Heap sector:  	   reserved from immediately after bss section to 
+                           0x801f8000
+
+Two OBJ files, none2.obj and none3.obj are distributed to provide start
+up routine for child-programs which are invoked with Exec() or LoadExec().
+Such startup routine for child-programs do not set the SP value. This is 
+because the SP initial value of the child-programs are set by the arguments 
+of LoadExec() from their parent-program.  Since none2.obj does not clear 
+sbss nor bss area, it has been deleted with Release 3.7.  Please use none3.obj 
+instead.
+
+The following describes the default operation of start up routine, and 
+operations when replacement OBJ is linked.
+
+<A> Default operation
+1. Clear the sbss and bss area to zero.
+2. Set SP initial value.
+   The value ( ( _ramsize - 8 ) | 0x80000000 ) is set.
+   If _ramsize is not defined in the program, the default value 
+   0x00800000 is used  for _ramsize, thus the SP initial value 
+   becomes 0x807ffff8.
+3. Set GP initial value.
+   The first address of sdata section is set.
+4. Call InitHeap().
+   Starting from the address immediately following the bss area to 
+   (_ramsize - _stacksize) is set as the heap area (memory control 
+   information is written in a part of the heap area).
+   If _stacksize is not being defined by the program, the default value 
+   0x00008000 is used for _stacksize.
+5. Jump to main function
+
+<B>Operation when noheap.obj is linked
+Almost identical to the default operation of <A>, but InitHeap() in 
+section 4 of the descriptions above, is not carried out.
+
+<C>Operation when 2mbyte.obj is linked
+1. Clear sbss and bss area to zero.
+2. Set SP initial value.
+    _ramsize is fixed to 0x00200000.
+3. Set GP initial value. 
+   The first address of sdata section is set.
+4. Call InitHeap(). 
+   _stacksize is fixed to 0x00200000.
+5. Jump to main function.
+
+<D>Operation when 8mbyte.obj is linked
+1. Clear sbss and bss area to zero.
+2. Set SP initial value.
+    _ramsize is fixed to 0x00800000.
+3. Set GP initial value.
+   The first address of sdata section is set.
+4. Call InitHeap().
+    _stacksize is fixed to 0x00008000.
+5. Jump to main function.
+
+<E>Operation when none2.obj is linked
+1. Set GP initial value. 
+   The start address of sdata section is set.
+2. Jump to main function.
+
+<F>Operation when none3.obj is linked
+1. Clear sbss and bss area to zero.
+2. Set GP initial value. 
+   The first address of sdata section is set.
+3. Jump to main function.
+
+
+Extended Sound Library (libsnd)
+----------------------------------------------------------------------
+##Modification of header file
+
+- Since no SsGetMute() prototype statement existded in libsnd.h, 
+  it was added. 
+
+##Added function
+
+- Please refer to the function reference for details.
+
+	SsGetChannelMute: Obtains the MIDI channel number which 
+                          is muted. 
+
+##Library bug fix
+
+- With the lower functions of SEQ/SEP process, at NRPN, there was a 
+  problem with the release rate attribute setting of ADSR during 
+  VAB attribute change designation setting. This problem has been
+  fixed.
+
+- The improper right to left operations of autopan and autovol with 
+  SsUtAutoPan and SsUtAutoVol have been fixed.
+
+
+Basic Sound Library (libspu)
+----------------------------------------------------------------------
+##Library bug fix
+
+- Acceleration of the overhead used by the transfer process to the 
+  sound buffer has been carried out.
+
+- Even when operations concerning note specification was carried out with 
+  SpuSetVoiceAttr(), SpuGetVoiceAttr(), SpuNSetVoiceAttr(), 
+  SpuNGetVoiceAttr(), SpuSetVoiceNote() andSpuGetVoiceNote(), correct 
+  values could not be set nor obtained, resulting in the values which 
+  include substantial amount of errors.  Although this problem has 
+  been fixed, errors may still exist when the tone specification is 
+  made to substantially lower than sample note.
+
+##Modification of header file
+
+- The descriptions concerning the function, SpuGetCurrentEnvelope() 
+  has been deleted from libspu.h.  SpuGetVoiceEnvelope() is an 
+  equivalent function.
+
+##Sample Automatic Execution System
+
+- The automatic sample execution system, which automatically reads the 
+  pad data, has been implemented(sample/autopad)
+
+  Please refer to sample/autopad/readme_e.txt for detail usage.	
+
+##Additions
+
+- The sample program using a new data format called HMD, used with libgs 
+  (please refer to the document for details concerning HMD).
+
+		sample/graphics/hmd
+
+- The sample program using libsio.
+
+		sample/etc/sio
+
+- The sample program which can use the interlace mode even with 30 fps 
+  for libgpu.
+
+		sample/graphics/misc/getode
+
+- Sample program for libds
+
+		sample/ds/tuto
+
+- Sound data (mid, seq, vab, vag and the like)
+
+		sample/sound/data
+
+
+##Changes and Modifications
+
+- GsSetNearClip() and GsSetFarClip() have been deleted from the following 
+  files:
+
+	sample/cd/str3d/tuto0.c
+	sample/graphics/tmdview/lowlevel/tuto0.c
+	sample/graphics/tmdview/lowlevel/tuto1.c
+	sample/graphics/tmdview/lowlevel/tuto2.c
+	sample/graphics/tmdview/lowlevel/tuto3.c
+	sample/graphics/clutfog/tuto0.c
+	sample/graphics/clutfog/tuto1.c
+	sample/graphics/clutfog/tuto2.c
+	sample/graphics/clutfog/tuto3.c
+	sample/graphics/divide/clip/tuto0.c
+	sample/graphics/gsgpu/tuto0.c
+	sample/graphics/gsgpu/tuto1.c
+	sample/graphics/mime/vjmime/main.c
+	sample/graphics/misc/60frame/main.c
+	sample/graphics/rotate/arot/main.c
+	sample/graphics/rotate/axesmime/main.c
+	sample/graphics/rotate/intrpol/main.c
+	sample/graphics/rotate/mat2rot/tuto0.c
+	sample/graphics/tod/janken/main.c
+	sample/graphics/tod/todview/main.c
+	sample/graphics/walk/walk.c
+
+- The following samples have been moved to different directory, 
+  and the names have also been changed. The contents of the samples, 
+  however, have not been changed.
+
+	sample/graphics/rotate/axesmime -> sample/graphics/mime/joint 
+	sample/graphics/tmdview/mime -> sample/graphics/mime/vertex 
+
+- sample/cd/tuto/tuto5
+
+	1) CdlModeSF has been added to the operation mode. 
+	   CdlSetfilter does not work unless you set CdlModeSF.
+
+	2) The Menu Forward/Backward has been deleted. 
+	   This command can no longer be used while XA is being played.
+
+- What had been called "euler angles" in graphics/rotate/intrpol are 
+  actually not euler angles, but "roll/pitch/yaw angles," so the 
+  expression has been changed. Other than the changes in the vocabulary 
+  of the source, function name euler-*() has been changed to rpy_*(). 
+  There are no changes in the operation.
+
+- Respective readme files of sample/module
+
+	sample/module/readme_j.txt
+	sample/module/readme_e.txt
+	sample/module/execmenu/readme_j.txt
+	sample/module/execmenu/readme_e.txt
+	sample/module/overmenu/readme_j.txt
+	sample/module/overmenu/readme_e.txt
+
+  have been modified. The contents of these files have not been modified 
+  in the past, and they did not match the current conditions. There are 
+  no changes with the sample contents.

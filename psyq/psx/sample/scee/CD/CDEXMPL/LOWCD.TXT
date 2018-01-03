@@ -1,0 +1,93 @@
+
+================
+DATE:
+April 24, 1998
+
+
+================
+FILE:
+lowcd.zip
+
+
+=================
+SIZE:
+463 KBytes
+
+
+===================
+CONTENTS OVERVIEW:
+Sample code from SCEE's Mike Kavallierou (Mike_Kavallierou@playstation.sony.com)
+demonstrating various methods of CD access.  Thanks to Duncan at SN Systems 
+for help with the ISO format.
+
+==================
+INSTRUCTIONS:
+
+Use PKUNZIP or WinZip to extract the contents of this ZIP file
+to a directory on your hard-drive.  Then read the "readme.txt"
+that accompanies each sample.  For any questions, write to Mike
+at his email adddress "Mike_Kavallierou@playstation.sony.com".
+
+
+============================
+CONTENTS IN DETAIL 
+(written by Mike Kavallierou):
+
+Example code showing CD access to obtain interesting information about CD's
+
+NOTES		You will need to change the various filenames for your
+		own in all the examples as I have not included any of
+		the files I reference in any of the CD examples
+
+Directory Structure
+*******************
+
+Example1 - New CdSearchFile which removes the limitations of the current
+		library CdSearchFile. You can now have as many files
+		as you want in a directory. Note that the various ISO-9660 limitations
+		still apply, e.g. maximum 8 levels of directory depth etc..
+
+Example2 - Modified example1, includes:
+		CheckISO() function which checks that the CD is an
+			ISO image
+
+		displayPVD() function that displays some interesting information
+		about the CD's PVD which contains details such as publisher / volume
+		information
+
+		GetRootDirDetails() obtains root directory info to
+			allow the directory structure to be output
+
+		PrintDirDetails() outputs CD directory structure
+			including file sizes and positions
+
+		Plus other utility functions to allow the main ones
+		to operate
+		
+Example3 - Modified example2, includes:
+		GetNumDirEntries() function that returns the number of files
+			within a specified directory
+
+		GetDirDetails() function that fills a structure with
+			file information from a specified directory
+		
+Example4 - Modified example2, includes:
+		CheckDisk() function which checks that the CD file
+			layout is compliant with the library
+			CdSearchFile() function
+
+Example5 - CD browser program using the techniques used in the previous
+			examples. This program can be used to browse
+			CD's and preview standard .TIM and .STR files from any
+			CD.
+			Other functions such as a sound player could be
+			added. The program also can be used to display
+			the file details such as size and position on
+			the CD. Also the example shows how to swap
+			disks on the PlayStation
+
+Docs - Various ISO documentation
+
+
+---------------------------------------------------------------
+Copyright (C) 1998.  Sony Computer Entertainment America Inc.

@@ -1,0 +1,22 @@
+
+19/10/97 - Changes from 1.01 to 1.04
+------------------------------------
+
+Disassembler added to exception screen... (please report any bugs you may find)
+background gouraud added to exception screen...
+bug fixed in exception handler (shady v0 not setup)
+
+ez sw command now supported...
+
+
+
+20/10/97 - Changes from 1.04 to 1.05
+------------------------------------
+
+fixed EZ to go into console mode after running an exe (we like it, tough)
+added API jumptable into rom (current supported routines are VERSION,LOADFILE and POLLHOST)
+this version includes demo.zip, a bit of source code to get you started (also shows how to use jumptable in ROM)
+fixed bug in EZ (sv related)
+
+
+
