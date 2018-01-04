@@ -7,10 +7,10 @@
 int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode);
 
 // Starts a new gfx frame
-int16 Gfx_BeginFrame();
+int16 Gfx_BeginFrame(uint64* o_cputime);
 
 // Submits all the OTs and finishes the frame's rendering to the current buffer
-int16 Gfx_EndFrame();
+int16 Gfx_EndFrame(uint64* o_cputime);
 
 // Shutdown the gfx subsystem
 int16 Gfx_Shutdown();

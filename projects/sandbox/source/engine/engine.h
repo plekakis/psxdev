@@ -5,13 +5,14 @@
 #include <libetc.h>
 #include <libgte.h>
 #include <libgpu.h>
+#include <libgs.h>
 #include <libpress.h>
 #include <libcd.h>
 
 // Data types
 typedef unsigned char   uint8;
 typedef unsigned short  uint16;
-typedef unsigned int    u32;
+typedef unsigned int    uint32;
 typedef unsigned long   uint64;
 typedef char            int8;
 typedef short           int16;

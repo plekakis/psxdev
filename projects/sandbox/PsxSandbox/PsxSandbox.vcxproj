@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\engine\core\core.c" />
     <ClCompile Include="..\source\engine\core\core_scu.c" />
     <ClCompile Include="..\source\engine\engine_scu.c" />
     <ClCompile Include="..\source\engine\gfx\gfx.c" />
@@ -21,6 +22,7 @@
     <ClCompile Include="..\source\game\game_scu.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\engine\core\core.h" />
     <ClInclude Include="..\source\engine\engine.h" />
     <ClInclude Include="..\source\engine\gfx\gfx.h" />
     <ClInclude Include="..\source\engine\system\system.h" />

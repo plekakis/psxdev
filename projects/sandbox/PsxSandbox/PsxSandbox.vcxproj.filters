@@ -25,6 +25,9 @@
     <ClCompile Include="..\source\engine\core\core_scu.c">
       <Filter>engine\core</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\engine\core\core.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\engine\system\system.h">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="..\source\engine\gfx\gfx.h">
       <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\engine\core\core.h">
+      <Filter>engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
