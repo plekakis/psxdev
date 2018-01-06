@@ -6,6 +6,7 @@ uint64 __stacksize  = 0x00004000; // force 16KB of stack
 uint64 g_ram_start = 0x8001d800;
 uint64 g_ram_end = 0x801f8000;
 
+///////////////////////////////////////////////////
 int16 Core_Initialize()
 {
 	InitHeap3((void*)g_ram_start, (g_ram_end - g_ram_start));
@@ -13,6 +14,7 @@ int16 Core_Initialize()
 	return E_OK;
 }
 
+///////////////////////////////////////////////////
 int16 Core_Shutdown()
 {
 	return E_OK;

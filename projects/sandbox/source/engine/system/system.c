@@ -1,5 +1,6 @@
 #include "system.h"
 #include "../gfx/gfx.h"
+#include "../gfx/gfx_scratch.h"
 #include "../core/core.h"
 
 static SystemInitInfo* g_initInfo = NULL;
@@ -15,8 +16,11 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	// Initialize core
 	errcode |= Core_Initialize();
 
+	
+
     // Initialize graphics
-    errcode |= Gfx_Initialize(i_info->m_isHighResolution,
+    errcode |= Gfx_Initialize(i_info->m_isInterlaced,
+							  i_info->m_isHighResolution,
                               i_info->m_tvMode
                               );
 
@@ -32,29 +36,54 @@ int16 System_Initialize(SystemInitInfo* i_info)
 int16 System_MainLoop()
 {
 	float cpuMs = 0.0f;
-	uint64 timeStart, timeEnd;
-
-    while (g_systemRunning)
-    {
+	float cpuMsVsync = 0.0f;
+	
+	const float vsyncMs = (Gfx_GetTvMode() == MODE_PAL) ? 20.0f : 16.666f;
+	const float hsyncDivisor = (Gfx_IsHighResolution() ? 2.0f : 1.0f);
+	
+	while (g_systemRunning)
+    {	
+		uint64 timeStart, timeEnd, timeEndVsync, gpuTime;
 		char dbgText[32];
-
-		sprintf2(dbgText, "CPU: %.2f", cpuMs);
-
-		FntLoad(960, 256);
-		SetDumpFnt(FntOpen(4, 4, 320, 64, 0, 512));
-        FntPrint(dbgText);
-		FntFlush(-1);
-
-        Gfx_BeginFrame(&timeStart);
+		const float res = Gfx_GetDisplayHeight() / hsyncDivisor;
 		
+		sprintf2(dbgText, "CPU: %.2f (%.2f)", cpuMs, cpuMsVsync);
+		
+		Gfx_BeginFrame(&timeStart);
+				
         if (g_initInfo && g_initInfo->AppUpdateFncPtr)
         {
             g_initInfo->AppUpdateFncPtr();
         }
+	
+		cpuMs = (float)(timeEnd - timeStart) * vsyncMs / res;
+		cpuMsVsync = (float)(timeEndVsync - timeStart) * vsyncMs / res;
 
-        Gfx_EndFrame(&timeEnd);
+		FntPrint(dbgText);
+		FntFlush(-1);
 		
-		cpuMs = (float)(timeEnd - timeStart) / 1000.0f;
+		Gfx_BeginSubmission(OT_LAYER_BG);
+		{
+			POLY_F3 poly1;
+			
+			setXY3(&poly1, 100, 0, 200, 100, 0, 200);
+			setRGB0(&poly1, 0, 255, 0);
+
+			Gfx_AddPrim(PRIM_TYPE_POLY_F3, &poly1);
+		}
+		Gfx_EndSubmission();
+
+		Gfx_BeginSubmission(OT_LAYER_OV);
+		{
+			POLY_F3 poly2;
+			setXY3(&poly2, 300, 0, 350, 100, 0, 200);
+			setRGB0(&poly2, 0, 0, 255);
+
+			Gfx_AddPrim(PRIM_TYPE_POLY_F3, &poly2);
+		}
+		Gfx_EndSubmission();
+
+        Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);				
     }
 
     return E_OK;

@@ -1,13 +1,17 @@
-﻿Build started 1/4/2018 11:00:31 PM.
+﻿Build started 1/6/2018 1:26:05 PM.
 Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
 Build:
   call build.bat
-  Could Not Find E:\psxdev\projects\sandbox\PsxSandbox\main.exe
   Starting compilation...
-  CPE2X Ver1.5
+  Could Not Find E:\psxdev\projects\sandbox\PsxSandbox\main.exe
+  In file included from ..\source\engine\gfx\gfx_scu.c:2,
+                   from ../source/engine/engine_scu.c:2:
+  ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
+  ..\source\engine\gfx\gfx.c:162: warning: large integer implicitly truncated to unsigned type
+  CPE2X Ver1.5
   Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
   convert from main.cpe to main.EXE for Europe area
-  pc0:8001701c  t_addr:80010000  t_size:0000c800
+  pc0:80017ad4  t_addr:80010000  t_size:0000d000
   Compile success! Copying to cd-rom ...
   MKPSXISO 1.10 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
@@ -25,7 +29,7 @@ Build:
       Parsing directory tree...
         Files Total: 2
         Directories: 1
-        Estimated filesystem size: 2528400 bytes (1075 sectors)
+        Estimated filesystem size: 2530752 bytes (1076 sectors)
   
       Building filesystem... 
         Packing system.txt... Done.
@@ -34,11 +38,11 @@ Build:
         Writing license data...Ok.
   
   ISO image generated successfully.
-  Total image size: 2528400 bytes (1075 sectors)
+  Total image size: 2530752 bytes (1076 sectors)
   
   Finished!
 Done Building Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.89
+Time Elapsed 00:00:00.46

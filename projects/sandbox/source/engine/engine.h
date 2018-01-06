@@ -6,6 +6,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include <libgs.h>
+#include <libapi.h>
 #include <libpress.h>
 #include <libcd.h>
 
@@ -35,7 +36,14 @@ typedef long            int64;
 #endif // MAX
 
 // Error code returned by most functions
-#define E_OK            (0)
-#define E_FAILURE       (1)
+#define E_OK					(0)
+#define E_FAILURE				(1)
+#define E_OUT_OF_MEMORY			(2)
+#define E_SUBMISSION_ERROR		(3)
+
+
+// Utility functions
+// memory & pointers
+void* AlignPtr(void* i_ptr, uint32 i_alignment);
 
 #endif // ENGINE_H_INC
