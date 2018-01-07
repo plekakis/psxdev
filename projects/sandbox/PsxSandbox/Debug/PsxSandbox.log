@@ -1,4 +1,4 @@
-﻿Build started 1/7/2018 9:37:22 PM.
+﻿Build started 1/7/2018 10:11:30 PM.
 Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
 Build:
   call build.bat
@@ -11,7 +11,7 @@ Build:
   CPE2X Ver1.5
   Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
   convert from main.cpe to main.EXE for Europe area
-  pc0:80017e94  t_addr:80010000  t_size:00011800
+  pc0:8001809c  t_addr:80010000  t_size:00011800
   Compile success! Copying to cd-rom ...
   MKPSXISO 1.10 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
@@ -45,4 +45,4 @@ Done Building Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj"
 
 Build succeeded.
 
-Time Elapsed 00:00:00.93
+Time Elapsed 00:00:00.70

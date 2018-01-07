@@ -17,8 +17,14 @@ typedef enum
 typedef struct
 {
 	SVECTOR v0, v1, v2;
-	CVECTOR color;
+	CVECTOR c;
 }PRIM_F3;
+
+typedef struct
+{
+	SVECTOR v0, v1, v2;
+	CVECTOR c0, c1, c2;
+}PRIM_G3;
 
 // OT
 typedef enum

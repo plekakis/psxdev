@@ -262,7 +262,7 @@ void Gfx_SetClearColor(CVECTOR* i_color)
 uint8	g_currentSubmissionOTIndex = ~0;
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
+void* AddPrim_POLY_3(void* i_prim, uint64* o_otz)
 {
 	uint64	p, flg, otz;
 	uint32	isomote;
@@ -277,7 +277,30 @@ void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
 
 	if (isomote > 0)
 	{
-		setRGB0(poly, prim->color.r, prim->color.g, prim->color.b);	
+		*o_otz = otz;
+		return poly;
+	}
+	return NULL;
+}
+
+///////////////////////////////////////////////////
+void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
+{
+	uint64	p, flg, otz;
+	uint32	isomote;
+	PRIM_F3* prim = (PRIM_F3*)i_prim;	
+	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
+	
+	SetPolyF3(poly);
+
+	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
+			(int64 *)&poly->x0, (int64 *)&poly->x1, (int64 *)&poly->x2,
+			&p, &otz, &flg);
+
+	if (isomote > 0)
+	{
+		setRGB0(poly, prim->c.r, prim->c.g, prim->c.b);
+
 		*o_otz = otz;
 		return poly;
 	}
@@ -297,11 +320,27 @@ void* AddPrim_POLY_FT3(void* i_prim, uint64* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_G3(void* i_prim, uint64* o_otz)
 {
-	POLY_G3* poly = (POLY_G3*)i_prim;
+	uint64	p, flg, otz;
+	uint32	isomote;
+	PRIM_G3* prim = (PRIM_G3*)i_prim;	
+	POLY_G3* poly = (POLY_G3*)Gfx_Alloc(sizeof(POLY_G3), 4);
+	
 	SetPolyG3(poly);
 
-	*o_otz = 0;
-	return poly;
+	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
+			(int64*)&poly->x0, (int64*)&poly->x1, (int64*)&poly->x2,
+			&p, &otz, &flg);
+
+	if (isomote > 0)
+	{
+		setRGB0(poly, prim->c0.r, prim->c0.g, prim->c0.b);
+		setRGB1(poly, prim->c1.r, prim->c1.g, prim->c1.b);
+		setRGB2(poly, prim->c2.r, prim->c2.g, prim->c2.b);
+
+		*o_otz = otz;
+		return poly;
+	}
+    return NULL;
 }
 
 ///////////////////////////////////////////////////
