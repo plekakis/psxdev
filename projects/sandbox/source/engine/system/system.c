@@ -64,22 +64,13 @@ int16 System_MainLoop()
 		
 		Gfx_BeginSubmission(OT_LAYER_BG);
 		{
-			POLY_F3 poly1;
-			
-			setXY3(&poly1, 100, 0, 200, 100, 0, 200);
-			setRGB0(&poly1, 0, 255, 0);
+			PRIM_F3 poly;
+			setVector(&poly.v0, -128, 128, 0);
+			setVector(&poly.v1, -128, -128, 0);
+			setVector(&poly.v2, 128, -128, 0);
+			setColor(&poly.color, 255, 0, 0);
 
-			Gfx_AddPrim(PRIM_TYPE_POLY_F3, &poly1);
-		}
-		Gfx_EndSubmission();
-
-		Gfx_BeginSubmission(OT_LAYER_OV);
-		{
-			POLY_F3 poly2;
-			setXY3(&poly2, 300, 0, 350, 100, 0, 200);
-			setRGB0(&poly2, 0, 0, 255);
-
-			Gfx_AddPrim(PRIM_TYPE_POLY_F3, &poly2);
+			Gfx_AddPrim(PRIM_TYPE_POLY_F3, &poly, 0);
 		}
 		Gfx_EndSubmission();
 

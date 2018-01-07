@@ -10,16 +10,16 @@ typedef struct
 static ScratchBuffer* g_scratchBuffers = NULL;
 static uint8 g_scratchBufferCount = 0;
 
-#define SCRATCH_SIZE (32 * 1024) // 32k of scratch
+#define SCRATCH_SIZE (32 * 1024)
 
 ///////////////////////////////////////////////////
 int16 Gfx_InitScratch(uint8 i_frameBufferCount)
 {
 	uint8	index;
-	uint32	scratchSize = SCRATCH_SIZE * i_frameBufferCount;
+	uint32	scratchSize = SCRATCH_SIZE;
 	g_scratchBufferCount = i_frameBufferCount;
 
-	g_scratchBuffers = (ScratchBuffer*)calloc3(sizeof(ScratchBuffer) * g_scratchBufferCount);
+	g_scratchBuffers = (ScratchBuffer*)malloc3(sizeof(ScratchBuffer) * g_scratchBufferCount);
 	if (!g_scratchBuffers)
 	{
 		return E_OUT_OF_MEMORY;
@@ -59,13 +59,16 @@ int16 Gfx_FreeScratch(uint8 i_frameBufferIndex)
 void* Gfx_Alloc(uint32 i_bytes, uint32 i_alignment)
 {	
 	ScratchBuffer* buffer = &g_scratchBuffers[Gfx_GetFrameBufferIndex()];
-	uint8 *mem = AlignPtr(buffer->m_next + i_bytes, i_alignment);
+	buffer->m_next = AlignPtr(buffer->m_next, i_alignment);
 
-    if (mem <= buffer->m_end)
 	{
-		buffer->m_next = mem;
-		return mem;
-	}
+		uint8 *mem = buffer->m_next;
 
+		if (mem <= buffer->m_end)
+		{
+			buffer->m_next = mem + i_bytes;
+			return mem;
+		}
+	}
 	return NULL;
 }

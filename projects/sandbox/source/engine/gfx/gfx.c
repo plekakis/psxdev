@@ -21,8 +21,7 @@ typedef struct
 
 	// 3 Root OTs
 	// Background, Foreground and Overlay
-	GsOT		m_OT[OT_LAYER_MAX];
-	GsOT_TAG	m_OTTag[OT_LAYER_MAX][MAX_OT_LENGTH];
+	uint64		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
 	PACKET		m_GpuPacketArea[PACKET_SIZE];		
 }FrameBuffer;
 
@@ -124,19 +123,6 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 
         SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (index * g_displayHeight), g_displayWidth, g_displayHeight);
         SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (index * g_displayHeight), g_displayWidth, g_displayHeight);
-
-		// Setup root ordering tables		
-		g_frameBuffers[index].m_OT[OT_LAYER_BG].length = MAX_OT_LENGTH;
-		g_frameBuffers[index].m_OT[OT_LAYER_FG].length = MAX_OT_LENGTH;
-		g_frameBuffers[index].m_OT[OT_LAYER_OV].length = MAX_OT_LENGTH;
-
-		g_frameBuffers[index].m_OT[OT_LAYER_BG].org = g_frameBuffers[index].m_OTTag[OT_LAYER_BG];
-		g_frameBuffers[index].m_OT[OT_LAYER_FG].org = g_frameBuffers[index].m_OTTag[OT_LAYER_FG];
-		g_frameBuffers[index].m_OT[OT_LAYER_OV].org = g_frameBuffers[index].m_OTTag[OT_LAYER_OV];
-
-		GsClearOt(0,0,&g_frameBuffers[index].m_OT[OT_LAYER_BG]);
-		GsClearOt(0,0,&g_frameBuffers[index].m_OT[OT_LAYER_FG]);
-		GsClearOt(0,0,&g_frameBuffers[index].m_OT[OT_LAYER_OV]);
     }
 
     SetDispMask(1);
@@ -174,7 +160,7 @@ uint8 Gfx_GetFrameBufferIndex()
 int16 Gfx_BeginFrame(uint64* o_cputime)
 {
 	// Pick the next framebuffer
-	uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
+	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
 	g_currentFrameBuffer = &g_frameBuffers[frameBufferIndex];
  
 	ResetRCnt(RCntCNT1);
@@ -193,11 +179,7 @@ int16 Gfx_BeginFrame(uint64* o_cputime)
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
 		{
-			//
-			// TODO: offset and avg z must be set per OT (BG, FG, OV)
-			// Using GsSortOt
-			//
-			GsClearOt(0, 0, &g_currentFrameBuffer->m_OT[index]);
+			ClearOTagR(g_currentFrameBuffer->m_OT[index], MAX_OT_LENGTH);
 		}
 	}
 
@@ -239,7 +221,7 @@ int16 Gfx_EndFrame(uint64* o_cputime, uint64* o_cputimeVsync, uint64* o_gputime)
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
 		{
-			GsDrawOt(&g_currentFrameBuffer->m_OT[index]);
+			DrawOTag(g_currentFrameBuffer->m_OT[index] + MAX_OT_LENGTH-1);
 		}
 	}
 	
@@ -277,21 +259,69 @@ void Gfx_SetClearColor(CVECTOR* i_color)
 ///////////////////////////////////////////////////
 // PRIMITIVE SUBMISSION
 ///////////////////////////////////////////////////
-uint8 g_currentSubmissionOTIndex = ~0;
+uint8	g_currentSubmissionOTIndex = ~0;
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
 {
-	POLY_F3* poly = (POLY_F3*)i_prim;
+	uint64	p, flg, otz;
+	uint32	isomote;
+	PRIM_F3* prim = (PRIM_F3*)i_prim;
+	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
+	
 	SetPolyF3(poly);
+
+	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
+			(int64 *)&poly->x0, (int64 *)&poly->x1, (int64 *)&poly->x2,
+			&p, &otz, &flg);
+
+	if (isomote > 0)
+	{
+		setRGB0(poly, prim->color.r, prim->color.g, prim->color.b);	
+		*o_otz = otz;
+		return poly;
+	}
+    return NULL;
+}
+
+///////////////////////////////////////////////////
+void* AddPrim_POLY_FT3(void* i_prim, uint64* o_otz)
+{
+	POLY_FT3* poly = (POLY_FT3*)i_prim;
+	SetPolyFT3(poly);
 
 	*o_otz = 0;
 	return poly;
 }
 
+///////////////////////////////////////////////////
+void* AddPrim_POLY_G3(void* i_prim, uint64* o_otz)
+{
+	POLY_G3* poly = (POLY_G3*)i_prim;
+	SetPolyG3(poly);
+
+	*o_otz = 0;
+	return poly;
+}
+
+///////////////////////////////////////////////////
+void* AddPrim_POLY_GT3(void* i_prim, uint64* o_otz)
+{
+	POLY_GT3* poly = (POLY_GT3*)i_prim;
+	SetPolyGT3(poly);
+
+	*o_otz = 0;
+	return poly;
+}
+
+///////////////////////////////////////////////////
 void InitAddPrimCallbacks()
 {
+	// POLY
 	fncAddPrim[PRIM_TYPE_POLY_F3] = &AddPrim_POLY_F3;
+	fncAddPrim[PRIM_TYPE_POLY_FT3] = &AddPrim_POLY_FT3;
+	fncAddPrim[PRIM_TYPE_POLY_G3] = &AddPrim_POLY_G3;
+	fncAddPrim[PRIM_TYPE_POLY_GT3] = &AddPrim_POLY_GT3;
 }
 
 ///////////////////////////////////////////////////
@@ -306,13 +336,32 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
+#define SCR_Z 512
+
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
+int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags)
 {
-	uint64 otz;
-	void* primmem = fncAddPrim[i_type](i_prim, &otz);
+	static SVECTOR	ang  = { 0, 0, 0};	
+	static VECTOR	vec  = {0, 0, SCR_Z};	
 	
-	AddPrim(g_currentFrameBuffer->m_OTTag[g_currentSubmissionOTIndex] + otz, primmem);
+	MATRIX		rottrans;
+	uint64 otz = 0;
+	void* primmem = NULL;
+	
+	RotMatrix(&ang, &rottrans);	/* rotation*/
+	TransMatrix(&rottrans, &vec);	/* translation*/
+	
+	/* set matrix*/
+	SetRotMatrix(&rottrans);		/* rotation*/
+	SetTransMatrix(&rottrans);	/* translation*/
+		
+	primmem = fncAddPrim[i_type](i_prim, &otz);
+	if (primmem)
+
+	{
+		AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
+	}
+	
 	return E_OK;
 }
 

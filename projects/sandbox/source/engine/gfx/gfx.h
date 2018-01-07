@@ -14,6 +14,12 @@ typedef enum
 	PRIM_TYPE_MAX			= PRIM_TYPE_POLY_GT3 + 1
 }PRIM_TYPE;
 
+typedef struct
+{
+	SVECTOR v0, v1, v2;
+	CVECTOR color;
+}PRIM_F3;
+
 // OT
 typedef enum
 {
@@ -22,6 +28,12 @@ typedef enum
 	OT_LAYER_OV		= 2,
 	OT_LAYER_MAX	= (OT_LAYER_OV + 1)
 }OT_LAYER;
+
+// AddPrim flags
+typedef enum
+{
+	PRIM_FLAG_PERSP	= 1 << 0
+}PRIM_FLAGS;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
 int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mode);
@@ -53,7 +65,8 @@ int16 Gfx_EndFrame(uint64* o_cputime, uint64* o_cputimeVsync, uint64* o_gputime)
 // Begins primitive submission to the specified OT layer
 int16 Gfx_BeginSubmission(uint8 i_layer);
 
-int16 Gfx_AddPrim(uint8 i_type, void* i_prim);
+// Add a primitive to the current OT
+int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags);
 
 // Ends primitive submission
 int16 Gfx_EndSubmission();
