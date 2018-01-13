@@ -10,7 +10,7 @@
 #define PACKET_SIZE (1024)
 
 // Callbacks for primitive submission, one per type
-void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, uint32*, uint8);
+void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, int32*, uint8);
 void InitAddPrimCallbacks();
 
 uint32 g_primStrides[PRIM_TYPE_MAX];
@@ -278,11 +278,11 @@ void Gfx_SetClearColor(CVECTOR* i_color)
 uint8	g_currentSubmissionOTIndex = ~0;
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_F3(void* i_prim, uint32* o_otz, uint8 i_flags)
+void* AddPrim_POLY_F3(void* i_prim, int32* o_otz, uint8 i_flags)
 {
-	uint32	p, flg, otz;
+	int32	p, flg, otz;
 	int32	isomote = INT_MAX;
-	uint32  isPerspective = i_flags & PRIM_FLAG_PERSP;
+	uint8   isPerspective = i_flags & PRIM_FLAG_PERSP;
 	PRIM_F3* prim = (PRIM_F3*)i_prim;
 	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
 	
@@ -313,7 +313,7 @@ void* AddPrim_POLY_F3(void* i_prim, uint32* o_otz, uint8 i_flags)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_FT3(void* i_prim, uint32* o_otz, uint8 i_flags)
+void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz, uint8 i_flags)
 {
 	POLY_FT3* poly = (POLY_FT3*)i_prim;
 	SetPolyFT3(poly);
@@ -323,11 +323,11 @@ void* AddPrim_POLY_FT3(void* i_prim, uint32* o_otz, uint8 i_flags)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_G3(void* i_prim, uint32* o_otz, uint8 i_flags)
+void* AddPrim_POLY_G3(void* i_prim, int32* o_otz, uint8 i_flags)
 {
-	uint32	p, flg, otz;
+	int32	p, flg, otz;
 	int32	isomote = INT_MAX;
-	uint32  isPerspective = i_flags & PRIM_FLAG_PERSP;
+	uint8   isPerspective = i_flags & PRIM_FLAG_PERSP;
 	PRIM_G3* prim = (PRIM_G3*)i_prim;	
 	POLY_G3* poly = (POLY_G3*)Gfx_Alloc(sizeof(POLY_G3), 4);
 			
@@ -360,7 +360,7 @@ void* AddPrim_POLY_G3(void* i_prim, uint32* o_otz, uint8 i_flags)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_GT3(void* i_prim, uint32* o_otz, uint8 i_flags)
+void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz, uint8 i_flags)
 {
 	POLY_GT3* poly = (POLY_GT3*)i_prim;
 	SetPolyGT3(poly);
@@ -394,7 +394,7 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 ///////////////////////////////////////////////////
 int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags)
 {
-	uint32 otz = 0;
+	int32 otz = 0;
 	void* primmem = NULL;
 	
 	primmem = fncAddPrim[i_type](i_prim, &otz, i_flags);
@@ -420,7 +420,7 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flag
 	{
 		uint32 i;
 		void *primmemStart = NULL, *primmemEnd = NULL;
-		uint32 otz = 0;
+		int32 otz = 0;
 		uint32 stride = g_primStrides[i_type];
 
 		for (i=0; i<i_count; ++i)
