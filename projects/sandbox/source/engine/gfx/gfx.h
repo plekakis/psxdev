@@ -63,16 +63,22 @@ uint8 Gfx_IsInterlaced();
 uint8 Gfx_GetFrameBufferIndex();
 
 // Starts a new gfx frame
-int16 Gfx_BeginFrame(uint64* o_cputime);
+int16 Gfx_BeginFrame(uint32* o_cputime);
 
 // Submits all the OTs and finishes the frame's rendering to the current buffer
-int16 Gfx_EndFrame(uint64* o_cputime, uint64* o_cputimeVsync, uint64* o_gputime);
+int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime);
 
 // Begins primitive submission to the specified OT layer
 int16 Gfx_BeginSubmission(uint8 i_layer);
 
+// Sets the model matrix to be currently used for rendering. This is a translation & rotation matrix
+int16 Gfx_SetModelMatrix(MATRIX* i_matrix);
+
 // Add a primitive to the current OT
 int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags);
+
+// Add a primitive list to the current OT
+int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags);
 
 // Ends primitive submission
 int16 Gfx_EndSubmission();

@@ -10,8 +10,10 @@
 #define PACKET_SIZE (1024)
 
 // Callbacks for primitive submission, one per type
-void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, uint64*);
+void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, uint32*, uint8);
 void InitAddPrimCallbacks();
+
+uint32 g_primStrides[PRIM_TYPE_MAX];
 
 // Defines a frame's buffer resource
 typedef struct
@@ -21,7 +23,7 @@ typedef struct
 
 	// 3 Root OTs
 	// Background, Foreground and Overlay
-	uint64		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
+	uint32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
 	PACKET		m_GpuPacketArea[PACKET_SIZE];		
 }FrameBuffer;
 
@@ -29,8 +31,8 @@ typedef struct
 static FrameBuffer* g_frameBuffers;
 static FrameBuffer* g_currentFrameBuffer = NULL;
 
-static uint64 g_frameIndex = 0ul;
-
+static uint32 g_frameIndex = 0ul;
+	
 // when high-resolution is selected, we switch to interlaced mode and single buffer
 static uint8  g_isInterlaced = 0;
 static uint8  g_bufferCount = 2;
@@ -141,6 +143,13 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	// Initialize the callbacks for primitive submission
 	InitAddPrimCallbacks();
 
+	//
+	// Populate the strides for the primitive types
+	g_primStrides[PRIM_TYPE_POLY_F3] = sizeof(PRIM_F3);
+	g_primStrides[PRIM_TYPE_POLY_G3] = sizeof(PRIM_G3);
+	// add more here
+	//
+
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
 	SetDumpFnt(FntOpen(8, 8, 320, 64, 0, 512));
@@ -157,7 +166,7 @@ uint8 Gfx_GetFrameBufferIndex()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_BeginFrame(uint64* o_cputime)
+int16 Gfx_BeginFrame(uint32* o_cputime)
 {
 	// Pick the next framebuffer
 	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
@@ -189,7 +198,7 @@ int16 Gfx_BeginFrame(uint64* o_cputime)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_EndFrame(uint64* o_cputime, uint64* o_cputimeVsync, uint64* o_gputime)
+int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 {
 	*o_cputime = GetRCnt(RCntCNT1);
 
@@ -214,7 +223,14 @@ int16 Gfx_EndFrame(uint64* o_cputime, uint64* o_cputimeVsync, uint64* o_gputime)
     PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
 
 	// For interlaced modes, use ClearImage2, as the docs say it is faster
-    ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+	if (g_isInterlaced)
+	{
+		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+	}
+	else
+	{
+		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+	}
 
 	// Draw all the OT
 	{
@@ -262,40 +278,29 @@ void Gfx_SetClearColor(CVECTOR* i_color)
 uint8	g_currentSubmissionOTIndex = ~0;
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_3(void* i_prim, uint64* o_otz)
+void* AddPrim_POLY_F3(void* i_prim, uint32* o_otz, uint8 i_flags)
 {
-	uint64	p, flg, otz;
-	uint32	isomote;
+	uint32	p, flg, otz;
+	int32	isomote = INT_MAX;
+	uint32  isPerspective = i_flags & PRIM_FLAG_PERSP;
 	PRIM_F3* prim = (PRIM_F3*)i_prim;
 	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
 	
 	SetPolyF3(poly);
 
-	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
-			(int64 *)&poly->x0, (int64 *)&poly->x1, (int64 *)&poly->x2,
-			&p, &otz, &flg);
-
-	if (isomote > 0)
+	if (isPerspective)
 	{
-		*o_otz = otz;
-		return poly;
+		isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
+				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
+				&p, &otz, &flg);
 	}
-	return NULL;
-}
-
-///////////////////////////////////////////////////
-void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
-{
-	uint64	p, flg, otz;
-	uint32	isomote;
-	PRIM_F3* prim = (PRIM_F3*)i_prim;	
-	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
-	
-	SetPolyF3(poly);
-
-	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
-			(int64 *)&poly->x0, (int64 *)&poly->x1, (int64 *)&poly->x2,
-			&p, &otz, &flg);
+	else
+	{
+		setXY3(poly, prim->v0.vx, prim->v0.vy,
+				prim->v1.vx, prim->v1.vy,
+				prim->v2.vx, prim->v2.vy
+				);
+	}
 
 	if (isomote > 0)
 	{
@@ -308,7 +313,7 @@ void* AddPrim_POLY_F3(void* i_prim, uint64* o_otz)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_FT3(void* i_prim, uint64* o_otz)
+void* AddPrim_POLY_FT3(void* i_prim, uint32* o_otz, uint8 i_flags)
 {
 	POLY_FT3* poly = (POLY_FT3*)i_prim;
 	SetPolyFT3(poly);
@@ -318,18 +323,29 @@ void* AddPrim_POLY_FT3(void* i_prim, uint64* o_otz)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_G3(void* i_prim, uint64* o_otz)
+void* AddPrim_POLY_G3(void* i_prim, uint32* o_otz, uint8 i_flags)
 {
-	uint64	p, flg, otz;
-	uint32	isomote;
+	uint32	p, flg, otz;
+	int32	isomote = INT_MAX;
+	uint32  isPerspective = i_flags & PRIM_FLAG_PERSP;
 	PRIM_G3* prim = (PRIM_G3*)i_prim;	
 	POLY_G3* poly = (POLY_G3*)Gfx_Alloc(sizeof(POLY_G3), 4);
-	
+			
 	SetPolyG3(poly);
-
-	isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
-			(int64*)&poly->x0, (int64*)&poly->x1, (int64*)&poly->x2,
-			&p, &otz, &flg);
+	
+	if (isPerspective)
+	{
+		isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
+				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
+				&p, &otz, &flg);
+	}
+	else
+	{
+		setXY3(poly, prim->v0.vx, prim->v0.vy,
+				prim->v1.vx, prim->v1.vy,
+				prim->v2.vx, prim->v2.vy
+				);
+	}
 
 	if (isomote > 0)
 	{
@@ -344,7 +360,7 @@ void* AddPrim_POLY_G3(void* i_prim, uint64* o_otz)
 }
 
 ///////////////////////////////////////////////////
-void* AddPrim_POLY_GT3(void* i_prim, uint64* o_otz)
+void* AddPrim_POLY_GT3(void* i_prim, uint32* o_otz, uint8 i_flags)
 {
 	POLY_GT3* poly = (POLY_GT3*)i_prim;
 	SetPolyGT3(poly);
@@ -375,32 +391,59 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
-#define SCR_Z 512
-
 ///////////////////////////////////////////////////
 int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags)
 {
-	static SVECTOR	ang  = { 0, 0, 0};	
-	static VECTOR	vec  = {0, 0, SCR_Z};	
-	
-	MATRIX		rottrans;
-	uint64 otz = 0;
+	uint32 otz = 0;
 	void* primmem = NULL;
 	
-	RotMatrix(&ang, &rottrans);	/* rotation*/
-	TransMatrix(&rottrans, &vec);	/* translation*/
-	
-	/* set matrix*/
-	SetRotMatrix(&rottrans);		/* rotation*/
-	SetTransMatrix(&rottrans);	/* translation*/
-		
-	primmem = fncAddPrim[i_type](i_prim, &otz);
+	primmem = fncAddPrim[i_type](i_prim, &otz, i_flags);
 	if (primmem)
-
 	{
 		AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
 	}
 	
+	return E_OK;
+}
+
+///////////////////////////////////////////////////
+int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
+{
+	SetRotMatrix(i_matrix);		/* rotation*/
+	SetTransMatrix(i_matrix);	/* translation*/
+}
+
+///////////////////////////////////////////////////
+int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags)
+{
+	if (i_count > 0)
+	{
+		uint32 i;
+		void *primmemStart = NULL, *primmemEnd = NULL;
+		uint32 otz = 0;
+		uint32 stride = g_primStrides[i_type];
+
+		for (i=0; i<i_count; ++i)
+		{
+			void* prim = i_primArray + stride * i;
+			void* mem = fncAddPrim[i_type](prim, &otz, i_flags);
+
+			if (primmemStart == NULL)
+				primmemStart = mem;
+
+			primmemEnd = mem;
+
+			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, mem);
+		}
+
+		// This doesn't seem to work
+		// Could this be faster than the above?
+		//if (primmemStart != NULL)
+		//{
+		//	AddPrims(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmemStart, primmemEnd);
+		//}
+	}
+
 	return E_OK;
 }
 

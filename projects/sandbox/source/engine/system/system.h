@@ -7,6 +7,7 @@ typedef struct
 {
     void (*AppStartFncPtr)();
     void (*AppUpdateFncPtr)();
+	void (*AppRenderFncPtr)();
     void (*AppShutdownFncPtr)();
 
     uint8   m_isHighResolution  : 1;

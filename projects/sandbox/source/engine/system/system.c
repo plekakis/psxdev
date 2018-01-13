@@ -16,8 +16,6 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	// Initialize core
 	errcode |= Core_Initialize();
 
-	
-
     // Initialize graphics
     errcode |= Gfx_Initialize(i_info->m_isInterlaced,
 							  i_info->m_isHighResolution,
@@ -43,7 +41,7 @@ int16 System_MainLoop()
 	
 	while (g_systemRunning)
     {	
-		uint64 timeStart, timeEnd, timeEndVsync, gpuTime;
+		uint32 timeStart, timeEnd, timeEndVsync, gpuTime;
 		char dbgText[32];
 		const float res = Gfx_GetDisplayHeight() / hsyncDivisor;
 		
@@ -62,19 +60,10 @@ int16 System_MainLoop()
 		FntPrint(dbgText);
 		FntFlush(-1);
 		
-		Gfx_BeginSubmission(OT_LAYER_BG);
+		if (g_initInfo && g_initInfo->AppRenderFncPtr)
 		{
-			PRIM_G3 poly;
-			setVector(&poly.v0, -128, 128, 0);
-			setVector(&poly.v1, -128, -128, 0);
-			setVector(&poly.v2, 128, -128, 0);
-			setColor(&poly.c0, 255, 0, 0);
-			setColor(&poly.c1, 0, 255, 0);
-			setColor(&poly.c2, 0, 0, 255);
-
-			Gfx_AddPrim(PRIM_TYPE_POLY_G3, &poly, 0);
+			g_initInfo->AppRenderFncPtr();
 		}
-		Gfx_EndSubmission();
 
         Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);				
     }

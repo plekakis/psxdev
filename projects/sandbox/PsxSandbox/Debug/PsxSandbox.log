@@ -1,4 +1,4 @@
-﻿Build started 1/7/2018 10:11:30 PM.
+﻿Build started 1/13/2018 12:34:30 AM.
 Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
 Build:
   call build.bat
@@ -7,11 +7,29 @@ Build:
   In file included from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
-  ..\source\engine\gfx\gfx.c:148: warning: large integer implicitly truncated to unsigned type
+  ..\source\engine\gfx\gfx.c:157: warning: large integer implicitly truncated to unsigned type
+  ..\source\engine\gfx\gfx.c: In function `Gfx_BeginFrame':
+  ..\source\engine\gfx\gfx.c:191: warning: passing arg 1 of `ClearOTagR' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c: In function `Gfx_EndFrame':
+  ..\source\engine\gfx\gfx.c:240: warning: passing arg 1 of `DrawOTag' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c: In function `AddPrim_POLY_F3':
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 4 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 5 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 6 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 7 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 8 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:295: warning: passing arg 9 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c: In function `AddPrim_POLY_G3':
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 4 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 5 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 6 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 7 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 8 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:340: warning: passing arg 9 of `RotAverageNclip3' from incompatible pointer type
   CPE2X Ver1.5
   Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
   convert from main.cpe to main.EXE for Europe area
-  pc0:8001809c  t_addr:80010000  t_size:00011800
+  pc0:80018270  t_addr:80010000  t_size:00011800
   Compile success! Copying to cd-rom ...
   MKPSXISO 1.10 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
@@ -45,4 +63,4 @@ Done Building Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj"
 
 Build succeeded.
 
-Time Elapsed 00:00:00.70
+Time Elapsed 00:00:00.56
