@@ -15,11 +15,11 @@
 // Data types
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
-typedef unsigned int			uint32;
+typedef unsigned long			uint32;
 typedef unsigned long long		uint64;
 typedef char					int8;
 typedef short					int16;
-typedef int						int32;
+typedef long					int32;
 typedef long long				int64;
 
 #ifndef NULL
@@ -47,5 +47,8 @@ typedef long long				int64;
 // Utility functions
 // memory & pointers
 void* AlignPtr(void* i_ptr, uint32 i_alignment);
+
+// Misc
+#define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x[0]) )
 
 #endif // ENGINE_H_INC

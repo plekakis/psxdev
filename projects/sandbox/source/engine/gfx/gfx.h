@@ -80,6 +80,9 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags);
 // Add a primitive list to the current OT
 int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags);
 
+// Add a 1x1x1 cube to the current OT
+int16 Gfx_AddCube(uint8 i_type, CVECTOR* i_colorArray);
+
 // Ends primitive submission
 int16 Gfx_EndSubmission();
 

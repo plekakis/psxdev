@@ -13,6 +13,11 @@
 void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, int32*, uint8);
 void InitAddPrimCallbacks();
 
+// Callbacks for pre-made orbject submission, one per type
+void (*fncAddCube[PRIM_TYPE_MAX])(void*);
+void InitAddCubeCallbacks();
+const int32 g_cubeSize = 64;
+
 uint32 g_primStrides[PRIM_TYPE_MAX];
 
 // Defines a frame's buffer resource
@@ -23,7 +28,7 @@ typedef struct
 
 	// 3 Root OTs
 	// Background, Foreground and Overlay
-	uint32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
+	int32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
 	PACKET		m_GpuPacketArea[PACKET_SIZE];		
 }FrameBuffer;
 
@@ -47,6 +52,12 @@ static CVECTOR g_clearColor;
 
 // Timing
 #define RCntIntr      0x1000            /*Interrupt mode*/
+
+///////////////////////////////////////////////////
+// Pre-made object callbacks
+// 
+// Cube
+///////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////
@@ -133,8 +144,8 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
     {
         CVECTOR clearColor;
         clearColor.r = 0;
-        clearColor.g = 127;
-        clearColor.b = 255;
+        clearColor.g = 64;
+        clearColor.b = 127;
         Gfx_SetClearColor(&clearColor);
     }
 	
@@ -142,6 +153,7 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 
 	// Initialize the callbacks for primitive submission
 	InitAddPrimCallbacks();
+	InitAddCubeCallbacks();
 
 	//
 	// Populate the strides for the primitive types
@@ -177,12 +189,7 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 
 	// Reset scratch
 	Gfx_ResetScratch(frameBufferIndex);
-
-	// Set work address for ordering table drawing
-	// I believe that this is for the higher level rendering functions and it may safely be removed if there is no use for them
-	GsSetWorkBase((PACKET*)g_currentFrameBuffer->m_GpuPacketArea);
-	//
-
+	
 	// Clear (reset OT linked list, not actual color clear)
 	{
 		uint8 index;
@@ -190,9 +197,7 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 		{
 			ClearOTagR(g_currentFrameBuffer->m_OT[index], MAX_OT_LENGTH);
 		}
-	}
-
-	
+	}	
 
     return E_OK;
 }
@@ -292,7 +297,7 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz, uint8 i_flags)
 	{
 		isomote = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
 				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
-				&p, &otz, &flg);
+				(int32*)&p, (int32*)&otz, (int32*)&flg);
 	}
 	else
 	{
@@ -380,6 +385,85 @@ void InitAddPrimCallbacks()
 }
 
 ///////////////////////////////////////////////////
+void AddCube_POLY_F3(void* i_data)
+{
+	CVECTOR *i_color = (CVECTOR*)i_data;
+	PRIM_F3 primitives[12] = 
+	{
+		// Front
+		{ {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize},		i_color[0] },	
+		{ {g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize},		i_color[0] },
+		// Right
+		{ {g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize},			i_color[1] },
+		{ {g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize},			i_color[1] },
+		// Back
+		{ {g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize},			i_color[2] },
+		{ {-g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize},			i_color[2] },
+		// Left
+		{ {-g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize},		i_color[3] },
+		{ {-g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize},		i_color[3] },
+		// Top
+		{ {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize},		i_color[4] },
+		{ {g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize},		i_color[4] },
+		// Bottom
+		{ {-g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize},			i_color[5] },
+		{ {g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize},			i_color[5] }
+	};
+
+	Gfx_AddPrims(PRIM_TYPE_POLY_F3, primitives, ARRAY_SIZE(primitives), PRIM_FLAG_PERSP);
+}
+
+///////////////////////////////////////////////////
+void AddCube_POLY_FT3(void* i_data)
+{
+
+}
+
+///////////////////////////////////////////////////
+void AddCube_POLY_G3(void* i_data)
+{
+	CVECTOR *i_color = (CVECTOR*)i_data;
+	PRIM_G3 primitives[12] = 
+	{
+		// Front
+		{ {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize},		i_color[0], i_color[1], i_color[2] },
+		{ {g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize},		i_color[2], i_color[3], i_color[0] },
+		// Right
+		{ {g_cubeSize, -g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize},			i_color[1], i_color[5], i_color[6] },
+		{ {g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize},			i_color[6], i_color[2], i_color[1] },
+		// Back
+		{ {g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize},			i_color[5], i_color[4], i_color[7] },
+		{ {-g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize},			i_color[7], i_color[6], i_color[5] },
+		// Left
+		{ {-g_cubeSize, -g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize},		i_color[4], i_color[0], i_color[3] },
+		{ {-g_cubeSize, g_cubeSize, -g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize},		i_color[3], i_color[7], i_color[4] },
+		// Top
+		{ {-g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, g_cubeSize},		i_color[0], i_color[4], i_color[5] },
+		{ {g_cubeSize, -g_cubeSize, g_cubeSize}, {g_cubeSize, -g_cubeSize, -g_cubeSize}, {-g_cubeSize, -g_cubeSize, -g_cubeSize},		i_color[5], i_color[1], i_color[0] },
+		// Bottom
+		{ {-g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, -g_cubeSize}, {g_cubeSize, g_cubeSize, g_cubeSize},			i_color[3], i_color[2], i_color[6] },
+		{ {g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, g_cubeSize}, {-g_cubeSize, g_cubeSize, -g_cubeSize},			i_color[6], i_color[7], i_color[3] }
+	};
+
+	Gfx_AddPrims(PRIM_TYPE_POLY_G3, primitives, ARRAY_SIZE(primitives), PRIM_FLAG_PERSP);
+}
+
+///////////////////////////////////////////////////
+void AddCube_POLY_GT3(void* i_data)
+{
+
+}
+
+///////////////////////////////////////////////////
+void InitAddCubeCallbacks()
+{
+	fncAddCube[PRIM_TYPE_POLY_F3] = &AddCube_POLY_F3;
+	fncAddCube[PRIM_TYPE_POLY_FT3] = &AddCube_POLY_FT3;
+	fncAddCube[PRIM_TYPE_POLY_G3] = &AddCube_POLY_G3;
+	fncAddCube[PRIM_TYPE_POLY_GT3] = &AddCube_POLY_GT3;
+}
+
+///////////////////////////////////////////////////
 int16 Gfx_BeginSubmission(uint8 i_layer)
 {
 	if (g_currentSubmissionOTIndex != i_layer)
@@ -407,6 +491,14 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags)
 }
 
 ///////////////////////////////////////////////////
+int16 Gfx_AddCube(uint8 i_type, CVECTOR* i_colorArray)
+{	
+	fncAddCube[i_type](i_colorArray);
+
+	return E_OK;
+}
+
+///////////////////////////////////////////////////
 int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
 {
 	SetRotMatrix(i_matrix);		/* rotation*/
@@ -416,32 +508,13 @@ int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
 ///////////////////////////////////////////////////
 int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags)
 {
-	if (i_count > 0)
-	{
-		uint32 i;
-		void *primmemStart = NULL, *primmemEnd = NULL;
-		int32 otz = 0;
-		uint32 stride = g_primStrides[i_type];
+	uint32 i = 0;
+	uint32 stride = g_primStrides[i_type];
 
-		for (i=0; i<i_count; ++i)
-		{
-			void* prim = i_primArray + stride * i;
-			void* mem = fncAddPrim[i_type](prim, &otz, i_flags);
-
-			if (primmemStart == NULL)
-				primmemStart = mem;
-
-			primmemEnd = mem;
-
-			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, mem);
-		}
-
-		// This doesn't seem to work
-		// Could this be faster than the above?
-		//if (primmemStart != NULL)
-		//{
-		//	AddPrims(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmemStart, primmemEnd);
-		//}
+	for (i=0; i<i_count; ++i)
+	{			
+		void* prim = i_primArray + stride * i;
+		Gfx_AddPrim(i_type, prim, i_flags);
 	}
 
 	return E_OK;

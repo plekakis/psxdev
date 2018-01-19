@@ -1,35 +1,17 @@
-﻿Build started 1/13/2018 12:34:30 AM.
-Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
+﻿Build started 1/19/2018 10:28:29 PM.
+Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
 Build:
   call build.bat
-  Could Not Find E:\psxdev\projects\sandbox\PsxSandbox\main.exe
+  Could Not Find Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\main.exe
   Starting compilation...
   In file included from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
-  ..\source\engine\gfx\gfx.c:157: warning: large integer implicitly truncated to unsigned type
-  ..\source\engine\gfx\gfx.c: In function `Gfx_BeginFrame':
-  ..\source\engine\gfx\gfx.c:191: warning: passing arg 1 of `ClearOTagR' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c: In function `Gfx_EndFrame':
-  ..\source\engine\gfx\gfx.c:240: warning: passing arg 1 of `DrawOTag' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c: In function `AddPrim_POLY_F3':
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 4 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 5 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 6 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 7 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 8 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:295: warning: passing arg 9 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c: In function `AddPrim_POLY_G3':
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 4 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 5 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 6 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 7 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 8 of `RotAverageNclip3' from incompatible pointer type
-  ..\source\engine\gfx\gfx.c:340: warning: passing arg 9 of `RotAverageNclip3' from incompatible pointer type
+  ..\source\engine\gfx\gfx.c:169: warning: large integer implicitly truncated to unsigned type
   CPE2X Ver1.5
   Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
   convert from main.cpe to main.EXE for Europe area
-  pc0:80018270  t_addr:80010000  t_size:00011800
+  pc0:80019020  t_addr:80010000  t_size:00012800
   Compile success! Copying to cd-rom ...
   MKPSXISO 1.10 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
@@ -47,7 +29,7 @@ Build:
       Parsing directory tree...
         Files Total: 2
         Directories: 1
-        Estimated filesystem size: 2551920 bytes (1085 sectors)
+        Estimated filesystem size: 2556624 bytes (1087 sectors)
   
       Building filesystem... 
         Packing system.txt... Done.
@@ -56,11 +38,11 @@ Build:
         Writing license data...Ok.
   
   ISO image generated successfully.
-  Total image size: 2551920 bytes (1085 sectors)
+  Total image size: 2556624 bytes (1087 sectors)
   
   Finished!
-Done Building Project "E:\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
+Done Building Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.56
+Time Elapsed 00:00:00.62
