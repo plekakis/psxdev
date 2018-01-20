@@ -15,6 +15,7 @@
     <ClCompile Include="..\source\engine\core\core_scu.c" />
     <ClCompile Include="..\source\engine\engine_scu.c" />
     <ClCompile Include="..\source\engine\gfx\gfx.c" />
+    <ClCompile Include="..\source\engine\gfx\gfx_prim_callbacks.c" />
     <ClCompile Include="..\source\engine\gfx\gfx_scratch.c" />
     <ClCompile Include="..\source\engine\gfx\gfx_scu.c" />
     <ClCompile Include="..\source\engine\system\system.c" />

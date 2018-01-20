@@ -31,6 +31,9 @@
     <ClCompile Include="..\source\engine\gfx\gfx_scratch.c">
       <Filter>engine\gfx</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\engine\gfx\gfx_prim_callbacks.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\engine\system\system.h">

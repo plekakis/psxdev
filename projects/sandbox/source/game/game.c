@@ -2,8 +2,12 @@
 #include "../engine/gfx/gfx.h"
 
 uint32 yaw = 0, pitch = 0, roll = 0;
+
 void render()
 {	
+	SetFarColor(255, 0, 0);	
+	SetFogNear(300,1024);
+
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	{
 		SVECTOR	ang  = { pitch, yaw, roll};
@@ -29,13 +33,13 @@ void render()
 		//setColor(&poly[1].c1, 255, 0, 0);
 		//setColor(&poly[1].c2, 0, 255, 0);
 
-		Gfx_SetModelMatrix(&model2World);				
-		Gfx_AddCube(PRIM_TYPE_POLY_F3, cubeColors);
+		Gfx_SetModelMatrix(&model2World);
+		Gfx_AddCube(PRIM_TYPE_POLY_F3, 64, cubeColors);
 
 		TransMatrix(&model2World, &vec2);
 
-		Gfx_SetModelMatrix(&model2World);				
-		Gfx_AddCube(PRIM_TYPE_POLY_G3, cubeColors);
+		Gfx_SetModelMatrix(&model2World);
+		Gfx_AddCube(PRIM_TYPE_POLY_G3, 64, cubeColors);
 	}
 	Gfx_EndSubmission();
 

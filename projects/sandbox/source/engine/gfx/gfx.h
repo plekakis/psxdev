@@ -17,12 +17,14 @@ typedef enum
 typedef struct
 {
 	SVECTOR v0, v1, v2;
+	SVECTOR n0;
 	CVECTOR c;
 }PRIM_F3;
 
 typedef struct
 {
 	SVECTOR v0, v1, v2;
+	//SVECTOR n0, n1, n2;
 	CVECTOR c0, c1, c2;
 }PRIM_G3;
 
@@ -38,7 +40,8 @@ typedef enum
 // AddPrim flags
 typedef enum
 {
-	PRIM_FLAG_PERSP	= 1 << 0
+	PRIM_FLAG_PERSP	= 1 << 0,
+	PRIM_FLAG_FOG	= 1 << 1
 }PRIM_FLAGS;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
@@ -80,8 +83,8 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags);
 // Add a primitive list to the current OT
 int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags);
 
-// Add a 1x1x1 cube to the current OT
-int16 Gfx_AddCube(uint8 i_type, CVECTOR* i_colorArray);
+// Add a size x size x size cube to the current OT
+int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray);
 
 // Ends primitive submission
 int16 Gfx_EndSubmission();
