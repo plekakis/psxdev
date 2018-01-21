@@ -10,6 +10,7 @@
 #define PACKET_SIZE (1024)
 
 #include "gfx_prim_callbacks.c"
+#include "gfx_renderstate.c"
 
 uint32 g_primStrides[PRIM_TYPE_MAX];
 
@@ -22,7 +23,6 @@ typedef struct
 	// 3 Root OTs
 	// Background, Foreground and Overlay
 	int32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
-	PACKET		m_GpuPacketArea[PACKET_SIZE];		
 }FrameBuffer;
 
 // Framebuffer resources
@@ -147,16 +147,20 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	// Initialize the callbacks for primitive submission
 	InitAddPrimCallbacks();
 	InitAddCubeCallbacks();
+	InitAddPlaneCallbacks();
 
 	//
 	// Populate the strides for the primitive types
 	g_primStrides[PRIM_TYPE_POLY_F3] = sizeof(PRIM_F3);
+	g_primStrides[PRIM_TYPE_POLY_FT3] = sizeof(PRIM_FT3);
 	g_primStrides[PRIM_TYPE_POLY_G3] = sizeof(PRIM_G3);
+	g_primStrides[PRIM_TYPE_POLY_GT3] = sizeof(PRIM_GT3);
 	// add more here
 	//
 
-	SetFarColor(255,120,120);	
-	SetFogNear(1020,1024);
+	// Default renderstate
+	Gfx_SetRenderState(RS_PERSP);
+	//
 
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
@@ -214,22 +218,18 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 	
 	*o_cputimeVsync = GetRCnt(RCntCNT1);
 
-	// If we are in interlace mode, initialize the drawing engine but preserve the contents of the framebuffer
-	if (g_isInterlaced)
-	{    
-		ResetGraph(3);
-	}
-	
     PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
-    PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
+	PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
 
 	// For interlaced modes, use ClearImage2, as the docs say it is faster
+	// Also, initialize the drawing engine but preserve the contents of the framebuffer
 	if (g_isInterlaced)
 	{
+		ResetGraph(3);
 		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
 	else
-	{
+	{		
 		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
 
@@ -291,15 +291,38 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrim(uint8 i_type, void* i_prim, uint8 i_flags)
+int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
 {
 	int32 otz = 0;
 	void* primmem = NULL;
 	
-	primmem = fncAddPrim[i_type](i_prim, &otz, i_flags);
+	primmem = fncAddPrim[i_type](i_prim, &otz);
 	if (primmem)
 	{
-		AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
+		if (i_type == PRIM_TYPE_POLY_F3 & 0)
+		{
+			static POLY_F3 buff[2][1024];
+
+			DIVPOLYGON3	div={0};
+			PRIM_F3* prim = (PRIM_F3*)i_prim;
+
+			div.pih = Gfx_GetDisplayWidth();
+			div.piv = Gfx_GetDisplayHeight();
+			div.ndiv = 1;
+						
+			DivideF3(
+				&prim->v0, &prim->v1, &prim->v2,
+				&prim->c,
+				&buff[0][0], g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz,
+				&div);
+		}
+		else
+		{
+
+			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
+		}
+
+		
 	}
 	
 	return E_OK;
@@ -313,6 +336,13 @@ int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
 }
 
 ///////////////////////////////////////////////////
+int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_colorArray)
+{	
+	fncAddPlane[i_type](i_colorArray, i_width, i_height);
+	return E_OK;
+}
+
+///////////////////////////////////////////////////
 int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
 {
 	SetRotMatrix(i_matrix);		/* rotation*/
@@ -320,7 +350,7 @@ int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flags)
+int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 {
 	uint32 i = 0;
 	uint32 stride = g_primStrides[i_type];
@@ -328,7 +358,7 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count, uint8 i_flag
 	for (i=0; i<i_count; ++i)
 	{			
 		void* prim = i_primArray + stride * i;
-		Gfx_AddPrim(i_type, prim, i_flags);
+		Gfx_AddPrim(i_type, prim);
 	}
 
 	return E_OK;

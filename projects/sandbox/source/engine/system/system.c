@@ -44,8 +44,8 @@ int16 System_MainLoop()
 		uint32 timeStart, timeEnd, timeEndVsync, gpuTime;
 		char dbgText[32];
 		const float res = Gfx_GetDisplayHeight() / hsyncDivisor;
-		
-		sprintf2(dbgText, "CPU: %.2f (%.2f)", cpuMs, cpuMsVsync);
+
+		sprintf2(dbgText, "CPU: %.2f (%.2f)\n%i, %i", cpuMs, cpuMsVsync);
 		
 		Gfx_BeginFrame(&timeStart);
 				

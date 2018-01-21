@@ -5,16 +5,17 @@ uint32 yaw = 0, pitch = 0, roll = 0;
 
 void render()
 {	
-	SetFarColor(255, 0, 0);	
-	SetFogNear(300,1024);
-
+	Gfx_SetRenderState(RS_PERSP);
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	{
+		SVECTOR angZero = {0,0,0};
 		SVECTOR	ang  = { pitch, yaw, roll};
 		VECTOR	vec1  = {-128, 0, 512};
 		VECTOR	vec2  = {128, 0, 512};
+		VECTOR	vec3  = {0, 100, 256};
 		MATRIX model2World;
 		CVECTOR cubeColors[8] = { {255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {255, 0, 255}, {255, 255, 0}, {0, 255, 255}, {128, 0, 128}, {0, 64, 128} };
+		CVECTOR planeColors[4] = { {128, 128, 128}, {255, 0, 0}, {0, 255, 0}, {0,0,255} };
 
 		RotMatrix(&ang, &model2World);
 		TransMatrix(&model2World, &vec1);
@@ -40,6 +41,13 @@ void render()
 
 		Gfx_SetModelMatrix(&model2World);
 		Gfx_AddCube(PRIM_TYPE_POLY_G3, 64, cubeColors);
+
+		TransMatrix(&model2World, &vec3);
+		RotMatrix(&angZero, &model2World);
+		
+
+		Gfx_SetModelMatrix(&model2World);
+		Gfx_AddPlane(PRIM_TYPE_POLY_G3, 512, 256, &planeColors);
 	}
 	Gfx_EndSubmission();
 

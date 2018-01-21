@@ -49,6 +49,8 @@ typedef long long				int64;
 void* AlignPtr(void* i_ptr, uint32 i_alignment);
 
 // Misc
-#define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x[0]) )
+#define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x)[0] )
+#define PACK_RGB(r, g, b) ( ( (r) << 16) | ( (g) << 8) | (b) )
+#define UNPACK_RGB(v, r, g, b) { *(r) = ( (v) >> 16) & 0xff; *(g) = ( (v) >> 8) & 0xff; *(b) = (v) & 0xff; }
 
 #endif // ENGINE_H_INC
