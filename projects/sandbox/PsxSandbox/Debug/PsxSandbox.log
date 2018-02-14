@@ -1,20 +1,47 @@
-﻿Build started 1/21/2018 10:19:35 PM.
+﻿Build started 2/14/2018 8:02:14 PM.
 Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
 Build:
   call build.bat
   Could Not Find Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\main.exe
   Starting compilation...
-  In file included from ..\source\engine\gfx\gfx_scu.c:2,
+  In file included from ..\source\engine\core\core.h:4,
+                   from ..\source\engine\core\core.c:1,
+                   from ..\source\engine\core\core_scu.c:1,
+                   from ../source/engine/engine_scu.c:1:
+  ..\source\engine\core\..\engine.h:34: warning: invalid character in macro parameter name
+  In file included from ..\source\engine\gfx\gfx.c:12,
+                   from ..\source\engine\gfx\gfx_scu.c:2,
+                   from ../source/engine/engine_scu.c:2:
+  ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_F3':
+  ..\source\engine\gfx\gfx_prim_callbacks.c:164: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_G3':
+  ..\source\engine\gfx\gfx_prim_callbacks.c:199: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_F3':
+  ..\source\engine\gfx\gfx_prim_callbacks.c:231: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_G3':
+  ..\source\engine\gfx\gfx_prim_callbacks.c:254: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  In file included from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
-  ..\source\engine\gfx\gfx.c:166: warning: large integer implicitly truncated to unsigned type
+  ..\source\engine\gfx\gfx.c:210: warning: large integer implicitly truncated to unsigned type
+  ..\source\engine\gfx\gfx.c: In function `PrepareMatrices':
+  ..\source\engine\gfx\gfx.c:355: warning: passing arg 2 of `ApplyMatrixLV' discards qualifiers from pointer target type
+  In file included from ..\source\game\..\engine\system\system.h:4,
+                   from ..\source\game\game.c:1,
+                   from ../source/game/game_scu.c:1:
+  ..\source\game\..\engine\system\..\engine.h:34: warning: invalid character in macro parameter name
   In file included from ../source/game/game_scu.c:1:
   ..\source\game\game.c: In function `render':
-  ..\source\game\game.c:52: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
+  ..\source\game\game.c:23: warning: passing arg 1 of `RotMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:24: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:32: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:41: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:51: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:55: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
   CPE2X Ver1.5
   Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
   convert from main.cpe to main.EXE for Europe area
-  pc0:800199bc  t_addr:80010000  t_size:00013000
+  pc0:8001a048  t_addr:80010000  t_size:00013800
   Compile success! Copying to cd-rom ...
   MKPSXISO 1.10 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
@@ -32,7 +59,7 @@ Build:
       Parsing directory tree...
         Files Total: 2
         Directories: 1
-        Estimated filesystem size: 2558976 bytes (1088 sectors)
+        Estimated filesystem size: 2561328 bytes (1089 sectors)
   
       Building filesystem... 
         Packing system.txt... Done.
@@ -41,11 +68,11 @@ Build:
         Writing license data...Ok.
   
   ISO image generated successfully.
-  Total image size: 2558976 bytes (1088 sectors)
+  Total image size: 2561328 bytes (1089 sectors)
   
   Finished!
 Done Building Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.47
+Time Elapsed 00:00:02.01

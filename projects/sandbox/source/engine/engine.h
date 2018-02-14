@@ -26,6 +26,18 @@ typedef long long				int64;
 #define NULL (0)
 #endif // NULL
 
+#ifndef TRUE
+#define TRUE (1)
+#endif // TRUE
+
+#ifndef FALSE
+#define FALSE(0)
+#endif // FALSE
+
+#ifndef bool
+#define bool uint8
+#endif // bool
+
 // Math macros & constants
 #define PI 3.14159265359f
 

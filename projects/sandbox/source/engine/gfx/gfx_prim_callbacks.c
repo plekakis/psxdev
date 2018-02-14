@@ -138,8 +138,8 @@ void InitAddPlaneCallbacks();
 ///////////////////////////////////////////////////
 void AddCube_POLY_F3(void* i_data, uint32 i_size)
 {
-	CVECTOR *i_color = (CVECTOR*)i_data;
-	PRIM_F3 primitives[12] = 
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const PRIM_F3 primitives[12] = 
 	{
 		// Front
 		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,-1},	i_color[0] },	
@@ -173,8 +173,8 @@ void AddCube_POLY_FT3(void* i_data, uint32 i_size)
 ///////////////////////////////////////////////////
 void AddCube_POLY_G3(void* i_data, uint32 i_size)
 {
-	CVECTOR *i_color = (CVECTOR*)i_data;
-	PRIM_G3 primitives[12] = 
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const PRIM_G3 primitives[12] = 
 	{
 		// Front
 		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},		i_color[0], i_color[1], i_color[2] },
@@ -217,11 +217,11 @@ void InitAddCubeCallbacks()
 ///////////////////////////////////////////////////
 void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height)
 {
-	CVECTOR *i_color = (CVECTOR*)i_data;
-	uint32 halfWidth = i_width >> 1;
-	uint32 halfHeight = i_height >> 1;
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const uint32 halfWidth = i_width >> 1;
+	const uint32 halfHeight = i_height >> 1;
 
-	PRIM_F3 primitives[2] = 
+	const PRIM_F3 primitives[2] = 
 	{
 		// Front
 		{ {-halfWidth, 0, -halfHeight}, {-halfWidth, 0, halfHeight}, {halfWidth, 0, halfHeight},	{0,1,0},	i_color[0] },	
@@ -240,11 +240,11 @@ void AddPlane_POLY_FT3(void* i_data, uint32 i_width, uint32 i_height)
 ///////////////////////////////////////////////////
 void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height)
 {
-	CVECTOR *i_color = (CVECTOR*)i_data;
-	uint32 halfWidth = i_width >> 1;
-	uint32 halfHeight = i_height >> 1;
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const uint32 halfWidth = i_width >> 1;
+	const uint32 halfHeight = i_height >> 1;
 
-	PRIM_G3 primitives[2] = 
+	const PRIM_G3 primitives[2] = 
 	{
 		// Front
 		{ {-halfWidth, 0, -halfHeight}, {-halfWidth, 0, halfHeight}, {halfWidth, 0, halfHeight},	i_color[0], i_color[1], i_color[2] },

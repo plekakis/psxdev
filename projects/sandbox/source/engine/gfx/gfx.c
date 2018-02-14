@@ -32,25 +32,64 @@ static FrameBuffer* g_currentFrameBuffer = NULL;
 static uint32 g_frameIndex = 0ul;
 	
 // when high-resolution is selected, we switch to interlaced mode and single buffer
-static uint8  g_isInterlaced = 0;
-static uint8  g_bufferCount = 2;
+static bool   g_isInterlaced;
+static uint8  g_bufferCount;
 
 static uint16 g_displayWidth;
 static uint16 g_displayHeight;
 static uint16 g_tvMode;
-static uint8  g_isHighResolution;
+static bool   g_isHighResolution;
 
 // Other
 static CVECTOR g_clearColor;
 
+// Current matrices
+static MATRIX g_defaultModelMatrix;
+static MATRIX g_defaultCameraMatrix;
+
+static MATRIX* g_modelMatrix;
+static MATRIX* g_cameraMatrix;
+
+// Dirty flags
+typedef enum
+{
+	DF_MATRICES = 1 << 0,
+	DF_ALL		= ~0
+}DIRTYFLAGS;
+static uint32 g_dirtyFlags = DF_ALL;
+#define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
+#define DF_SET(x) g_dirtyFlags |= (x)
+#define DF_INV(x) g_dirtyFlags &= ~(x)
+
+void SetDefaultMatrices()
+{
+	// Model
+	{
+		SVECTOR rotation = {0,0,0};
+		VECTOR	position = {0,0,0};
+
+		RotMatrix(&rotation, &g_defaultModelMatrix);
+		TransMatrix(&g_defaultModelMatrix, &position);
+
+		g_modelMatrix = &g_defaultModelMatrix;
+	}
+	// Camera
+	{
+		SVECTOR rotation = {0,0,0};
+		VECTOR	position = {0,0,0};
+
+		RotMatrix(&rotation, &g_defaultCameraMatrix);
+		TransMatrix(&g_defaultCameraMatrix, &position);
+
+		g_cameraMatrix = &g_defaultCameraMatrix;
+	}
+
+	DF_SET(DF_MATRICES);
+}
+
 // Timing
 #define RCntIntr      0x1000            /*Interrupt mode*/
 
-///////////////////////////////////////////////////
-// Pre-made object callbacks
-// 
-// Cube
-///////////////////////////////////////////////////
 
 
 ///////////////////////////////////////////////////
@@ -158,8 +197,10 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	// add more here
 	//
 
-	// Default renderstate
+	// Default renderstate & matrices
 	Gfx_SetRenderState(RS_PERSP);
+
+	SetDefaultMatrices();
 	//
 
 	// Load the debug font and set it to render text at almost the origin, top-left
@@ -290,39 +331,70 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
+bool g_canSetMatrices = TRUE;
+
+void PrepareMatrices()
+{
+	if (g_canSetMatrices && DF_CHK(DF_MATRICES))
+	{
+		MATRIX  finalMat = *g_cameraMatrix;
+
+		//
+		// TODO:
+		// The following doesn't seem to be a perspective correct transformation.
+		// It probably needs the RotTransPersp and applied before vertex transformation
+		// Investigate if we can do it here instead, as it's convenient.
+		//
+
+		// Apply the camera rotation to the camera vector
+		{
+			VECTOR transformedCameraPosition;
+			const VECTOR cameraPosition = {finalMat.t[0], finalMat.t[1], finalMat.t[2]};
+
+			TransposeMatrix(&finalMat, &finalMat);
+			ApplyMatrixLV(&finalMat, &cameraPosition, &transformedCameraPosition);
+			TransMatrix(&finalMat, &transformedCameraPosition);
+		}
+
+		// Invert the transformation
+		{
+			finalMat.t[0] *= -1;
+			finalMat.t[1] *= -1;
+			finalMat.t[2] *= -1;
+		
+			// Translate by the model parallel transfer vector
+			finalMat.t[0] += g_modelMatrix->t[0];
+			finalMat.t[1] += g_modelMatrix->t[1];
+			finalMat.t[2] += g_modelMatrix->t[2];
+		}
+
+		// Multiply current camera rotation matrix with the model rotation matrix
+		{
+			MulMatrix0(g_modelMatrix, &finalMat, &finalMat);
+		}
+		
+		// Update current rotation and translation matrices
+		{
+			SetRotMatrix(&finalMat);
+			SetTransMatrix(&finalMat);
+		}
+
+		DF_INV(DF_MATRICES);
+	}
+}
+
 ///////////////////////////////////////////////////
 int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
 {
 	int32 otz = 0;
 	void* primmem = NULL;
 	
+	PrepareMatrices();
+
 	primmem = fncAddPrim[i_type](i_prim, &otz);
 	if (primmem)
 	{
-		if (i_type == PRIM_TYPE_POLY_F3 & 0)
-		{
-			static POLY_F3 buff[2][1024];
-
-			DIVPOLYGON3	div={0};
-			PRIM_F3* prim = (PRIM_F3*)i_prim;
-
-			div.pih = Gfx_GetDisplayWidth();
-			div.piv = Gfx_GetDisplayHeight();
-			div.ndiv = 1;
-						
-			DivideF3(
-				&prim->v0, &prim->v1, &prim->v2,
-				&prim->c,
-				&buff[0][0], g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz,
-				&div);
-		}
-		else
-		{
-
-			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
-		}
-
-		
+		AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);		
 	}
 	
 	return E_OK;
@@ -331,6 +403,7 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
 ///////////////////////////////////////////////////
 int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
 {	
+	PrepareMatrices();
 	fncAddCube[i_type](i_colorArray, i_size);
 	return E_OK;
 }
@@ -338,6 +411,7 @@ int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
 ///////////////////////////////////////////////////
 int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_colorArray)
 {	
+	PrepareMatrices();
 	fncAddPlane[i_type](i_colorArray, i_width, i_height);
 	return E_OK;
 }
@@ -345,8 +419,15 @@ int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_col
 ///////////////////////////////////////////////////
 int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
 {
-	SetRotMatrix(i_matrix);		/* rotation*/
-	SetTransMatrix(i_matrix);	/* translation*/
+	g_modelMatrix = i_matrix;
+	DF_SET(DF_MATRICES);
+}
+
+///////////////////////////////////////////////////
+int16 Gfx_SetCameraMatrix(MATRIX* i_matrix)
+{
+	g_cameraMatrix = i_matrix;
+	DF_SET(DF_MATRICES);
 }
 
 ///////////////////////////////////////////////////
@@ -355,11 +436,17 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 	uint32 i = 0;
 	uint32 stride = g_primStrides[i_type];
 
+	PrepareMatrices();
+	
+	g_canSetMatrices = 0;
+
 	for (i=0; i<i_count; ++i)
 	{			
 		void* prim = i_primArray + stride * i;
 		Gfx_AddPrim(i_type, prim);
 	}
+	
+	g_canSetMatrices = TRUE;
 
 	return E_OK;
 }

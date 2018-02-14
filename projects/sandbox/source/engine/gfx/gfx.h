@@ -92,6 +92,9 @@ int16 Gfx_BeginSubmission(uint8 i_layer);
 // Sets the model matrix to be currently used for rendering. This is a translation & rotation matrix
 int16 Gfx_SetModelMatrix(MATRIX* i_matrix);
 
+// Sets the camera matrix to be currently used for rendering. This is a translation & rotation matrix
+int16 Gfx_SetCameraMatrix(MATRIX* i_matrix);
+
 // Gets the renderstate flags
 uint32 Gfx_GetRenderState();
 

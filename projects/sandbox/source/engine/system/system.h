@@ -10,9 +10,9 @@ typedef struct
 	void (*AppRenderFncPtr)();
     void (*AppShutdownFncPtr)();
 
-    uint8   m_isHighResolution  : 1;
-	uint8	m_isInterlaced		: 1;
-    uint8   m_tvMode            : 1;
+    bool    m_isHighResolution;
+	bool	m_isInterlaced;
+    uint8   m_tvMode;
 }SystemInitInfo;
 
 // Initializes all subsystems (gfx, input, storage, etc)
