@@ -37,6 +37,12 @@
     <ClCompile Include="..\source\engine\gfx\gfx_renderstate.c">
       <Filter>engine\gfx</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\engine\input\input_scu.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\engine\input\input.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\engine\system\system.h">
@@ -54,6 +60,9 @@
     <ClInclude Include="..\source\engine\gfx\gfx_scratch.h">
       <Filter>engine\gfx</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\engine\input\input.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">
@@ -70,6 +79,9 @@
     </Filter>
     <Filter Include="engine\system">
       <UniqueIdentifier>{458ecf90-1c23-4a6c-a772-7bf9df9d2c51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{f4fcb75a-333e-4d1b-a25e-8472426c903c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

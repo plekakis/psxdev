@@ -5,6 +5,7 @@
 #include <libetc.h>
 #include <libgte.h>
 #include <libgpu.h>
+#include <libpad.h>
 #include <libgs.h>
 #include <libapi.h>
 #include <libpress.h>
@@ -64,5 +65,8 @@ void* AlignPtr(void* i_ptr, uint32 i_alignment);
 #define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x)[0] )
 #define PACK_RGB(r, g, b) ( ( (r) << 16) | ( (g) << 8) | (b) )
 #define UNPACK_RGB(v, r, g, b) { *(r) = ( (v) >> 16) & 0xff; *(g) = ( (v) >> 8) & 0xff; *(b) = (v) & 0xff; }
+
+// Counts how many bits are set
+uint32 CountBits(uint32 i_bitmask);
 
 #endif // ENGINE_H_INC
