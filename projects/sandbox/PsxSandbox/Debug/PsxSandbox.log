@@ -1,9 +1,5 @@
-﻿Build started 2/16/2018 11:25:28 PM.
-Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" on node 2 (build target(s)).
-Build:
-  call build.bat
-  Could Not Find Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\main.exe
-  Starting compilation...
+﻿  Starting compilation...
+  Could Not Find C:\Users\Pantelis Lekakis\Documents\psxdev-projects\projects\sandbox\PsxSandbox\main.exe
   In file included from ..\source\engine\gfx\gfx.c:12,
                    from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
@@ -34,7 +30,8 @@ Build:
   convert from main.cpe to main.EXE for Europe area
   pc0:8001a334  t_addr:80010000  t_size:00016800
   Compile success! Copying to cd-rom ...
-  MKPSXISO 1.10 - PlayStation ISO Image Maker
+          1 file(s) moved.
+  MKPSXISO 1.15 - PlayStation ISO Image Maker
   2017 Meido-Tek Productions (Lameguy64)
   
   Building ISO Image: ..\demo.bin + ..\demo.cue
@@ -50,7 +47,7 @@ Build:
       Parsing directory tree...
         Files Total: 2
         Directories: 1
-        Estimated filesystem size: 2575440 bytes (1095 sectors)
+        Total file system size: 2575440 bytes (1095 sectors)
   
       Building filesystem... 
         Packing system.txt... Done.
@@ -60,10 +57,4 @@ Build:
   
   ISO image generated successfully.
   Total image size: 2575440 bytes (1095 sectors)
-  
   Finished!
-Done Building Project "Z:\VirtualBox Shared\psxdev\projects\sandbox\PsxSandbox\PsxSandbox.vcxproj" (build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.95

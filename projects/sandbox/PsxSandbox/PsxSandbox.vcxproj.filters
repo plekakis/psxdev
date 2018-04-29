@@ -84,4 +84,7 @@
       <UniqueIdentifier>{f4fcb75a-333e-4d1b-a25e-8472426c903c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="build.bat" />
+  </ItemGroup>
 </Project>
