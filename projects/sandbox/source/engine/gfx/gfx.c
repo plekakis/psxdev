@@ -2,7 +2,7 @@
 
 #define MAX_BUFFERS (2)
 
-#define MAX_OT_LENGTH (1 << 12)
+#define MAX_OT_LENGTH (1 << 14)
 #define BG_OT_LENGTH (1 << 4)
 #define FG_OT_LENGTH (MAX_OT_LENGTH)
 #define OV_OT_LENGTH (1 << 2)
@@ -205,7 +205,7 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(8, 8, 320, 64, 0, 512));
+	SetDumpFnt(FntOpen(8, 8, g_displayWidth, 64, 0, 512));
 
 	SetRCnt(RCntCNT1, 512000, RCntIntr);
 	StartRCnt(RCntCNT1);
@@ -438,7 +438,7 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 
 	PrepareMatrices();
 	
-	g_canSetMatrices = 0;
+	g_canSetMatrices = FALSE;
 
 	for (i=0; i<i_count; ++i)
 	{			

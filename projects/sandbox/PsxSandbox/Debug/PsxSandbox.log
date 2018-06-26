@@ -1,16 +1,16 @@
 ﻿  Starting compilation...
-  Could Not Find C:\Users\Pantelis Lekakis\Documents\psxdev-projects\projects\sandbox\PsxSandbox\main.exe
+  Could Not Find C:\Users\alkis\Projects\PsxDev\projects\sandbox\PsxSandbox\main.exe
   In file included from ..\source\engine\gfx\gfx.c:12,
                    from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_F3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:164: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:160: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_G3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:199: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:195: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_F3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:231: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:227: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_G3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:254: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:250: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   In file included from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
@@ -19,20 +19,19 @@
   ..\source\engine\gfx\gfx.c:355: warning: passing arg 2 of `ApplyMatrixLV' discards qualifiers from pointer target type
   In file included from ../source/game/game_scu.c:1:
   ..\source\game\game.c: In function `render':
-  ..\source\game\game.c:23: warning: passing arg 1 of `RotMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:24: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:32: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:41: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:51: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:55: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
-  CPE2X Ver1.5
-  Copyright (C) 1994,1995 by Sony Computer Entertainment Inc.
-  convert from main.cpe to main.EXE for Europe area
-  pc0:8001a334  t_addr:80010000  t_size:00016800
+  ..\source\game\game.c:25: warning: type mismatch in implicit declaration for built-in function `cos'
+  ..\source\game\game.c:25: warning: type mismatch in implicit declaration for built-in function `sin'
+  ..\source\game\game.c:28: warning: passing arg 1 of `RotMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:29: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:37: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:46: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:56: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:60: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
+  Program Counter = 0x8001a7ac
   Compile success! Copying to cd-rom ...
           1 file(s) moved.
-  MKPSXISO 1.15 - PlayStation ISO Image Maker
-  2017 Meido-Tek Productions (Lameguy64)
+  MKPSXISO 1.19 - PlayStation ISO Image Maker
+  2017-2018 Meido-Tek Productions (Lameguy64)
   
   Building ISO Image: ..\demo.bin + ..\demo.cue
     Track #1 data:
@@ -47,7 +46,7 @@
       Parsing directory tree...
         Files Total: 2
         Directories: 1
-        Total file system size: 2575440 bytes (1095 sectors)
+        Total file system size: 2577792 bytes (1096 sectors)
   
       Building filesystem... 
         Packing system.txt... Done.
@@ -56,5 +55,5 @@
         Writing license data...Ok.
   
   ISO image generated successfully.
-  Total image size: 2575440 bytes (1095 sectors)
+  Total image size: 2577792 bytes (1096 sectors)
   Finished!

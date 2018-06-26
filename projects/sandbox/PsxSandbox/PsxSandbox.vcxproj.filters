@@ -43,6 +43,9 @@
     <ClCompile Include="..\source\engine\input\input.c">
       <Filter>engine\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\engine\system\debug_info.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\engine\system\system.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="..\source\engine\input\input.h">
       <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\engine\system\debug_info.h">
+      <Filter>engine\system</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

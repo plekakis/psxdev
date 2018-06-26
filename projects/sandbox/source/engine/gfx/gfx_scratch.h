@@ -10,6 +10,15 @@ int16 Gfx_FreeScratch(uint8 i_frameBufferIndex);
 // Reset the scratch buffer
 int16 Gfx_ResetScratch(uint8 i_frameBufferIndex);
 
+// Get the total scratch memory
+uint32 Gfx_GetTotalScratch(uint8 i_frameBufferIndex);
+
+// Returns the free memory
+uint32 Gfx_GetFreeScratch(uint8 i_frameBufferIndex);
+
+// Returns the used memory
+uint32 Gfx_GetUsedScratch(uint8 i_frameBufferIndex);
+
 // Allocates memory from the per-framebuffer scratch buffer
 // Returns NULL if out of memory
 void* Gfx_Alloc(uint32 i_bytes, uint32 i_alignment);

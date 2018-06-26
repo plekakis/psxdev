@@ -21,6 +21,7 @@
     <ClCompile Include="..\source\engine\gfx\gfx_scu.c" />
     <ClCompile Include="..\source\engine\input\input.c" />
     <ClCompile Include="..\source\engine\input\input_scu.c" />
+    <ClCompile Include="..\source\engine\system\debug_info.c" />
     <ClCompile Include="..\source\engine\system\system.c" />
     <ClCompile Include="..\source\engine\system\system_scu.c" />
     <ClCompile Include="..\source\game\game.c" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\source\engine\gfx\gfx.h" />
     <ClInclude Include="..\source\engine\gfx\gfx_scratch.h" />
     <ClInclude Include="..\source\engine\input\input.h" />
+    <ClInclude Include="..\source\engine\system\debug_info.h" />
     <ClInclude Include="..\source\engine\system\system.h" />
   </ItemGroup>
   <ItemGroup>

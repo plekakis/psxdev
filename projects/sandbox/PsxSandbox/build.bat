@@ -9,7 +9,7 @@ cls
 ccpsx -O3 -Xo$80010000 ../source/engine/engine_scu.c ../source/game/game_scu.c -omain.cpe,main.sym,mem.map -l libpad
 if %errorlevel% neq 0 pause & exit /b %errorlevel%
 
-cpe2x /ce main.cpe
+cpe2x main.cpe
 
 if %errorlevel% neq 0 pause & exit /b %errorlevel%
 

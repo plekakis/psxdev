@@ -2,10 +2,12 @@
 #include "../engine/gfx/gfx.h"
 
 uint32 yaw = 0, pitch = 0, roll = 0;
+float elapsed = 0.0f;
 
 void render()
 {	
 	Gfx_SetRenderState(RS_PERSP);
+
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	{
 		SVECTOR angZero = {0,0,0};
@@ -15,10 +17,13 @@ void render()
 		CVECTOR cubeColors[8] = { {255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {255, 0, 255}, {255, 255, 0}, {0, 255, 255}, {128, 0, 128}, {0, 64, 128} };
 		CVECTOR planeColors[4] = { {128, 128, 128}, {255, 0, 0}, {0, 255, 0}, {0,0,255} };
 
+		elapsed += 0.01f;
+
 		// Update and set the camera matrix
 		{
-			const SVECTOR camRotation = {0,0,0};
-			const VECTOR camPosition = {0,0,-800};
+			const SVECTOR camRotation = {0, 0, 0};
+			const VECTOR camPosition = { 600 * cos(elapsed - PI), 0, 600 * -sin(elapsed) };
+			//const VECTOR camPosition = { 0, 0, 600 };
 			
 			RotMatrix(&camRotation, &world2Camera);
 			TransMatrix(&world2Camera, &camPosition);

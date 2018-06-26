@@ -13,6 +13,8 @@
 
 #include <limits.h>
 
+#define G_DEBUG (1)
+
 // Data types
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
@@ -56,6 +58,8 @@ typedef long long				int64;
 #define E_OUT_OF_MEMORY			(2)
 #define E_SUBMISSION_ERROR		(3)
 
+#define SUCCESS(x)	((x) == E_OK)
+#define FAILURE(x)	((x) != E_OK)
 
 // Utility functions
 // memory & pointers
