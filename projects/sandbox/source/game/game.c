@@ -72,10 +72,10 @@ int main()
     SystemInitInfo sysInitInfo;
     memset(&sysInitInfo, 0, sizeof(SystemInitInfo));
 
-    sysInitInfo.m_isHighResolution  = TRUE;
-	sysInitInfo.m_isInterlaced		= TRUE;
-    sysInitInfo.m_tvMode            = MODE_PAL; // <-- TODO: Pick from BIOS
-
+    sysInitInfo.m_isHighResolution  = FALSE; // doesn't work on psx :( 
+	sysInitInfo.m_isInterlaced		= FALSE; // doesn't work on psx :(
+    sysInitInfo.m_tvMode            = MODE_NTSC; // <-- TODO: Pick from BIOS
+	
 	sysInitInfo.AppRenderFncPtr = &render;
 
     System_Initialize(&sysInitInfo);

@@ -9,7 +9,7 @@ void InitAddPrimCallbacks();
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 {
-	int32	p, flg, otz;
+	int32	p, flg, otz, valid;
 	PRIM_F3* prim = (PRIM_F3*)i_prim;
 	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
 	
@@ -17,9 +17,11 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 
 	if (Gfx_GetRenderState() & RS_PERSP)
 	{
-		otz = RotAverage3(&prim->v0, &prim->v1, &prim->v2,
+		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
 				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
-				&p, &flg);
+				&p, 
+				&otz,
+				&flg);
 	}
 	else
 	{
@@ -29,7 +31,7 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 				);
 	}
 
-	if (otz > 0)
+	if ((otz > 0 && otz < MAX_OT_LENGTH) && (valid > 0))
 	{	
 		CVECTOR* c = &prim->c;
 		if (Gfx_GetRenderState() & RS_FOG)
@@ -57,7 +59,7 @@ void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 {
-	int32	p, flg, otz;
+	int32	p, flg, otz, valid;
 	PRIM_G3* prim = (PRIM_G3*)i_prim;
 	POLY_G3* poly = (POLY_G3*)Gfx_Alloc(sizeof(POLY_G3), 4);
 			
@@ -65,9 +67,11 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 	
 	if (Gfx_GetRenderState() & RS_PERSP)
 	{
-		otz = RotAverage3(&prim->v0, &prim->v1, &prim->v2,
+		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
 				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
-				&p, &flg);
+				&p,
+				&otz,
+				&flg);
 	}
 	else
 	{
@@ -77,7 +81,7 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 				);
 	}
 
-	if (otz > 0)
+	if ((otz > 0 && otz < MAX_OT_LENGTH) && (valid > 0))
 	{
 		CVECTOR* c0 = &prim->c0;
 		CVECTOR* c1 = &prim->c1;

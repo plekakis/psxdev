@@ -4,6 +4,11 @@
 #include "../engine.h"
 #include "gfx_scratch.h"
 
+#define MAX_OT_LENGTH (1 << 12)
+#define BG_OT_LENGTH (1 << 4)
+#define FG_OT_LENGTH (MAX_OT_LENGTH)
+#define OV_OT_LENGTH (1 << 2)
+
 // Polies
 typedef enum
 {

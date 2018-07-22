@@ -2,11 +2,6 @@
 
 #define MAX_BUFFERS (2)
 
-#define MAX_OT_LENGTH (1 << 14)
-#define BG_OT_LENGTH (1 << 4)
-#define FG_OT_LENGTH (MAX_OT_LENGTH)
-#define OV_OT_LENGTH (1 << 2)
-
 #define PACKET_SIZE (1024)
 
 #include "gfx_prim_callbacks.c"
@@ -22,7 +17,7 @@ typedef struct
 
 	// 3 Root OTs
 	// Background, Foreground and Overlay
-	int32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
+	uint32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
 }FrameBuffer;
 
 // Framebuffer resources
@@ -143,8 +138,14 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	g_frameBuffers = (FrameBuffer*)malloc3(sizeof(FrameBuffer) * g_bufferCount);
 
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
-	GsInitGraph(g_displayWidth, g_displayHeight, g_isInterlaced | (1 << 2), 1, 0);
-    SetVideoMode(g_tvMode);
+	{
+		uint16 int1 = 0;
+		if (g_isInterlaced)
+			int1 |= (1 << 0);
+
+		GsInitGraph(g_displayWidth, g_displayHeight, int1, 1, 0);
+		SetVideoMode(g_tvMode);
+	}
 
 	// Set debug mode (0:off, 1:monitor, 2:dump)
 	SetGraphDebug(0);
@@ -158,28 +159,28 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	// distance to viewing-screen
 	SetGeomScreen(g_displayWidth / 2);
 
+	// Default clear color to light blue
+	{
+		CVECTOR clearColor;
+		clearColor.r = 0;
+		clearColor.g = 64;
+		clearColor.b = 127;
+		Gfx_SetClearColor(&clearColor);
+	}
+
 	// Setup all the buffer page resources
 	for (index=0; index<g_bufferCount; ++index)
     {
         // Always in interlaced mode
         g_frameBuffers[index].m_dispEnv.isinter = g_isInterlaced;
         // And default to 16bit
-        g_frameBuffers[index].m_dispEnv.isrgb24 = 0;
-
-        SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (index * g_displayHeight), g_displayWidth, g_displayHeight);
-        SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (index * g_displayHeight), g_displayWidth, g_displayHeight);
+        g_frameBuffers[index].m_dispEnv.isrgb24 = FALSE;
+		
+        SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (!i_isHighResolution) * (index * g_displayHeight), g_displayWidth, g_displayHeight);
+        SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * g_displayHeight), g_displayWidth, g_displayHeight);
     }
 
     SetDispMask(1);
-
-    // Default clear color to light blue
-    {
-        CVECTOR clearColor;
-        clearColor.r = 0;
-        clearColor.g = 64;
-        clearColor.b = 127;
-        Gfx_SetClearColor(&clearColor);
-    }
 	
 	Gfx_InitScratch(g_bufferCount);
 
@@ -230,7 +231,7 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 
 	// Reset scratch
 	Gfx_ResetScratch(frameBufferIndex);
-	
+
 	// Clear (reset OT linked list, not actual color clear)
 	{
 		uint8 index;
@@ -238,7 +239,7 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 		{
 			ClearOTagR(g_currentFrameBuffer->m_OT[index], MAX_OT_LENGTH);
 		}
-	}	
+	}
 
     return E_OK;
 }
@@ -254,13 +255,10 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		DrawSync(0);
 	}
 
-    // VSync and update the drawing environment
-    VSync(0);
-	
 	*o_cputimeVsync = GetRCnt(RCntCNT1);
 
-    PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
-	PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
+	// VSync and update the drawing environment
+	VSync(0);
 
 	// For interlaced modes, use ClearImage2, as the docs say it is faster
 	// Also, initialize the drawing engine but preserve the contents of the framebuffer
@@ -270,9 +268,16 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
 	else
-	{		
+	{
 		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
+
+	// Block for ClearImage to finish in the execution queue
+	while (DrawSync(1)) {}
+	DrawSync(0);
+
+	PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
+	PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
 
 	// Draw all the OT
 	{
@@ -283,8 +288,9 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		}
 	}
 	
-    ++g_frameIndex;
-		
+	++g_frameIndex;
+
+	FntFlush(-1);
     return E_OK;
 }
 

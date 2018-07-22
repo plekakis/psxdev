@@ -14,3 +14,5 @@ PsxSandbox/Debug/
 psyq/SCEE_DEV_CD/
 *.map
 projects/sandbox/PsxSandbox/.vs/PsxSandbox/v15/
+*.cache
+*.log

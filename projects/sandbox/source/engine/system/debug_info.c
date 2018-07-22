@@ -68,6 +68,5 @@ void Debug_DrawOverlay()
 ///////////////////////////////////////////////////
 void Debug_DrawAll()
 {
-	Debug_DrawOverlay();
-	FntFlush(-1);
+	Debug_DrawOverlay();	
 }
