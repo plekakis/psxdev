@@ -9,6 +9,10 @@
 #define FG_OT_LENGTH (MAX_OT_LENGTH)
 #define OV_OT_LENGTH (1 << 2)
 
+// Some missing macros from libgte
+#define setColor(c, _r, _g, _b) \
+	(c)->r = _r, (c)->g = _g, (c)->b = _b	
+
 // Polies
 typedef enum
 {

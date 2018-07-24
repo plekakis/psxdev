@@ -18,13 +18,8 @@ void render()
 	CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
 
 	POINT_SPRITE pointSprites[1];
-	pointSprites[0].p.vx = 0;
-	pointSprites[0].p.vy = 0;
-	pointSprites[0].p.vz = 0;
-
-	pointSprites[0].c.r = 255;
-	pointSprites[0].c.g = 127;
-	pointSprites[0].c.b = 0;
+	setVector(&pointSprites[0].p, 0, 0, 0);
+	setColor(&pointSprites[0].c, 255, 127, 0);
 	
 	pointSprites[0].width = 8;
 	pointSprites[0].height = 8;
