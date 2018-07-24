@@ -1,31 +1,31 @@
-﻿  Could Not Find C:\Users\alkis\Documents\psxdev-projects\projects\sandbox\PsxSandbox\main.exe
-  Starting compilation...
-  In file included from ..\source\engine\gfx\gfx.c:12,
+﻿  Starting compilation...
+  Could Not Find C:\Users\alkis\Documents\psxdev-projects\projects\sandbox\PsxSandbox\main.exe
+  In file included from ..\source\engine\gfx\gfx.c:7,
                    from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_F3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:160: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:164: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddCube_POLY_G3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:195: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:199: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_F3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:227: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:231: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   ..\source\engine\gfx\gfx_prim_callbacks.c: In function `AddPlane_POLY_G3':
-  ..\source\engine\gfx\gfx_prim_callbacks.c:250: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx_prim_callbacks.c:254: warning: passing arg 2 of `Gfx_AddPrims' discards qualifiers from pointer target type
   In file included from ..\source\engine\gfx\gfx_scu.c:2,
                    from ../source/engine/engine_scu.c:2:
   ..\source\engine\gfx\gfx.c: In function `Gfx_Initialize':
-  ..\source\engine\gfx\gfx.c:216: warning: large integer implicitly truncated to unsigned type
+  ..\source\engine\gfx\gfx.c:202: warning: large integer implicitly truncated to unsigned type
   ..\source\engine\gfx\gfx.c: In function `PrepareMatrices':
-  ..\source\engine\gfx\gfx.c:366: warning: passing arg 2 of `ApplyMatrixLV' discards qualifiers from pointer target type
+  ..\source\engine\gfx\gfx.c:343: warning: passing arg 2 of `ApplyMatrixLV' discards qualifiers from pointer target type
   In file included from ../source/game/game_scu.c:1:
   ..\source\game\game.c: In function `render':
   ..\source\game\game.c:28: warning: passing arg 1 of `RotMatrix' discards qualifiers from pointer target type
   ..\source\game\game.c:29: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
   ..\source\game\game.c:37: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:46: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:56: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
-  ..\source\game\game.c:60: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
-  Program Counter = 0x8001a718
+  ..\source\game\game.c:47: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:63: warning: passing arg 2 of `TransMatrix' discards qualifiers from pointer target type
+  ..\source\game\game.c:66: warning: passing arg 4 of `Gfx_AddPlane' from incompatible pointer type
+  Program Counter = 0x8001a68c
   Compile success! Copying to cd-rom ...
           1 file(s) moved.
   MKPSXISO 1.19 - PlayStation ISO Image Maker

@@ -11,7 +11,6 @@ typedef struct
     void (*AppShutdownFncPtr)();
 
     bool    m_isHighResolution;
-	bool	m_isInterlaced;
     uint8   m_tvMode;
 }SystemInitInfo;
 

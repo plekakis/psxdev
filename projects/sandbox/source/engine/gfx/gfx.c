@@ -26,10 +26,8 @@ static FrameBuffer* g_currentFrameBuffer = NULL;
 
 static uint32 g_frameIndex = 0ul;
 	
-// when high-resolution is selected, we switch to interlaced mode and single buffer
-static bool   g_isInterlaced;
+// when high-resolution is selected, we switch to interlaced mode
 static uint8  g_bufferCount;
-
 static uint16 g_displayWidth;
 static uint16 g_displayHeight;
 static uint16 g_tvMode;
@@ -106,19 +104,13 @@ uint8 Gfx_IsHighResolution()
 }
 
 ///////////////////////////////////////////////////
-uint8 Gfx_IsInterlaced()
-{
-	return g_isInterlaced;
-}
-
-///////////////////////////////////////////////////
 uint8 Gfx_GetTvMode()
 {
 	return g_tvMode;
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mode)
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 {
     uint16 index = 0;
 
@@ -131,16 +123,13 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	g_isHighResolution = i_isHighResolution;
 	
 	// Buffer count & allocate framebuffers
-	// (Single buffer in high-resolution, interlaced mode)
-	g_bufferCount = (i_isHighResolution | i_isInterlaced) ? 1 : 2;
-	g_isInterlaced = i_isHighResolution | i_isInterlaced;
-
+	g_bufferCount = 2;
 	g_frameBuffers = (FrameBuffer*)malloc3(sizeof(FrameBuffer) * g_bufferCount);
 
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
 	{
 		uint16 int1 = 0;
-		if (g_isInterlaced)
+		if (g_isHighResolution)
 			int1 |= (1 << 0);
 
 		GsInitGraph(g_displayWidth, g_displayHeight, int1, 1, 0);
@@ -172,7 +161,7 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 	for (index=0; index<g_bufferCount; ++index)
     {
         // Always in interlaced mode
-        g_frameBuffers[index].m_dispEnv.isinter = g_isInterlaced;
+        g_frameBuffers[index].m_dispEnv.isinter = g_isHighResolution;
         // And default to 16bit
         g_frameBuffers[index].m_dispEnv.isrgb24 = FALSE;
 		
@@ -181,6 +170,8 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
     }
 
     SetDispMask(1);
+	PutDrawEnv(&g_frameBuffers[0].m_drawEnv);
+	PutDispEnv(&g_frameBuffers[0].m_dispEnv);
 	
 	Gfx_InitScratch(g_bufferCount);
 
@@ -206,7 +197,7 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(8, 8, g_displayWidth, 64, 0, 512));
+	SetDumpFnt(FntOpen(8, g_isHighResolution ? 16 : 8, g_displayWidth, 64, 0, 512));
 
 	SetRCnt(RCntCNT1, 512000, RCntIntr);
 	StartRCnt(RCntCNT1);
@@ -216,7 +207,7 @@ int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mod
 ///////////////////////////////////////////////////
 uint8 Gfx_GetFrameBufferIndex()
 {
-	return g_isInterlaced ? 0 : (g_frameIndex & 1);
+	return g_frameIndex & 1;
 }
 
 ///////////////////////////////////////////////////
@@ -232,7 +223,10 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 	// Reset scratch
 	Gfx_ResetScratch(frameBufferIndex);
 
-	// Clear (reset OT linked list, not actual color clear)
+	// ClearOTagR() clears OT in reversed order. This is natural
+	// for 3D type applications, because the OT pointer to be linked
+	// is simply related to Z value of the primitive. ClearOTagR()
+	// is faster than ClearOTag because it uses hardware DMA channel to clear.
 	{
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
@@ -249,37 +243,34 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 {
 	*o_cputime = GetRCnt(RCntCNT1);
 
-	// sync in non-interlaced mode, so we wait for backbuffer completion
-	if (!g_isInterlaced)
-	{
-		DrawSync(0);
-	}
-
 	*o_cputimeVsync = GetRCnt(RCntCNT1);
 
 	// VSync and update the drawing environment
 	VSync(0);
 
-	// For interlaced modes, use ClearImage2, as the docs say it is faster
-	// Also, initialize the drawing engine but preserve the contents of the framebuffer
-	if (g_isInterlaced)
+	if (g_isHighResolution)
 	{
-		ResetGraph(3);
-		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+		// When using interlaced single buffer, all drawing have to be
+		// finished in 1/60 sec. Therefore we have to reset the drawing
+		// procedure at the timing of VSync by calling ResetGraph(1)
+		// instead of DrawSync(0)
+		ResetGraph(1);
+		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
 	else
 	{
+		DrawSync(0);
+		
+		PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
+		PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
+
 		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
 	}
 
-	// Block for ClearImage to finish in the execution queue
-	while (DrawSync(1)) {}
-	DrawSync(0);
-
-	PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
-	PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
-
 	// Draw all the OT
+	// Since ClearOTagR() clears the OT as reversed order, the top
+	// pointer of the table is ot[OTSIZE-1]. Notice that drawing
+	// start point is not ot[0] but ot[OTSIZE-1].
 	{
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
@@ -337,11 +328,9 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
-bool g_canSetMatrices = TRUE;
-
 void PrepareMatrices()
 {
-	if (g_canSetMatrices && DF_CHK(DF_MATRICES))
+	if (DF_CHK(DF_MATRICES))
 	{
 		MATRIX  finalMat = *g_cameraMatrix;
 
@@ -409,7 +398,6 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
 ///////////////////////////////////////////////////
 int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
 {	
-	PrepareMatrices();
 	fncAddCube[i_type](i_colorArray, i_size);
 	return E_OK;
 }
@@ -417,7 +405,6 @@ int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
 ///////////////////////////////////////////////////
 int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_colorArray)
 {	
-	PrepareMatrices();
 	fncAddPlane[i_type](i_colorArray, i_width, i_height);
 	return E_OK;
 }
@@ -442,18 +429,12 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 	uint32 i = 0;
 	uint32 stride = g_primStrides[i_type];
 
-	PrepareMatrices();
-	
-	g_canSetMatrices = FALSE;
-
 	for (i=0; i<i_count; ++i)
 	{			
 		void* prim = i_primArray + stride * i;
 		Gfx_AddPrim(i_type, prim);
 	}
 	
-	g_canSetMatrices = TRUE;
-
 	return E_OK;
 }
 

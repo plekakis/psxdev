@@ -65,7 +65,7 @@ typedef enum
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
-int16 Gfx_Initialize(uint8 i_isInterlaced, uint8 i_isHighResolution, uint8 i_mode);
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode);
 
 // Gets the diplay width
 uint16 Gfx_GetDisplayWidth();
@@ -78,9 +78,6 @@ uint8 Gfx_GetTvMode();
 
 // Gets resolution mode
 uint8 Gfx_IsHighResolution();
-
-// Gets interlaced mode
-uint8 Gfx_IsInterlaced();
 
 // Gets the current framebuffer index
 uint8 Gfx_GetFrameBufferIndex();

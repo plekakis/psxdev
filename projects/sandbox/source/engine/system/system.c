@@ -11,7 +11,7 @@ static uint8 g_systemRunning = 1;
 ///////////////////////////////////////////////////
 void vsync()
 {
-	Input_Update();
+	//Input_Update();
 }
 
 ///////////////////////////////////////////////////
@@ -27,10 +27,7 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	Core_Initialize();
 
     // Initialize graphics
-    Gfx_Initialize(i_info->m_isInterlaced,
-							  i_info->m_isHighResolution,
-                              i_info->m_tvMode
-                              );
+    Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode);
 
 	// Initialize input
 	Input_Initialize();
