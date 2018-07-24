@@ -47,6 +47,16 @@ typedef struct
 	CVECTOR c0, c1, c2;
 }PRIM_GT3;
 
+// Point sprites are emulated on psx as billboarded rectangles of NxM size
+typedef struct
+{
+	SVECTOR	p;
+	CVECTOR c;
+
+	uint16	width;
+	uint16	height;
+}POINT_SPRITE;
+
 // OT
 typedef enum
 {
@@ -123,6 +133,9 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim);
 
 // Add a primitive list to the current OT
 int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count);
+
+// Add a billboarded point with NxM size
+int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* i_pointArray, uint32 i_count);
 
 // Add a size x size x size cube to the current OT
 int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray);

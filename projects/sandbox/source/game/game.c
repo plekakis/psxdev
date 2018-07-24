@@ -2,6 +2,7 @@
 #include "../engine/gfx/gfx.h"
 
 #define PLANE_ON_OV (0)
+#define FULL_GEOM (1)
 
 uint32 yaw = 0, pitch = 0, roll = 0;
 float elapsed = 0.0f;
@@ -16,10 +17,23 @@ void render()
 	CVECTOR cubeColors[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
 	CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
 
+	POINT_SPRITE pointSprites[1];
+	pointSprites[0].p.vx = 0;
+	pointSprites[0].p.vy = 0;
+	pointSprites[0].p.vz = 0;
+
+	pointSprites[0].c.r = 255;
+	pointSprites[0].c.g = 127;
+	pointSprites[0].c.b = 0;
+	
+	pointSprites[0].width = 8;
+	pointSprites[0].height = 8;
+
 	Gfx_SetRenderState(RS_PERSP);
 
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	{
+#if FULL_GEOM
 		// Update and set the camera matrix
 		{
 			const SVECTOR camRotation = { 0, 0, 0 };
@@ -48,6 +62,16 @@ void render()
 
 			Gfx_SetModelMatrix(&model2World);
 			Gfx_AddCube(PRIM_TYPE_POLY_G3, 64, cubeColors);
+		}
+#endif // FULL_GEOM
+		// Point sprites
+		{
+			const VECTOR	v = { 0, 0, 256 };
+			RotMatrix(&angZero, &model2World);
+			TransMatrix(&model2World, &v);
+
+			Gfx_SetModelMatrix(&model2World);
+			Gfx_AddPointSprites(PRIM_TYPE_POLY_F3, pointSprites, 1);
 		}
 	}
 #if PLANE_ON_OV

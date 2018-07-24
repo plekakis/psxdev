@@ -129,6 +129,8 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
 	{
 		uint16 int1 = 0;
+
+		// mask in the interlaced bit
 		if (g_isHighResolution)
 			int1 |= (1 << 0);
 
@@ -435,6 +437,49 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 		Gfx_AddPrim(i_type, prim);
 	}
 	
+	return E_OK;
+}
+
+///////////////////////////////////////////////////
+int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* i_pointArray, uint32 i_count)
+{
+	uint32 i = 0;
+
+	PrepareMatrices();
+
+	for (i = 0; i < i_count; ++i)
+	{
+		int32	p, flg, otz, valid;		
+		POINT_SPRITE* point = i_pointArray + sizeof(POINT_SPRITE) * i;
+				
+		int16 halfWidth = point->width / 2;
+		int16 halfHeight = point->height / 2;
+
+		SVECTOR v0 = { point->p.vx - halfWidth, point->p.vy - halfHeight, point->p.vz };
+		SVECTOR v1 = { point->p.vx + halfWidth, point->p.vy - halfHeight, point->p.vz };
+		SVECTOR v2 = { point->p.vx - halfWidth, point->p.vy + halfHeight, point->p.vz };
+		SVECTOR v3 = { point->p.vx + halfWidth, point->p.vy + halfHeight, point->p.vz };
+
+		POLY_F4* poly = (POLY_F4*)Gfx_Alloc(sizeof(POLY_F4), 4);
+		SetPolyF4(poly);
+
+		valid = RotAverageNclip4
+		(	
+			&v0, &v1, &v2, &v3,
+			(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2, (int32*)&poly->x3,
+			&p,
+			&otz,
+			&flg
+		);
+		
+		if ((otz > 0 && otz < MAX_OT_LENGTH) && (valid > 0))
+		{
+			setRGB0(poly, point->c.r, point->c.g, point->c.b);
+
+			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, poly);
+		}
+	}
+
 	return E_OK;
 }
 
