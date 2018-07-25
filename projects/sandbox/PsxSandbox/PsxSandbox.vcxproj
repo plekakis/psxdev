@@ -93,31 +93,35 @@
     <NMakeOutput>
     </NMakeOutput>
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>call build.bat -O0</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>call build.bat -O0</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'">
     <NMakeOutput />
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>call build.bat -O0</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>call build.bat -O0</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'">
     <NMakeOutput />
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat</NMakeReBuildCommandLine>
+    <NMakeBuildCommandLine>call build.bat -O3</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>call build.bat -O3</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
-    <NMakeOutput>PsxSandbox.exe</NMakeOutput>
-    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>call build.bat -O3</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>call build.bat -O3</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
