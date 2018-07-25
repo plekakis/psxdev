@@ -4,9 +4,14 @@
 *.cpe
 *.sym
 *.user
-PsxSandbox/Debug/
+*.suo
+vs2017/Debug EMU
+vs2017/Release PSX
+vs2017/Debug EMU
+vs2017/Release PSX
 *.map
-projects/sandbox/PsxSandbox/.vs/PsxSandbox/v15/
+projects/sandbox/vs2017/.vs/PsxSandbox/v15/
 *.cache
+*.filters
 *.log
 psyq\bin\PSYQ.INI
