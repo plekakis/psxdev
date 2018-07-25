@@ -1,3 +1,11 @@
+DEPLOYING ON NO$PSX
+-------------------
+
+The No$Psx emulator is included in this repository. The Debug/Release EMU configurations will use that to run the project.
+It's already in the PATH so no extra effort should exist to run it; pressing Run in the VS project for the approriate EMU 
+configuratio should work fine.
+
+
 DEPLOYING ON REAL PSX HARDWARE
 ------------------------------
 
@@ -11,3 +19,5 @@ To deploy on a real PSX you will need the following:
 
 Instructions on how to flash XplorerFX: https://github.com/simias/rustation/wiki/Xplorer-FX-setup
 You can also find the same instructions in the "Xplorer FX setup.pdf". All credit for this goes to Adam Becker.
+
+Once all this is setup, you can run the project by pressing Run in the VS project, for the appropriate PSX configuration.
