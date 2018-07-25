@@ -6,7 +6,11 @@ del main.exe
 del main.cpe
 cls
 
-ccpsx -O3 -Xo$80010000 ../source/engine/engine_scu.c ../source/game/game_scu.c -omain.cpe,main.sym,mem.map -l libpad
+set opt_level=%1
+
+echo %opt_level%
+
+ccpsx %opt_level% -Xo$80010000 ../source/engine/engine_scu.c ../source/game/game_scu.c -omain.cpe,main.sym,mem.map -l libpad
 if %errorlevel% neq 0 pause & exit /b %errorlevel%
 
 cpe2x main.cpe

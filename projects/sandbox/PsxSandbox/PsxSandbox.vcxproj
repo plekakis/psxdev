@@ -96,7 +96,7 @@
     <NMakeBuildCommandLine>call build.bat</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>call build.bat</NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
-    <IncludePath>C:\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'">
     <NMakeOutput />
@@ -117,7 +117,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
     <NMakeOutput>PsxSandbox.exe</NMakeOutput>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <IncludePath>C:\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
