@@ -1,0 +1,20 @@
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+TADDR	 = 80020000	
+CC       = cc -EL -G 0 -O2 -I$(INCDIR) 
+LIBS     = -lcd -lpress -lgte -lgpu -letc -lc -lapi
+
+all : main	
+
+main.o : menu.h	
+TEX   = mattex.o balltex.o traintex.o bgtex.o bgtex8.o
+OBJS  = main.o \
+	tuto0.o tuto1.o tuto2.o tuto3.o tuto4.o tuto5.o tuto6.o tuto7.o \
+	tuto8.o tuto9.o tuto10.o tuto11.o tuto12.o tuto13.o \
+	balls.o cube.o init.o lscr.o \
+	$(TEX)
+
+main : $(OBJS) 
+	ld -L$(LIBDIR) -EL -N -T $(TADDR) -e main -o main $(OBJS) $(LIBS)
+
+

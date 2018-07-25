@@ -1,0 +1,45 @@
+[Version]
+Signature=$CHICAGO$
+Class=PlayStation
+Provider=%String0%
+
+[ClassInstall]
+AddReg=psx95pciClassRegEntry
+
+[DestinationDirs]
+DefaultDestDir=11
+
+[Manufacturer]
+%String1%=SECTION_0
+
+[SECTION_0]
+%String2%=PCI\VEN_104D&DEV_8004.Install,PCI\VEN_104D&DEV_8004
+
+[PCI\VEN_104D&DEV_8004.Install]
+CopyFiles=psx95pciNewFileSection
+AddReg=psx95pciRegEntry
+
+[psx95pciNewFileSection]
+psx95pci.vxd
+psx32.dll
+
+[psx95pciRegEntry]
+HKR,,DevLoader,,psx95pci.vxd
+
+[psx95pciClassRegEntry]
+HKR,,Class,0,PlayStation
+
+[ControlFlags]
+CopyFilesOnly=PCI\VEN_104D&DEV_8004
+
+[SourceDisksNames]
+1=InstallationdskforthePlayStationDTL-H2500developmentboard,psx95pci,0000-0000
+
+[SourceDisksFiles]
+psx32.dll=1
+psx95pci.vxd=1
+
+[Strings]
+String0="Sony Computer Entertainment Inc."
+String1="Sony Computer Entertainment Inc."
+String2="PlayStation Board DECI (DTL-H2500)"

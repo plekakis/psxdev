@@ -1,0 +1,48 @@
+Disc CDROMXA_PSX
+
+LeadIn XA
+  Empty 1350
+  PostGap 150
+EndTrack
+
+Track XA
+  Pause 150
+  Volume ISO9660
+    PrimaryVolume
+      SystemIdentifier PLAYSTATION
+      ApplicationIdentifier PLAYSTATION
+      LPath
+      MPath
+      Hierarchy
+	  XAFileAttributes  Form1  Audio 
+	  XAVideoAttributes ApplicationSpecific
+	  XAAudioAttributes ADPCM_C Emphasis_On Stereo 
+
+	  File SAMPLE.XA
+	    XASource music1.xa
+	  EndFile
+	  File PACK2.XA
+	    XASource music2.xa
+	  EndFile
+	  File PACK3.XA
+	    XASource music3.xa
+	  EndFile
+	  File PACK4.XA
+	    XASource music4.xa
+	  EndFile
+	  File PACK5.XA
+	    XASource music5.xa
+	  EndFile
+	  File PACK6.XA
+	    XASource music5.xa
+	  EndFile
+      EndHierarchy
+    EndPrimaryVolume
+  EndVolume
+EndTrack
+
+LeadOut XA
+  Empty 150
+EndTrack
+
+EndDisc

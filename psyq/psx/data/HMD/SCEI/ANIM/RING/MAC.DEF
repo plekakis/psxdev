@@ -1,0 +1,21 @@
+#include <hmd/hmd.def>
+
+#define RGB3(code)	\
+	B(0xff); B(0xff); B(0xff); B(code);	\
+	B(0xff); B(0xff); B(0x00); B(code);	\
+	B(0xff); B(0x00); B(0xff); B(code)
+
+#define RGB4(code)	\
+	B(0xff); B(0xff); B(0xff); B(code);	\
+	B(0xff); B(0xff); B(0x00); B(code);	\
+	B(0xff); B(0x00); B(0xff); B(code);	\
+	B(0x00); B(0xff); B(0xff); B(code)
+
+#define XDRV	0
+
+#define DIVNUM	0	/**/
+/*#define DIVNUM	DIV2x2	/**/
+/*#define DIVNUM	DIV4x4	/**/
+/*#define DIVNUM	DIV8x8	/**/
+/*#define DIVNUM	DIV16x16	/**/
+/*#define DIVNUM	DIV32x32	/**/

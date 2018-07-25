@@ -1,0 +1,95 @@
+;Codewright Project File (do not remove or modify this line)
+[ProjInit]
+ProjSetConfigFlags=0x00010140
+
+[Files]
+c:\testcode\graphics\windows\SampCode\card.c
+c:\testcode\graphics\windows\SampCode\card.h
+c:\testcode\graphics\windows\SampCode\main.c
+c:\testcode\graphics\windows\SampCode\dongle.c
+c:\testcode\graphics\windows\SampCode\dongle.h
+C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.C
+C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.H
+C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.C
+C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.H
+C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.c
+C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.h
+
+[State]
+SysSetCwd='C:\PSX\include.35'
+SrchSetFlags=0x041020ba
+FileSortMode=0x0
+StateWindowFrame=0,0,768,537,0x63097fca
+_StateWindow=0,0,584,218,0x00100018,'C:\testcode\graphics\windows\SampCode\MAIN.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,1,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,652,50,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=132,132,518,369,0x00100008,'C:\testcode\graphics\windows\SampCode\CARD.H',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,37,26,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=44,44,500,312,0x00100008,'C:\psx\include.35\KERNEL.H',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,141,14,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=110,110,518,369,0x00100008,'C:\testcode\graphics\windows\SampCode\CARD.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,452,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=66,66,496,364,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.H',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,1,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=176,176,496,359,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.H',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,18,2,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=154,154,518,369,0x00100008,'C:\testcode\graphics\windows\SampCode\DONGLE.H',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,1,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=44,44,496,364,0x00100008,'C:\TestCode\Graphics\WINDOWS\7\DONGLE.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,1,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=88,88,500,312,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.h',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,3,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=66,66,500,312,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.c',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,73,45,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=0,0,662,481,0x00100008,'C:\testcode\graphics\windows\SampCode\DONGLE.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,48,3,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=88,88,584,218,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,13,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=44,44,522,322,0x00100008,'C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.C',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,1,29,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=154,154,500,312,0x00100008,'h:\testcode\graphics\windows\5\card.h',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,26,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=132,132,500,312,0x00100008,'h:\testcode\graphics\windows\5\card.c',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,319,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateWindow=110,110,500,312,0x00100008,'h:\testcode\graphics\windows\5\dongle.c',208,15,212,32,32,0,32,32,32,32,8,4294967295,4294967295,0,0,'Courier New',4294967285,0,49,80,2,471,14,15,721,215,215,11,1,400,0,210,210,209,212,209,721,0,0,0,0,0
+_StateBuffer='C:\testcode\graphics\windows\SampCode\MAIN.C',0x04001c8e,652,50,25,'5 9','',0x0,''
+_StateBuffer='C:\testcode\graphics\windows\SampCode\CARD.H',0x0400048e,37,26,25,'5 9','',0x0,''
+_StateBuffer='C:\psx\include.35\KERNEL.H',0x0400048e,141,14,25,'5 9','',0x0,''
+_StateBuffer='C:\testcode\graphics\windows\SampCode\CARD.C',0x04001c8e,452,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.H',0x0000048e,1,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.H',0x0400048e,18,2,25,'5 9','',0x0,''
+_StateBuffer='C:\testcode\graphics\windows\SampCode\DONGLE.H',0x0000048e,1,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\7\DONGLE.C',0x04001c8e,1,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.h',0x0400048e,3,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.c',0x0c001c8e,73,45,25,'5 9','',0x0,''
+_StateBuffer='C:\testcode\graphics\windows\SampCode\DONGLE.C',0x04001c8e,48,3,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\DONGREAD.C',0x04001c8e,13,1,25,'5 9','',0x0,''
+_StateBuffer='C:\TestCode\Graphics\WINDOWS\SampCode\WINDOW.C',0x0c001c8e,1,29,25,'5 9','',0x0,''
+_StateBuffer='h:\testcode\graphics\windows\5\card.h',0x0400048e,26,1,25,'5 9','',0x0,''
+_StateBuffer='h:\testcode\graphics\windows\5\card.c',0x04001c8e,319,1,25,'5 9','',0x0,''
+_StateBuffer='h:\testcode\graphics\windows\5\dongle.c',0x04001c8e,11,1,25,'5 9','',0x0,''
+_StateHistory=SEARCH,'dongleInfo','CheckForDongle','SONY DONGLE FILE','Mal','DIRENTRY','Kanji','ALNUM','ISPRINT','PRINT','isprint'
+_StateHistory=FILELIST,'C:\TestCode\Graphics\WINDOWS\5\CARD.H','C:\TestCode\Graphics\WINDOWS\5\CARD.C','C:\psx\include.35\KERNEL.H','h:\sampcode\card\asc2sjis.c','C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.c','C:\TestCode\Graphics\WINDOWS\SampCode\asc2sjis.h','g:\program\psx\samples\local\etc\card\main.c','h:\testcode\graphics\windows\5\dongle.c','h:\testcode\graphics\windows\5\card.c','h:\testcode\graphics\windows\5\card.h'
+_StateHistory=EDITFILE,'C:\TestCode\Graphics\WINDOWS\4\DONGLE.C','C:\TestCode\Graphics\WINDOWS\5\DONGLE.C','C:\TestCode\Graphics\WINDOWS\4\DONGLE.C','C:\TestCode\Graphics\WINDOWS\7\DONGLE.C','C:\TestCode\Graphics\WINDOWS\4\DONGLE.C','C:\TestCode\Graphics\WINDOWS\4\CARD.C','C:\TestCode\Graphics\WINDOWS\4\CARD.H','C:\TestCode\Graphics\WINDOWS\5\CARD.H'
+_StateHistory=DIRECTORY,'C:\TestCode\Graphics\WINDOWS\SampCode','C:\PSX\include.35'
+_StateHistory=OUTNAME,'asc2sjis.h'
+_StateHistory=FGREP,'DONGLE_INFO','DONGLEINFO','dongleInfo','DIRENTRY','isprint'
+_StateHistory=GREPSCOPE,'*.*'
+
+[Editor]
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=1
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+_RestoreSysFlags=0x624935fa, 0xfffffffc
+
+[Compiler]
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+BrowseSetFile='C:\CW32\tagfile.ptg'
+TagSetFile='C:\CW32\tagfile.tag'
+CompilerAddCmd='Microsoft C Debug (NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 -Zi -Od %r%e',1073741936,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 -Zi -Od %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C Debug (NT-i386)',
+CompilerAddCmd='Default Compiler Settings','$(FTEE) ccpsx',1073741840,'$(FTEE) ccpsx',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='Default Compiler Settings',
+CompilerAddCmd='PlayStation Compiler Settings','$(FTEE) ccpsx -Xo$80010000 %r%e -o%r.cpe',1073741840,'$(FTEE) ccpsx',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='PlayStation Compiler Settings',
+CompilerAddCmd='$_cw_proj_hash_$','',1073741904,'',80,'${FTEE32} psymake',400,'${FTEE} nmake',176,'',0,'',0,'_ErrorInfoDefault','','','proj.err','%x'
+CompilerAddResponse='$_cw_proj_hash_$',
+CompilerAddCmd='Microsoft C DLL (NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 -D_MT -D_DLL %r%e',1073741936,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 -D_MT -D_DLL %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C DLL (NT-i386)',
+CompilerAddCmd='Microsoft C(NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',1073741936,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C(NT-i386)',
+CompilerAssign='Microsoft C(NT-i386)','.c'
+CompilerAssign='Microsoft C(NT-i386)','.h'
+CompilerAssign='Microsoft C(NT-i386)','.cpp'
+CompilerAssign='Default Compiler Settings','.*'
+CompilerAssign='Microsoft C(NT-i386)','.cxx'
+CompilerAssign='Microsoft C(NT-i386)','.hpp'

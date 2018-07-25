@@ -1,0 +1,16 @@
+BUILD CONFIGURATIONS
+--------------------
+
+Each sub-project has its own VS2017 project. Each project has 4 configurations:
+
+1) Debug/Release EMU
+2) Debug/Release PSX
+
+EMU Configuration:
+------------------
+This configuration uses the No$Psx emulator to run the generated cd image.
+
+
+PSX Configuration:
+------------------
+This configuration uses catflap to send the final executable to the PSX, as shown in the XplorerFX setup example.

@@ -1,0 +1,225 @@
+SAMPLE	:	Dualshck.zip	
+
+AUTHOR	:	Mike Kavallierou (Mike_Kavallierou@playstation.sony.com)
+
+DATE	:	11/19/98
+
+Copyright (C) 1998 by Sony Computer Entertainment.  All rights Reserved.
+	
+PURPOSE	:	
+
+To demonstrate use of Dual Shock Controllers 
+
+
+DESCRIPTION:	
+
+DROPOUT
+Document and source code detailing how to get around
+the problem of the Dual Shock dropping out of analog mode
+during a games' execution.
+
+MULTITAP
+Using multiple Dual Shock controllers
+
+SEE ALSO:
+
+MAKING:		Unzip to the appropriate directory using PKUNZIP or Winzip.  The makefile 
+		can be modified for PAL/NTSC TV's.
+
+RUNNING:	
+
+CONTROLS FOR DROPOUT SAMPLE
+========
+
+EXECMENU
+========
+
+UP / DOWN 		up / down menu item
+SELECT			quit
+START			select menu item
+R2			pause and restart controller
+SQUARE			reduce motor1
+CIRCLE			increase motor1
+TRIANGLE		zero both motors
+CROSS			toggle motor0
+
+
+BALLS & BALLS2
+==============
+UP / DOWN 		add / subtract balls
+SELECT			quit back to menu
+START			quit back to menu
+SQUARE			reduce motor1
+CIRCLE			increase motor1
+TRIANGLE		zero both motors
+CROSS			toggle motor0
+
+RCUBE & RCUBE2
+==============
+UP / DOWN 		rotate cube group
+LEFT / RIGHT		rotate cube group
+SELECT			quit back to menu
+START			quit back to menu
+SQUARE			reduce motor1, fog on/off
+CIRCLE			increase motor1, move away from cubes
+TRIANGLE		zero both motors, select texture
+                        (normal->semi-transparent->Gouraud->texture)
+CROSS			toggle motor0, move toward cubes
+L1			explode
+R1			reset explosion
+
+
+CONTROLS FOR MULTI-TAP SAMPLE
+========
+Sample code showing using Dual Shock controllers with a multitap,
+includes controlling of motors and load usage. The dual Shock
+graphics 'light up' when a Dual Shock is connected.
+
+Controls
+========
+UP		Motor 1 start
+DOWN		Motor 1 stop
+TRIANGLE	Motor 2 +1
+CIRCLE		Motor 2 +10
+CROSS		Motor 2 -1
+SQUARE		Motor 2 -10
+L2		Vibrate off
+R2		Vibrate on
+
+
+
+NOTES:
+
+
+DROPOUT NOTES
+=======
+
+The Dual Shock whilst providing developers with new ways to interact
+with the user also has new and exciting methods of producing strange
+effects and bugs. One of the main problems that the Dual Shock brings
+with it is the fact that if communication between the controller and
+the PlayStation stops for any length of time the controller rather
+nicely resets itself. This can be irritating for the user as at
+certain points during the game the Dual Shock may drop out of analog
+mode resulting in the user having to press his analog button during
+the game. As of 30/06/98 it should be noted that this problem of the
+Dual Shock reseting itself is not mentioned in the TRC (version 1.3) 
+and so cannot be considered an QA fail. However it may be that the
+QA team notice this problem and may mention it as something that they
+would like to see fixed if at all possible.
+
+If the Dual Shock does not receive an interrupt for three seconds it
+resets itself. This may occur in two main operations.
+
+1) During game code execution.
+	Certain functions may stop the controller receiving interrupts.
+This includes the obvious functions such as PadStopCom(), however other
+functions can also stop interrupts to the controller. Other problems
+include if you do some code that lasts for three seconds before
+returning to the main loop.
+Here is a quick list of some functions that disable the controller
+interrupt:
+	PadStopCom()
+	STOPCard()
+	STOPTap()
+
+2) Using Load/Exec or LoadExec to load in game segments
+When using either of these to methods to load in game segments
+PadStopCom() has to be called to allow for the change in context
+between game segments. As this change is liable to be longer than
+three seconds this can become a problem. The best way to avoid this
+problem is to use overlays instead of LoadExec()
+
+
+Fixing The Problem
+==================
+
+1) The workaround for 1) is demonstrated in the menu.c source code.
+This is the main menu program, pressing R1 on the controller
+makes the code call PadStopCom(), wait five seconds and restart the
+pad. The code just before PadStopCom() and just after PadStartCom()
+shows how to store and reset the Dual Shock correctly. Notice that
+if the Dual Shock is in 'red' mode the light will go out whilst the
+pad has been stopped and then at the restart of the pad the mode
+will switch back to red mode correctly.
+A throwback of this function is that if the pad is in digital mode
+and then paused, if during the pause the analog mode is activated
+the restart function will reset the mode to digital, this may or
+may not be what is wanted from your game. However remember it is
+possible to lock the Dual Shock to a mode you want the user to use.
+
+2) The child programs of this sample use somewhat the same method of
+detecting the Dual Shock mode. However a variable needs to be stored
+where all programs can reference it. I have just made 1k of space
+just above the OS which could be used to store other variables too. As
+a result the menu program is org'ed at 80010400, as are the child
+programs which are used to overwrite the main menu program. The spare
+area could be used to hold other global data or also motor information.
+Notice that when you drop back to the main menu from the first two 
+executables that because the programs do not overwrite the menu program
+the Dual Shock will start vibrating at the power that it was vibrating
+when the child program was selected.
+
+The example code contains a menu program and two child programs
+repeated twice. Version two of the child programs write directly over
+the menu program whereas the original versions just load into free
+memory space.
+
+The directory structure must be built onto either gold disk or
+emulator correctly. There is a .cti file contained with the source code
+that can be used to build the example onto the emulator. Alternatively
+you can use the -g option with buildcd to create the .ccs file for
+CD-Gen
+
+
+
+Dual Shock Notes
+================
+
+It appears that the Dual Shock does need some time when reseting or
+changing certain internal states, during development of this article
+I have uncovered the following timeing considerations:
+
+1) After PadStartCom() wait at least VSync(5) before doing any pad
+	stuff, or wait until PadStateStable is reported from PadGetState()
+2) After PadInfoMode() wait at least VSync(6) before calling
+	PadSetMainMode(), at times this value has been extended to 20
+	VSync's which always seemed to work however your mileage may vary.
+	A pause before setting the actuators is recommended as sometimes
+	if the actuators were set directly after a SetMainMode() call the
+	Dual Shock would not vibrate until the pad was taken out and
+        plugged back in. This has been fixed by added a check on the
+        PadSetActAlign() function
+
+3) Also remember when using libpad that any memory card initialisation
+	must be done BEFORE the pad initialisation
+
+
+
+FILES:
+
+Directory Structure
+===================
+
+\ ------+--- SYSTEM.CNF			Described below.
+        |
+        |
+        +--- EXECMENU --+--- EXECMENU.EXE
+        |               +--- BALLS.EXE
+        |               +--- RCUBE.EXE
+        |               +--- BALLS2.EXE
+        |               +--- RCUBE2.EXE
+        |
+        +--- DATA ------+--- RCUBE.TIM	
+                        +--- RCUBE.TMD
+
+---------------------------------------------------
+
+file: SYSTEM.CNF (A space must be inserted on either side of '=')
+---------------------------------------------------
+BOOT = cdrom:\EXECMENU\EXECMENU.EXE;1
+TCB = 4
+EVENT = 16
+STACK = 801fff00
+---------------------------------------------------
+

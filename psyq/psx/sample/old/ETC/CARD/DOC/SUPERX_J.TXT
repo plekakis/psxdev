@@ -1,0 +1,307 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+------------------------------------------------------------------------------
+ＳＵＰＥＲ－Ｘライブラリ簡易ドキュメント                         Revision 1.1
+
+  File       : SUPERX_E.TXT
+  Date       : 94.10.19
+  Written By : Shinji Noda
+------------------------------------------------------------------------------
+
+SUPER-X Libraryは、以下の３つのモジュールで構成されている。
+
+  １．テクスチャー管理モジュール	( Psxload )
+  ２．スプライト管理モジュール		( Spritex )
+  ３．メニュー管理モジュール		( Menux )
+
+
+１．テクスチャー管理モジュール  'PSXLOAD.C'
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+PSXgetInterlace
+PSXsetInterlace
+ClearTexture
+PSXloadTexture
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+【書式】void	PSXgetInterlace( void );
+【概要】現在のInterlace モードを得る。
+	Interlace モードならば１、Non-interlace モードなら０。
+
+【書式】void	PSXgetInterlace( int inter );
+【概要】Interlace モードを inter に指定する。
+
+【書式】void	ClearTexture( void );
+【概要】テクスチャーマッピングの管理情報を初期化する。PSXloadTexture()を使用
+	する前に一度だけ実行する必要がある。
+
+【書式】int	PSXloadTexture( u_long* adrs, GsIMAGE* RectImage,
+							_TPAGE* RectTpage );
+【概要】adrsで指定された、位置にあるTIM データを、VRAMの空き領域にロードし、
+	RectImage とRectTpage に、諸情報を格納する。ロードに失敗した場合は -1
+	を返す。成功すれば 0を返す。
+
+２．スプライト管理モジュール  'SPRITEX.C'
+※説明の中での「スプライト」とは特に指定がない限り、SPRTX 構造体を示す。
+  SPRTX 構造体は本モジュールが便宜的に使用するもで、構造体内部に関する知識
+  は本モジュールを使用するにあたって、特に必要としないと思われる。
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+MakeSpriteData		
+MakeSpriteData2		
+SetSpritePosition	
+SetSpriteRGB		
+SetSpriteTrans		
+SetSpriteScale		
+SetSpriteSize		
+SetSpritePriority	
+SetSpriteShadeTex	
+AddSprite		
+AddSprite2		
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+【書式】void	MakeSpriteData( SPRTX* sprite, u_long* timdata, int mode );
+【概要】スプライトの設定。timdata で指定された、テクスチャーをVRAMの空き領域
+	にロードし、SPRTまたはPOLY_FT4へ張付ける。( mode : 0=SPRT, 1=POLY )
+
+【書式】void	MakeSpriteData2( SPRTX* sprite, GsIMAGE* rectImage,
+					_TPAGE* rectTpage, int mode );
+【概要】スプライトの設定。MakeSpriteDataとの違いは、テクスチャーのロードをせ
+	ずに、既にロードされているアドレスをGsIMAGEとTPAGEによって指定する点
+	にある。
+
+【書式】void	SetSpritePosition( SPRTX* sprite, short x, short y );
+【概要】表示位置の設定。中心座標を指定する。
+
+【書式】void	SetSpriteRGB( SPRTX* sprite, short r, short g, short b );
+【概要】輝度の設定。r, g, b それぞれ 0～255
+
+【書式】void	SetSpriteTrans( SPRTX* sprite, int trans );
+【概要】半透明の指定。trans : 0=不透明, 1=半透明
+
+【書式】void	SetSpriteScale( SPRTX* sprite, int w, int h );
+【概要】拡大縮小率の設定。POLY型のスプライトにのみ有効。
+
+【書式】void	SetSpriteSize( SPRTX* sprite, int w, int h );
+【概要】デフィルトサイズの設定。スプライトの大きさは通常それにまとうテクスチ
+	ャーの大きさと同等であるが、それを変更する場合に使用する。
+	w, h は、ピクセル数で指定する。
+
+【書式】void	SetSpritePriority( SPRTX* sprite, u_long pri );
+【概要】描画プリミティブでのプライオリティを設定する。具体的には、ＯＴテーブ
+	ル内での位置を示している。AddSprite2()使用時に有効。
+
+【書式】void	SetSpriteShadeTex( SPRTX* sprite, int sw );
+【概要】ShadeTexの指定。 0=無効、1=有効。デフォルトでは有効。
+
+【書式】void	AddSprite( u_long* ot, SPRTX* sprite );
+【概要】スプライトを描画プリミティブとして、ＯＴテーブルに登録する。
+
+【書式】void	AddSprite2( DB *db, SPRTX* sprite );
+【概要】スプライトを描画プリミティブとして、ＯＴテーブルに登録する。
+	SetSpritePriority で設定した、値をＯＴテーブルのオフセットとして使用
+	する。
+*****************************************************************************
+  構造体
+
+*****************************************************************************
+typedef struct {
+	short	mode; 		/* 0=sprite,  1=poly			*/
+	SPRT	sprt;		/* SPRT構造体へのポインタ mode=0 用	*/
+	POLY_FT4 poly;		/* POLY構造体へのポインタ mode=1 用	*/
+	short	tpage;		/* テクスチャーページの保存用		*/
+	short	x, y;		/* スプライトの位置			*/
+	short	w, h;		/*             サイズ			*/
+	short	cx, cy;		/* CLUT データの格納位置		*/
+	short	cw, ch;		/* 		    サイズ		*/
+	short	px, py;		/* ピクセルデータの格納位置		*/
+	short	pw, ph;		/* 		       サイズ		*/
+	short	mx, my;		/* 中心座標へのオフセット		*/
+	DR_MODE	dr_mode;	/* 					*/
+	u_long	priority;	/* プライオリティ			*/
+} SPRTX;
+
+３．メニュー管理モジュール  'MENUX.C'
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+MENUinit		
+MENUend			
+MENUsetItem		
+MENUsetItem2		
+MENUsetItem3		
+MENUdrawItemAll		
+MENUsetCurrentItem	
+MENUgetCurrentItem	
+MENUgetPolyPtr
+MENUgetSprtxPtr		
+MENUidol		
+MENUidol2
+MENUsetItemIntence	
+MENUsetItemEffect
+MENUsetAnimationItem2
+MENUpushCurrentItem	
+MENUpullCurrentItem	
+MENUremoveItem		
+MENUclrQueBuffer	
+MENUgetRMENUFromId
+MENUgetSPRTFromId
+MENUChangeSprtx
+GetSprtxPtrFromMENUid
+GetItemFromID
+GetItemFromID2
+GetItemFromID3
+GetItemNumFromID
+CopyTarget
+CopySprite
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+
+【書式】void 	MENUinit( void );
+【概要】メニューシステムの初期化
+
+【書式】void	MENUend( void );
+【概要】メニューシステムの終了
+
+【書式】int	MENUsetItem( _RMENU* rm );
+【概要】メニューシステムにアイテムを登録する。
+	RMENU 構造体のtim で指定された、テクスチャーをVRAMの空き領域にロード
+	し、POLY_FT4へ張付ける。
+	登録に失敗した場合は -1 を返す。
+
+【書式】int	MENUsetItem2( _RMENU* rm, GsIMAGE* rectImage,
+							_TPAGE* rectTpage );
+【概要】メニューシステムにアイテムを登録する。
+	MENUsetItem との違いは、テクスチャーのロードをせずに、既にロードされ
+	ているアドレスをGsIMAGEとTPAGEによって指定する点にある。従ってRMENU 
+	構造体のtim は使用しない。
+	登録に失敗した場合は -1 を返す。
+
+【書式】int	MENUsetItem3( _RMENU* rm, SPRTX* sprite );
+【概要】メニューシステムにアイテムを登録する。
+	MENUsetItem2と同様、テクスチャーのロードは行わない。代わりに既に
+	テクスチャーをまとった、スプライト（またはポリゴン）をSPRTX 構造体で
+	指定する。
+	登録に失敗した場合は -1 を返す。
+
+【書式】int	MENUsetCurrentItem( int id );
+【概要】カレントアイテムの設定。
+	アクティブとなるアイテムをidによって指定する。RMENU 構造体のidと
+	一致する全てのアイテムがアクティブ状態となる。
+	指定されたidと一致するアイテムが皆無の場合 -1 を返す。
+
+【書式】int	MENUgetCurrentItem( void );
+【概要】カレントアイテムの取得。
+	現在アクティブなアイテムのidを返す。
+
+【書式】void	MENUpushCurrentItem( void );
+【概要】カレントアイテムをキューバッファに登録する。
+	下位の階層に移るときなどに使用すると思われる。
+
+【書式】int	MENUpullCurrentItem( void );
+【概要】直前のカレントアイテム（上位階層）をキューバッファから取得する。
+	カレントの設定は行わないので、取得後 MENUsetCurrentItem で設定する
+	必要がある。キューバッファが空（上位階層がない）のときは、 -1 を返す。
+
+【書式】void	MENUclrQueBuffer( void );
+【概要】キューバッファを初期化する。
+
+【書式】void	MENUremoveItem( int id );
+【概要】アイテムを抹消する。
+	idの一致するアイテムは総て抹消される。
+
+【書式】void	MENUidol( long pad );
+【概要】メニューシステムのアイドリング関数。
+	定期的に呼ばれることを期待して、システム内部の処理を行う。
+	pad にはコントロールパッドからの取得値を設定する。
+	可能な限り 1/60 秒おきに呼ぶこと。
+
+【書式】void	MENUidol2( long pad )
+【概要】渡された pad の値を見てカレントアイテムを設定する。
+
+【書式】void	MENUdrawItemAll( DB* cdb );
+【概要】全てのアイテムを描画プリミティブとしてOTテーブルに登録する。
+
+【書式】void	MENUsetItemIntence( int id, int intence );
+【概要】アイテムの輝度を設定する。intence =  0～255
+
+【書式】void	 MENUsetItemEffect( int id, int effect )
+【概要】指定された id のアイテムにたいして effect をかける。
+
+【書式】int	MENUsetAnimationItem2( int i, SPRTX* sprite )
+【概要】指定されたアイテム番号 i に対して、アニメーション用のスプライトを
+	設定する。
+
+【書式】SPRTX*	MENUgetSprtxPtr( int id );
+【概要】idで指定されたアイテムのSPRTX 構造体へのポインタを取得する。
+	一致するidが無い場合は、ヌルポインタを返す。
+
+【書式】POLY_FT4*  MENUgetPolyPtr( int id );
+【概要】idで指定されたアイテムのSPRTX 構造体が保持しているポリゴンへの
+	ポインタを取得する。
+	一致するidが無い場合は、ヌルポインタを返す。
+
+【書式】_RMENU *MENUgetRMENUFromId( int id )
+【概要】指定された id のアイテムに対する MENU 構造体のポインタを得る。
+
+【書式】_SPRTX *MENUgetSPRTFromId( int id )
+【概要】指定された id のアイテムに対する SPRTX 構造体のポインタを得る。
+
+【書式】void	MENUChangeSprtx( int id, SPRTX *sprt );
+【概要】idで指定されたアイテムのSPRTX 構造体を sprt に交換する。
+
+【書式】SPRTX	*GetSprtxPtrFromMENUid( int num )
+【概要】指定された num 番目のアイテムに対する SPRTX 構造体のポインタを得る。
+
+
+【書式】int	GetItemFromID( int id )
+【概要】指定された id のアイテム番号を得る。 
+	指定された id が存在しない場合には -1 を返す。
+
+【書式】int	GetItemFromID2( int id, int cnt )
+【概要】指定された id と一致する cnt 番目のアイテム番号を得る。 
+	指定された id が存在しない場合には -1 を返す。
+
+【書式】int	GetItemFromID3( int id )
+【概要】指定された id と一致するアイテムの個数を得る。 
+
+【書式】int	GetItemNumFromID( int id )
+【概要】指定された id と一致するアイテムの個数を得る。 
+
+【書式】int	CopyTarget( int id, int num )
+【概要】指定された id から num 個の MENU を CARD 1 から CARD 2 へコピーする。
+
+【書式】void	CopySprite( int item, int x, int y )
+【概要】指定されたアイテムのスプライトを (x, y) 座標にセットする。
+*****************************************************************************
+  構造体
+
+*****************************************************************************
+typedef	struct {
+	int	group;		/* グループ ( 0=無効 )		*/
+	int	id;		/* アイテムid ( 1 ～ )		*/
+	u_long	tim;		/* テクスチャーアドレス 	*/
+	int	x;		/* 中心座標 ( x )		*/
+	int	y;		/* 中心座標 ( y )		*/
+	int	left;		/* 左ボタン押下時の移動先( id )	*/
+	int	right;		/* 右ボタン押下時の移動先( id )	*/
+	int	up;		/* 上ボタン押下時の移動先( id )	*/
+	int	down;		/* 下ボタン押下時の移動先( id )	*/
+	int	effect;		/* アクティブ状態での効果	*/
+	void	(*drawFunc)( int event, SPRTX* sprt );
+				/* 描画用コールバック関数へのポインタ */
+	void	(*execFunc)( long pad );
+				/* pad 押下時のコールバック関数へのポインタ */
+	long	pad;		/* execFuncを呼び出すボタンの指定 */
+} _RMENU;

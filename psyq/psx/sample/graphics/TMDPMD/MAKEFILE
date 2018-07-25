@@ -1,0 +1,38 @@
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+TADDR	 = 80020000	
+GCC      = gcc-el -G 0 -O -I$(INCDIR)
+CC       = cc -EL -G 0 -O2 -I$(INCDIR) 
+LIBS     = -lgs -lcd -lpress -lgte -lgpu -letc -lc -lapi
+
+all : main	
+
+load :
+	bload share.pmd   800d0000
+	bload noshare.pmd 800e0000
+	bload pat.tim     800f0000
+	bload dino.tmd    80100000
+	bload earth.tmd   80120000
+	bload earth4.tim  80140000
+
+tuto0.o : tuto0.c	
+	$(GCC) -c tuto0.c -o tuto0.o
+	dmpsx tuto0.o -t $(INCDIR)/inline.tbl
+
+tuto1.o : tuto1.c	
+	$(GCC) -c tuto1.c -o tuto1.o
+	dmpsx tuto1.o -t $(INCDIR)/inline.tbl
+
+tuto6.o : tuto6.c	
+	$(GCC) -c tuto6.c -o tuto6.o
+	dmpsx tuto6.o -t $(INCDIR)/inline.tbl
+	
+main.o : menu.h	
+
+OBJS  =	main.o  \
+	tuto0.o tuto1.o tuto2.o tuto3.o tuto4.o tuto5.o tuto6.o \
+	db.o \
+
+main : $(OBJS) 
+	ld -L$(LIBDIR) -EL -N -T $(TADDR) -e main -o main $(OBJS) $(LIBS)
+

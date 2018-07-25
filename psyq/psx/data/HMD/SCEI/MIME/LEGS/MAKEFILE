@@ -1,0 +1,45 @@
+INCLUDE	= -I../include
+DEFINES	=
+#CFLAGS	= $(INCLUDE) -ansiposix -fullwarn -g
+CFLAGS	= $(INCLUDE) -Xa -g
+LDFLAGS	= -g
+LIBS	= -lc -lm
+PROGRAM	=
+SRCS	=
+OBJS	=
+RM	= /usr/bin/rm
+LINT	= /usr/bin/lint
+AR	= /usr/bin/ar
+DEPEND	= /usr/bin/X11/makedepend
+DATA	= axes.hmd rpy.hmd
+KEYS	= legs0.hmd right0.hmd right1.hmd left0.hmd left1.hmd
+LABS	= legs0.lab right0.lab right1.lab left0.lab left1.lab
+MKHMD	= /usr/lib/cpp -I /usr/local/include |/usr/local/psx/bin/labp
+MKAXESMIMe	= /usr/local/psx/bin/mkmime +axes
+MKRPYMIMe	= /usr/local/psx/bin/mkmime +rpy
+
+.SUFFIXES: .hmd .lab
+
+all: $(DATA)
+
+axes.hmd: $(KEYS)
+	$(MKAXESMIMe) $(KEYS) >axes.hmd
+
+rpy.hmd: $(KEYS)
+	$(MKRPYMIMe) $(KEYS) >rpy.hmd
+
+$(LABS): leg.inc
+
+.lab.hmd:
+	cat $< |$(MKHMD) >$*.hmd
+
+clean:
+	$(RM) -f $(PROGRAM) $(OBJS) $(DATA) $(KEYS) MakeOut core
+
+lint:
+	$(LINT) $(INCLUDE) $(DEFINES) $(SRCS)
+
+depend:
+	$(DEPEND) $(INCLUDE) $(DEFINES) $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

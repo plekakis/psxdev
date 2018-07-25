@@ -1,0 +1,35 @@
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+TADDR	 = 80020000	
+GCC      = gcc-el -G 0 -O -I$(INCDIR)
+CC       = cc -EL -G 0 -O2 -I$(INCDIR) 
+LIBS     = -lgs -lcd -lpress -lgte -lgpu -letc -lc -lapi
+
+all : main	
+
+div.o : div.c
+	$(GCC) -c div.c -o div.o
+	dmpsx div.o -t $(INCDIR)/inline.tbl
+
+tuto1.o : tuto1.c
+	$(CC) -c -DFNAME=tuto1 -DNO_DIV -DVIEW_CLIP tuto1.c -o tuto1.o
+
+tuto2.o : tuto1.c
+	$(CC) -c -DFNAME=tuto2 -DNO_DIV tuto1.c -o tuto2.o
+
+tuto3.o : tuto1.c
+	$(CC) -c -DFNAME=tuto3 -DNO_DIV -DRAP_ROUND tuto1.c -o tuto3.o
+
+tuto4.o : tuto1.c
+	$(CC) -c -DFNAME=tuto4 -DRAP_ROUND tuto1.c -o tuto4.o
+	
+main.o : menu.h	
+
+OBJS  =	main.o  \
+	tuto0.o tuto1.o tuto2.o tuto3.o tuto4.o tuto5.o \
+	clip.o bgtex.o db.o mesh.o div.o geom.o pad.o debug.o map.o config.o \
+	bg.o  bgtex8.o 
+
+main : $(OBJS) 
+	ld -L$(LIBDIR) -EL -N -T $(TADDR) -e main -o main $(OBJS) $(LIBS)
+

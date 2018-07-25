@@ -1,0 +1,120 @@
+Yaroze PS-X EXE builder v2.10
+Copyright (C) Barubary 1998.  All rights not expressly granted reserved.
+Yaroze and PS-X are trademarks of Sony Computer Entertainment, Inc.
+
+THIS PROGRAM AND ITS DOCUMENTATION MAY BE DISTRIBUTED TO ANYONE, PROVIDED
+IT IS NOT MODIFIED NOR ANY CHARGE IS ASSOCIATED WITH DISTRIBUTION.
+NO WARRANTY.
+
+
+Purpose
+-----------------------------------------------------------------------------
+This program was written to help Yaroze users out who wish to use the Game
+Shark (aka Action Replay) and its link card with their EXE files, and to help
+people put Yaroze programs more easily onto a CD.
+
+ECO2EXE was written a while back by Silpheed of HITMEN.  This was probably
+THE best program written to help Yaroze users.  It converts ECOFF (Yaroze)
+programs into the special, more usable PS-X EXE format.  This allowed Yaroze
+users to run via Game Shark, but it still didn't help much in the area of CD
+burning, and it required that you load LIBPS.EXE and various other files
+separately which got to be a pain.
+
+That's why I wrote COMBINE.  It is a simple program that combines (you KNEW
+it had something to do with combination) a Yaroze ECOFF file, LIBPS.EXE, and
+the files loaded into RAM by the SIOCONS script.  In all, it's really an
+SIOCONS script -> PS-X EXE converter.
+
+
+What you need
+-----------------------------------------------------------------------------
+LIBPS.EXE
+ECO2EXE.EXE (if you wish to modify COMBINE's source)
+An SIOCONS script
+A Yaroze ECOFF format file, or an eco2exe -p converted EXE file
+The data files used by the SIOCONS script
+
+That's all.
+
+
+Building an SIOCONS script
+-----------------------------------------------------------------------------
+SIOCONS is similar to the command format used by batch files that load files
+into RAM via caetla/ezoray.  For those who use ezoray/caetla for Yaroze
+development (who may not know SIOCONS scripting), I have provided the
+following command translations.  I can't teach you what these mean, and
+anyone who'd need this information is a programmer.
+
+EZ-O-Ray                    SIOCONS
+ez load ASDF.BIN 12345678   local dload ASDF.BIN 12345678
+ez run ASDF.PSX             local load ASDF.PSX
+                            go
+
+caetla                      SIOCONS
+psexe -D12345678 ASDF.BIN   local dload ASDF.BIN 12345678
+psexe -X ASDF.PSX           local load ASDF.PSX
+psexe ASDF.PSX              local load ASDF.PSX
+                            go
+
+
+Running COMBINE
+-----------------------------------------------------------------------------
+It's pretty simple.  This is the syntax:
+
+COMBINE <scriptfile> <exefile> <libps location> <eco2exe location>
+
+scriptfile:       SIOCONS script to use (most programs call it AUTO)
+exefile:          PS-X EXE file to generate.
+libps location:   Path + filename of LIBPS.EXE (not needed if LIBPS.PSX is
+                  in current directory)
+eco2exe location: Path + filename of ECO2EXE.EXE (not needed except in
+                  versions of COMBINE that don't have ECO2EXE internally,
+                  and not needed if ECO2EXE.EXE is in current directory)
+
+
+Mini-FAQ
+-----------------------------------------------------------------------------
+Q. How do I burn to CD?
+A. This is a pretty complicated procedure, and I don't wish to explain it
+   here.  Once you learn how, it is quite easy though.
+
+Q. How do I run a COMBINE-generated EXE file?
+A. Use the appropriate load and run command of your GS/AR ROM replacement.
+
+Q. Where do I get LIBPS.EXE?
+A. For non-Yaroze users, this file is illegal and therefore hard to find.  To
+   get it the "legit" way (or illegit if you have the CD illegally) is to
+   stick the Yaroze BOOT (NOT development) CD into your PC's CD-ROM and copy
+   it to hard drive.
+
+Q. Why are my executable so damn big?
+A. The primary problem is the format of the PS-X EXE files.  The PS-X EXE
+   format only allows for linear mapping.  With Yaroze, you send data files
+   directly into RAM below the EXE.  The problem with this is that Yaroze
+   programmers tend to leave space in the memory space where these subfiles
+   are.  Empty space such as this is copied into the COMBINE-generated EXE
+   file.  In addition, programmers usually use a very high ORG address such
+   as 80100000 for their Yaroze programs even if they don't need to at all.
+   With an ORG address like that, the EXE file is destined to be at least 1
+   meg, and probably more.  The last but significant factor is the size of
+   LIBPS.EXE.
+
+   To reduce the size of the EXE, change the addresses of the data files to
+   be as closely packed as possible, start "user memory" at the lowest
+   address possible in Yaroze (80071000), and set a lower ORG address for the
+   program (the -Xlinker option is what controls it).
+
+
+Source code
+-----------------------------------------------------------------------------
+Source code to COMBINE except the ECO2EXE portion is provided with a
+restricted license.  See COMBINE.C.
+
+
+Thanks
+-----------------------------------------------------------------------------
+Silpheed        ECO2EXE and ECO2EXE source
+^gadget         Requesting that a new version (2.x) of COMBINE be made
+ZarkWizrd       Beta testing the very very old version
+segmond         Encouraging me to continue COMBINE and other projects
+#psxdev         You may all hate me, but I like the channel :)

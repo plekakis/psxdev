@@ -1,0 +1,56 @@
+#include <hmd/hmd.def>
+
+#define TR0	0xff
+#define TG0	0x00
+#define TB0	0x00
+#define TR1	0x00
+#define TG1	0xff
+#define TB1	0x00
+#define TR2	0x00
+#define TG2	0x00
+#define TB2	0xff
+/*
+#define TR0	0xff
+#define TG0	0xff
+#define TB0	0xff
+#define TR1	0xff
+#define TG1	0xff
+#define TB1	0xff
+#define TR2	0xff
+#define TG2	0xff
+#define TB2	0xff
+*/
+#define CT(code)	B(TR0); B(TG0); B(TB0); B(code);	\
+			B(TR1); B(TG1); B(TB1); B(code);	\
+			B(TR2); B(TG2); B(TB2); B(code)
+
+#define QR0	0xff
+#define QG0	0x00
+#define QB0	0x00
+#define QR1	0x00
+#define QG1	0xff
+#define QB1	0x00
+#define QR2	0x00
+#define QG2	0x00
+#define QB2	0xff
+#define QR3	0xff
+#define QG3	0xff
+#define QB3	0xff
+/*
+#define QR0	0xff
+#define QG0	0xff
+#define QB0	0xff
+#define QR1	0xff
+#define QG1	0xff
+#define QB1	0xff
+#define QR2	0xff
+#define QG2	0xff
+#define QB2	0xff
+#define QR3	0xff
+#define QG3	0xff
+#define QB3	0xff
+*/
+#define CQ(code)	B(QR0); B(QG0); B(QB0); B(code);	\
+			B(QR1); B(QG1); B(QB1); B(code);	\
+			B(QR2); B(QG2); B(QB2); B(code);	\
+			B(QR3); B(QG3); B(QB3); B(code)

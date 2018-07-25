@@ -1,0 +1,56 @@
+INCLUDE	= -I/usr/local/include
+DEFINES	=
+#CFLAGS	= $(INCLUDE) -ansiposix -fullwarn -g
+CFLAGS	= $(INCLUDE) -Xa -g
+LDFLAGS	= -g
+LIBS	= -lc -lm
+PROGRAM	= gen
+SRCS	= gen.c
+OBJS	= gen.o
+RM	= /usr/bin/rm
+LINT	= /usr/bin/lint
+AR	= /usr/bin/ar
+DEPEND	= /usr/bin/X11/makedepend
+DATA	= axes.hmd rpy.hmd
+KEYDATA	= base.hmd twist.hmd bend.hmd base.hmd popye.hmd
+MKHMD	= /usr/lib/cpp $(INCLUDE) |/usr/local/psx/bin/labp
+MKAXESMIMe	= /usr/local/psx/bin/mkmime +axes
+MKRPYMIMe	= /usr/local/psx/bin/mkmime +rpy
+
+all: $(DATA)
+
+$(DATA): $(KEYDATA)
+
+axes.hmd: $(KEYDATA)
+	$(MKAXESMIMe) $(KEYDATA) >axes.hmd
+
+rpy.hmd: $(KEYDATA)
+	$(MKRPYMIMe) $(KEYDATA) >rpy.hmd
+
+$(KEYDATA): $(PROGRAM)
+
+base.hmd: $(PROGRAM)
+	./gen |$(MKHMD) >base.hmd
+
+bend.hmd: $(PROGRAM)
+	./gen -bend |$(MKHMD) >bend.hmd
+
+popye.hmd: $(PROGRAM)
+	./gen -popye |$(MKHMD) >popye.hmd
+
+twist.hmd: $(PROGRAM)
+	./gen -twist |$(MKHMD) >twist.hmd
+
+$(PROGRAM): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(PROGRAM) $(OBJS) $(LIBS)
+
+clean:
+	$(RM) -f $(PROGRAM) $(OBJS) $(DATA) $(KEYDATA) MakeOut core
+
+lint:
+	$(LINT) $(INCLUDE) $(DEFINES) $(SRCS)
+
+depend:
+	$(DEPEND) $(INCLUDE) $(DEFINES) $(SRCS)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -1,0 +1,50 @@
+Disc CDROMXA_PSX
+
+LeadIn XA
+  Empty 1350
+  PostGap 150
+EndTrack
+
+Track XA
+  Pause 150
+  Volume ISO9660
+    SystemArea C:\LICENSEA.DAT
+    PrimaryVolume
+      SystemIdentifier PLAYSTATION
+      VolumeIdentifier MY_VOLUME
+      VolumeSetIdentifier MY_VOLUME_SET
+      PublisherIdentifier MY_PUBLISHER
+      DataPreparerIdentifier MY_DATA_PREPARER
+      ApplicationIdentifier PLAYSTATION
+      LPath
+      MPath
+      Hierarchy
+
+        Directory DIR1
+          File TEXT2.TXT
+            XAFileAttributes Form1 Data
+            Source DIR1\TEXT2.TXT
+          EndFile
+        EndDirectory
+
+
+        File TEXT1.TXT
+          XAFileAttributes Form1 Data
+          Source TEXT1.TXT
+        EndFile
+
+	File PSX.EXE
+          XAFileAttributes Form1 Data
+          Source PSX.EXE
+        EndFile
+
+      EndHierarchy
+    EndPrimaryVolume
+  EndVolume
+EndTrack
+
+LeadOut XA
+  Empty 150
+EndTrack
+
+EndDisc

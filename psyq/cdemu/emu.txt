@@ -1,0 +1,99 @@
+FILE:
+emu.zip (release 1.13.2)
+
+
+DATE:
+October 28, 1997
+
+
+
+
+CONTENTS OVERVIEW:   
+This zip file contains binaries, boot files, documentation, 
+and samples for the CD Emulator.  It contains the same binaries and files 
+as Release 1.13.1, but "\sample\basic\cd.c" has been corrected.
+
+It was compiled from the SN CD Emulator diskette, files from 
+the SN FTP site, and from resources at 
+SCEA.   "Readme.doc" also has the latest hard drives that are
+compatible with the CD Emulator.  You should visit the SN System's
+Web Site at www.snsys.com for access to their FTP site.
+
+
+
+INSTRUCTIONS:
+After downloading the file, unzip it using PkUnzip or WinZip.  Then
+follow the instructions in README.DOC.  In addition, the CD Emulator
+User's Guide is distributed in the "doc" directory of this distribution
+and should also have come with your CD Emulator.
+
+
+
+CONTENTS (detailed):
+This zip file contains binaries, boot files, documentation, and samples.
+
+
+FILES
+=======
+	File Name	Version		Description
+	---------------------------------------------------
+	
+
+	BINARIES
+	========
+	bcdflat.exe	2.41		BETA version of flat model for buildcd.
+	buildcd.exe	2.41		Build image program
+	ccs2cti.exe	1.10		CCS (cdgen output) to CTI file converter. 
+	Cdbios.com	1.04		Emulator board communication driver.
+	Cddisk.exe  	1.17		Emulator HD disk utility  
+ 	cdemuprm.exe	1.00		Allows you to select normal or zero seek timings; andalso control errors within CD streams. Both settings are unaffected by RESETPS (which causes the CD emulator's micro controller to reload CDBOOT from the SCSI HD). Requires at least CDBOOT35/CDBOOT65.
+	cdmon.com	1.03		TSR program for debugging.
+	cti2cd.exe	1.03 beta	Bug fix for Yamaha audio track cutting.
+	Cutcd.exe	1.02 beta	YAM CDR100/SONY CDW900E cutter utility from CD emulator image.
+	Gencti.exe	1.0 beta	GenCTI generates a ".cti" file based on the directory structure on your PC. 
+	dos4gw.exe	1.97		Dos extender (for bcdflat)
+	multicd.exe	1.01		Multi CD emulator Utility. Allows simulation of  CD emulator image changing and door opening.
+	updatecd.exe	1.18		Update the build image utility.
+
+	BOOT FILES
+	============	
+	CBOOT36.bin	3.6		Emulator Boot code.
+	CDNOSK3x.bin	DELETED 	For old timers: The reason there is 
+					no CDNOSK3x.BIN any more is that, with 
+					the advent of version CDBOOT3.6, the seek 
+					timings are now programmable using the 
+					utility called CDEMUPRM.
+ 	cdboot66.bin	6.6		Emulator Boot code, identical to version 
+					36.bin, except that version 6.6 reports 
+					information back to the PC so that the PC 
+					can show the current CD activity on screen.  
+					This is achieved with the use of the 
+					CDMON.COM TSR.
+	DOCUMENTATION
+	===============
+	cdemul.pdf	-		CD Emulator Manual
+	readme.doc	1.13.2		Installation and tutorial.  
+
+
+
+SAMPLES
+========
+
+UPDATED	CDEMU\Sample\Basic. This tutorial is a very basic overview of 
+	how to use the CD-Emulator.  Compiles with Library 4.0 and later; 
+	it may also compile with earlier versions of the library.
+
+	CDEMU\Sample\Rcube. This is an example that you can use on your 
+	emulator.  This is the standard sample was provided by SN Systems.  
+	You cannot compile this sample, as source was not provided.
+
+	CDEMU\Sample\GenCti. This sample directory contains a sample 
+	"Test.cti"  output file from the "GenCTI" program.  Refer to the 
+	"GenCTI" instructions in the "readme.doc" of this distribution for 
+	more details on the syntax of GenCTI. Please note that "GenCTI" was 
+	never updated beyond 1.0beta. For more details on the CTI syntax, 
+	refer to the CD Emulator manual.
+
+
+-------------------------------------------------------------------
+Copyright (C) 1997. Sony Computer Entertainment America Inc.

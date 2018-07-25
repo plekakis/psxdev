@@ -1,0 +1,13 @@
+DEPLOYING ON REAL PSX HARDWARE
+------------------------------
+
+To deploy on a real PSX you will need the following:
+
+1) A Windows 7 (x86 or x64) as a development system
+2) An LPT1 port on your motherboard; this can be a PciE expansion card or a LPT1 slot on the motherboard itself. USB to LPT1 does not work.
+3) A PSX with a Parallel port (only the early models have this)
+4) An XplorerFX cartridge. No other cheat cartridge will work. This also needs to be flashed to Caetla 0.34.
+5) Catflap program & inpout32 driver, used to communicate with the PSX through the parallel port (This is already included in the psyq\bin directory).
+
+Instructions on how to flash XplorerFX: https://github.com/simias/rustation/wiki/Xplorer-FX-setup
+You can also find the same instructions in the "Xplorer FX setup.pdf". All credit for this goes to Adam Becker.

@@ -1,0 +1,26 @@
+
+===============
+FILE:
+zbuffer.zip
+
+
+=============
+DATE:
+January 30, 1998.
+
+=============
+SIZE:
+414 KBytes
+
+=============
+CONTENTS :
+
+Demonstrates how Z-buffering may be performed 
+(in software) on PlayStation. The code is optimized, and is targeted at 
+developers who may have already have  such techniques 
+in their code (eg PC ports).  Contributed by S. Ashley at SCEE, 
+January 1998. 
+
+
+================================================================
+Copyright (C) 1998.  Sony Computer Entertainment America Inc.

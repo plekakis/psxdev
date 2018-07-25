@@ -1,0 +1,211 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+------------------------------------------------------------------------------
+ＴＵＲＴＬＥグラフィックスライブラリ簡易ドキュメント              Revision 1.0
+
+  File       : TURTLE_J.TXT
+  Date       : 94.10.19
+  Written By : Keiso Shimakawa
+------------------------------------------------------------------------------
+
+TURTLE Graphics Libraryは、以下の３つのモジュールで構成されている。
+
+  １．pixmap 操作モジュール		( pixmap )
+  ２．フラクタルボタン生成モジュール	( makecow, bucket, nsreduct, spectrum,
+					  median, line, fractal )
+  ３．texture 自動配置モジュール	( texmap )
+
+*****************************************************************************
+  構造体
+
+*****************************************************************************
+typedef struct {
+	short	x, y;
+} Point;
+
+typedef struct {
+	short	w, h;		/* bitmap size */
+	short	rowLWord;	/* offset to next row (*sizeof(long)) */
+	short	depth;		/* 1pixel/bits */
+	u_long	*baseAddr;	/* bitmap base address */
+} PixMap;
+
+typedef struct {
+	Point	*stack;	/* for bucket proc */
+	long	stack_size;
+} TDGlobals;
+
+extern TDGlobals	__gTD;
+
+
+１．pixmap 操作モジュール
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+ClearPixMap
+InvertPixMap
+CopyPixMap
+AndPixMap
+GetPixel
+SetPixel
+InitPixMap
+CalcPixMapRowSize
+CalcPixMapSize
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+
+【書式】void ClearPixMap( PixMap *bmp );
+【概要】bmpイメージをClear
+
+【書式】void InvertPixMap( PixMap *bmp );
+【概要】bmpイメージを反転
+
+【書式】void CopyPixMap( PixMap *src, PixMap *dst );
+【概要】bmpイメージの複製
+	（srcとdstは同サイズでなければならない）
+
+【書式】void AndPixMap( PixMap *src1, PixMap *src2, PixMap *dst );
+【概要】src1とsrc2イメージのandをとったものをdstに作成
+	（３つのPixMapは同サイズでなければならない）
+
+【書式】u_long GetPixel( PixMap *bmp, short x, short y );
+【概要】bmp内の指定座標のpixel値を読み出す
+
+【書式】void SetPixel( PixMap *bmp, short x, short y, u_long color );
+【概要】bmp内の指定座標にcolor値をセットする
+
+【書式】long InitPixMap( PixMap *bmp, short w, short h,
+						u_long *addr, int depth );
+【概要】PixMap構造体を初期化
+	depthは作成するPixMapのピクセル深度
+	addrはイメージバッファへのアドレス
+	（メモリー割り当ては行わない）
+
+【書式】long CalcPixMapRowSize( short w, short depth );
+【概要】指定ピクセル深度のラインの大きさを返す（long単位）
+
+【書式】long CalcPixMapSize( short w, short h, short depth );
+【概要】指定ピクセル深度のイメージバッファの大きさを返す（long単位）
+
+
+２．フラクタルボタン生成モジュール
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+InitBucket
+Bucket
+MedianBitMap
+LineBitMap
+FillRectBitMap
+FractalLine
+DrawSpectrumGrad
+MaskCowPattern
+RandSpectrumColor
+ExpansionPixMap
+DeflationPixMap
+GetSpectrumCTable
+FindRect
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+
+【書式】void InitBucket( u_long *stack_addr, long stack_size );
+【概要】バケツ（ペイント）処理のためにスタック領域とスタックサイズを
+	セットする
+
+【書式】void Bucket( PixMap *pm, short x, short y, u_long col );
+【概要】pm内のseed位置から、バケツ（ペイント）処理を開始する
+
+【書式】void MedianBitMap( PixMap *pixmap );
+【概要】pixmapにメディアンフィルターにかける。（ノイズ除去）
+
+【書式】void LineBitMap( PixMap *pix, short x1, short y1,
+				short x2, short y2, u_long col);
+【概要】pix内にcol色でラインを引く
+
+【書式】void FillRectBitMap( PixMap *pix, RECT *rect, u_long col );
+【概要】pix内のrect内をcol色で塗りつぶす
+
+【書式】void FractalLine( Point *p1, Point *p2, long w, long n,
+	void (*func)(Point *p1, Point *p2, long user), long userData );
+【概要】ランダムフラクタル・ラインを引く
+	実際のライン描画はfuncコールバック関数を呼び出す
+	userDataはコールバック関数にわたされる
+
+【書式】void DrawSpectrumGrad( RECT *rct )
+【概要】奇麗なグラデーションをつかった四角形を描画する
+
+【書式】void MaskCowPattern( u_short *addr, PixMap *tmpmap, PixMap *mskmap,
+					long p1, long p2 )
+【概要】addrにある16ビットイメージを牛模様でマスク処理する
+	tmpmapは作業用ビットマップ、
+	mskmapはマスク領域作成用ビットマップを格納するメモリアドレスを指定
+	処理する画像サイズは、tmpmapより得る
+	p1、p2はランダムドット数で、p1はマップ全体に、p2はマップの内側6/8に
+	発生させる
+
+【書式】void RandSpectrumColor( CVECTOR *rc )
+【概要】ランダムにRGBCMYの６色のうち１色を返す
+
+【書式】void ExpansionPixMap( PixMap *src, PixMap *dst )
+【概要】ビットマップを肥らせる（膨張させる）
+
+【書式】void DeflationPixMap( PixMap *src, PixMap *dst )
+【概要】ビットマップを痩せさせる（収縮させる）
+
+【書式】void GetSpectrumCTable( short *tbl )
+【概要】１６ビットの虹色パレットを取得する
+
+【書式】int FindRect(PixMap *bmp, RECT *limit, short w, short h,
+					short *x, short *y, u_long col )
+【概要】bmp内のlimitで囲まれた範囲内で、w x hサイズのcol色で塗りつぶされた
+	矩形領域があるかどうか判定する
+	領域があれば、x,yにその左上座標を返す
+	戻り値が1なら、空きあり。0で空き無し。
+
+
+３．texture 自動配置モジュール
+*****************************************************************************
+  関数一覧
+
+*****************************************************************************
+InitTexMapManager
+ResetTexMap
+FindFreeArea
+UseTexMap
+UseClutMap
+UnuseTexMap
+*****************************************************************************
+  仕  様
+
+*****************************************************************************
+
+【書式】void InitTexMapManager( RECT *maskRect, RECT *clutRect )
+【概要】管理用環境を初期化する
+	maskRectは、保護領域を設定。通常はGPUの描画エリアと表示エリア
+	clutRectは、カラーテーブル専用領域を設定。
+
+【書式】void ResetTexMap( void )
+【概要】InitTexMapManager()を呼び出した直後に初期化
+
+【書式】int FindFreeArea( short w, short h, short cw, short ch,
+					RECT *freeArea, RECT *freeClut )
+【概要】w,hは、確保したい領域のサイズ
+	cw,chは、確保したいカラーテーブルサイズ
+	freeAreaは、w,hで要求されたサイズを確保できたときにその位置情報を返す
+	freeClutは、cw,chで要求されたサイズを確保できたときにその位置情報を返す
+	戻り値は、確保できれば1、確保失敗で0
+
+【書式】int UseTexMap( RECT *useArea )
+【概要】テクスチャーを配置した領域を設定
+
+【書式】int UseClutMap( RECT *useArea )
+【概要】カラーテーブルを配置した領域を設定
+
+【書式】int UnuseTexMap( RECT *useArea )
+【概要】useAreaを開放

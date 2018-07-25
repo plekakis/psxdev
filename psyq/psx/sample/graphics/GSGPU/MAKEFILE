@@ -1,0 +1,16 @@
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+TADDR	 = 80020000	
+CC       = cc -EL -G 0 -O2 -I$(INCDIR) 
+LIBS     = -lgs -lcd -lpress -lgte -lgpu -letc -lc -lapi
+
+all : main	
+main.o : menu.h	
+OBJS  =	main.o  tuto0.o tuto1.o 
+main : $(OBJS) 
+	ld -L$(LIBDIR) -EL -N -T $(TADDR) -e main -o main $(OBJS) $(LIBS)
+
+load :
+	bload mado.tmd 80100000
+	bload mado.tim 80180000
+

@@ -1,0 +1,173 @@
+Installing the H25DRV.EXE driver
+H25Drv.exe allows you to use a terminal-based program called DECICONS. To debug 
+your programs, `printf's' must be used. You cannot use the SDevTC tools for running 
+programs or loading memory, although you can still compile programs using "psymake". 
+H25Drv.exe is the basic, "no-frills" device driver which works with the PCI card. You may 
+use this driver to verify that the PCI card is functional.
+
+H25Bios.Com allows you to use the SDevTC tools  RUN, PQBLOAD,  and the interactive 
+debugger  DBUGPSX.
+
+To install H25DRV.EXE, perform the following steps:
+
+Step 1:	Edit "config.sys" and "system.ini".
+Add the following line to "c:\config.sys":
+
+DEVICE=C:\ps\psx\bin\H25DRV.EXE  /V   /N 
+
+If you use the EMM386.EXE memory manager, add the following line to 
+"c:\config.sys":
+
+DEVICE=EMM386.EXE. . . . . X=C800-C9FF
+
+This reserves a block of memory for the PCI card.
+
+To allow the DECICONS program (discussed later) to use colors, a line 
+similar to the following should be added to your "c:\config.sys" file:
+
+devicehigh=c:\dos\ansi.sys
+
+The "ansi.sys" file may exist in a different directory, so please modify the 
+above line accordingly. Otherwise, some of the text output by the DECICONS 
+program will look like garbage.
+
+If you use Windows 3.1, add the following line to the "386Enh" section of 
+"c:\windows\system.ini":
+
+[386Enh]
+EMMExclude=C800-C8FF
+
+Step 2:	Run FLASHB8.BAT.
+If your PCI board was OK on bootup, run FLASHB8.BAT (this needs to be 
+done only once):
+
+cd c:\ps\psx\bin\DTLH2500\H25DRV
+flashb8.bat
+
+This loads the OS ROM image file 
+c:\ps\psx\bin\DTLH2500\H25DRV\H2500b8.img into the flash ROM of the PCI 
+board, which enables access to the PC filing system (PCFS). During the 
+installation, your TV monitor will flash strange colors for a period of time. This 
+does not indicate a problem; leave it alone until the configuration has finished. 
+(If your monitor does not flash strange colors, there may be a memory 
+conflict, but you should perform the following two steps and take special note 
+of the BIOS. If you have an AMI BIOS, follow the steps in the section 
+`Installing to an AMI BIOS Machine.')
+
+Step 3:	Shut down your machine.
+
+Step 4:	Reboot.
+Take careful note of the type of BIOS that is reported on the screen during the 
+reboot. If you have an AMI BIOS, you will need to take some special actions.
+If you still have problems, review the previous steps and recheck your work. 
+For additional information refer to the chapter "Troubleshooting your 
+installation."
+
+Step 5:	Rename RESET25.exe.
+This is a program which resets (initializes) the PCI card. Every time you 
+intend to run a PlayStation program, this program must be run first. If you 
+intend to use the PCI board in NTSC mode, rename RESET25N.EXE to 
+RESET25.EXE by typing the following:
+
+cd c:\ps\psx\bin
+rename reset25n.exe reset25.exe
+
+If you intend to use the PCI board in PAL mode, rename RESET25P.EXE to 
+RESET25.EXE by typing the following:
+
+cd c:\ps\psx\bin
+rename reset25p.exe reset25.exe
+
+Step 6:	Run a sample program using H25DRV.EXE and the DECICONS utility.
+The sample program resides in c:\ps\psx\sample\balls, so type
+
+cd c:\ps\psx\sample\graphics\balls
+
+To start decicons, type
+decicons
+
+If the H2500 is operating correctly, the DOS prompt will switch to the DTL-
+H2500 Console Mode. The following commands can now be used:
+
+[F1]	displays help
+[F4]	loads a program file
+[F3]	runs loaded program
+[F7]	sets switch
+		0	boots PlayStation CD-ROM
+		1	PSX> prompt mode
+		2	boots PlayStation CD-ROM with tty out
+[F5]	Sets up logfile. All messages, such as printf output, will be sent 
+to the file name you specify, as well as to the screen. To stop the 
+output, hit [F10], [F5].
+[F9][F7]	Sets video mode
+	0	NTSC mode
+	1	PAL mode
+[F9][F10]	resets
+[F10][F2]	quits decicons
+Note: After hitting F9, F10 to reset the boards, hit F8 to get the prompt 
+back.
+
+The following steps explain how to run the sample program, BALLS.EXE:
+
+	Press the [F9][10] keys to reset the PCI board.
+
+	Press the [F4] key. This puts decicons into a "downloading" mode.
+
+	When "Load[1]" is displayed, type
+
+BALLS.EXE
+
+	Press the [F3] key This executes the downloaded program.
+
+	You should see a ball bouncing around on a blue screen (make sure your 
+color television is hooked up and turned on).
+
+	Press [F10] [F2] key to exit out of the DECICONS mode.
+
+If you don't see the bouncing ball, please recheck your work and refer to the 
+chapter "Troubleshooting the installation" for more help.
+
+Step 7:	(Optional) Running other sample programs.
+Using the DECICONS console, you can run the other examples in the 
+"c:\ps\psx\sample" directory. For example, to run a sound demo,
+
+? Type "decicons". This puts you into the terminal mode.
+
+? Press the [F9][F10] keys to reset the PCI board.
+
+? Wait until the message "Monitor started" appears.
+
+? Press the [F2] key. This puts you in DOS mode. Type 
+
+cd c:\ps\psx\sample\graphics\clutfog
+
+? Press the [F2] key (yes, again). Type
+
+psymake all
+
+? Press the [F2] key. Type 
+
+edit makefile.mak
+
+"edit" just happens to be the editor on most DOS machines. Invoke any 
+editor you want. Replace the word "pqbload" with "bload25". These 
+programs will load raw binary data into the RAM of the PCI card. 
+"bload25" works with H25DRV.Exe; "pqbload" works with "H25bios.com", 
+which will be installed later.
+
+? Exit out of the editor, and you will automatically be in decicons mode.
+
+? Press the [F2] key. Type
+
+psymake load
+
+? Press the [F2] key. Type 
+
+run25  tuto0.cpe
+
+? You willl get in the habit of pressing the F2 keys time and again. 
+ 
+? When you are satisfied that your installation is working properly, re-edit 
+the makefile.mak and replace the word "bload25" with "pqbload".
+ 
+

@@ -1,0 +1,230 @@
+/*
+	Constants and macros for labp (label processor).
+
+	Copyright (C) 1997,1998 by Sony Computer Entertainment Inc.
+	All rights Reserved.
+
+	Ver 1.00	Jun 26, 1997	By N.Yoshioka
+	Ver 1.01	Jul 08, 1997	By N.Yoshioka
+		- Unneccesary defines are removed.
+	Ver 1.10	Sep 04, 1997	By N.Yoshioka
+		- "COORDM" macro is added.
+		- "BCL" is replaced with "ADV".
+		- "TGT_VERT", "TGT_NORM", "TGT_POLY" and "TGT_PRIM"
+		  are removed.
+		- "TGT_GENERAL" is defined.
+		- "CTG_GND" is defined.
+		- BETASPRINEs are removed.
+	Ver 1.11	Nov 05, 1997	By N.Yoshioka
+		- "SPLINE"s are added instead of "SPRINE".
+		  But just for back ward compatibility, the typo version
+		  will be alive for a while.
+	Ver 1.12	Nov 06, 1997	By N.Yoshioka
+		- TUM, TVM, TUA and TVA are added to correspond to
+		  tiled texture.
+		- TSB and CBA are added to make easy for these values.
+	Ver 1.13	Jan 14, 1998	By N.Yoshioka
+		- DIV2x2 - DIV32x32 are added.
+	Ver 1.20	Mar 18, 1998	By N.Yoshioka
+		- MTX is removed.
+		- ROT_XYZ - ROT_ZYX are added.
+		- Defines for CTG_EQUIP are added.
+*/
+#define HMD_VERSION	0x00000050
+#define TERMINATE	0xffffffff
+#define ONE	4096
+
+/* DEV ID */
+#define SCE		(0x0 * 0x10)
+#define DEV_ID(x)	((x) * 0x10000000)
+
+/* CATEGORY */
+#define CTG_POLY	0
+#define CTG_SHARED	1
+#define CTG_IMAGE	2
+#define CTG_ANIM	3
+#define CTG_MIMe	4
+#define CTG_GND		5
+#define CTG_EQUIP	7
+#define CTG(x)		((x) * 0x1000000)
+
+/* DRIVER */
+#define INI	0x80
+#define CLP	0x40
+#define STP	0x20
+#define BOT	0x10
+#define ADV	0x08
+#define LGT	0x04
+#define FOG	0x02
+#define DIV	0x01
+
+#define DIV2x2		0x01000000
+#define DIV4x4		0x02000000
+#define DIV8x8		0x03000000
+#define DIV16x16	0x04000000
+#define DIV32x32	0x05000000
+
+#define CAT_MASK	0x70	/* for ANIM */
+#define CAT_STD		0x00	/* for ANIM */
+#define TGT_MASK	0x0f	/* for ANIM */
+#define TGT_COORD	0x00	/* for ANIM */
+#define TGT_GENERAL	0x01	/* for ANIM */
+
+#define MIMe_POLY	0x00	/* for MIMe; not implemented yet */
+#define MIMe_PRIM	0x01	/* for MIMe */
+
+#define DRV(x)		((x) * 0x10000)
+
+/* PRIMITIVE type */
+#define MIMe	0x0400
+#define TILE	0x0200
+#define PST	0x0100
+#define MIP	0x0080
+#define LMD	0x0040
+
+#define CODE_MASK	0x0038
+#define TRI	0x0008
+#define QUAD	0x0010
+#define MESH	0x0018
+
+#define IIP	0x0004
+#define COL	0x0002
+#define TME	0x0001
+
+#define NOCLUT		0x0000	/* for IMAGE */
+#define WITHCLUT	0x0001	/* for IMAGE */
+
+#define RST		0x0008	/* for MIMe */
+#define MIMe_MASK	0x00f7	/* for MIMe */
+#define JNT_AXES	0x0010	/* for MIMe */
+#define JNT_RPY		0x0011	/* for MIMe */
+#define VTX		0x0020	/* for MIMe */
+#define NRM		0x0021	/* for MIMe */
+
+/* Scale Interporation */
+#define SI_MASK		0x0f00	/* for ANIM */
+#define SI_NONE		0x0000	/* for ANIM */
+#define SI_LINEAR	0x0100	/* for ANIM */
+#define SI_BEZIER	0x0200	/* for ANIM */
+#define SI_BSPRINE	0x0300	/* for ANIM; typo */
+#define SI_BSPLINE	0x0300	/* for ANIM */
+#define SI_LINEAR_1	0x0900	/* for ANIM */
+#define SI_BEZIER_1	0x0a00	/* for ANIM */
+#define SI_BSPRINE_1	0x0b00	/* for ANIM; typo */
+#define SI_BSPLINE_1	0x0b00	/* for ANIM */
+
+/* Rotation Interporation */
+#define RI_MASK		0x00f0	/* for ANIM */
+#define RI_NONE		0x0000	/* for ANIM */
+#define RI_LINEAR	0x0010	/* for ANIM */
+#define RI_BEZIER	0x0020	/* for ANIM */
+#define RI_BSPRINE	0x0030	/* for ANIM; typo */
+#define RI_BSPLINE	0x0030	/* for ANIM */
+
+/* Rotation Order */
+#define ROT_MASK	0x0f000	/* for ANIM */
+#define ROT_XYZ		0x00000	/* for ANIM */
+#define ROT_XZY		0x01000	/* for ANIM */
+#define ROT_YXZ		0x02000	/* for ANIM */
+#define ROT_YZX		0x03000	/* for ANIM */
+#define ROT_ZXY		0x04000	/* for ANIM */
+#define ROT_ZYX		0x05000	/* for ANIM */
+
+/* Translation Interporation */
+#define TI_MASK		0x000f	/* for ANIM */
+#define TI_NONE		0x0000	/* for ANIM */
+#define TI_LINEAR	0x0001	/* for ANIM */
+#define TI_BEZIER	0x0002	/* for ANIM */
+#define TI_BSPRINE	0x0003	/* for ANIM; typo */
+#define TI_BSPLINE	0x0003	/* for ANIM */
+#define TI_LINEAR_S	0x0009	/* for ANIM */
+#define TI_BEZIER_S	0x000a	/* for ANIM */
+#define TI_BSPRINE_S	0x000b	/* for ANIM; typo */
+#define TI_BSPLINE_S	0x000b	/* for ANIM */
+
+/* Generic Interporation */
+#define GI_MASK		0x0f00	/* for ANIM */
+#define GI_NONE		0x0000	/* for ANIM */
+#define GI_LINEAR	0x0100	/* for ANIM */
+#define GI_BEZIER	0x0200	/* for ANIM */
+#define GI_BSPRINE	0x0300	/* for ANIM; typo */
+#define GI_BSPLINE	0x0300	/* for ANIM */
+#define GI_WR(x)	(((x) & 0x0f) * 16)	/* for ANIM */
+#define GI_LENMASK	0x000f		/* for ANIM */
+#define GI_32		0x0000		/* for ANIM */
+#define GI_16		0x0001		/* for ANIM */
+#define GI_8		0x0002		/* for ANIM */
+
+/* For camera and light */
+#define CAMERA		0x0100
+#define LIGHT		0x0200
+#define CAM_PROJ	0x00
+#define CAM_WORLD	0x01
+#define CAM_FIX		0x02
+#define CAM_AIM		0x03
+#define LIGHT_AMB	0x00
+#define LIGHT_WORLD	0x01
+#define LIGHT_FIX	0x02
+#define LIGHT_AIM	0x03
+
+#define PRIM_TYPE(x)	(x)
+
+/* ANIM sequence descriptor */
+#define SEQD(x)		((x) * 0x40000000)
+#define NORMAL		0
+#define JUMP		2
+#define CONTROL		3
+#define TYPE_IDX(x)	((x) * 0x01000000)	/* for NORMAL */
+#define TFRAME(x)	((x) * 0x00010000)	/* for NORMAL */
+#define PARAM_IDX(x)	(x)			/* for NORMAL */
+#define SID_DST(x)	((x) * 0x00800000)	/* for JUMP */
+#define SID_CND(x)	((x) * 0x00010000)	/* for JUMP */
+#define SEQ_IDX(x)	(x)			/* for JUMP */
+#define CODE(x)		((x) * 0x00800000)	/* for CONTROL */
+#define P1(x)		((x) * 0x00010000)	/* for CONTROL */
+#define P2(x)		(x)			/* for CONTROL */
+
+/* MIMe */
+#define MIMePR_OUTSIDE	0x00000
+#define MIMePR_INSIDE	0x10000
+#define MIMeID(x)	((x) & 0x0ffff)
+
+/* tiled texture */
+#define TUM(x)	(((x) & 0x01f) * 0x00000001)
+#define TVM(x)	(((x) & 0x01f) * 0x00000020)
+#define TUA(x)	(((x) & 0x01f) * 0x00000400)
+#define TVA(x)	(((x) & 0x01f) * 0x00008000)
+#define TEX_WIN(x, y, w, h)	\
+	0xe2000000|TUM((~((w) - 1) & 0x0ff) / 8)|TVM((~((h) - 1) & 0x0ff) / 8)	\
+		|TUA(((x) & 0x0ff) / 8)|TVA(((y) & 0x0ff) / 8)
+
+/* texture page */
+#define TSB(tp, abr, x, y)	\
+	H((((tp) & 0x03) * 128)|(((abr) &0x03) * 32)|	\
+	(((y) & 0x0100) / 16)|(((x) & 0x03ff) / 64)|(((y) & 0x0200) * 4))
+#define CBA(x, y)	H(((y) * 64)|(((x) / 16) & 0x03f))
+
+/* Macros */
+#define SVECTOR(x, y, z)	H(x); H(y); H(z); H(0)
+#define MATRIX(	x11, x12, x13,	\
+		x21, x22, x23,	\
+		x31, x32, x33,	\
+		tx, ty, tz)	\
+	H(x11); H(x12); H(x13);	\
+	H(x21); H(x22); H(x23);	\
+	H(x31); H(x32); H(x33);	\
+	H(0);	/* pad */	\
+	(tx); (ty); (tz)
+
+#define COORDM(rx, ry, rz, tx, ty, tz)	\
+	RotMatrix((rx), (ry), (rz));	\
+	(tx); (ty); (tz);	\
+	MATRIX(	/* workm */	\
+		0, 0, 0,	\
+		0, 0, 0,	\
+		0, 0, 0,	\
+		0, 0, 0);	\
+	SVECTOR((rx), (ry), (rz))
+
+#define SECT_OFFSET(x)		((x) * 0x01000000)
+#define OFFSET_IN_SECT(x)	(x)

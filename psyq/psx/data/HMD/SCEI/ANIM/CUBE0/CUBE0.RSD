@@ -1,0 +1,13 @@
+# cube0.rsd
+# ID
+@RSD970401
+# include files
+PLY=cube0.ply
+MAT=cube0.mat
+COD=cube0.cod
+NMOT=1
+MOT[0]=cube0.mot
+NTEX=3
+TEX[0]=pat4.tim
+TEX[1]=pat8.tim
+TEX[2]=pat16.tim

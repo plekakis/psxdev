@@ -1,0 +1,54 @@
+# NOTE:
+# This makefile requires dmpsx. If you do not have dmpsx, please install it.
+#
+#LIBDIR   = ../../../lib
+#INCDIR   = ../../../include
+LIBDIR   = /usr/psx/lib
+INCDIR   = /usr/psx/include
+TADDR	 = 80010000
+CC       = cc -EL -G 0 -O -I$(INCDIR)
+GCC      = gcc-el -G 0 -O -I$(INCDIR)
+LIBS     = $(LIBDIR)/libgs.a $(LIBDIR)/libgpu.a $(LIBDIR)/libgte.a \
+	   $(LIBDIR)/libetc.a $(LIBDIR)/libc.a $(LIBDIR)/libapi.a 
+
+OBJS  =	clip.o bgtex.o db.o mesh.o div.o geom.o pad.o debug.o map.o \
+	config.o 
+
+all:	tuto0 tuto1 tuto2 tuto3 tuto4 tuto5
+
+div.o : div.c
+	$(GCC) -c div.c -o div.o
+	dmpsx div.o -t $(INCDIR)/inline.tbl
+
+tuto1.o : tuto1.c
+	$(CC) -DNO_DIV -DVIEW_CLIP -c tuto1.c -o tuto1.o
+
+tuto2.o : tuto1.c
+	$(CC) -c -DNO_DIV tuto1.c -o tuto2.o
+
+tuto3.o : tuto1.c
+	$(CC) -c -DNO_DIV -DRAP_ROUND tuto1.c -o tuto3.o
+
+tuto4.o : tuto1.c
+	$(CC) -c -DRAP_ROUND tuto1.c -o tuto4.o
+	
+tuto0: tuto0.o $(OBJS) 
+	ld -EL -N -T $(TADDR) -e main -o tuto0 tuto0.o $(OBJS) $(LIBS)
+
+tuto1: tuto1.o $(OBJS)
+	ld -EL -N -T $(TADDR) -e main -o tuto1 tuto1.o $(OBJS) $(LIBS)
+
+tuto2: tuto2.o $(OBJS)
+	ld -EL -N -T $(TADDR) -e main -o tuto2 tuto2.o $(OBJS) $(LIBS)
+
+tuto3: tuto3.o $(OBJS)
+	ld -EL -N -T $(TADDR) -e main -o tuto3 tuto3.o $(OBJS) $(LIBS)
+
+tuto4: tuto4.o $(OBJS)
+	ld -EL -N -T $(TADDR) -e main -o tuto4 tuto4.o $(OBJS) $(LIBS)
+
+tuto5: tuto5.o bg.o bgtex8.o bgtex.o 
+	ld -EL -N -T $(TADDR) -e main -o tuto5 tuto5.o bg.o bgtex8.o bgtex.o \
+									$(LIBS)
+clean:;		@rm -f *.o *~ tuto[0-9] 
+

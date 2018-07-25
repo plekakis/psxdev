@@ -1,0 +1,332 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$    
+                                                             May 1998
+                                       PlayStation(R) Programmer Tool
+                                          Runtime Library Release 4.3
+                       Library Changes, New Additions, and Known Bugs
+                                                     from Release 4.2
+---------------------------------------------------------------------
+                    Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                  All Rights Reserved.
+---------------------------------------------------------------------
+Known Bugs and Cautions
+---------------------------------------------------------------------
+<Addition of HMD Library libhmd> 
+- HMD-related functions, which were included in LIBGS and LIBGTE in 
+PlayStation library release 4.2 or earlier, were separated as LIBHMD.  
+Due to this change, HMD-related functions and declarations were 
+removed from LIBGS and LIBGTE libraries and header files.  Please use 
+the HMD library (LIBHMD) together with libhmd.h.
+
+The environment map is provided as a Beta version, because the format 
+may change in future releases without keeping compatibility.  The 
+Beta-version primitives are not officially supported by SCE at this 
+point.  If you want to use them for creating titles, please do so on 
+your own responsibility.
+
+<Addition of printver>
+- Pkver, used to check the version, was found not to show the version 
+of many files.  Printver is introduced in this release.
+
+<Deletion of pkver>
+- Consequently, pkver was deleted.
+
+<Known Bugs>
+- When PadInitMtap() is used for initializing, the mouse may not be 
+recognized on rare occasions.  Remove the mouse once and insert it 
+again for it to be recognized.
+
+- In the Extended Sound Library (libsnd), the phonation of noise 
+currently does not work properly.  Use the Basic Sound Library 
+(libspu) to use noises.  This problem will be fixed in the next 
+release.
+
+- When the process for the OT is suspended by BreakDraw(), and 
+the process is resumed after inserting another OT by ContinueDraw(),
+the last packet of the inserting OT does not be executed.
+To avoid this problem, please use NULL packet (size 0 packet) for the
+last of the inserting OT. This problem will be fixed in the next 
+release.
+
+All product and company names mentioned herein are the registered 
+trademarks or trademarks of their respective owners.
+
+
+SDevTC Tools
+---------------------------------------------------------------------
+<DOS Environment Variable Changes>
+- Starting from CCPSX version 3.06.0015, DOS environment variables are 
+handled differently.  Due to this change, the place where CCPSX 
+searches for files is described only in sn.ini.  Environment variables 
+C_INCLUDE_PATH, COMPILER_PATH and LIBRARY_PATH will not be referenced.  
+Please refer to pssn\readme.1st for details.
+
+<Files Changed>
+pssn\aspsx.exe       Updated
+pssn\ccpsx.exe       File search method changed (refer to readme.1st)
+pssn\dbugpsx.exe     Updated
+pssn\dbg_read.txt     Debugger README (English)
+pssn\psylink.exe    Bug in which -1 (failure) is returned in a warning 
+                    was corrected
+pssn\snpatchj.cpe     Updated
+pssn\readme.1st      About DOS environment variable changes
+pssn\readme_j.txt     
+pssn\sn.ini           Modification due to ccpsx changes
+pssn\flash25            Updated
+pssn\flash27            Updated
+pssn\dos\psylinkd.exe   Same changes as psylink
+compiler\cpppsx.exe     Updated GNU 2.8.0
+compiler\cc1psx.exe     Updated GNU 2.8.0
+compiler\cc1plpsx.exe   Updated GNU 2.8.0
+
+<Files Added>
+pssn\psylib2.exe        A version of psylib.exe in which long file names 
+                        are supported. Usage complies with psylib.
+
+
+DMPSX
+---------------------------------------------------------------------
+- Changed to a 32-bit program.
+
+- Long file names are supported.
+
+
+Kernel Library (libapi)
+---------------------------------------------------------------------
+<Header File Modification>
+- A _card_format() prototype statement was added to libapi.h.
+
+<Library Bug Fix>
+- When a NULL address was passed to free3(), the operation became 
+unstable.  This problem has been fixed.
+
+
+C Standard Library (libc/c2)
+---------------------------------------------------------------------
+<Library Bug Fix>
+- bsearch() did not work properly.  This problem has been fixed.
+
+
+CD-ROM Library (libcd)
+---------------------------------------------------------------------
+<Header File Modification>
+- Due to multiple-defined prototype statements, a warning messsage was 
+returned when libds.h was included before libcd.h.  This problem has 
+been fixed.
+
+<Library Bug Fixes>
+- When CdRead() was used, "sync callback" was called by the "pause" 
+primitive issued after read was completed. This problem has been fixed 
+so that this callback is not called at this timing.
+
+- When function CdPlay() or DsPlay() was used, the specified track was 
+not played, and was skipped.  This problem has been fixed.
+
+- When the Disc Cover was opened during the execution of CdDiskReady(),
+CdlStatShellOpen was not returned. This problem has been fixed.
+
+
+Extended CD-ROM Library (libds)
+---------------------------------------------------------------------
+<Library Bug Fixes>
+- When DsRead() was used, "sync callback" was called by the "pause" 
+primitive issued after read was completed. This problem has been fixed 
+so that this callback is not called at this timing.
+
+- DsGetDiskType() did not return DslStatShellOpen when the Disc Cover 
+was open.  This problem has been fixed.
+
+- When CdPlay() or DsPlay() was used, the specified track was not 
+played, and was skipped.  This problem has been fixed.
+
+- When packests issued by DsRead() overflew from the queue, subsequent 
+DsRead() always failed.  This problem has been fixed.
+
+- DsCommand() and DsPacket() occasionally returned an error even if 
+a command had been registered.  This problem has been fixed.
+
+- When DslGetlocL and DslGetlocP primitive commands were used during 10,
+30 and 50-minute sector reads, a DslDiskError occurred.  This problem 
+has been fixed.
+
+- When specific functions such as DsRead() and DsSearchFile() were 
+called frequently, data became unable to be read.  This problem has 
+been fixed.
+
+- When DsPlay() was used, only the first track was played even if 
+multiple tracks were specified.  This problem has been fixed.
+
+
+ETC Library (libetc)
+---------------------------------------------------------------------
+<Library Bug Fix>
+- VSync(1) occasionally returned undefined values.  This problem has 
+been fixed.
+
+HMD Library (libhmd)
+---------------------------------------------------------------------
+The following are changes from libgs version 4.2.
+
+<Functions Added>
+- New animation interpolation drivers were added for 6 variations of 
+rotation order.
+
+- Equipment primitive drivers (camera, light) were added.
+
+- Colored primitive drivers were added.
+
+Refer to "Appendix A:	Primitive Type List" in hmd.doc for details on 
+the additional drivers.
+
+
+Basic Graphics Library (libgpu)
+---------------------------------------------------------------------
+<Functions Added>
+- A macro version of SetDrawLoad(), setDrawLoad(), was added.
+
+- The following functions that obtain the current drawing environment 
+were added.
+    
+    GetDrawMode(), GetDrawOffset(), GetDrawArea(), GetTexWindow()
+
+<Library Bug Fixes>
+- When KanjiFntPrint() was used, if 256 or more characters were 
+registered to one stream, other part of the memory area was 
+occasionally destroyed.  This problem has been fixed.
+
+- When KanjiFntPrint() was used, when an incorrect code that is not 
+included in kanji code was registered, subsequent KanjiFntFlush() 
+became unable to display characters.  This problem has been fixed.
+
+
+Extended Graphics Library (libgs)
+---------------------------------------------------------------------
+<Header File Modification>
+- The prototype statements for the following functions declared in 
+libgs.h were corrected.
+
+		GsA4divNTF3()   -> GsA4divTNF3()
+		GsA4divNTF4()   -> GsA4divTNF4()
+		GsA4divNTF4M()  -> GsA4divTNF4M()
+		GsA4divTG3LGG() -> GsA4divTG3LFG()
+		GsA4divNTG3()   -> GsA4divTNG3()
+
+
+Basic Geometry Library (libgte)
+---------------------------------------------------------------------
+<Header File Modification>
+- The prototype statements for the following functions were added to 
+libgte.h.
+
+	EigenMatrix(), IsIdMatrix()
+
+<Functions Added>
+- The following functions that calculate the rotation matrix from the 
+rotation angle were added.
+
+	RotMatrixXZY(), RotMatrixYZX(), RotMatrixZXY()
+
+
+Gun Library (libgun)
+---------------------------------------------------------------------
+<Header File Modification>
+- The prototype statement for StartGUN() was corrected (from void to 
+long.)
+
+
+Math Library (libmath)
+---------------------------------------------------------------------
+<Library Bug Fixes>
+- If you tried to convert (int)0x80000000 to a floating or double type, 
+an infinite loop was entered.  This problem has been fixed.
+
+- If you tried to convert (floating or double)-0.0 to an int, 
+0x80000000 was returned.  This problem has been fixed.
+
+
+Extended Memory Card Library (libmcrd)
+---------------------------------------------------------------------
+<Header File Modification>
+- For the following functions, the prototype statements in the 
+document and the header file were inconsistent.  This problem has been 
+fixed.
+
+	MemCardInit(), MemCardOpen(), MemCardReadData(), 
+	MemCardReadFile(), MemCardWriteData(), MemCardWriteFile(), 
+	MemCardCreateFile(), MemCardDeleteFile(), MemCardSync(), 
+	MemCardGetDirentry() 
+
+<Library Bug Fixes>
+- When MemCardGetDirentry() was executed against an memory card which
+had no saved data, a value was not set to "files" (fourth parameter.)
+This problem has been fixed.
+
+- The required number of VSync for MemCardReadData(), 
+MemCardWriteData(), MemCardReadFile() and MemCardWriteFile() had 
+increased compared to version 4.1.  This problem has been fixed.
+
+
+Controller Library (libpad)
+---------------------------------------------------------------------
+<Library Bug Fixes>
+- When a controller was inserted in one controller port, and another 
+was inserted into another controller port halfway, and then inserted 
+all the way, an incorrect value was set to the receive buffer for the 
+the first controller occasionally. This problem has been fixed.
+
+- When an Analog Controller (DUAL SHOCK) was used, if PadStartCom() 
+was executed within three seconds after PadStopCom(), the Analog 
+Controller (DUAL SHOCK) became unable to be recognized.  This problem 
+has been fixed.
+
+- While a controller was connected via the Multi Tap, a hang-up 
+occurred, or an incorrect value was set to the receive buffer 
+occasionally.  This problem has been fixed.
+
+
+Serial Input/Output Library (libsio)
+---------------------------------------------------------------------
+<Header File Modification>
+- The prototype statement of _sio_control() in the document 
+and the header file was inconsistent.  This problem has been fixed.
+
+
+Extended Sound Library (libsnd)
+---------------------------------------------------------------------
+<Library Bug Fixes>
+- When a negative value was passed to "fine" of SsPitchFromNote(), a 
+correct value was not returned.  This problem has been fixed.
+
+- Starting from version 4.0, the algorithm for converting "note" to 
+"pitch" was different in libspu and libsnd.  They were changed to be 
+the same.
+
+- In SEQ data, when NRPN with CC99=16 (such as Reverb depth) was used 
+in a track without a program change, this control became invalid.  
+This problem has been fixed.
+
+- When SsSeqSetCrescendo() or SsSeqSetDecrescendo() was used, the 
+sequence volume value was not equal to the expected value after 
+crescendo or decrescendo.  This problem has been fixed.
+
+<Functionality Added>
+- SsInit() was changed so that the reverb work area is cleared 
+internally.  As a result, the process takes longer compared to 
+previous versions.
+(As long as SpuClearReverbWorkArea(SPU_REV_MODE_ECHO) function 
+execution).
+
+
+Basic Sound Library (libspu)
+---------------------------------------------------------------------
+<Library Bug Fixes>
+- Starting from version 4.0, the algorithm for converting "note" to 
+"pitch" was different in libspu and libsnd.  They were changed to be 
+the same.
+
+Multi-tap Library (libtap)
+---------------------------------------------------------------------
+<Header File Modification>
+- The return value type for StartTAP(), InitTAP(), StopTAP() and 
+SendTAP() was corrected (from long to void.)
+
+

@@ -1,0 +1,3785 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect_0000 / 4;
+	3;	/* num of blocks */
+	AnimPrimSet / 4;
+	PolyPrimSet_0000 / 4;
+	RstVNMIMePrimSet_0000 / 4;
+
+CoordSect_0000:	/* 0x0000001c */
+	1;	/* num of coords */
+
+Coord_0000:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	2048, 2048, 2048,	/* rot */
+		0, 0, 0);	/* trans */
+	0;	/* super */
+
+PrimHdrSect_0000:	/* 0x00000070 */
+	4;	/* num prim hdrs */
+
+PolyPrimHdr_0000:	/* 0x00000074 */
+	4;	/* hdr size */
+	M(Poly_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+VNMIMePrimHdr_0000:	/* 0x00000088 */
+	7;	/* hdr size */
+	M(MIMePrSect / 4);	/* MIMePr ptr */
+	2;	/* MIMe num */
+	MIMeID(0x0000);
+	M(VertMIMeDiff_0000 / 4);
+	M(VNMIMeOrgsVNSect_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+
+RstVNMIMePrimHdr_0000:	/* 0x000000a8 */
+	5;	/* hdr size */
+	MIMeID(0x0000);
+	M(VertMIMeDiff_0000 / 4);
+	M(VNMIMeOrgsVNSect_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+
+AnimPrimHdr:
+	5;	/* hdr size */
+	5;	/* anim hdr size */
+	M(InterpFuncSect_0000 / 4);
+	M(CtrlSect_0000 / 4);
+	M(ParamSect_0000 / 4);
+	M(MIMePrSect / 4);
+
+MIMePrSect:
+	0;	/* key 1 */
+	0;	/* key 2 */
+
+PolyPrimSet_0000:	/* 0x000000c0 */
+	TERMINATE;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+PolyPrim_0000:	/* 0x000000cc */
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(INI)
+		|PRIM_TYPE(QUAD);	/* type[0] */
+	H(2); M(H(600));	/* size, data */
+	(Poly_0000 - Poly_0000) / 4;
+
+Vert_0000:	/* 0x000000d8 */
+	SVECTOR( -500,   500,  -500);	/* vert[0] */
+	SVECTOR( -500,  -500,   500);	/* vert[1] */
+	SVECTOR( -500,   400,  -500);	/* vert[2] */
+	SVECTOR( -500,  -400,   500);	/* vert[3] */
+	SVECTOR( -500,   300,  -500);	/* vert[4] */
+	SVECTOR( -500,  -300,   500);	/* vert[5] */
+	SVECTOR( -500,   200,  -500);	/* vert[6] */
+	SVECTOR( -500,  -200,   500);	/* vert[7] */
+	SVECTOR( -500,   100,  -500);	/* vert[8] */
+	SVECTOR( -500,  -100,   500);	/* vert[9] */
+	SVECTOR( -500,     0,  -500);	/* vert[10] */
+	SVECTOR( -500,     0,   500);	/* vert[11] */
+	SVECTOR( -500,  -100,  -500);	/* vert[12] */
+	SVECTOR( -500,   100,   500);	/* vert[13] */
+	SVECTOR( -500,  -200,  -500);	/* vert[14] */
+	SVECTOR( -500,   200,   500);	/* vert[15] */
+	SVECTOR( -500,  -300,  -500);	/* vert[16] */
+	SVECTOR( -500,   300,   500);	/* vert[17] */
+	SVECTOR( -500,  -400,  -500);	/* vert[18] */
+	SVECTOR( -500,   400,   500);	/* vert[19] */
+	SVECTOR( -500,  -500,  -500);	/* vert[20] */
+	SVECTOR( -500,   500,   500);	/* vert[21] */
+	SVECTOR( -500,  -500,  -400);	/* vert[22] */
+	SVECTOR( -500,   500,   400);	/* vert[23] */
+	SVECTOR( -500,  -500,  -300);	/* vert[24] */
+	SVECTOR( -500,   500,   300);	/* vert[25] */
+	SVECTOR( -500,  -500,  -200);	/* vert[26] */
+	SVECTOR( -500,   500,   200);	/* vert[27] */
+	SVECTOR( -500,  -500,  -100);	/* vert[28] */
+	SVECTOR( -500,   500,   100);	/* vert[29] */
+	SVECTOR( -500,  -500,     0);	/* vert[30] */
+	SVECTOR( -500,   500,     0);	/* vert[31] */
+	SVECTOR( -500,  -500,   100);	/* vert[32] */
+	SVECTOR( -500,   500,  -100);	/* vert[33] */
+	SVECTOR( -500,  -500,   200);	/* vert[34] */
+	SVECTOR( -500,   500,  -200);	/* vert[35] */
+	SVECTOR( -500,  -500,   300);	/* vert[36] */
+	SVECTOR( -500,   500,  -300);	/* vert[37] */
+	SVECTOR( -500,  -500,   400);	/* vert[38] */
+	SVECTOR( -500,   500,  -400);	/* vert[39] */
+	SVECTOR( -500,   400,  -400);	/* vert[40] */
+	SVECTOR( -500,   300,  -400);	/* vert[41] */
+	SVECTOR( -500,   200,  -400);	/* vert[42] */
+	SVECTOR( -500,   100,  -400);	/* vert[43] */
+	SVECTOR( -500,     0,  -400);	/* vert[44] */
+	SVECTOR( -500,  -100,  -400);	/* vert[45] */
+	SVECTOR( -500,  -200,  -400);	/* vert[46] */
+	SVECTOR( -500,  -300,  -400);	/* vert[47] */
+	SVECTOR( -500,  -400,  -400);	/* vert[48] */
+	SVECTOR( -500,   400,  -300);	/* vert[49] */
+	SVECTOR( -500,   300,  -300);	/* vert[50] */
+	SVECTOR( -500,   200,  -300);	/* vert[51] */
+	SVECTOR( -500,   100,  -300);	/* vert[52] */
+	SVECTOR( -500,     0,  -300);	/* vert[53] */
+	SVECTOR( -500,  -100,  -300);	/* vert[54] */
+	SVECTOR( -500,  -200,  -300);	/* vert[55] */
+	SVECTOR( -500,  -300,  -300);	/* vert[56] */
+	SVECTOR( -500,  -400,  -300);	/* vert[57] */
+	SVECTOR( -500,   400,  -200);	/* vert[58] */
+	SVECTOR( -500,   300,  -200);	/* vert[59] */
+	SVECTOR( -500,   200,  -200);	/* vert[60] */
+	SVECTOR( -500,   100,  -200);	/* vert[61] */
+	SVECTOR( -500,     0,  -200);	/* vert[62] */
+	SVECTOR( -500,  -100,  -200);	/* vert[63] */
+	SVECTOR( -500,  -200,  -200);	/* vert[64] */
+	SVECTOR( -500,  -300,  -200);	/* vert[65] */
+	SVECTOR( -500,  -400,  -200);	/* vert[66] */
+	SVECTOR( -500,   400,  -100);	/* vert[67] */
+	SVECTOR( -500,   300,  -100);	/* vert[68] */
+	SVECTOR( -500,   200,  -100);	/* vert[69] */
+	SVECTOR( -500,   100,  -100);	/* vert[70] */
+	SVECTOR( -500,     0,  -100);	/* vert[71] */
+	SVECTOR( -500,  -100,  -100);	/* vert[72] */
+	SVECTOR( -500,  -200,  -100);	/* vert[73] */
+	SVECTOR( -500,  -300,  -100);	/* vert[74] */
+	SVECTOR( -500,  -400,  -100);	/* vert[75] */
+	SVECTOR( -500,   400,     0);	/* vert[76] */
+	SVECTOR( -500,   300,     0);	/* vert[77] */
+	SVECTOR( -500,   200,     0);	/* vert[78] */
+	SVECTOR( -500,   100,     0);	/* vert[79] */
+	SVECTOR( -500,     0,     0);	/* vert[80] */
+	SVECTOR( -500,  -100,     0);	/* vert[81] */
+	SVECTOR( -500,  -200,     0);	/* vert[82] */
+	SVECTOR( -500,  -300,     0);	/* vert[83] */
+	SVECTOR( -500,  -400,     0);	/* vert[84] */
+	SVECTOR( -500,   400,   100);	/* vert[85] */
+	SVECTOR( -500,   300,   100);	/* vert[86] */
+	SVECTOR( -500,   200,   100);	/* vert[87] */
+	SVECTOR( -500,   100,   100);	/* vert[88] */
+	SVECTOR( -500,     0,   100);	/* vert[89] */
+	SVECTOR( -500,  -100,   100);	/* vert[90] */
+	SVECTOR( -500,  -200,   100);	/* vert[91] */
+	SVECTOR( -500,  -300,   100);	/* vert[92] */
+	SVECTOR( -500,  -400,   100);	/* vert[93] */
+	SVECTOR( -500,   400,   200);	/* vert[94] */
+	SVECTOR( -500,   300,   200);	/* vert[95] */
+	SVECTOR( -500,   200,   200);	/* vert[96] */
+	SVECTOR( -500,   100,   200);	/* vert[97] */
+	SVECTOR( -500,     0,   200);	/* vert[98] */
+	SVECTOR( -500,  -100,   200);	/* vert[99] */
+	SVECTOR( -500,  -200,   200);	/* vert[100] */
+	SVECTOR( -500,  -300,   200);	/* vert[101] */
+	SVECTOR( -500,  -400,   200);	/* vert[102] */
+	SVECTOR( -500,   400,   300);	/* vert[103] */
+	SVECTOR( -500,   300,   300);	/* vert[104] */
+	SVECTOR( -500,   200,   300);	/* vert[105] */
+	SVECTOR( -500,   100,   300);	/* vert[106] */
+	SVECTOR( -500,     0,   300);	/* vert[107] */
+	SVECTOR( -500,  -100,   300);	/* vert[108] */
+	SVECTOR( -500,  -200,   300);	/* vert[109] */
+	SVECTOR( -500,  -300,   300);	/* vert[110] */
+	SVECTOR( -500,  -400,   300);	/* vert[111] */
+	SVECTOR( -500,   400,   400);	/* vert[112] */
+	SVECTOR( -500,   300,   400);	/* vert[113] */
+	SVECTOR( -500,   200,   400);	/* vert[114] */
+	SVECTOR( -500,   100,   400);	/* vert[115] */
+	SVECTOR( -500,     0,   400);	/* vert[116] */
+	SVECTOR( -500,  -100,   400);	/* vert[117] */
+	SVECTOR( -500,  -200,   400);	/* vert[118] */
+	SVECTOR( -500,  -300,   400);	/* vert[119] */
+	SVECTOR( -500,  -400,   400);	/* vert[120] */
+	SVECTOR( -400,   500,  -500);	/* vert[121] */
+	SVECTOR( -400,  -500,   500);	/* vert[122] */
+	SVECTOR( -400,   400,  -500);	/* vert[123] */
+	SVECTOR( -400,  -400,   500);	/* vert[124] */
+	SVECTOR( -400,   300,  -500);	/* vert[125] */
+	SVECTOR( -400,  -300,   500);	/* vert[126] */
+	SVECTOR( -400,   200,  -500);	/* vert[127] */
+	SVECTOR( -400,  -200,   500);	/* vert[128] */
+	SVECTOR( -400,   100,  -500);	/* vert[129] */
+	SVECTOR( -400,  -100,   500);	/* vert[130] */
+	SVECTOR( -400,     0,  -500);	/* vert[131] */
+	SVECTOR( -400,     0,   500);	/* vert[132] */
+	SVECTOR( -400,  -100,  -500);	/* vert[133] */
+	SVECTOR( -400,   100,   500);	/* vert[134] */
+	SVECTOR( -400,  -200,  -500);	/* vert[135] */
+	SVECTOR( -400,   200,   500);	/* vert[136] */
+	SVECTOR( -400,  -300,  -500);	/* vert[137] */
+	SVECTOR( -400,   300,   500);	/* vert[138] */
+	SVECTOR( -400,  -400,  -500);	/* vert[139] */
+	SVECTOR( -400,   400,   500);	/* vert[140] */
+	SVECTOR( -400,  -500,  -500);	/* vert[141] */
+	SVECTOR( -400,   500,   500);	/* vert[142] */
+	SVECTOR( -400,  -500,  -400);	/* vert[143] */
+	SVECTOR( -400,   500,   400);	/* vert[144] */
+	SVECTOR( -400,  -500,  -300);	/* vert[145] */
+	SVECTOR( -400,   500,   300);	/* vert[146] */
+	SVECTOR( -400,  -500,  -200);	/* vert[147] */
+	SVECTOR( -400,   500,   200);	/* vert[148] */
+	SVECTOR( -400,  -500,  -100);	/* vert[149] */
+	SVECTOR( -400,   500,   100);	/* vert[150] */
+	SVECTOR( -400,  -500,     0);	/* vert[151] */
+	SVECTOR( -400,   500,     0);	/* vert[152] */
+	SVECTOR( -400,  -500,   100);	/* vert[153] */
+	SVECTOR( -400,   500,  -100);	/* vert[154] */
+	SVECTOR( -400,  -500,   200);	/* vert[155] */
+	SVECTOR( -400,   500,  -200);	/* vert[156] */
+	SVECTOR( -400,  -500,   300);	/* vert[157] */
+	SVECTOR( -400,   500,  -300);	/* vert[158] */
+	SVECTOR( -400,  -500,   400);	/* vert[159] */
+	SVECTOR( -400,   500,  -400);	/* vert[160] */
+	SVECTOR( -300,   500,  -500);	/* vert[161] */
+	SVECTOR( -300,  -500,   500);	/* vert[162] */
+	SVECTOR( -300,   400,  -500);	/* vert[163] */
+	SVECTOR( -300,  -400,   500);	/* vert[164] */
+	SVECTOR( -300,   300,  -500);	/* vert[165] */
+	SVECTOR( -300,  -300,   500);	/* vert[166] */
+	SVECTOR( -300,   200,  -500);	/* vert[167] */
+	SVECTOR( -300,  -200,   500);	/* vert[168] */
+	SVECTOR( -300,   100,  -500);	/* vert[169] */
+	SVECTOR( -300,  -100,   500);	/* vert[170] */
+	SVECTOR( -300,     0,  -500);	/* vert[171] */
+	SVECTOR( -300,     0,   500);	/* vert[172] */
+	SVECTOR( -300,  -100,  -500);	/* vert[173] */
+	SVECTOR( -300,   100,   500);	/* vert[174] */
+	SVECTOR( -300,  -200,  -500);	/* vert[175] */
+	SVECTOR( -300,   200,   500);	/* vert[176] */
+	SVECTOR( -300,  -300,  -500);	/* vert[177] */
+	SVECTOR( -300,   300,   500);	/* vert[178] */
+	SVECTOR( -300,  -400,  -500);	/* vert[179] */
+	SVECTOR( -300,   400,   500);	/* vert[180] */
+	SVECTOR( -300,  -500,  -500);	/* vert[181] */
+	SVECTOR( -300,   500,   500);	/* vert[182] */
+	SVECTOR( -300,  -500,  -400);	/* vert[183] */
+	SVECTOR( -300,   500,   400);	/* vert[184] */
+	SVECTOR( -300,  -500,  -300);	/* vert[185] */
+	SVECTOR( -300,   500,   300);	/* vert[186] */
+	SVECTOR( -300,  -500,  -200);	/* vert[187] */
+	SVECTOR( -300,   500,   200);	/* vert[188] */
+	SVECTOR( -300,  -500,  -100);	/* vert[189] */
+	SVECTOR( -300,   500,   100);	/* vert[190] */
+	SVECTOR( -300,  -500,     0);	/* vert[191] */
+	SVECTOR( -300,   500,     0);	/* vert[192] */
+	SVECTOR( -300,  -500,   100);	/* vert[193] */
+	SVECTOR( -300,   500,  -100);	/* vert[194] */
+	SVECTOR( -300,  -500,   200);	/* vert[195] */
+	SVECTOR( -300,   500,  -200);	/* vert[196] */
+	SVECTOR( -300,  -500,   300);	/* vert[197] */
+	SVECTOR( -300,   500,  -300);	/* vert[198] */
+	SVECTOR( -300,  -500,   400);	/* vert[199] */
+	SVECTOR( -300,   500,  -400);	/* vert[200] */
+	SVECTOR( -200,   500,  -500);	/* vert[201] */
+	SVECTOR( -200,  -500,   500);	/* vert[202] */
+	SVECTOR( -200,   400,  -500);	/* vert[203] */
+	SVECTOR( -200,  -400,   500);	/* vert[204] */
+	SVECTOR( -200,   300,  -500);	/* vert[205] */
+	SVECTOR( -200,  -300,   500);	/* vert[206] */
+	SVECTOR( -200,   200,  -500);	/* vert[207] */
+	SVECTOR( -200,  -200,   500);	/* vert[208] */
+	SVECTOR( -200,   100,  -500);	/* vert[209] */
+	SVECTOR( -200,  -100,   500);	/* vert[210] */
+	SVECTOR( -200,     0,  -500);	/* vert[211] */
+	SVECTOR( -200,     0,   500);	/* vert[212] */
+	SVECTOR( -200,  -100,  -500);	/* vert[213] */
+	SVECTOR( -200,   100,   500);	/* vert[214] */
+	SVECTOR( -200,  -200,  -500);	/* vert[215] */
+	SVECTOR( -200,   200,   500);	/* vert[216] */
+	SVECTOR( -200,  -300,  -500);	/* vert[217] */
+	SVECTOR( -200,   300,   500);	/* vert[218] */
+	SVECTOR( -200,  -400,  -500);	/* vert[219] */
+	SVECTOR( -200,   400,   500);	/* vert[220] */
+	SVECTOR( -200,  -500,  -500);	/* vert[221] */
+	SVECTOR( -200,   500,   500);	/* vert[222] */
+	SVECTOR( -200,  -500,  -400);	/* vert[223] */
+	SVECTOR( -200,   500,   400);	/* vert[224] */
+	SVECTOR( -200,  -500,  -300);	/* vert[225] */
+	SVECTOR( -200,   500,   300);	/* vert[226] */
+	SVECTOR( -200,  -500,  -200);	/* vert[227] */
+	SVECTOR( -200,   500,   200);	/* vert[228] */
+	SVECTOR( -200,  -500,  -100);	/* vert[229] */
+	SVECTOR( -200,   500,   100);	/* vert[230] */
+	SVECTOR( -200,  -500,     0);	/* vert[231] */
+	SVECTOR( -200,   500,     0);	/* vert[232] */
+	SVECTOR( -200,  -500,   100);	/* vert[233] */
+	SVECTOR( -200,   500,  -100);	/* vert[234] */
+	SVECTOR( -200,  -500,   200);	/* vert[235] */
+	SVECTOR( -200,   500,  -200);	/* vert[236] */
+	SVECTOR( -200,  -500,   300);	/* vert[237] */
+	SVECTOR( -200,   500,  -300);	/* vert[238] */
+	SVECTOR( -200,  -500,   400);	/* vert[239] */
+	SVECTOR( -200,   500,  -400);	/* vert[240] */
+	SVECTOR( -100,   500,  -500);	/* vert[241] */
+	SVECTOR( -100,  -500,   500);	/* vert[242] */
+	SVECTOR( -100,   400,  -500);	/* vert[243] */
+	SVECTOR( -100,  -400,   500);	/* vert[244] */
+	SVECTOR( -100,   300,  -500);	/* vert[245] */
+	SVECTOR( -100,  -300,   500);	/* vert[246] */
+	SVECTOR( -100,   200,  -500);	/* vert[247] */
+	SVECTOR( -100,  -200,   500);	/* vert[248] */
+	SVECTOR( -100,   100,  -500);	/* vert[249] */
+	SVECTOR( -100,  -100,   500);	/* vert[250] */
+	SVECTOR( -100,     0,  -500);	/* vert[251] */
+	SVECTOR( -100,     0,   500);	/* vert[252] */
+	SVECTOR( -100,  -100,  -500);	/* vert[253] */
+	SVECTOR( -100,   100,   500);	/* vert[254] */
+	SVECTOR( -100,  -200,  -500);	/* vert[255] */
+	SVECTOR( -100,   200,   500);	/* vert[256] */
+	SVECTOR( -100,  -300,  -500);	/* vert[257] */
+	SVECTOR( -100,   300,   500);	/* vert[258] */
+	SVECTOR( -100,  -400,  -500);	/* vert[259] */
+	SVECTOR( -100,   400,   500);	/* vert[260] */
+	SVECTOR( -100,  -500,  -500);	/* vert[261] */
+	SVECTOR( -100,   500,   500);	/* vert[262] */
+	SVECTOR( -100,  -500,  -400);	/* vert[263] */
+	SVECTOR( -100,   500,   400);	/* vert[264] */
+	SVECTOR( -100,  -500,  -300);	/* vert[265] */
+	SVECTOR( -100,   500,   300);	/* vert[266] */
+	SVECTOR( -100,  -500,  -200);	/* vert[267] */
+	SVECTOR( -100,   500,   200);	/* vert[268] */
+	SVECTOR( -100,  -500,  -100);	/* vert[269] */
+	SVECTOR( -100,   500,   100);	/* vert[270] */
+	SVECTOR( -100,  -500,     0);	/* vert[271] */
+	SVECTOR( -100,   500,     0);	/* vert[272] */
+	SVECTOR( -100,  -500,   100);	/* vert[273] */
+	SVECTOR( -100,   500,  -100);	/* vert[274] */
+	SVECTOR( -100,  -500,   200);	/* vert[275] */
+	SVECTOR( -100,   500,  -200);	/* vert[276] */
+	SVECTOR( -100,  -500,   300);	/* vert[277] */
+	SVECTOR( -100,   500,  -300);	/* vert[278] */
+	SVECTOR( -100,  -500,   400);	/* vert[279] */
+	SVECTOR( -100,   500,  -400);	/* vert[280] */
+	SVECTOR(    0,   500,  -500);	/* vert[281] */
+	SVECTOR(    0,  -500,   500);	/* vert[282] */
+	SVECTOR(    0,   400,  -500);	/* vert[283] */
+	SVECTOR(    0,  -400,   500);	/* vert[284] */
+	SVECTOR(    0,   300,  -500);	/* vert[285] */
+	SVECTOR(    0,  -300,   500);	/* vert[286] */
+	SVECTOR(    0,   200,  -500);	/* vert[287] */
+	SVECTOR(    0,  -200,   500);	/* vert[288] */
+	SVECTOR(    0,   100,  -500);	/* vert[289] */
+	SVECTOR(    0,  -100,   500);	/* vert[290] */
+	SVECTOR(    0,     0,  -500);	/* vert[291] */
+	SVECTOR(    0,     0,   500);	/* vert[292] */
+	SVECTOR(    0,  -100,  -500);	/* vert[293] */
+	SVECTOR(    0,   100,   500);	/* vert[294] */
+	SVECTOR(    0,  -200,  -500);	/* vert[295] */
+	SVECTOR(    0,   200,   500);	/* vert[296] */
+	SVECTOR(    0,  -300,  -500);	/* vert[297] */
+	SVECTOR(    0,   300,   500);	/* vert[298] */
+	SVECTOR(    0,  -400,  -500);	/* vert[299] */
+	SVECTOR(    0,   400,   500);	/* vert[300] */
+	SVECTOR(    0,  -500,  -500);	/* vert[301] */
+	SVECTOR(    0,   500,   500);	/* vert[302] */
+	SVECTOR(    0,  -500,  -400);	/* vert[303] */
+	SVECTOR(    0,   500,   400);	/* vert[304] */
+	SVECTOR(    0,  -500,  -300);	/* vert[305] */
+	SVECTOR(    0,   500,   300);	/* vert[306] */
+	SVECTOR(    0,  -500,  -200);	/* vert[307] */
+	SVECTOR(    0,   500,   200);	/* vert[308] */
+	SVECTOR(    0,  -500,  -100);	/* vert[309] */
+	SVECTOR(    0,   500,   100);	/* vert[310] */
+	SVECTOR(    0,  -500,     0);	/* vert[311] */
+	SVECTOR(    0,   500,     0);	/* vert[312] */
+	SVECTOR(    0,  -500,   100);	/* vert[313] */
+	SVECTOR(    0,   500,  -100);	/* vert[314] */
+	SVECTOR(    0,  -500,   200);	/* vert[315] */
+	SVECTOR(    0,   500,  -200);	/* vert[316] */
+	SVECTOR(    0,  -500,   300);	/* vert[317] */
+	SVECTOR(    0,   500,  -300);	/* vert[318] */
+	SVECTOR(    0,  -500,   400);	/* vert[319] */
+	SVECTOR(    0,   500,  -400);	/* vert[320] */
+	SVECTOR(  100,   500,  -500);	/* vert[321] */
+	SVECTOR(  100,  -500,   500);	/* vert[322] */
+	SVECTOR(  100,   400,  -500);	/* vert[323] */
+	SVECTOR(  100,  -400,   500);	/* vert[324] */
+	SVECTOR(  100,   300,  -500);	/* vert[325] */
+	SVECTOR(  100,  -300,   500);	/* vert[326] */
+	SVECTOR(  100,   200,  -500);	/* vert[327] */
+	SVECTOR(  100,  -200,   500);	/* vert[328] */
+	SVECTOR(  100,   100,  -500);	/* vert[329] */
+	SVECTOR(  100,  -100,   500);	/* vert[330] */
+	SVECTOR(  100,     0,  -500);	/* vert[331] */
+	SVECTOR(  100,     0,   500);	/* vert[332] */
+	SVECTOR(  100,  -100,  -500);	/* vert[333] */
+	SVECTOR(  100,   100,   500);	/* vert[334] */
+	SVECTOR(  100,  -200,  -500);	/* vert[335] */
+	SVECTOR(  100,   200,   500);	/* vert[336] */
+	SVECTOR(  100,  -300,  -500);	/* vert[337] */
+	SVECTOR(  100,   300,   500);	/* vert[338] */
+	SVECTOR(  100,  -400,  -500);	/* vert[339] */
+	SVECTOR(  100,   400,   500);	/* vert[340] */
+	SVECTOR(  100,  -500,  -500);	/* vert[341] */
+	SVECTOR(  100,   500,   500);	/* vert[342] */
+	SVECTOR(  100,  -500,  -400);	/* vert[343] */
+	SVECTOR(  100,   500,   400);	/* vert[344] */
+	SVECTOR(  100,  -500,  -300);	/* vert[345] */
+	SVECTOR(  100,   500,   300);	/* vert[346] */
+	SVECTOR(  100,  -500,  -200);	/* vert[347] */
+	SVECTOR(  100,   500,   200);	/* vert[348] */
+	SVECTOR(  100,  -500,  -100);	/* vert[349] */
+	SVECTOR(  100,   500,   100);	/* vert[350] */
+	SVECTOR(  100,  -500,     0);	/* vert[351] */
+	SVECTOR(  100,   500,     0);	/* vert[352] */
+	SVECTOR(  100,  -500,   100);	/* vert[353] */
+	SVECTOR(  100,   500,  -100);	/* vert[354] */
+	SVECTOR(  100,  -500,   200);	/* vert[355] */
+	SVECTOR(  100,   500,  -200);	/* vert[356] */
+	SVECTOR(  100,  -500,   300);	/* vert[357] */
+	SVECTOR(  100,   500,  -300);	/* vert[358] */
+	SVECTOR(  100,  -500,   400);	/* vert[359] */
+	SVECTOR(  100,   500,  -400);	/* vert[360] */
+	SVECTOR(  200,   500,  -500);	/* vert[361] */
+	SVECTOR(  200,  -500,   500);	/* vert[362] */
+	SVECTOR(  200,   400,  -500);	/* vert[363] */
+	SVECTOR(  200,  -400,   500);	/* vert[364] */
+	SVECTOR(  200,   300,  -500);	/* vert[365] */
+	SVECTOR(  200,  -300,   500);	/* vert[366] */
+	SVECTOR(  200,   200,  -500);	/* vert[367] */
+	SVECTOR(  200,  -200,   500);	/* vert[368] */
+	SVECTOR(  200,   100,  -500);	/* vert[369] */
+	SVECTOR(  200,  -100,   500);	/* vert[370] */
+	SVECTOR(  200,     0,  -500);	/* vert[371] */
+	SVECTOR(  200,     0,   500);	/* vert[372] */
+	SVECTOR(  200,  -100,  -500);	/* vert[373] */
+	SVECTOR(  200,   100,   500);	/* vert[374] */
+	SVECTOR(  200,  -200,  -500);	/* vert[375] */
+	SVECTOR(  200,   200,   500);	/* vert[376] */
+	SVECTOR(  200,  -300,  -500);	/* vert[377] */
+	SVECTOR(  200,   300,   500);	/* vert[378] */
+	SVECTOR(  200,  -400,  -500);	/* vert[379] */
+	SVECTOR(  200,   400,   500);	/* vert[380] */
+	SVECTOR(  200,  -500,  -500);	/* vert[381] */
+	SVECTOR(  200,   500,   500);	/* vert[382] */
+	SVECTOR(  200,  -500,  -400);	/* vert[383] */
+	SVECTOR(  200,   500,   400);	/* vert[384] */
+	SVECTOR(  200,  -500,  -300);	/* vert[385] */
+	SVECTOR(  200,   500,   300);	/* vert[386] */
+	SVECTOR(  200,  -500,  -200);	/* vert[387] */
+	SVECTOR(  200,   500,   200);	/* vert[388] */
+	SVECTOR(  200,  -500,  -100);	/* vert[389] */
+	SVECTOR(  200,   500,   100);	/* vert[390] */
+	SVECTOR(  200,  -500,     0);	/* vert[391] */
+	SVECTOR(  200,   500,     0);	/* vert[392] */
+	SVECTOR(  200,  -500,   100);	/* vert[393] */
+	SVECTOR(  200,   500,  -100);	/* vert[394] */
+	SVECTOR(  200,  -500,   200);	/* vert[395] */
+	SVECTOR(  200,   500,  -200);	/* vert[396] */
+	SVECTOR(  200,  -500,   300);	/* vert[397] */
+	SVECTOR(  200,   500,  -300);	/* vert[398] */
+	SVECTOR(  200,  -500,   400);	/* vert[399] */
+	SVECTOR(  200,   500,  -400);	/* vert[400] */
+	SVECTOR(  300,   500,  -500);	/* vert[401] */
+	SVECTOR(  300,  -500,   500);	/* vert[402] */
+	SVECTOR(  300,   400,  -500);	/* vert[403] */
+	SVECTOR(  300,  -400,   500);	/* vert[404] */
+	SVECTOR(  300,   300,  -500);	/* vert[405] */
+	SVECTOR(  300,  -300,   500);	/* vert[406] */
+	SVECTOR(  300,   200,  -500);	/* vert[407] */
+	SVECTOR(  300,  -200,   500);	/* vert[408] */
+	SVECTOR(  300,   100,  -500);	/* vert[409] */
+	SVECTOR(  300,  -100,   500);	/* vert[410] */
+	SVECTOR(  300,     0,  -500);	/* vert[411] */
+	SVECTOR(  300,     0,   500);	/* vert[412] */
+	SVECTOR(  300,  -100,  -500);	/* vert[413] */
+	SVECTOR(  300,   100,   500);	/* vert[414] */
+	SVECTOR(  300,  -200,  -500);	/* vert[415] */
+	SVECTOR(  300,   200,   500);	/* vert[416] */
+	SVECTOR(  300,  -300,  -500);	/* vert[417] */
+	SVECTOR(  300,   300,   500);	/* vert[418] */
+	SVECTOR(  300,  -400,  -500);	/* vert[419] */
+	SVECTOR(  300,   400,   500);	/* vert[420] */
+	SVECTOR(  300,  -500,  -500);	/* vert[421] */
+	SVECTOR(  300,   500,   500);	/* vert[422] */
+	SVECTOR(  300,  -500,  -400);	/* vert[423] */
+	SVECTOR(  300,   500,   400);	/* vert[424] */
+	SVECTOR(  300,  -500,  -300);	/* vert[425] */
+	SVECTOR(  300,   500,   300);	/* vert[426] */
+	SVECTOR(  300,  -500,  -200);	/* vert[427] */
+	SVECTOR(  300,   500,   200);	/* vert[428] */
+	SVECTOR(  300,  -500,  -100);	/* vert[429] */
+	SVECTOR(  300,   500,   100);	/* vert[430] */
+	SVECTOR(  300,  -500,     0);	/* vert[431] */
+	SVECTOR(  300,   500,     0);	/* vert[432] */
+	SVECTOR(  300,  -500,   100);	/* vert[433] */
+	SVECTOR(  300,   500,  -100);	/* vert[434] */
+	SVECTOR(  300,  -500,   200);	/* vert[435] */
+	SVECTOR(  300,   500,  -200);	/* vert[436] */
+	SVECTOR(  300,  -500,   300);	/* vert[437] */
+	SVECTOR(  300,   500,  -300);	/* vert[438] */
+	SVECTOR(  300,  -500,   400);	/* vert[439] */
+	SVECTOR(  300,   500,  -400);	/* vert[440] */
+	SVECTOR(  400,   500,  -500);	/* vert[441] */
+	SVECTOR(  400,  -500,   500);	/* vert[442] */
+	SVECTOR(  400,   400,  -500);	/* vert[443] */
+	SVECTOR(  400,  -400,   500);	/* vert[444] */
+	SVECTOR(  400,   300,  -500);	/* vert[445] */
+	SVECTOR(  400,  -300,   500);	/* vert[446] */
+	SVECTOR(  400,   200,  -500);	/* vert[447] */
+	SVECTOR(  400,  -200,   500);	/* vert[448] */
+	SVECTOR(  400,   100,  -500);	/* vert[449] */
+	SVECTOR(  400,  -100,   500);	/* vert[450] */
+	SVECTOR(  400,     0,  -500);	/* vert[451] */
+	SVECTOR(  400,     0,   500);	/* vert[452] */
+	SVECTOR(  400,  -100,  -500);	/* vert[453] */
+	SVECTOR(  400,   100,   500);	/* vert[454] */
+	SVECTOR(  400,  -200,  -500);	/* vert[455] */
+	SVECTOR(  400,   200,   500);	/* vert[456] */
+	SVECTOR(  400,  -300,  -500);	/* vert[457] */
+	SVECTOR(  400,   300,   500);	/* vert[458] */
+	SVECTOR(  400,  -400,  -500);	/* vert[459] */
+	SVECTOR(  400,   400,   500);	/* vert[460] */
+	SVECTOR(  400,  -500,  -500);	/* vert[461] */
+	SVECTOR(  400,   500,   500);	/* vert[462] */
+	SVECTOR(  400,  -500,  -400);	/* vert[463] */
+	SVECTOR(  400,   500,   400);	/* vert[464] */
+	SVECTOR(  400,  -500,  -300);	/* vert[465] */
+	SVECTOR(  400,   500,   300);	/* vert[466] */
+	SVECTOR(  400,  -500,  -200);	/* vert[467] */
+	SVECTOR(  400,   500,   200);	/* vert[468] */
+	SVECTOR(  400,  -500,  -100);	/* vert[469] */
+	SVECTOR(  400,   500,   100);	/* vert[470] */
+	SVECTOR(  400,  -500,     0);	/* vert[471] */
+	SVECTOR(  400,   500,     0);	/* vert[472] */
+	SVECTOR(  400,  -500,   100);	/* vert[473] */
+	SVECTOR(  400,   500,  -100);	/* vert[474] */
+	SVECTOR(  400,  -500,   200);	/* vert[475] */
+	SVECTOR(  400,   500,  -200);	/* vert[476] */
+	SVECTOR(  400,  -500,   300);	/* vert[477] */
+	SVECTOR(  400,   500,  -300);	/* vert[478] */
+	SVECTOR(  400,  -500,   400);	/* vert[479] */
+	SVECTOR(  400,   500,  -400);	/* vert[480] */
+	SVECTOR(  500,   500,  -500);	/* vert[481] */
+	SVECTOR(  500,  -500,   500);	/* vert[482] */
+	SVECTOR(  500,   400,  -500);	/* vert[483] */
+	SVECTOR(  500,  -400,   500);	/* vert[484] */
+	SVECTOR(  500,   300,  -500);	/* vert[485] */
+	SVECTOR(  500,  -300,   500);	/* vert[486] */
+	SVECTOR(  500,   200,  -500);	/* vert[487] */
+	SVECTOR(  500,  -200,   500);	/* vert[488] */
+	SVECTOR(  500,   100,  -500);	/* vert[489] */
+	SVECTOR(  500,  -100,   500);	/* vert[490] */
+	SVECTOR(  500,     0,  -500);	/* vert[491] */
+	SVECTOR(  500,     0,   500);	/* vert[492] */
+	SVECTOR(  500,  -100,  -500);	/* vert[493] */
+	SVECTOR(  500,   100,   500);	/* vert[494] */
+	SVECTOR(  500,  -200,  -500);	/* vert[495] */
+	SVECTOR(  500,   200,   500);	/* vert[496] */
+	SVECTOR(  500,  -300,  -500);	/* vert[497] */
+	SVECTOR(  500,   300,   500);	/* vert[498] */
+	SVECTOR(  500,  -400,  -500);	/* vert[499] */
+	SVECTOR(  500,   400,   500);	/* vert[500] */
+	SVECTOR(  500,  -500,  -500);	/* vert[501] */
+	SVECTOR(  500,   500,   500);	/* vert[502] */
+	SVECTOR(  500,  -500,  -400);	/* vert[503] */
+	SVECTOR(  500,   500,   400);	/* vert[504] */
+	SVECTOR(  500,  -500,  -300);	/* vert[505] */
+	SVECTOR(  500,   500,   300);	/* vert[506] */
+	SVECTOR(  500,  -500,  -200);	/* vert[507] */
+	SVECTOR(  500,   500,   200);	/* vert[508] */
+	SVECTOR(  500,  -500,  -100);	/* vert[509] */
+	SVECTOR(  500,   500,   100);	/* vert[510] */
+	SVECTOR(  500,  -500,     0);	/* vert[511] */
+	SVECTOR(  500,   500,     0);	/* vert[512] */
+	SVECTOR(  500,  -500,   100);	/* vert[513] */
+	SVECTOR(  500,   500,  -100);	/* vert[514] */
+	SVECTOR(  500,  -500,   200);	/* vert[515] */
+	SVECTOR(  500,   500,  -200);	/* vert[516] */
+	SVECTOR(  500,  -500,   300);	/* vert[517] */
+	SVECTOR(  500,   500,  -300);	/* vert[518] */
+	SVECTOR(  500,  -500,   400);	/* vert[519] */
+	SVECTOR(  500,   500,  -400);	/* vert[520] */
+	SVECTOR(  500,   400,  -400);	/* vert[521] */
+	SVECTOR(  500,   300,  -400);	/* vert[522] */
+	SVECTOR(  500,   200,  -400);	/* vert[523] */
+	SVECTOR(  500,   100,  -400);	/* vert[524] */
+	SVECTOR(  500,     0,  -400);	/* vert[525] */
+	SVECTOR(  500,  -100,  -400);	/* vert[526] */
+	SVECTOR(  500,  -200,  -400);	/* vert[527] */
+	SVECTOR(  500,  -300,  -400);	/* vert[528] */
+	SVECTOR(  500,  -400,  -400);	/* vert[529] */
+	SVECTOR(  500,   400,  -300);	/* vert[530] */
+	SVECTOR(  500,   300,  -300);	/* vert[531] */
+	SVECTOR(  500,   200,  -300);	/* vert[532] */
+	SVECTOR(  500,   100,  -300);	/* vert[533] */
+	SVECTOR(  500,     0,  -300);	/* vert[534] */
+	SVECTOR(  500,  -100,  -300);	/* vert[535] */
+	SVECTOR(  500,  -200,  -300);	/* vert[536] */
+	SVECTOR(  500,  -300,  -300);	/* vert[537] */
+	SVECTOR(  500,  -400,  -300);	/* vert[538] */
+	SVECTOR(  500,   400,  -200);	/* vert[539] */
+	SVECTOR(  500,   300,  -200);	/* vert[540] */
+	SVECTOR(  500,   200,  -200);	/* vert[541] */
+	SVECTOR(  500,   100,  -200);	/* vert[542] */
+	SVECTOR(  500,     0,  -200);	/* vert[543] */
+	SVECTOR(  500,  -100,  -200);	/* vert[544] */
+	SVECTOR(  500,  -200,  -200);	/* vert[545] */
+	SVECTOR(  500,  -300,  -200);	/* vert[546] */
+	SVECTOR(  500,  -400,  -200);	/* vert[547] */
+	SVECTOR(  500,   400,  -100);	/* vert[548] */
+	SVECTOR(  500,   300,  -100);	/* vert[549] */
+	SVECTOR(  500,   200,  -100);	/* vert[550] */
+	SVECTOR(  500,   100,  -100);	/* vert[551] */
+	SVECTOR(  500,     0,  -100);	/* vert[552] */
+	SVECTOR(  500,  -100,  -100);	/* vert[553] */
+	SVECTOR(  500,  -200,  -100);	/* vert[554] */
+	SVECTOR(  500,  -300,  -100);	/* vert[555] */
+	SVECTOR(  500,  -400,  -100);	/* vert[556] */
+	SVECTOR(  500,   400,     0);	/* vert[557] */
+	SVECTOR(  500,   300,     0);	/* vert[558] */
+	SVECTOR(  500,   200,     0);	/* vert[559] */
+	SVECTOR(  500,   100,     0);	/* vert[560] */
+	SVECTOR(  500,     0,     0);	/* vert[561] */
+	SVECTOR(  500,  -100,     0);	/* vert[562] */
+	SVECTOR(  500,  -200,     0);	/* vert[563] */
+	SVECTOR(  500,  -300,     0);	/* vert[564] */
+	SVECTOR(  500,  -400,     0);	/* vert[565] */
+	SVECTOR(  500,   400,   100);	/* vert[566] */
+	SVECTOR(  500,   300,   100);	/* vert[567] */
+	SVECTOR(  500,   200,   100);	/* vert[568] */
+	SVECTOR(  500,   100,   100);	/* vert[569] */
+	SVECTOR(  500,     0,   100);	/* vert[570] */
+	SVECTOR(  500,  -100,   100);	/* vert[571] */
+	SVECTOR(  500,  -200,   100);	/* vert[572] */
+	SVECTOR(  500,  -300,   100);	/* vert[573] */
+	SVECTOR(  500,  -400,   100);	/* vert[574] */
+	SVECTOR(  500,   400,   200);	/* vert[575] */
+	SVECTOR(  500,   300,   200);	/* vert[576] */
+	SVECTOR(  500,   200,   200);	/* vert[577] */
+	SVECTOR(  500,   100,   200);	/* vert[578] */
+	SVECTOR(  500,     0,   200);	/* vert[579] */
+	SVECTOR(  500,  -100,   200);	/* vert[580] */
+	SVECTOR(  500,  -200,   200);	/* vert[581] */
+	SVECTOR(  500,  -300,   200);	/* vert[582] */
+	SVECTOR(  500,  -400,   200);	/* vert[583] */
+	SVECTOR(  500,   400,   300);	/* vert[584] */
+	SVECTOR(  500,   300,   300);	/* vert[585] */
+	SVECTOR(  500,   200,   300);	/* vert[586] */
+	SVECTOR(  500,   100,   300);	/* vert[587] */
+	SVECTOR(  500,     0,   300);	/* vert[588] */
+	SVECTOR(  500,  -100,   300);	/* vert[589] */
+	SVECTOR(  500,  -200,   300);	/* vert[590] */
+	SVECTOR(  500,  -300,   300);	/* vert[591] */
+	SVECTOR(  500,  -400,   300);	/* vert[592] */
+	SVECTOR(  500,   400,   400);	/* vert[593] */
+	SVECTOR(  500,   300,   400);	/* vert[594] */
+	SVECTOR(  500,   200,   400);	/* vert[595] */
+	SVECTOR(  500,   100,   400);	/* vert[596] */
+	SVECTOR(  500,     0,   400);	/* vert[597] */
+	SVECTOR(  500,  -100,   400);	/* vert[598] */
+	SVECTOR(  500,  -200,   400);	/* vert[599] */
+	SVECTOR(  500,  -300,   400);	/* vert[600] */
+	SVECTOR(  500,  -400,   400);	/* vert[601] */
+
+Norm_0000:	/* 0x000013a8 */
+	SVECTOR(-4096,     0,     0);	/* norm[0] */
+	SVECTOR(-4096,     0,     0);	/* norm[1] */
+	SVECTOR(-4096,     0,     0);	/* norm[2] */
+	SVECTOR(-4096,     0,     0);	/* norm[3] */
+	SVECTOR(-4096,     0,     0);	/* norm[4] */
+	SVECTOR(-4096,     0,     0);	/* norm[5] */
+	SVECTOR(-4096,     0,     0);	/* norm[6] */
+	SVECTOR(-4096,     0,     0);	/* norm[7] */
+	SVECTOR(-4096,     0,     0);	/* norm[8] */
+	SVECTOR(-4096,     0,     0);	/* norm[9] */
+	SVECTOR(-4096,     0,     0);	/* norm[10] */
+	SVECTOR(-4096,     0,     0);	/* norm[11] */
+	SVECTOR(-4096,     0,     0);	/* norm[12] */
+	SVECTOR(-4096,     0,     0);	/* norm[13] */
+	SVECTOR(-4096,     0,     0);	/* norm[14] */
+	SVECTOR(-4096,     0,     0);	/* norm[15] */
+	SVECTOR(-4096,     0,     0);	/* norm[16] */
+	SVECTOR(-4096,     0,     0);	/* norm[17] */
+	SVECTOR(-4096,     0,     0);	/* norm[18] */
+	SVECTOR(-4096,     0,     0);	/* norm[19] */
+	SVECTOR(-4096,     0,     0);	/* norm[20] */
+	SVECTOR(-4096,     0,     0);	/* norm[21] */
+	SVECTOR(-4096,     0,     0);	/* norm[22] */
+	SVECTOR(-4096,     0,     0);	/* norm[23] */
+	SVECTOR(-4096,     0,     0);	/* norm[24] */
+	SVECTOR(-4096,     0,     0);	/* norm[25] */
+	SVECTOR(-4096,     0,     0);	/* norm[26] */
+	SVECTOR(-4096,     0,     0);	/* norm[27] */
+	SVECTOR(-4096,     0,     0);	/* norm[28] */
+	SVECTOR(-4096,     0,     0);	/* norm[29] */
+	SVECTOR(-4096,     0,     0);	/* norm[30] */
+	SVECTOR(-4096,     0,     0);	/* norm[31] */
+	SVECTOR(-4096,     0,     0);	/* norm[32] */
+	SVECTOR(-4096,     0,     0);	/* norm[33] */
+	SVECTOR(-4096,     0,     0);	/* norm[34] */
+	SVECTOR(-4096,     0,     0);	/* norm[35] */
+	SVECTOR(-4096,     0,     0);	/* norm[36] */
+	SVECTOR(-4096,     0,     0);	/* norm[37] */
+	SVECTOR(-4096,     0,     0);	/* norm[38] */
+	SVECTOR(-4096,     0,     0);	/* norm[39] */
+	SVECTOR(-4096,     0,     0);	/* norm[40] */
+	SVECTOR(-4096,     0,     0);	/* norm[41] */
+	SVECTOR(-4096,     0,     0);	/* norm[42] */
+	SVECTOR(-4096,     0,     0);	/* norm[43] */
+	SVECTOR(-4096,     0,     0);	/* norm[44] */
+	SVECTOR(-4096,     0,     0);	/* norm[45] */
+	SVECTOR(-4096,     0,     0);	/* norm[46] */
+	SVECTOR(-4096,     0,     0);	/* norm[47] */
+	SVECTOR(-4096,     0,     0);	/* norm[48] */
+	SVECTOR(-4096,     0,     0);	/* norm[49] */
+	SVECTOR(-4096,     0,     0);	/* norm[50] */
+	SVECTOR(-4096,     0,     0);	/* norm[51] */
+	SVECTOR(-4096,     0,     0);	/* norm[52] */
+	SVECTOR(-4096,     0,     0);	/* norm[53] */
+	SVECTOR(-4096,     0,     0);	/* norm[54] */
+	SVECTOR(-4096,     0,     0);	/* norm[55] */
+	SVECTOR(-4096,     0,     0);	/* norm[56] */
+	SVECTOR(-4096,     0,     0);	/* norm[57] */
+	SVECTOR(-4096,     0,     0);	/* norm[58] */
+	SVECTOR(-4096,     0,     0);	/* norm[59] */
+	SVECTOR(-4096,     0,     0);	/* norm[60] */
+	SVECTOR(-4096,     0,     0);	/* norm[61] */
+	SVECTOR(-4096,     0,     0);	/* norm[62] */
+	SVECTOR(-4096,     0,     0);	/* norm[63] */
+	SVECTOR(-4096,     0,     0);	/* norm[64] */
+	SVECTOR(-4096,     0,     0);	/* norm[65] */
+	SVECTOR(-4096,     0,     0);	/* norm[66] */
+	SVECTOR(-4096,     0,     0);	/* norm[67] */
+	SVECTOR(-4096,     0,     0);	/* norm[68] */
+	SVECTOR(-4096,     0,     0);	/* norm[69] */
+	SVECTOR(-4096,     0,     0);	/* norm[70] */
+	SVECTOR(-4096,     0,     0);	/* norm[71] */
+	SVECTOR(-4096,     0,     0);	/* norm[72] */
+	SVECTOR(-4096,     0,     0);	/* norm[73] */
+	SVECTOR(-4096,     0,     0);	/* norm[74] */
+	SVECTOR(-4096,     0,     0);	/* norm[75] */
+	SVECTOR(-4096,     0,     0);	/* norm[76] */
+	SVECTOR(-4096,     0,     0);	/* norm[77] */
+	SVECTOR(-4096,     0,     0);	/* norm[78] */
+	SVECTOR(-4096,     0,     0);	/* norm[79] */
+	SVECTOR(-4096,     0,     0);	/* norm[80] */
+	SVECTOR(-4096,     0,     0);	/* norm[81] */
+	SVECTOR(-4096,     0,     0);	/* norm[82] */
+	SVECTOR(-4096,     0,     0);	/* norm[83] */
+	SVECTOR(-4096,     0,     0);	/* norm[84] */
+	SVECTOR(-4096,     0,     0);	/* norm[85] */
+	SVECTOR(-4096,     0,     0);	/* norm[86] */
+	SVECTOR(-4096,     0,     0);	/* norm[87] */
+	SVECTOR(-4096,     0,     0);	/* norm[88] */
+	SVECTOR(-4096,     0,     0);	/* norm[89] */
+	SVECTOR(-4096,     0,     0);	/* norm[90] */
+	SVECTOR(-4096,     0,     0);	/* norm[91] */
+	SVECTOR(-4096,     0,     0);	/* norm[92] */
+	SVECTOR(-4096,     0,     0);	/* norm[93] */
+	SVECTOR(-4096,     0,     0);	/* norm[94] */
+	SVECTOR(-4096,     0,     0);	/* norm[95] */
+	SVECTOR(-4096,     0,     0);	/* norm[96] */
+	SVECTOR(-4096,     0,     0);	/* norm[97] */
+	SVECTOR(-4096,     0,     0);	/* norm[98] */
+	SVECTOR(-4096,     0,     0);	/* norm[99] */
+	SVECTOR(    0,     0, -4096);	/* norm[100] */
+	SVECTOR(    0,     0, -4096);	/* norm[101] */
+	SVECTOR(    0,     0, -4096);	/* norm[102] */
+	SVECTOR(    0,     0, -4096);	/* norm[103] */
+	SVECTOR(    0,     0, -4096);	/* norm[104] */
+	SVECTOR(    0,     0, -4096);	/* norm[105] */
+	SVECTOR(    0,     0, -4096);	/* norm[106] */
+	SVECTOR(    0,     0, -4096);	/* norm[107] */
+	SVECTOR(    0,     0, -4096);	/* norm[108] */
+	SVECTOR(    0,     0, -4096);	/* norm[109] */
+	SVECTOR(    0, -4096,     0);	/* norm[110] */
+	SVECTOR(    0, -4096,     0);	/* norm[111] */
+	SVECTOR(    0, -4096,     0);	/* norm[112] */
+	SVECTOR(    0, -4096,     0);	/* norm[113] */
+	SVECTOR(    0, -4096,     0);	/* norm[114] */
+	SVECTOR(    0, -4096,     0);	/* norm[115] */
+	SVECTOR(    0, -4096,     0);	/* norm[116] */
+	SVECTOR(    0, -4096,     0);	/* norm[117] */
+	SVECTOR(    0, -4096,     0);	/* norm[118] */
+	SVECTOR(    0, -4096,     0);	/* norm[119] */
+	SVECTOR(    0,     0,  4096);	/* norm[120] */
+	SVECTOR(    0,     0,  4096);	/* norm[121] */
+	SVECTOR(    0,     0,  4096);	/* norm[122] */
+	SVECTOR(    0,     0,  4096);	/* norm[123] */
+	SVECTOR(    0,     0,  4096);	/* norm[124] */
+	SVECTOR(    0,     0,  4096);	/* norm[125] */
+	SVECTOR(    0,     0,  4096);	/* norm[126] */
+	SVECTOR(    0,     0,  4096);	/* norm[127] */
+	SVECTOR(    0,     0,  4096);	/* norm[128] */
+	SVECTOR(    0,     0,  4096);	/* norm[129] */
+	SVECTOR(    0,  4096,     0);	/* norm[130] */
+	SVECTOR(    0,  4096,     0);	/* norm[131] */
+	SVECTOR(    0,  4096,     0);	/* norm[132] */
+	SVECTOR(    0,  4096,     0);	/* norm[133] */
+	SVECTOR(    0,  4096,     0);	/* norm[134] */
+	SVECTOR(    0,  4096,     0);	/* norm[135] */
+	SVECTOR(    0,  4096,     0);	/* norm[136] */
+	SVECTOR(    0,  4096,     0);	/* norm[137] */
+	SVECTOR(    0,  4096,     0);	/* norm[138] */
+	SVECTOR(    0,  4096,     0);	/* norm[139] */
+	SVECTOR(    0,     0, -4096);	/* norm[140] */
+	SVECTOR(    0,     0, -4096);	/* norm[141] */
+	SVECTOR(    0,     0, -4096);	/* norm[142] */
+	SVECTOR(    0,     0, -4096);	/* norm[143] */
+	SVECTOR(    0,     0, -4096);	/* norm[144] */
+	SVECTOR(    0,     0, -4096);	/* norm[145] */
+	SVECTOR(    0,     0, -4096);	/* norm[146] */
+	SVECTOR(    0,     0, -4096);	/* norm[147] */
+	SVECTOR(    0,     0, -4096);	/* norm[148] */
+	SVECTOR(    0,     0, -4096);	/* norm[149] */
+	SVECTOR(    0, -4096,     0);	/* norm[150] */
+	SVECTOR(    0, -4096,     0);	/* norm[151] */
+	SVECTOR(    0, -4096,     0);	/* norm[152] */
+	SVECTOR(    0, -4096,     0);	/* norm[153] */
+	SVECTOR(    0, -4096,     0);	/* norm[154] */
+	SVECTOR(    0, -4096,     0);	/* norm[155] */
+	SVECTOR(    0, -4096,     0);	/* norm[156] */
+	SVECTOR(    0, -4096,     0);	/* norm[157] */
+	SVECTOR(    0, -4096,     0);	/* norm[158] */
+	SVECTOR(    0, -4096,     0);	/* norm[159] */
+	SVECTOR(    0,     0,  4096);	/* norm[160] */
+	SVECTOR(    0,     0,  4096);	/* norm[161] */
+	SVECTOR(    0,     0,  4096);	/* norm[162] */
+	SVECTOR(    0,     0,  4096);	/* norm[163] */
+	SVECTOR(    0,     0,  4096);	/* norm[164] */
+	SVECTOR(    0,     0,  4096);	/* norm[165] */
+	SVECTOR(    0,     0,  4096);	/* norm[166] */
+	SVECTOR(    0,     0,  4096);	/* norm[167] */
+	SVECTOR(    0,     0,  4096);	/* norm[168] */
+	SVECTOR(    0,     0,  4096);	/* norm[169] */
+	SVECTOR(    0,  4096,     0);	/* norm[170] */
+	SVECTOR(    0,  4096,     0);	/* norm[171] */
+	SVECTOR(    0,  4096,     0);	/* norm[172] */
+	SVECTOR(    0,  4096,     0);	/* norm[173] */
+	SVECTOR(    0,  4096,     0);	/* norm[174] */
+	SVECTOR(    0,  4096,     0);	/* norm[175] */
+	SVECTOR(    0,  4096,     0);	/* norm[176] */
+	SVECTOR(    0,  4096,     0);	/* norm[177] */
+	SVECTOR(    0,  4096,     0);	/* norm[178] */
+	SVECTOR(    0,  4096,     0);	/* norm[179] */
+	SVECTOR(    0,     0, -4096);	/* norm[180] */
+	SVECTOR(    0,     0, -4096);	/* norm[181] */
+	SVECTOR(    0,     0, -4096);	/* norm[182] */
+	SVECTOR(    0,     0, -4096);	/* norm[183] */
+	SVECTOR(    0,     0, -4096);	/* norm[184] */
+	SVECTOR(    0,     0, -4096);	/* norm[185] */
+	SVECTOR(    0,     0, -4096);	/* norm[186] */
+	SVECTOR(    0,     0, -4096);	/* norm[187] */
+	SVECTOR(    0,     0, -4096);	/* norm[188] */
+	SVECTOR(    0,     0, -4096);	/* norm[189] */
+	SVECTOR(    0, -4096,     0);	/* norm[190] */
+	SVECTOR(    0, -4096,     0);	/* norm[191] */
+	SVECTOR(    0, -4096,     0);	/* norm[192] */
+	SVECTOR(    0, -4096,     0);	/* norm[193] */
+	SVECTOR(    0, -4096,     0);	/* norm[194] */
+	SVECTOR(    0, -4096,     0);	/* norm[195] */
+	SVECTOR(    0, -4096,     0);	/* norm[196] */
+	SVECTOR(    0, -4096,     0);	/* norm[197] */
+	SVECTOR(    0, -4096,     0);	/* norm[198] */
+	SVECTOR(    0, -4096,     0);	/* norm[199] */
+	SVECTOR(    0,     0,  4096);	/* norm[200] */
+	SVECTOR(    0,     0,  4096);	/* norm[201] */
+	SVECTOR(    0,     0,  4096);	/* norm[202] */
+	SVECTOR(    0,     0,  4096);	/* norm[203] */
+	SVECTOR(    0,     0,  4096);	/* norm[204] */
+	SVECTOR(    0,     0,  4096);	/* norm[205] */
+	SVECTOR(    0,     0,  4096);	/* norm[206] */
+	SVECTOR(    0,     0,  4096);	/* norm[207] */
+	SVECTOR(    0,     0,  4096);	/* norm[208] */
+	SVECTOR(    0,     0,  4096);	/* norm[209] */
+	SVECTOR(    0,  4096,     0);	/* norm[210] */
+	SVECTOR(    0,  4096,     0);	/* norm[211] */
+	SVECTOR(    0,  4096,     0);	/* norm[212] */
+	SVECTOR(    0,  4096,     0);	/* norm[213] */
+	SVECTOR(    0,  4096,     0);	/* norm[214] */
+	SVECTOR(    0,  4096,     0);	/* norm[215] */
+	SVECTOR(    0,  4096,     0);	/* norm[216] */
+	SVECTOR(    0,  4096,     0);	/* norm[217] */
+	SVECTOR(    0,  4096,     0);	/* norm[218] */
+	SVECTOR(    0,  4096,     0);	/* norm[219] */
+	SVECTOR(    0,     0, -4096);	/* norm[220] */
+	SVECTOR(    0,     0, -4096);	/* norm[221] */
+	SVECTOR(    0,     0, -4096);	/* norm[222] */
+	SVECTOR(    0,     0, -4096);	/* norm[223] */
+	SVECTOR(    0,     0, -4096);	/* norm[224] */
+	SVECTOR(    0,     0, -4096);	/* norm[225] */
+	SVECTOR(    0,     0, -4096);	/* norm[226] */
+	SVECTOR(    0,     0, -4096);	/* norm[227] */
+	SVECTOR(    0,     0, -4096);	/* norm[228] */
+	SVECTOR(    0,     0, -4096);	/* norm[229] */
+	SVECTOR(    0, -4096,     0);	/* norm[230] */
+	SVECTOR(    0, -4096,     0);	/* norm[231] */
+	SVECTOR(    0, -4096,     0);	/* norm[232] */
+	SVECTOR(    0, -4096,     0);	/* norm[233] */
+	SVECTOR(    0, -4096,     0);	/* norm[234] */
+	SVECTOR(    0, -4096,     0);	/* norm[235] */
+	SVECTOR(    0, -4096,     0);	/* norm[236] */
+	SVECTOR(    0, -4096,     0);	/* norm[237] */
+	SVECTOR(    0, -4096,     0);	/* norm[238] */
+	SVECTOR(    0, -4096,     0);	/* norm[239] */
+	SVECTOR(    0,     0,  4096);	/* norm[240] */
+	SVECTOR(    0,     0,  4096);	/* norm[241] */
+	SVECTOR(    0,     0,  4096);	/* norm[242] */
+	SVECTOR(    0,     0,  4096);	/* norm[243] */
+	SVECTOR(    0,     0,  4096);	/* norm[244] */
+	SVECTOR(    0,     0,  4096);	/* norm[245] */
+	SVECTOR(    0,     0,  4096);	/* norm[246] */
+	SVECTOR(    0,     0,  4096);	/* norm[247] */
+	SVECTOR(    0,     0,  4096);	/* norm[248] */
+	SVECTOR(    0,     0,  4096);	/* norm[249] */
+	SVECTOR(    0,  4096,     0);	/* norm[250] */
+	SVECTOR(    0,  4096,     0);	/* norm[251] */
+	SVECTOR(    0,  4096,     0);	/* norm[252] */
+	SVECTOR(    0,  4096,     0);	/* norm[253] */
+	SVECTOR(    0,  4096,     0);	/* norm[254] */
+	SVECTOR(    0,  4096,     0);	/* norm[255] */
+	SVECTOR(    0,  4096,     0);	/* norm[256] */
+	SVECTOR(    0,  4096,     0);	/* norm[257] */
+	SVECTOR(    0,  4096,     0);	/* norm[258] */
+	SVECTOR(    0,  4096,     0);	/* norm[259] */
+	SVECTOR(    0,     0, -4096);	/* norm[260] */
+	SVECTOR(    0,     0, -4096);	/* norm[261] */
+	SVECTOR(    0,     0, -4096);	/* norm[262] */
+	SVECTOR(    0,     0, -4096);	/* norm[263] */
+	SVECTOR(    0,     0, -4096);	/* norm[264] */
+	SVECTOR(    0,     0, -4096);	/* norm[265] */
+	SVECTOR(    0,     0, -4096);	/* norm[266] */
+	SVECTOR(    0,     0, -4096);	/* norm[267] */
+	SVECTOR(    0,     0, -4096);	/* norm[268] */
+	SVECTOR(    0,     0, -4096);	/* norm[269] */
+	SVECTOR(    0, -4096,     0);	/* norm[270] */
+	SVECTOR(    0, -4096,     0);	/* norm[271] */
+	SVECTOR(    0, -4096,     0);	/* norm[272] */
+	SVECTOR(    0, -4096,     0);	/* norm[273] */
+	SVECTOR(    0, -4096,     0);	/* norm[274] */
+	SVECTOR(    0, -4096,     0);	/* norm[275] */
+	SVECTOR(    0, -4096,     0);	/* norm[276] */
+	SVECTOR(    0, -4096,     0);	/* norm[277] */
+	SVECTOR(    0, -4096,     0);	/* norm[278] */
+	SVECTOR(    0, -4096,     0);	/* norm[279] */
+	SVECTOR(    0,     0,  4096);	/* norm[280] */
+	SVECTOR(    0,     0,  4096);	/* norm[281] */
+	SVECTOR(    0,     0,  4096);	/* norm[282] */
+	SVECTOR(    0,     0,  4096);	/* norm[283] */
+	SVECTOR(    0,     0,  4096);	/* norm[284] */
+	SVECTOR(    0,     0,  4096);	/* norm[285] */
+	SVECTOR(    0,     0,  4096);	/* norm[286] */
+	SVECTOR(    0,     0,  4096);	/* norm[287] */
+	SVECTOR(    0,     0,  4096);	/* norm[288] */
+	SVECTOR(    0,     0,  4096);	/* norm[289] */
+	SVECTOR(    0,  4096,     0);	/* norm[290] */
+	SVECTOR(    0,  4096,     0);	/* norm[291] */
+	SVECTOR(    0,  4096,     0);	/* norm[292] */
+	SVECTOR(    0,  4096,     0);	/* norm[293] */
+	SVECTOR(    0,  4096,     0);	/* norm[294] */
+	SVECTOR(    0,  4096,     0);	/* norm[295] */
+	SVECTOR(    0,  4096,     0);	/* norm[296] */
+	SVECTOR(    0,  4096,     0);	/* norm[297] */
+	SVECTOR(    0,  4096,     0);	/* norm[298] */
+	SVECTOR(    0,  4096,     0);	/* norm[299] */
+	SVECTOR(    0,     0, -4096);	/* norm[300] */
+	SVECTOR(    0,     0, -4096);	/* norm[301] */
+	SVECTOR(    0,     0, -4096);	/* norm[302] */
+	SVECTOR(    0,     0, -4096);	/* norm[303] */
+	SVECTOR(    0,     0, -4096);	/* norm[304] */
+	SVECTOR(    0,     0, -4096);	/* norm[305] */
+	SVECTOR(    0,     0, -4096);	/* norm[306] */
+	SVECTOR(    0,     0, -4096);	/* norm[307] */
+	SVECTOR(    0,     0, -4096);	/* norm[308] */
+	SVECTOR(    0,     0, -4096);	/* norm[309] */
+	SVECTOR(    0, -4096,     0);	/* norm[310] */
+	SVECTOR(    0, -4096,     0);	/* norm[311] */
+	SVECTOR(    0, -4096,     0);	/* norm[312] */
+	SVECTOR(    0, -4096,     0);	/* norm[313] */
+	SVECTOR(    0, -4096,     0);	/* norm[314] */
+	SVECTOR(    0, -4096,     0);	/* norm[315] */
+	SVECTOR(    0, -4096,     0);	/* norm[316] */
+	SVECTOR(    0, -4096,     0);	/* norm[317] */
+	SVECTOR(    0, -4096,     0);	/* norm[318] */
+	SVECTOR(    0, -4096,     0);	/* norm[319] */
+	SVECTOR(    0,     0,  4096);	/* norm[320] */
+	SVECTOR(    0,     0,  4096);	/* norm[321] */
+	SVECTOR(    0,     0,  4096);	/* norm[322] */
+	SVECTOR(    0,     0,  4096);	/* norm[323] */
+	SVECTOR(    0,     0,  4096);	/* norm[324] */
+	SVECTOR(    0,     0,  4096);	/* norm[325] */
+	SVECTOR(    0,     0,  4096);	/* norm[326] */
+	SVECTOR(    0,     0,  4096);	/* norm[327] */
+	SVECTOR(    0,     0,  4096);	/* norm[328] */
+	SVECTOR(    0,     0,  4096);	/* norm[329] */
+	SVECTOR(    0,  4096,     0);	/* norm[330] */
+	SVECTOR(    0,  4096,     0);	/* norm[331] */
+	SVECTOR(    0,  4096,     0);	/* norm[332] */
+	SVECTOR(    0,  4096,     0);	/* norm[333] */
+	SVECTOR(    0,  4096,     0);	/* norm[334] */
+	SVECTOR(    0,  4096,     0);	/* norm[335] */
+	SVECTOR(    0,  4096,     0);	/* norm[336] */
+	SVECTOR(    0,  4096,     0);	/* norm[337] */
+	SVECTOR(    0,  4096,     0);	/* norm[338] */
+	SVECTOR(    0,  4096,     0);	/* norm[339] */
+	SVECTOR(    0,     0, -4096);	/* norm[340] */
+	SVECTOR(    0,     0, -4096);	/* norm[341] */
+	SVECTOR(    0,     0, -4096);	/* norm[342] */
+	SVECTOR(    0,     0, -4096);	/* norm[343] */
+	SVECTOR(    0,     0, -4096);	/* norm[344] */
+	SVECTOR(    0,     0, -4096);	/* norm[345] */
+	SVECTOR(    0,     0, -4096);	/* norm[346] */
+	SVECTOR(    0,     0, -4096);	/* norm[347] */
+	SVECTOR(    0,     0, -4096);	/* norm[348] */
+	SVECTOR(    0,     0, -4096);	/* norm[349] */
+	SVECTOR(    0, -4096,     0);	/* norm[350] */
+	SVECTOR(    0, -4096,     0);	/* norm[351] */
+	SVECTOR(    0, -4096,     0);	/* norm[352] */
+	SVECTOR(    0, -4096,     0);	/* norm[353] */
+	SVECTOR(    0, -4096,     0);	/* norm[354] */
+	SVECTOR(    0, -4096,     0);	/* norm[355] */
+	SVECTOR(    0, -4096,     0);	/* norm[356] */
+	SVECTOR(    0, -4096,     0);	/* norm[357] */
+	SVECTOR(    0, -4096,     0);	/* norm[358] */
+	SVECTOR(    0, -4096,     0);	/* norm[359] */
+	SVECTOR(    0,     0,  4096);	/* norm[360] */
+	SVECTOR(    0,     0,  4096);	/* norm[361] */
+	SVECTOR(    0,     0,  4096);	/* norm[362] */
+	SVECTOR(    0,     0,  4096);	/* norm[363] */
+	SVECTOR(    0,     0,  4096);	/* norm[364] */
+	SVECTOR(    0,     0,  4096);	/* norm[365] */
+	SVECTOR(    0,     0,  4096);	/* norm[366] */
+	SVECTOR(    0,     0,  4096);	/* norm[367] */
+	SVECTOR(    0,     0,  4096);	/* norm[368] */
+	SVECTOR(    0,     0,  4096);	/* norm[369] */
+	SVECTOR(    0,  4096,     0);	/* norm[370] */
+	SVECTOR(    0,  4096,     0);	/* norm[371] */
+	SVECTOR(    0,  4096,     0);	/* norm[372] */
+	SVECTOR(    0,  4096,     0);	/* norm[373] */
+	SVECTOR(    0,  4096,     0);	/* norm[374] */
+	SVECTOR(    0,  4096,     0);	/* norm[375] */
+	SVECTOR(    0,  4096,     0);	/* norm[376] */
+	SVECTOR(    0,  4096,     0);	/* norm[377] */
+	SVECTOR(    0,  4096,     0);	/* norm[378] */
+	SVECTOR(    0,  4096,     0);	/* norm[379] */
+	SVECTOR(    0,     0, -4096);	/* norm[380] */
+	SVECTOR(    0,     0, -4096);	/* norm[381] */
+	SVECTOR(    0,     0, -4096);	/* norm[382] */
+	SVECTOR(    0,     0, -4096);	/* norm[383] */
+	SVECTOR(    0,     0, -4096);	/* norm[384] */
+	SVECTOR(    0,     0, -4096);	/* norm[385] */
+	SVECTOR(    0,     0, -4096);	/* norm[386] */
+	SVECTOR(    0,     0, -4096);	/* norm[387] */
+	SVECTOR(    0,     0, -4096);	/* norm[388] */
+	SVECTOR(    0,     0, -4096);	/* norm[389] */
+	SVECTOR(    0, -4096,     0);	/* norm[390] */
+	SVECTOR(    0, -4096,     0);	/* norm[391] */
+	SVECTOR(    0, -4096,     0);	/* norm[392] */
+	SVECTOR(    0, -4096,     0);	/* norm[393] */
+	SVECTOR(    0, -4096,     0);	/* norm[394] */
+	SVECTOR(    0, -4096,     0);	/* norm[395] */
+	SVECTOR(    0, -4096,     0);	/* norm[396] */
+	SVECTOR(    0, -4096,     0);	/* norm[397] */
+	SVECTOR(    0, -4096,     0);	/* norm[398] */
+	SVECTOR(    0, -4096,     0);	/* norm[399] */
+	SVECTOR(    0,     0,  4096);	/* norm[400] */
+	SVECTOR(    0,     0,  4096);	/* norm[401] */
+	SVECTOR(    0,     0,  4096);	/* norm[402] */
+	SVECTOR(    0,     0,  4096);	/* norm[403] */
+	SVECTOR(    0,     0,  4096);	/* norm[404] */
+	SVECTOR(    0,     0,  4096);	/* norm[405] */
+	SVECTOR(    0,     0,  4096);	/* norm[406] */
+	SVECTOR(    0,     0,  4096);	/* norm[407] */
+	SVECTOR(    0,     0,  4096);	/* norm[408] */
+	SVECTOR(    0,     0,  4096);	/* norm[409] */
+	SVECTOR(    0,  4096,     0);	/* norm[410] */
+	SVECTOR(    0,  4096,     0);	/* norm[411] */
+	SVECTOR(    0,  4096,     0);	/* norm[412] */
+	SVECTOR(    0,  4096,     0);	/* norm[413] */
+	SVECTOR(    0,  4096,     0);	/* norm[414] */
+	SVECTOR(    0,  4096,     0);	/* norm[415] */
+	SVECTOR(    0,  4096,     0);	/* norm[416] */
+	SVECTOR(    0,  4096,     0);	/* norm[417] */
+	SVECTOR(    0,  4096,     0);	/* norm[418] */
+	SVECTOR(    0,  4096,     0);	/* norm[419] */
+	SVECTOR(    0,     0, -4096);	/* norm[420] */
+	SVECTOR(    0,     0, -4096);	/* norm[421] */
+	SVECTOR(    0,     0, -4096);	/* norm[422] */
+	SVECTOR(    0,     0, -4096);	/* norm[423] */
+	SVECTOR(    0,     0, -4096);	/* norm[424] */
+	SVECTOR(    0,     0, -4096);	/* norm[425] */
+	SVECTOR(    0,     0, -4096);	/* norm[426] */
+	SVECTOR(    0,     0, -4096);	/* norm[427] */
+	SVECTOR(    0,     0, -4096);	/* norm[428] */
+	SVECTOR(    0,     0, -4096);	/* norm[429] */
+	SVECTOR(    0, -4096,     0);	/* norm[430] */
+	SVECTOR(    0, -4096,     0);	/* norm[431] */
+	SVECTOR(    0, -4096,     0);	/* norm[432] */
+	SVECTOR(    0, -4096,     0);	/* norm[433] */
+	SVECTOR(    0, -4096,     0);	/* norm[434] */
+	SVECTOR(    0, -4096,     0);	/* norm[435] */
+	SVECTOR(    0, -4096,     0);	/* norm[436] */
+	SVECTOR(    0, -4096,     0);	/* norm[437] */
+	SVECTOR(    0, -4096,     0);	/* norm[438] */
+	SVECTOR(    0, -4096,     0);	/* norm[439] */
+	SVECTOR(    0,     0,  4096);	/* norm[440] */
+	SVECTOR(    0,     0,  4096);	/* norm[441] */
+	SVECTOR(    0,     0,  4096);	/* norm[442] */
+	SVECTOR(    0,     0,  4096);	/* norm[443] */
+	SVECTOR(    0,     0,  4096);	/* norm[444] */
+	SVECTOR(    0,     0,  4096);	/* norm[445] */
+	SVECTOR(    0,     0,  4096);	/* norm[446] */
+	SVECTOR(    0,     0,  4096);	/* norm[447] */
+	SVECTOR(    0,     0,  4096);	/* norm[448] */
+	SVECTOR(    0,     0,  4096);	/* norm[449] */
+	SVECTOR(    0,  4096,     0);	/* norm[450] */
+	SVECTOR(    0,  4096,     0);	/* norm[451] */
+	SVECTOR(    0,  4096,     0);	/* norm[452] */
+	SVECTOR(    0,  4096,     0);	/* norm[453] */
+	SVECTOR(    0,  4096,     0);	/* norm[454] */
+	SVECTOR(    0,  4096,     0);	/* norm[455] */
+	SVECTOR(    0,  4096,     0);	/* norm[456] */
+	SVECTOR(    0,  4096,     0);	/* norm[457] */
+	SVECTOR(    0,  4096,     0);	/* norm[458] */
+	SVECTOR(    0,  4096,     0);	/* norm[459] */
+	SVECTOR(    0,     0, -4096);	/* norm[460] */
+	SVECTOR(    0,     0, -4096);	/* norm[461] */
+	SVECTOR(    0,     0, -4096);	/* norm[462] */
+	SVECTOR(    0,     0, -4096);	/* norm[463] */
+	SVECTOR(    0,     0, -4096);	/* norm[464] */
+	SVECTOR(    0,     0, -4096);	/* norm[465] */
+	SVECTOR(    0,     0, -4096);	/* norm[466] */
+	SVECTOR(    0,     0, -4096);	/* norm[467] */
+	SVECTOR(    0,     0, -4096);	/* norm[468] */
+	SVECTOR(    0,     0, -4096);	/* norm[469] */
+	SVECTOR(    0, -4096,     0);	/* norm[470] */
+	SVECTOR(    0, -4096,     0);	/* norm[471] */
+	SVECTOR(    0, -4096,     0);	/* norm[472] */
+	SVECTOR(    0, -4096,     0);	/* norm[473] */
+	SVECTOR(    0, -4096,     0);	/* norm[474] */
+	SVECTOR(    0, -4096,     0);	/* norm[475] */
+	SVECTOR(    0, -4096,     0);	/* norm[476] */
+	SVECTOR(    0, -4096,     0);	/* norm[477] */
+	SVECTOR(    0, -4096,     0);	/* norm[478] */
+	SVECTOR(    0, -4096,     0);	/* norm[479] */
+	SVECTOR(    0,     0,  4096);	/* norm[480] */
+	SVECTOR(    0,     0,  4096);	/* norm[481] */
+	SVECTOR(    0,     0,  4096);	/* norm[482] */
+	SVECTOR(    0,     0,  4096);	/* norm[483] */
+	SVECTOR(    0,     0,  4096);	/* norm[484] */
+	SVECTOR(    0,     0,  4096);	/* norm[485] */
+	SVECTOR(    0,     0,  4096);	/* norm[486] */
+	SVECTOR(    0,     0,  4096);	/* norm[487] */
+	SVECTOR(    0,     0,  4096);	/* norm[488] */
+	SVECTOR(    0,     0,  4096);	/* norm[489] */
+	SVECTOR(    0,  4096,     0);	/* norm[490] */
+	SVECTOR(    0,  4096,     0);	/* norm[491] */
+	SVECTOR(    0,  4096,     0);	/* norm[492] */
+	SVECTOR(    0,  4096,     0);	/* norm[493] */
+	SVECTOR(    0,  4096,     0);	/* norm[494] */
+	SVECTOR(    0,  4096,     0);	/* norm[495] */
+	SVECTOR(    0,  4096,     0);	/* norm[496] */
+	SVECTOR(    0,  4096,     0);	/* norm[497] */
+	SVECTOR(    0,  4096,     0);	/* norm[498] */
+	SVECTOR(    0,  4096,     0);	/* norm[499] */
+	SVECTOR( 4096,     0,     0);	/* norm[500] */
+	SVECTOR( 4096,     0,     0);	/* norm[501] */
+	SVECTOR( 4096,     0,     0);	/* norm[502] */
+	SVECTOR( 4096,     0,     0);	/* norm[503] */
+	SVECTOR( 4096,     0,     0);	/* norm[504] */
+	SVECTOR( 4096,     0,     0);	/* norm[505] */
+	SVECTOR( 4096,     0,     0);	/* norm[506] */
+	SVECTOR( 4096,     0,     0);	/* norm[507] */
+	SVECTOR( 4096,     0,     0);	/* norm[508] */
+	SVECTOR( 4096,     0,     0);	/* norm[509] */
+	SVECTOR( 4096,     0,     0);	/* norm[510] */
+	SVECTOR( 4096,     0,     0);	/* norm[511] */
+	SVECTOR( 4096,     0,     0);	/* norm[512] */
+	SVECTOR( 4096,     0,     0);	/* norm[513] */
+	SVECTOR( 4096,     0,     0);	/* norm[514] */
+	SVECTOR( 4096,     0,     0);	/* norm[515] */
+	SVECTOR( 4096,     0,     0);	/* norm[516] */
+	SVECTOR( 4096,     0,     0);	/* norm[517] */
+	SVECTOR( 4096,     0,     0);	/* norm[518] */
+	SVECTOR( 4096,     0,     0);	/* norm[519] */
+	SVECTOR( 4096,     0,     0);	/* norm[520] */
+	SVECTOR( 4096,     0,     0);	/* norm[521] */
+	SVECTOR( 4096,     0,     0);	/* norm[522] */
+	SVECTOR( 4096,     0,     0);	/* norm[523] */
+	SVECTOR( 4096,     0,     0);	/* norm[524] */
+	SVECTOR( 4096,     0,     0);	/* norm[525] */
+	SVECTOR( 4096,     0,     0);	/* norm[526] */
+	SVECTOR( 4096,     0,     0);	/* norm[527] */
+	SVECTOR( 4096,     0,     0);	/* norm[528] */
+	SVECTOR( 4096,     0,     0);	/* norm[529] */
+	SVECTOR( 4096,     0,     0);	/* norm[530] */
+	SVECTOR( 4096,     0,     0);	/* norm[531] */
+	SVECTOR( 4096,     0,     0);	/* norm[532] */
+	SVECTOR( 4096,     0,     0);	/* norm[533] */
+	SVECTOR( 4096,     0,     0);	/* norm[534] */
+	SVECTOR( 4096,     0,     0);	/* norm[535] */
+	SVECTOR( 4096,     0,     0);	/* norm[536] */
+	SVECTOR( 4096,     0,     0);	/* norm[537] */
+	SVECTOR( 4096,     0,     0);	/* norm[538] */
+	SVECTOR( 4096,     0,     0);	/* norm[539] */
+	SVECTOR( 4096,     0,     0);	/* norm[540] */
+	SVECTOR( 4096,     0,     0);	/* norm[541] */
+	SVECTOR( 4096,     0,     0);	/* norm[542] */
+	SVECTOR( 4096,     0,     0);	/* norm[543] */
+	SVECTOR( 4096,     0,     0);	/* norm[544] */
+	SVECTOR( 4096,     0,     0);	/* norm[545] */
+	SVECTOR( 4096,     0,     0);	/* norm[546] */
+	SVECTOR( 4096,     0,     0);	/* norm[547] */
+	SVECTOR( 4096,     0,     0);	/* norm[548] */
+	SVECTOR( 4096,     0,     0);	/* norm[549] */
+	SVECTOR( 4096,     0,     0);	/* norm[550] */
+	SVECTOR( 4096,     0,     0);	/* norm[551] */
+	SVECTOR( 4096,     0,     0);	/* norm[552] */
+	SVECTOR( 4096,     0,     0);	/* norm[553] */
+	SVECTOR( 4096,     0,     0);	/* norm[554] */
+	SVECTOR( 4096,     0,     0);	/* norm[555] */
+	SVECTOR( 4096,     0,     0);	/* norm[556] */
+	SVECTOR( 4096,     0,     0);	/* norm[557] */
+	SVECTOR( 4096,     0,     0);	/* norm[558] */
+	SVECTOR( 4096,     0,     0);	/* norm[559] */
+	SVECTOR( 4096,     0,     0);	/* norm[560] */
+	SVECTOR( 4096,     0,     0);	/* norm[561] */
+	SVECTOR( 4096,     0,     0);	/* norm[562] */
+	SVECTOR( 4096,     0,     0);	/* norm[563] */
+	SVECTOR( 4096,     0,     0);	/* norm[564] */
+	SVECTOR( 4096,     0,     0);	/* norm[565] */
+	SVECTOR( 4096,     0,     0);	/* norm[566] */
+	SVECTOR( 4096,     0,     0);	/* norm[567] */
+	SVECTOR( 4096,     0,     0);	/* norm[568] */
+	SVECTOR( 4096,     0,     0);	/* norm[569] */
+	SVECTOR( 4096,     0,     0);	/* norm[570] */
+	SVECTOR( 4096,     0,     0);	/* norm[571] */
+	SVECTOR( 4096,     0,     0);	/* norm[572] */
+	SVECTOR( 4096,     0,     0);	/* norm[573] */
+	SVECTOR( 4096,     0,     0);	/* norm[574] */
+	SVECTOR( 4096,     0,     0);	/* norm[575] */
+	SVECTOR( 4096,     0,     0);	/* norm[576] */
+	SVECTOR( 4096,     0,     0);	/* norm[577] */
+	SVECTOR( 4096,     0,     0);	/* norm[578] */
+	SVECTOR( 4096,     0,     0);	/* norm[579] */
+	SVECTOR( 4096,     0,     0);	/* norm[580] */
+	SVECTOR( 4096,     0,     0);	/* norm[581] */
+	SVECTOR( 4096,     0,     0);	/* norm[582] */
+	SVECTOR( 4096,     0,     0);	/* norm[583] */
+	SVECTOR( 4096,     0,     0);	/* norm[584] */
+	SVECTOR( 4096,     0,     0);	/* norm[585] */
+	SVECTOR( 4096,     0,     0);	/* norm[586] */
+	SVECTOR( 4096,     0,     0);	/* norm[587] */
+	SVECTOR( 4096,     0,     0);	/* norm[588] */
+	SVECTOR( 4096,     0,     0);	/* norm[589] */
+	SVECTOR( 4096,     0,     0);	/* norm[590] */
+	SVECTOR( 4096,     0,     0);	/* norm[591] */
+	SVECTOR( 4096,     0,     0);	/* norm[592] */
+	SVECTOR( 4096,     0,     0);	/* norm[593] */
+	SVECTOR( 4096,     0,     0);	/* norm[594] */
+	SVECTOR( 4096,     0,     0);	/* norm[595] */
+	SVECTOR( 4096,     0,     0);	/* norm[596] */
+	SVECTOR( 4096,     0,     0);	/* norm[597] */
+	SVECTOR( 4096,     0,     0);	/* norm[598] */
+	SVECTOR( 4096,     0,     0);	/* norm[599] */
+
+Poly_0000:	/* 0x00002668 */
+	0x28c8c8c8; 0x00270000; 0x00000028; 0x00000002;
+	0x28c8c8c8; 0x00280001; 0x00020029; 0x00000004;
+	0x28c8c8c8; 0x00290002; 0x0004002a; 0x00000006;
+	0x28c8c8c8; 0x002a0003; 0x0006002b; 0x00000008;
+	0x28c8c8c8; 0x002b0004; 0x0008002c; 0x0000000a;
+	0x28c8c8c8; 0x002c0005; 0x000a002d; 0x0000000c;
+	0x28c8c8c8; 0x002d0006; 0x000c002e; 0x0000000e;
+	0x28c8c8c8; 0x002e0007; 0x000e002f; 0x00000010;
+	0x28c8c8c8; 0x002f0008; 0x00100030; 0x00000012;
+	0x28c8c8c8; 0x00300009; 0x00120016; 0x00000014;
+	0x28c8c8c8; 0x0025000a; 0x00270031; 0x00000028;
+	0x28c8c8c8; 0x0031000b; 0x00280032; 0x00000029;
+	0x28c8c8c8; 0x0032000c; 0x00290033; 0x0000002a;
+	0x28c8c8c8; 0x0033000d; 0x002a0034; 0x0000002b;
+	0x28c8c8c8; 0x0034000e; 0x002b0035; 0x0000002c;
+	0x28c8c8c8; 0x0035000f; 0x002c0036; 0x0000002d;
+	0x28c8c8c8; 0x00360010; 0x002d0037; 0x0000002e;
+	0x28c8c8c8; 0x00370011; 0x002e0038; 0x0000002f;
+	0x28c8c8c8; 0x00380012; 0x002f0039; 0x00000030;
+	0x28c8c8c8; 0x00390013; 0x00300018; 0x00000016;
+	0x28c8c8c8; 0x00230014; 0x0025003a; 0x00000031;
+	0x28c8c8c8; 0x003a0015; 0x0031003b; 0x00000032;
+	0x28c8c8c8; 0x003b0016; 0x0032003c; 0x00000033;
+	0x28c8c8c8; 0x003c0017; 0x0033003d; 0x00000034;
+	0x28c8c8c8; 0x003d0018; 0x0034003e; 0x00000035;
+	0x28c8c8c8; 0x003e0019; 0x0035003f; 0x00000036;
+	0x28c8c8c8; 0x003f001a; 0x00360040; 0x00000037;
+	0x28c8c8c8; 0x0040001b; 0x00370041; 0x00000038;
+	0x28c8c8c8; 0x0041001c; 0x00380042; 0x00000039;
+	0x28c8c8c8; 0x0042001d; 0x0039001a; 0x00000018;
+	0x28c8c8c8; 0x0021001e; 0x00230043; 0x0000003a;
+	0x28c8c8c8; 0x0043001f; 0x003a0044; 0x0000003b;
+	0x28c8c8c8; 0x00440020; 0x003b0045; 0x0000003c;
+	0x28c8c8c8; 0x00450021; 0x003c0046; 0x0000003d;
+	0x28c8c8c8; 0x00460022; 0x003d0047; 0x0000003e;
+	0x28c8c8c8; 0x00470023; 0x003e0048; 0x0000003f;
+	0x28c8c8c8; 0x00480024; 0x003f0049; 0x00000040;
+	0x28c8c8c8; 0x00490025; 0x0040004a; 0x00000041;
+	0x28c8c8c8; 0x004a0026; 0x0041004b; 0x00000042;
+	0x28c8c8c8; 0x004b0027; 0x0042001c; 0x0000001a;
+	0x28c8c8c8; 0x001f0028; 0x0021004c; 0x00000043;
+	0x28c8c8c8; 0x004c0029; 0x0043004d; 0x00000044;
+	0x28c8c8c8; 0x004d002a; 0x0044004e; 0x00000045;
+	0x28c8c8c8; 0x004e002b; 0x0045004f; 0x00000046;
+	0x28c8c8c8; 0x004f002c; 0x00460050; 0x00000047;
+	0x28c8c8c8; 0x0050002d; 0x00470051; 0x00000048;
+	0x28c8c8c8; 0x0051002e; 0x00480052; 0x00000049;
+	0x28c8c8c8; 0x0052002f; 0x00490053; 0x0000004a;
+	0x28c8c8c8; 0x00530030; 0x004a0054; 0x0000004b;
+	0x28c8c8c8; 0x00540031; 0x004b001e; 0x0000001c;
+	0x28c8c8c8; 0x001d0032; 0x001f0055; 0x0000004c;
+	0x28c8c8c8; 0x00550033; 0x004c0056; 0x0000004d;
+	0x28c8c8c8; 0x00560034; 0x004d0057; 0x0000004e;
+	0x28c8c8c8; 0x00570035; 0x004e0058; 0x0000004f;
+	0x28c8c8c8; 0x00580036; 0x004f0059; 0x00000050;
+	0x28c8c8c8; 0x00590037; 0x0050005a; 0x00000051;
+	0x28c8c8c8; 0x005a0038; 0x0051005b; 0x00000052;
+	0x28c8c8c8; 0x005b0039; 0x0052005c; 0x00000053;
+	0x28c8c8c8; 0x005c003a; 0x0053005d; 0x00000054;
+	0x28c8c8c8; 0x005d003b; 0x00540020; 0x0000001e;
+	0x28c8c8c8; 0x001b003c; 0x001d005e; 0x00000055;
+	0x28c8c8c8; 0x005e003d; 0x0055005f; 0x00000056;
+	0x28c8c8c8; 0x005f003e; 0x00560060; 0x00000057;
+	0x28c8c8c8; 0x0060003f; 0x00570061; 0x00000058;
+	0x28c8c8c8; 0x00610040; 0x00580062; 0x00000059;
+	0x28c8c8c8; 0x00620041; 0x00590063; 0x0000005a;
+	0x28c8c8c8; 0x00630042; 0x005a0064; 0x0000005b;
+	0x28c8c8c8; 0x00640043; 0x005b0065; 0x0000005c;
+	0x28c8c8c8; 0x00650044; 0x005c0066; 0x0000005d;
+	0x28c8c8c8; 0x00660045; 0x005d0022; 0x00000020;
+	0x28c8c8c8; 0x00190046; 0x001b0067; 0x0000005e;
+	0x28c8c8c8; 0x00670047; 0x005e0068; 0x0000005f;
+	0x28c8c8c8; 0x00680048; 0x005f0069; 0x00000060;
+	0x28c8c8c8; 0x00690049; 0x0060006a; 0x00000061;
+	0x28c8c8c8; 0x006a004a; 0x0061006b; 0x00000062;
+	0x28c8c8c8; 0x006b004b; 0x0062006c; 0x00000063;
+	0x28c8c8c8; 0x006c004c; 0x0063006d; 0x00000064;
+	0x28c8c8c8; 0x006d004d; 0x0064006e; 0x00000065;
+	0x28c8c8c8; 0x006e004e; 0x0065006f; 0x00000066;
+	0x28c8c8c8; 0x006f004f; 0x00660024; 0x00000022;
+	0x28c8c8c8; 0x00170050; 0x00190070; 0x00000067;
+	0x28c8c8c8; 0x00700051; 0x00670071; 0x00000068;
+	0x28c8c8c8; 0x00710052; 0x00680072; 0x00000069;
+	0x28c8c8c8; 0x00720053; 0x00690073; 0x0000006a;
+	0x28c8c8c8; 0x00730054; 0x006a0074; 0x0000006b;
+	0x28c8c8c8; 0x00740055; 0x006b0075; 0x0000006c;
+	0x28c8c8c8; 0x00750056; 0x006c0076; 0x0000006d;
+	0x28c8c8c8; 0x00760057; 0x006d0077; 0x0000006e;
+	0x28c8c8c8; 0x00770058; 0x006e0078; 0x0000006f;
+	0x28c8c8c8; 0x00780059; 0x006f0026; 0x00000024;
+	0x28c8c8c8; 0x0015005a; 0x00170013; 0x00000070;
+	0x28c8c8c8; 0x0013005b; 0x00700011; 0x00000071;
+	0x28c8c8c8; 0x0011005c; 0x0071000f; 0x00000072;
+	0x28c8c8c8; 0x000f005d; 0x0072000d; 0x00000073;
+	0x28c8c8c8; 0x000d005e; 0x0073000b; 0x00000074;
+	0x28c8c8c8; 0x000b005f; 0x00740009; 0x00000075;
+	0x28c8c8c8; 0x00090060; 0x00750007; 0x00000076;
+	0x28c8c8c8; 0x00070061; 0x00760005; 0x00000077;
+	0x28c8c8c8; 0x00050062; 0x00770003; 0x00000078;
+	0x28c8c8c8; 0x00030063; 0x00780001; 0x00000026;
+	0x28c8c8c8; 0x00000064; 0x00790002; 0x0000007b;
+	0x28c8c8c8; 0x00020065; 0x007b0004; 0x0000007d;
+	0x28c8c8c8; 0x00040066; 0x007d0006; 0x0000007f;
+	0x28c8c8c8; 0x00060067; 0x007f0008; 0x00000081;
+	0x28c8c8c8; 0x00080068; 0x0081000a; 0x00000083;
+	0x28c8c8c8; 0x000a0069; 0x0083000c; 0x00000085;
+	0x28c8c8c8; 0x000c006a; 0x0085000e; 0x00000087;
+	0x28c8c8c8; 0x000e006b; 0x00870010; 0x00000089;
+	0x28c8c8c8; 0x0010006c; 0x00890012; 0x0000008b;
+	0x28c8c8c8; 0x0012006d; 0x008b0014; 0x0000008d;
+	0x28c8c8c8; 0x0014006e; 0x008d0016; 0x0000008f;
+	0x28c8c8c8; 0x0016006f; 0x008f0018; 0x00000091;
+	0x28c8c8c8; 0x00180070; 0x0091001a; 0x00000093;
+	0x28c8c8c8; 0x001a0071; 0x0093001c; 0x00000095;
+	0x28c8c8c8; 0x001c0072; 0x0095001e; 0x00000097;
+	0x28c8c8c8; 0x001e0073; 0x00970020; 0x00000099;
+	0x28c8c8c8; 0x00200074; 0x00990022; 0x0000009b;
+	0x28c8c8c8; 0x00220075; 0x009b0024; 0x0000009d;
+	0x28c8c8c8; 0x00240076; 0x009d0026; 0x0000009f;
+	0x28c8c8c8; 0x00260077; 0x009f0001; 0x0000007a;
+	0x28c8c8c8; 0x00010078; 0x007a0003; 0x0000007c;
+	0x28c8c8c8; 0x00030079; 0x007c0005; 0x0000007e;
+	0x28c8c8c8; 0x0005007a; 0x007e0007; 0x00000080;
+	0x28c8c8c8; 0x0007007b; 0x00800009; 0x00000082;
+	0x28c8c8c8; 0x0009007c; 0x0082000b; 0x00000084;
+	0x28c8c8c8; 0x000b007d; 0x0084000d; 0x00000086;
+	0x28c8c8c8; 0x000d007e; 0x0086000f; 0x00000088;
+	0x28c8c8c8; 0x000f007f; 0x00880011; 0x0000008a;
+	0x28c8c8c8; 0x00110080; 0x008a0013; 0x0000008c;
+	0x28c8c8c8; 0x00130081; 0x008c0015; 0x0000008e;
+	0x28c8c8c8; 0x00150082; 0x008e0017; 0x00000090;
+	0x28c8c8c8; 0x00170083; 0x00900019; 0x00000092;
+	0x28c8c8c8; 0x00190084; 0x0092001b; 0x00000094;
+	0x28c8c8c8; 0x001b0085; 0x0094001d; 0x00000096;
+	0x28c8c8c8; 0x001d0086; 0x0096001f; 0x00000098;
+	0x28c8c8c8; 0x001f0087; 0x00980021; 0x0000009a;
+	0x28c8c8c8; 0x00210088; 0x009a0023; 0x0000009c;
+	0x28c8c8c8; 0x00230089; 0x009c0025; 0x0000009e;
+	0x28c8c8c8; 0x0025008a; 0x009e0027; 0x000000a0;
+	0x28c8c8c8; 0x0027008b; 0x00a00000; 0x00000079;
+	0x28c8c8c8; 0x0079008c; 0x00a1007b; 0x000000a3;
+	0x28c8c8c8; 0x007b008d; 0x00a3007d; 0x000000a5;
+	0x28c8c8c8; 0x007d008e; 0x00a5007f; 0x000000a7;
+	0x28c8c8c8; 0x007f008f; 0x00a70081; 0x000000a9;
+	0x28c8c8c8; 0x00810090; 0x00a90083; 0x000000ab;
+	0x28c8c8c8; 0x00830091; 0x00ab0085; 0x000000ad;
+	0x28c8c8c8; 0x00850092; 0x00ad0087; 0x000000af;
+	0x28c8c8c8; 0x00870093; 0x00af0089; 0x000000b1;
+	0x28c8c8c8; 0x00890094; 0x00b1008b; 0x000000b3;
+	0x28c8c8c8; 0x008b0095; 0x00b3008d; 0x000000b5;
+	0x28c8c8c8; 0x008d0096; 0x00b5008f; 0x000000b7;
+	0x28c8c8c8; 0x008f0097; 0x00b70091; 0x000000b9;
+	0x28c8c8c8; 0x00910098; 0x00b90093; 0x000000bb;
+	0x28c8c8c8; 0x00930099; 0x00bb0095; 0x000000bd;
+	0x28c8c8c8; 0x0095009a; 0x00bd0097; 0x000000bf;
+	0x28c8c8c8; 0x0097009b; 0x00bf0099; 0x000000c1;
+	0x28c8c8c8; 0x0099009c; 0x00c1009b; 0x000000c3;
+	0x28c8c8c8; 0x009b009d; 0x00c3009d; 0x000000c5;
+	0x28c8c8c8; 0x009d009e; 0x00c5009f; 0x000000c7;
+	0x28c8c8c8; 0x009f009f; 0x00c7007a; 0x000000a2;
+	0x28c8c8c8; 0x007a00a0; 0x00a2007c; 0x000000a4;
+	0x28c8c8c8; 0x007c00a1; 0x00a4007e; 0x000000a6;
+	0x28c8c8c8; 0x007e00a2; 0x00a60080; 0x000000a8;
+	0x28c8c8c8; 0x008000a3; 0x00a80082; 0x000000aa;
+	0x28c8c8c8; 0x008200a4; 0x00aa0084; 0x000000ac;
+	0x28c8c8c8; 0x008400a5; 0x00ac0086; 0x000000ae;
+	0x28c8c8c8; 0x008600a6; 0x00ae0088; 0x000000b0;
+	0x28c8c8c8; 0x008800a7; 0x00b0008a; 0x000000b2;
+	0x28c8c8c8; 0x008a00a8; 0x00b2008c; 0x000000b4;
+	0x28c8c8c8; 0x008c00a9; 0x00b4008e; 0x000000b6;
+	0x28c8c8c8; 0x008e00aa; 0x00b60090; 0x000000b8;
+	0x28c8c8c8; 0x009000ab; 0x00b80092; 0x000000ba;
+	0x28c8c8c8; 0x009200ac; 0x00ba0094; 0x000000bc;
+	0x28c8c8c8; 0x009400ad; 0x00bc0096; 0x000000be;
+	0x28c8c8c8; 0x009600ae; 0x00be0098; 0x000000c0;
+	0x28c8c8c8; 0x009800af; 0x00c0009a; 0x000000c2;
+	0x28c8c8c8; 0x009a00b0; 0x00c2009c; 0x000000c4;
+	0x28c8c8c8; 0x009c00b1; 0x00c4009e; 0x000000c6;
+	0x28c8c8c8; 0x009e00b2; 0x00c600a0; 0x000000c8;
+	0x28c8c8c8; 0x00a000b3; 0x00c80079; 0x000000a1;
+	0x28c8c8c8; 0x00a100b4; 0x00c900a3; 0x000000cb;
+	0x28c8c8c8; 0x00a300b5; 0x00cb00a5; 0x000000cd;
+	0x28c8c8c8; 0x00a500b6; 0x00cd00a7; 0x000000cf;
+	0x28c8c8c8; 0x00a700b7; 0x00cf00a9; 0x000000d1;
+	0x28c8c8c8; 0x00a900b8; 0x00d100ab; 0x000000d3;
+	0x28c8c8c8; 0x00ab00b9; 0x00d300ad; 0x000000d5;
+	0x28c8c8c8; 0x00ad00ba; 0x00d500af; 0x000000d7;
+	0x28c8c8c8; 0x00af00bb; 0x00d700b1; 0x000000d9;
+	0x28c8c8c8; 0x00b100bc; 0x00d900b3; 0x000000db;
+	0x28c8c8c8; 0x00b300bd; 0x00db00b5; 0x000000dd;
+	0x28c8c8c8; 0x00b500be; 0x00dd00b7; 0x000000df;
+	0x28c8c8c8; 0x00b700bf; 0x00df00b9; 0x000000e1;
+	0x28c8c8c8; 0x00b900c0; 0x00e100bb; 0x000000e3;
+	0x28c8c8c8; 0x00bb00c1; 0x00e300bd; 0x000000e5;
+	0x28c8c8c8; 0x00bd00c2; 0x00e500bf; 0x000000e7;
+	0x28c8c8c8; 0x00bf00c3; 0x00e700c1; 0x000000e9;
+	0x28c8c8c8; 0x00c100c4; 0x00e900c3; 0x000000eb;
+	0x28c8c8c8; 0x00c300c5; 0x00eb00c5; 0x000000ed;
+	0x28c8c8c8; 0x00c500c6; 0x00ed00c7; 0x000000ef;
+	0x28c8c8c8; 0x00c700c7; 0x00ef00a2; 0x000000ca;
+	0x28c8c8c8; 0x00a200c8; 0x00ca00a4; 0x000000cc;
+	0x28c8c8c8; 0x00a400c9; 0x00cc00a6; 0x000000ce;
+	0x28c8c8c8; 0x00a600ca; 0x00ce00a8; 0x000000d0;
+	0x28c8c8c8; 0x00a800cb; 0x00d000aa; 0x000000d2;
+	0x28c8c8c8; 0x00aa00cc; 0x00d200ac; 0x000000d4;
+	0x28c8c8c8; 0x00ac00cd; 0x00d400ae; 0x000000d6;
+	0x28c8c8c8; 0x00ae00ce; 0x00d600b0; 0x000000d8;
+	0x28c8c8c8; 0x00b000cf; 0x00d800b2; 0x000000da;
+	0x28c8c8c8; 0x00b200d0; 0x00da00b4; 0x000000dc;
+	0x28c8c8c8; 0x00b400d1; 0x00dc00b6; 0x000000de;
+	0x28c8c8c8; 0x00b600d2; 0x00de00b8; 0x000000e0;
+	0x28c8c8c8; 0x00b800d3; 0x00e000ba; 0x000000e2;
+	0x28c8c8c8; 0x00ba00d4; 0x00e200bc; 0x000000e4;
+	0x28c8c8c8; 0x00bc00d5; 0x00e400be; 0x000000e6;
+	0x28c8c8c8; 0x00be00d6; 0x00e600c0; 0x000000e8;
+	0x28c8c8c8; 0x00c000d7; 0x00e800c2; 0x000000ea;
+	0x28c8c8c8; 0x00c200d8; 0x00ea00c4; 0x000000ec;
+	0x28c8c8c8; 0x00c400d9; 0x00ec00c6; 0x000000ee;
+	0x28c8c8c8; 0x00c600da; 0x00ee00c8; 0x000000f0;
+	0x28c8c8c8; 0x00c800db; 0x00f000a1; 0x000000c9;
+	0x28c8c8c8; 0x00c900dc; 0x00f100cb; 0x000000f3;
+	0x28c8c8c8; 0x00cb00dd; 0x00f300cd; 0x000000f5;
+	0x28c8c8c8; 0x00cd00de; 0x00f500cf; 0x000000f7;
+	0x28c8c8c8; 0x00cf00df; 0x00f700d1; 0x000000f9;
+	0x28c8c8c8; 0x00d100e0; 0x00f900d3; 0x000000fb;
+	0x28c8c8c8; 0x00d300e1; 0x00fb00d5; 0x000000fd;
+	0x28c8c8c8; 0x00d500e2; 0x00fd00d7; 0x000000ff;
+	0x28c8c8c8; 0x00d700e3; 0x00ff00d9; 0x00000101;
+	0x28c8c8c8; 0x00d900e4; 0x010100db; 0x00000103;
+	0x28c8c8c8; 0x00db00e5; 0x010300dd; 0x00000105;
+	0x28c8c8c8; 0x00dd00e6; 0x010500df; 0x00000107;
+	0x28c8c8c8; 0x00df00e7; 0x010700e1; 0x00000109;
+	0x28c8c8c8; 0x00e100e8; 0x010900e3; 0x0000010b;
+	0x28c8c8c8; 0x00e300e9; 0x010b00e5; 0x0000010d;
+	0x28c8c8c8; 0x00e500ea; 0x010d00e7; 0x0000010f;
+	0x28c8c8c8; 0x00e700eb; 0x010f00e9; 0x00000111;
+	0x28c8c8c8; 0x00e900ec; 0x011100eb; 0x00000113;
+	0x28c8c8c8; 0x00eb00ed; 0x011300ed; 0x00000115;
+	0x28c8c8c8; 0x00ed00ee; 0x011500ef; 0x00000117;
+	0x28c8c8c8; 0x00ef00ef; 0x011700ca; 0x000000f2;
+	0x28c8c8c8; 0x00ca00f0; 0x00f200cc; 0x000000f4;
+	0x28c8c8c8; 0x00cc00f1; 0x00f400ce; 0x000000f6;
+	0x28c8c8c8; 0x00ce00f2; 0x00f600d0; 0x000000f8;
+	0x28c8c8c8; 0x00d000f3; 0x00f800d2; 0x000000fa;
+	0x28c8c8c8; 0x00d200f4; 0x00fa00d4; 0x000000fc;
+	0x28c8c8c8; 0x00d400f5; 0x00fc00d6; 0x000000fe;
+	0x28c8c8c8; 0x00d600f6; 0x00fe00d8; 0x00000100;
+	0x28c8c8c8; 0x00d800f7; 0x010000da; 0x00000102;
+	0x28c8c8c8; 0x00da00f8; 0x010200dc; 0x00000104;
+	0x28c8c8c8; 0x00dc00f9; 0x010400de; 0x00000106;
+	0x28c8c8c8; 0x00de00fa; 0x010600e0; 0x00000108;
+	0x28c8c8c8; 0x00e000fb; 0x010800e2; 0x0000010a;
+	0x28c8c8c8; 0x00e200fc; 0x010a00e4; 0x0000010c;
+	0x28c8c8c8; 0x00e400fd; 0x010c00e6; 0x0000010e;
+	0x28c8c8c8; 0x00e600fe; 0x010e00e8; 0x00000110;
+	0x28c8c8c8; 0x00e800ff; 0x011000ea; 0x00000112;
+	0x28c8c8c8; 0x00ea0100; 0x011200ec; 0x00000114;
+	0x28c8c8c8; 0x00ec0101; 0x011400ee; 0x00000116;
+	0x28c8c8c8; 0x00ee0102; 0x011600f0; 0x00000118;
+	0x28c8c8c8; 0x00f00103; 0x011800c9; 0x000000f1;
+	0x28c8c8c8; 0x00f10104; 0x011900f3; 0x0000011b;
+	0x28c8c8c8; 0x00f30105; 0x011b00f5; 0x0000011d;
+	0x28c8c8c8; 0x00f50106; 0x011d00f7; 0x0000011f;
+	0x28c8c8c8; 0x00f70107; 0x011f00f9; 0x00000121;
+	0x28c8c8c8; 0x00f90108; 0x012100fb; 0x00000123;
+	0x28c8c8c8; 0x00fb0109; 0x012300fd; 0x00000125;
+	0x28c8c8c8; 0x00fd010a; 0x012500ff; 0x00000127;
+	0x28c8c8c8; 0x00ff010b; 0x01270101; 0x00000129;
+	0x28c8c8c8; 0x0101010c; 0x01290103; 0x0000012b;
+	0x28c8c8c8; 0x0103010d; 0x012b0105; 0x0000012d;
+	0x28c8c8c8; 0x0105010e; 0x012d0107; 0x0000012f;
+	0x28c8c8c8; 0x0107010f; 0x012f0109; 0x00000131;
+	0x28c8c8c8; 0x01090110; 0x0131010b; 0x00000133;
+	0x28c8c8c8; 0x010b0111; 0x0133010d; 0x00000135;
+	0x28c8c8c8; 0x010d0112; 0x0135010f; 0x00000137;
+	0x28c8c8c8; 0x010f0113; 0x01370111; 0x00000139;
+	0x28c8c8c8; 0x01110114; 0x01390113; 0x0000013b;
+	0x28c8c8c8; 0x01130115; 0x013b0115; 0x0000013d;
+	0x28c8c8c8; 0x01150116; 0x013d0117; 0x0000013f;
+	0x28c8c8c8; 0x01170117; 0x013f00f2; 0x0000011a;
+	0x28c8c8c8; 0x00f20118; 0x011a00f4; 0x0000011c;
+	0x28c8c8c8; 0x00f40119; 0x011c00f6; 0x0000011e;
+	0x28c8c8c8; 0x00f6011a; 0x011e00f8; 0x00000120;
+	0x28c8c8c8; 0x00f8011b; 0x012000fa; 0x00000122;
+	0x28c8c8c8; 0x00fa011c; 0x012200fc; 0x00000124;
+	0x28c8c8c8; 0x00fc011d; 0x012400fe; 0x00000126;
+	0x28c8c8c8; 0x00fe011e; 0x01260100; 0x00000128;
+	0x28c8c8c8; 0x0100011f; 0x01280102; 0x0000012a;
+	0x28c8c8c8; 0x01020120; 0x012a0104; 0x0000012c;
+	0x28c8c8c8; 0x01040121; 0x012c0106; 0x0000012e;
+	0x28c8c8c8; 0x01060122; 0x012e0108; 0x00000130;
+	0x28c8c8c8; 0x01080123; 0x0130010a; 0x00000132;
+	0x28c8c8c8; 0x010a0124; 0x0132010c; 0x00000134;
+	0x28c8c8c8; 0x010c0125; 0x0134010e; 0x00000136;
+	0x28c8c8c8; 0x010e0126; 0x01360110; 0x00000138;
+	0x28c8c8c8; 0x01100127; 0x01380112; 0x0000013a;
+	0x28c8c8c8; 0x01120128; 0x013a0114; 0x0000013c;
+	0x28c8c8c8; 0x01140129; 0x013c0116; 0x0000013e;
+	0x28c8c8c8; 0x0116012a; 0x013e0118; 0x00000140;
+	0x28c8c8c8; 0x0118012b; 0x014000f1; 0x00000119;
+	0x28c8c8c8; 0x0119012c; 0x0141011b; 0x00000143;
+	0x28c8c8c8; 0x011b012d; 0x0143011d; 0x00000145;
+	0x28c8c8c8; 0x011d012e; 0x0145011f; 0x00000147;
+	0x28c8c8c8; 0x011f012f; 0x01470121; 0x00000149;
+	0x28c8c8c8; 0x01210130; 0x01490123; 0x0000014b;
+	0x28c8c8c8; 0x01230131; 0x014b0125; 0x0000014d;
+	0x28c8c8c8; 0x01250132; 0x014d0127; 0x0000014f;
+	0x28c8c8c8; 0x01270133; 0x014f0129; 0x00000151;
+	0x28c8c8c8; 0x01290134; 0x0151012b; 0x00000153;
+	0x28c8c8c8; 0x012b0135; 0x0153012d; 0x00000155;
+	0x28c8c8c8; 0x012d0136; 0x0155012f; 0x00000157;
+	0x28c8c8c8; 0x012f0137; 0x01570131; 0x00000159;
+	0x28c8c8c8; 0x01310138; 0x01590133; 0x0000015b;
+	0x28c8c8c8; 0x01330139; 0x015b0135; 0x0000015d;
+	0x28c8c8c8; 0x0135013a; 0x015d0137; 0x0000015f;
+	0x28c8c8c8; 0x0137013b; 0x015f0139; 0x00000161;
+	0x28c8c8c8; 0x0139013c; 0x0161013b; 0x00000163;
+	0x28c8c8c8; 0x013b013d; 0x0163013d; 0x00000165;
+	0x28c8c8c8; 0x013d013e; 0x0165013f; 0x00000167;
+	0x28c8c8c8; 0x013f013f; 0x0167011a; 0x00000142;
+	0x28c8c8c8; 0x011a0140; 0x0142011c; 0x00000144;
+	0x28c8c8c8; 0x011c0141; 0x0144011e; 0x00000146;
+	0x28c8c8c8; 0x011e0142; 0x01460120; 0x00000148;
+	0x28c8c8c8; 0x01200143; 0x01480122; 0x0000014a;
+	0x28c8c8c8; 0x01220144; 0x014a0124; 0x0000014c;
+	0x28c8c8c8; 0x01240145; 0x014c0126; 0x0000014e;
+	0x28c8c8c8; 0x01260146; 0x014e0128; 0x00000150;
+	0x28c8c8c8; 0x01280147; 0x0150012a; 0x00000152;
+	0x28c8c8c8; 0x012a0148; 0x0152012c; 0x00000154;
+	0x28c8c8c8; 0x012c0149; 0x0154012e; 0x00000156;
+	0x28c8c8c8; 0x012e014a; 0x01560130; 0x00000158;
+	0x28c8c8c8; 0x0130014b; 0x01580132; 0x0000015a;
+	0x28c8c8c8; 0x0132014c; 0x015a0134; 0x0000015c;
+	0x28c8c8c8; 0x0134014d; 0x015c0136; 0x0000015e;
+	0x28c8c8c8; 0x0136014e; 0x015e0138; 0x00000160;
+	0x28c8c8c8; 0x0138014f; 0x0160013a; 0x00000162;
+	0x28c8c8c8; 0x013a0150; 0x0162013c; 0x00000164;
+	0x28c8c8c8; 0x013c0151; 0x0164013e; 0x00000166;
+	0x28c8c8c8; 0x013e0152; 0x01660140; 0x00000168;
+	0x28c8c8c8; 0x01400153; 0x01680119; 0x00000141;
+	0x28c8c8c8; 0x01410154; 0x01690143; 0x0000016b;
+	0x28c8c8c8; 0x01430155; 0x016b0145; 0x0000016d;
+	0x28c8c8c8; 0x01450156; 0x016d0147; 0x0000016f;
+	0x28c8c8c8; 0x01470157; 0x016f0149; 0x00000171;
+	0x28c8c8c8; 0x01490158; 0x0171014b; 0x00000173;
+	0x28c8c8c8; 0x014b0159; 0x0173014d; 0x00000175;
+	0x28c8c8c8; 0x014d015a; 0x0175014f; 0x00000177;
+	0x28c8c8c8; 0x014f015b; 0x01770151; 0x00000179;
+	0x28c8c8c8; 0x0151015c; 0x01790153; 0x0000017b;
+	0x28c8c8c8; 0x0153015d; 0x017b0155; 0x0000017d;
+	0x28c8c8c8; 0x0155015e; 0x017d0157; 0x0000017f;
+	0x28c8c8c8; 0x0157015f; 0x017f0159; 0x00000181;
+	0x28c8c8c8; 0x01590160; 0x0181015b; 0x00000183;
+	0x28c8c8c8; 0x015b0161; 0x0183015d; 0x00000185;
+	0x28c8c8c8; 0x015d0162; 0x0185015f; 0x00000187;
+	0x28c8c8c8; 0x015f0163; 0x01870161; 0x00000189;
+	0x28c8c8c8; 0x01610164; 0x01890163; 0x0000018b;
+	0x28c8c8c8; 0x01630165; 0x018b0165; 0x0000018d;
+	0x28c8c8c8; 0x01650166; 0x018d0167; 0x0000018f;
+	0x28c8c8c8; 0x01670167; 0x018f0142; 0x0000016a;
+	0x28c8c8c8; 0x01420168; 0x016a0144; 0x0000016c;
+	0x28c8c8c8; 0x01440169; 0x016c0146; 0x0000016e;
+	0x28c8c8c8; 0x0146016a; 0x016e0148; 0x00000170;
+	0x28c8c8c8; 0x0148016b; 0x0170014a; 0x00000172;
+	0x28c8c8c8; 0x014a016c; 0x0172014c; 0x00000174;
+	0x28c8c8c8; 0x014c016d; 0x0174014e; 0x00000176;
+	0x28c8c8c8; 0x014e016e; 0x01760150; 0x00000178;
+	0x28c8c8c8; 0x0150016f; 0x01780152; 0x0000017a;
+	0x28c8c8c8; 0x01520170; 0x017a0154; 0x0000017c;
+	0x28c8c8c8; 0x01540171; 0x017c0156; 0x0000017e;
+	0x28c8c8c8; 0x01560172; 0x017e0158; 0x00000180;
+	0x28c8c8c8; 0x01580173; 0x0180015a; 0x00000182;
+	0x28c8c8c8; 0x015a0174; 0x0182015c; 0x00000184;
+	0x28c8c8c8; 0x015c0175; 0x0184015e; 0x00000186;
+	0x28c8c8c8; 0x015e0176; 0x01860160; 0x00000188;
+	0x28c8c8c8; 0x01600177; 0x01880162; 0x0000018a;
+	0x28c8c8c8; 0x01620178; 0x018a0164; 0x0000018c;
+	0x28c8c8c8; 0x01640179; 0x018c0166; 0x0000018e;
+	0x28c8c8c8; 0x0166017a; 0x018e0168; 0x00000190;
+	0x28c8c8c8; 0x0168017b; 0x01900141; 0x00000169;
+	0x28c8c8c8; 0x0169017c; 0x0191016b; 0x00000193;
+	0x28c8c8c8; 0x016b017d; 0x0193016d; 0x00000195;
+	0x28c8c8c8; 0x016d017e; 0x0195016f; 0x00000197;
+	0x28c8c8c8; 0x016f017f; 0x01970171; 0x00000199;
+	0x28c8c8c8; 0x01710180; 0x01990173; 0x0000019b;
+	0x28c8c8c8; 0x01730181; 0x019b0175; 0x0000019d;
+	0x28c8c8c8; 0x01750182; 0x019d0177; 0x0000019f;
+	0x28c8c8c8; 0x01770183; 0x019f0179; 0x000001a1;
+	0x28c8c8c8; 0x01790184; 0x01a1017b; 0x000001a3;
+	0x28c8c8c8; 0x017b0185; 0x01a3017d; 0x000001a5;
+	0x28c8c8c8; 0x017d0186; 0x01a5017f; 0x000001a7;
+	0x28c8c8c8; 0x017f0187; 0x01a70181; 0x000001a9;
+	0x28c8c8c8; 0x01810188; 0x01a90183; 0x000001ab;
+	0x28c8c8c8; 0x01830189; 0x01ab0185; 0x000001ad;
+	0x28c8c8c8; 0x0185018a; 0x01ad0187; 0x000001af;
+	0x28c8c8c8; 0x0187018b; 0x01af0189; 0x000001b1;
+	0x28c8c8c8; 0x0189018c; 0x01b1018b; 0x000001b3;
+	0x28c8c8c8; 0x018b018d; 0x01b3018d; 0x000001b5;
+	0x28c8c8c8; 0x018d018e; 0x01b5018f; 0x000001b7;
+	0x28c8c8c8; 0x018f018f; 0x01b7016a; 0x00000192;
+	0x28c8c8c8; 0x016a0190; 0x0192016c; 0x00000194;
+	0x28c8c8c8; 0x016c0191; 0x0194016e; 0x00000196;
+	0x28c8c8c8; 0x016e0192; 0x01960170; 0x00000198;
+	0x28c8c8c8; 0x01700193; 0x01980172; 0x0000019a;
+	0x28c8c8c8; 0x01720194; 0x019a0174; 0x0000019c;
+	0x28c8c8c8; 0x01740195; 0x019c0176; 0x0000019e;
+	0x28c8c8c8; 0x01760196; 0x019e0178; 0x000001a0;
+	0x28c8c8c8; 0x01780197; 0x01a0017a; 0x000001a2;
+	0x28c8c8c8; 0x017a0198; 0x01a2017c; 0x000001a4;
+	0x28c8c8c8; 0x017c0199; 0x01a4017e; 0x000001a6;
+	0x28c8c8c8; 0x017e019a; 0x01a60180; 0x000001a8;
+	0x28c8c8c8; 0x0180019b; 0x01a80182; 0x000001aa;
+	0x28c8c8c8; 0x0182019c; 0x01aa0184; 0x000001ac;
+	0x28c8c8c8; 0x0184019d; 0x01ac0186; 0x000001ae;
+	0x28c8c8c8; 0x0186019e; 0x01ae0188; 0x000001b0;
+	0x28c8c8c8; 0x0188019f; 0x01b0018a; 0x000001b2;
+	0x28c8c8c8; 0x018a01a0; 0x01b2018c; 0x000001b4;
+	0x28c8c8c8; 0x018c01a1; 0x01b4018e; 0x000001b6;
+	0x28c8c8c8; 0x018e01a2; 0x01b60190; 0x000001b8;
+	0x28c8c8c8; 0x019001a3; 0x01b80169; 0x00000191;
+	0x28c8c8c8; 0x019101a4; 0x01b90193; 0x000001bb;
+	0x28c8c8c8; 0x019301a5; 0x01bb0195; 0x000001bd;
+	0x28c8c8c8; 0x019501a6; 0x01bd0197; 0x000001bf;
+	0x28c8c8c8; 0x019701a7; 0x01bf0199; 0x000001c1;
+	0x28c8c8c8; 0x019901a8; 0x01c1019b; 0x000001c3;
+	0x28c8c8c8; 0x019b01a9; 0x01c3019d; 0x000001c5;
+	0x28c8c8c8; 0x019d01aa; 0x01c5019f; 0x000001c7;
+	0x28c8c8c8; 0x019f01ab; 0x01c701a1; 0x000001c9;
+	0x28c8c8c8; 0x01a101ac; 0x01c901a3; 0x000001cb;
+	0x28c8c8c8; 0x01a301ad; 0x01cb01a5; 0x000001cd;
+	0x28c8c8c8; 0x01a501ae; 0x01cd01a7; 0x000001cf;
+	0x28c8c8c8; 0x01a701af; 0x01cf01a9; 0x000001d1;
+	0x28c8c8c8; 0x01a901b0; 0x01d101ab; 0x000001d3;
+	0x28c8c8c8; 0x01ab01b1; 0x01d301ad; 0x000001d5;
+	0x28c8c8c8; 0x01ad01b2; 0x01d501af; 0x000001d7;
+	0x28c8c8c8; 0x01af01b3; 0x01d701b1; 0x000001d9;
+	0x28c8c8c8; 0x01b101b4; 0x01d901b3; 0x000001db;
+	0x28c8c8c8; 0x01b301b5; 0x01db01b5; 0x000001dd;
+	0x28c8c8c8; 0x01b501b6; 0x01dd01b7; 0x000001df;
+	0x28c8c8c8; 0x01b701b7; 0x01df0192; 0x000001ba;
+	0x28c8c8c8; 0x019201b8; 0x01ba0194; 0x000001bc;
+	0x28c8c8c8; 0x019401b9; 0x01bc0196; 0x000001be;
+	0x28c8c8c8; 0x019601ba; 0x01be0198; 0x000001c0;
+	0x28c8c8c8; 0x019801bb; 0x01c0019a; 0x000001c2;
+	0x28c8c8c8; 0x019a01bc; 0x01c2019c; 0x000001c4;
+	0x28c8c8c8; 0x019c01bd; 0x01c4019e; 0x000001c6;
+	0x28c8c8c8; 0x019e01be; 0x01c601a0; 0x000001c8;
+	0x28c8c8c8; 0x01a001bf; 0x01c801a2; 0x000001ca;
+	0x28c8c8c8; 0x01a201c0; 0x01ca01a4; 0x000001cc;
+	0x28c8c8c8; 0x01a401c1; 0x01cc01a6; 0x000001ce;
+	0x28c8c8c8; 0x01a601c2; 0x01ce01a8; 0x000001d0;
+	0x28c8c8c8; 0x01a801c3; 0x01d001aa; 0x000001d2;
+	0x28c8c8c8; 0x01aa01c4; 0x01d201ac; 0x000001d4;
+	0x28c8c8c8; 0x01ac01c5; 0x01d401ae; 0x000001d6;
+	0x28c8c8c8; 0x01ae01c6; 0x01d601b0; 0x000001d8;
+	0x28c8c8c8; 0x01b001c7; 0x01d801b2; 0x000001da;
+	0x28c8c8c8; 0x01b201c8; 0x01da01b4; 0x000001dc;
+	0x28c8c8c8; 0x01b401c9; 0x01dc01b6; 0x000001de;
+	0x28c8c8c8; 0x01b601ca; 0x01de01b8; 0x000001e0;
+	0x28c8c8c8; 0x01b801cb; 0x01e00191; 0x000001b9;
+	0x28c8c8c8; 0x01b901cc; 0x01e101bb; 0x000001e3;
+	0x28c8c8c8; 0x01bb01cd; 0x01e301bd; 0x000001e5;
+	0x28c8c8c8; 0x01bd01ce; 0x01e501bf; 0x000001e7;
+	0x28c8c8c8; 0x01bf01cf; 0x01e701c1; 0x000001e9;
+	0x28c8c8c8; 0x01c101d0; 0x01e901c3; 0x000001eb;
+	0x28c8c8c8; 0x01c301d1; 0x01eb01c5; 0x000001ed;
+	0x28c8c8c8; 0x01c501d2; 0x01ed01c7; 0x000001ef;
+	0x28c8c8c8; 0x01c701d3; 0x01ef01c9; 0x000001f1;
+	0x28c8c8c8; 0x01c901d4; 0x01f101cb; 0x000001f3;
+	0x28c8c8c8; 0x01cb01d5; 0x01f301cd; 0x000001f5;
+	0x28c8c8c8; 0x01cd01d6; 0x01f501cf; 0x000001f7;
+	0x28c8c8c8; 0x01cf01d7; 0x01f701d1; 0x000001f9;
+	0x28c8c8c8; 0x01d101d8; 0x01f901d3; 0x000001fb;
+	0x28c8c8c8; 0x01d301d9; 0x01fb01d5; 0x000001fd;
+	0x28c8c8c8; 0x01d501da; 0x01fd01d7; 0x000001ff;
+	0x28c8c8c8; 0x01d701db; 0x01ff01d9; 0x00000201;
+	0x28c8c8c8; 0x01d901dc; 0x020101db; 0x00000203;
+	0x28c8c8c8; 0x01db01dd; 0x020301dd; 0x00000205;
+	0x28c8c8c8; 0x01dd01de; 0x020501df; 0x00000207;
+	0x28c8c8c8; 0x01df01df; 0x020701ba; 0x000001e2;
+	0x28c8c8c8; 0x01ba01e0; 0x01e201bc; 0x000001e4;
+	0x28c8c8c8; 0x01bc01e1; 0x01e401be; 0x000001e6;
+	0x28c8c8c8; 0x01be01e2; 0x01e601c0; 0x000001e8;
+	0x28c8c8c8; 0x01c001e3; 0x01e801c2; 0x000001ea;
+	0x28c8c8c8; 0x01c201e4; 0x01ea01c4; 0x000001ec;
+	0x28c8c8c8; 0x01c401e5; 0x01ec01c6; 0x000001ee;
+	0x28c8c8c8; 0x01c601e6; 0x01ee01c8; 0x000001f0;
+	0x28c8c8c8; 0x01c801e7; 0x01f001ca; 0x000001f2;
+	0x28c8c8c8; 0x01ca01e8; 0x01f201cc; 0x000001f4;
+	0x28c8c8c8; 0x01cc01e9; 0x01f401ce; 0x000001f6;
+	0x28c8c8c8; 0x01ce01ea; 0x01f601d0; 0x000001f8;
+	0x28c8c8c8; 0x01d001eb; 0x01f801d2; 0x000001fa;
+	0x28c8c8c8; 0x01d201ec; 0x01fa01d4; 0x000001fc;
+	0x28c8c8c8; 0x01d401ed; 0x01fc01d6; 0x000001fe;
+	0x28c8c8c8; 0x01d601ee; 0x01fe01d8; 0x00000200;
+	0x28c8c8c8; 0x01d801ef; 0x020001da; 0x00000202;
+	0x28c8c8c8; 0x01da01f0; 0x020201dc; 0x00000204;
+	0x28c8c8c8; 0x01dc01f1; 0x020401de; 0x00000206;
+	0x28c8c8c8; 0x01de01f2; 0x020601e0; 0x00000208;
+	0x28c8c8c8; 0x01e001f3; 0x020801b9; 0x000001e1;
+	0x28c8c8c8; 0x01e301f4; 0x01e10209; 0x00000208;
+	0x28c8c8c8; 0x01e501f5; 0x01e3020a; 0x00000209;
+	0x28c8c8c8; 0x01e701f6; 0x01e5020b; 0x0000020a;
+	0x28c8c8c8; 0x01e901f7; 0x01e7020c; 0x0000020b;
+	0x28c8c8c8; 0x01eb01f8; 0x01e9020d; 0x0000020c;
+	0x28c8c8c8; 0x01ed01f9; 0x01eb020e; 0x0000020d;
+	0x28c8c8c8; 0x01ef01fa; 0x01ed020f; 0x0000020e;
+	0x28c8c8c8; 0x01f101fb; 0x01ef0210; 0x0000020f;
+	0x28c8c8c8; 0x01f301fc; 0x01f10211; 0x00000210;
+	0x28c8c8c8; 0x01f501fd; 0x01f301f7; 0x00000211;
+	0x28c8c8c8; 0x020901fe; 0x02080212; 0x00000206;
+	0x28c8c8c8; 0x020a01ff; 0x02090213; 0x00000212;
+	0x28c8c8c8; 0x020b0200; 0x020a0214; 0x00000213;
+	0x28c8c8c8; 0x020c0201; 0x020b0215; 0x00000214;
+	0x28c8c8c8; 0x020d0202; 0x020c0216; 0x00000215;
+	0x28c8c8c8; 0x020e0203; 0x020d0217; 0x00000216;
+	0x28c8c8c8; 0x020f0204; 0x020e0218; 0x00000217;
+	0x28c8c8c8; 0x02100205; 0x020f0219; 0x00000218;
+	0x28c8c8c8; 0x02110206; 0x0210021a; 0x00000219;
+	0x28c8c8c8; 0x01f70207; 0x021101f9; 0x0000021a;
+	0x28c8c8c8; 0x02120208; 0x0206021b; 0x00000204;
+	0x28c8c8c8; 0x02130209; 0x0212021c; 0x0000021b;
+	0x28c8c8c8; 0x0214020a; 0x0213021d; 0x0000021c;
+	0x28c8c8c8; 0x0215020b; 0x0214021e; 0x0000021d;
+	0x28c8c8c8; 0x0216020c; 0x0215021f; 0x0000021e;
+	0x28c8c8c8; 0x0217020d; 0x02160220; 0x0000021f;
+	0x28c8c8c8; 0x0218020e; 0x02170221; 0x00000220;
+	0x28c8c8c8; 0x0219020f; 0x02180222; 0x00000221;
+	0x28c8c8c8; 0x021a0210; 0x02190223; 0x00000222;
+	0x28c8c8c8; 0x01f90211; 0x021a01fb; 0x00000223;
+	0x28c8c8c8; 0x021b0212; 0x02040224; 0x00000202;
+	0x28c8c8c8; 0x021c0213; 0x021b0225; 0x00000224;
+	0x28c8c8c8; 0x021d0214; 0x021c0226; 0x00000225;
+	0x28c8c8c8; 0x021e0215; 0x021d0227; 0x00000226;
+	0x28c8c8c8; 0x021f0216; 0x021e0228; 0x00000227;
+	0x28c8c8c8; 0x02200217; 0x021f0229; 0x00000228;
+	0x28c8c8c8; 0x02210218; 0x0220022a; 0x00000229;
+	0x28c8c8c8; 0x02220219; 0x0221022b; 0x0000022a;
+	0x28c8c8c8; 0x0223021a; 0x0222022c; 0x0000022b;
+	0x28c8c8c8; 0x01fb021b; 0x022301fd; 0x0000022c;
+	0x28c8c8c8; 0x0224021c; 0x0202022d; 0x00000200;
+	0x28c8c8c8; 0x0225021d; 0x0224022e; 0x0000022d;
+	0x28c8c8c8; 0x0226021e; 0x0225022f; 0x0000022e;
+	0x28c8c8c8; 0x0227021f; 0x02260230; 0x0000022f;
+	0x28c8c8c8; 0x02280220; 0x02270231; 0x00000230;
+	0x28c8c8c8; 0x02290221; 0x02280232; 0x00000231;
+	0x28c8c8c8; 0x022a0222; 0x02290233; 0x00000232;
+	0x28c8c8c8; 0x022b0223; 0x022a0234; 0x00000233;
+	0x28c8c8c8; 0x022c0224; 0x022b0235; 0x00000234;
+	0x28c8c8c8; 0x01fd0225; 0x022c01ff; 0x00000235;
+	0x28c8c8c8; 0x022d0226; 0x02000236; 0x000001fe;
+	0x28c8c8c8; 0x022e0227; 0x022d0237; 0x00000236;
+	0x28c8c8c8; 0x022f0228; 0x022e0238; 0x00000237;
+	0x28c8c8c8; 0x02300229; 0x022f0239; 0x00000238;
+	0x28c8c8c8; 0x0231022a; 0x0230023a; 0x00000239;
+	0x28c8c8c8; 0x0232022b; 0x0231023b; 0x0000023a;
+	0x28c8c8c8; 0x0233022c; 0x0232023c; 0x0000023b;
+	0x28c8c8c8; 0x0234022d; 0x0233023d; 0x0000023c;
+	0x28c8c8c8; 0x0235022e; 0x0234023e; 0x0000023d;
+	0x28c8c8c8; 0x01ff022f; 0x02350201; 0x0000023e;
+	0x28c8c8c8; 0x02360230; 0x01fe023f; 0x000001fc;
+	0x28c8c8c8; 0x02370231; 0x02360240; 0x0000023f;
+	0x28c8c8c8; 0x02380232; 0x02370241; 0x00000240;
+	0x28c8c8c8; 0x02390233; 0x02380242; 0x00000241;
+	0x28c8c8c8; 0x023a0234; 0x02390243; 0x00000242;
+	0x28c8c8c8; 0x023b0235; 0x023a0244; 0x00000243;
+	0x28c8c8c8; 0x023c0236; 0x023b0245; 0x00000244;
+	0x28c8c8c8; 0x023d0237; 0x023c0246; 0x00000245;
+	0x28c8c8c8; 0x023e0238; 0x023d0247; 0x00000246;
+	0x28c8c8c8; 0x02010239; 0x023e0203; 0x00000247;
+	0x28c8c8c8; 0x023f023a; 0x01fc0248; 0x000001fa;
+	0x28c8c8c8; 0x0240023b; 0x023f0249; 0x00000248;
+	0x28c8c8c8; 0x0241023c; 0x0240024a; 0x00000249;
+	0x28c8c8c8; 0x0242023d; 0x0241024b; 0x0000024a;
+	0x28c8c8c8; 0x0243023e; 0x0242024c; 0x0000024b;
+	0x28c8c8c8; 0x0244023f; 0x0243024d; 0x0000024c;
+	0x28c8c8c8; 0x02450240; 0x0244024e; 0x0000024d;
+	0x28c8c8c8; 0x02460241; 0x0245024f; 0x0000024e;
+	0x28c8c8c8; 0x02470242; 0x02460250; 0x0000024f;
+	0x28c8c8c8; 0x02030243; 0x02470205; 0x00000250;
+	0x28c8c8c8; 0x02480244; 0x01fa0251; 0x000001f8;
+	0x28c8c8c8; 0x02490245; 0x02480252; 0x00000251;
+	0x28c8c8c8; 0x024a0246; 0x02490253; 0x00000252;
+	0x28c8c8c8; 0x024b0247; 0x024a0254; 0x00000253;
+	0x28c8c8c8; 0x024c0248; 0x024b0255; 0x00000254;
+	0x28c8c8c8; 0x024d0249; 0x024c0256; 0x00000255;
+	0x28c8c8c8; 0x024e024a; 0x024d0257; 0x00000256;
+	0x28c8c8c8; 0x024f024b; 0x024e0258; 0x00000257;
+	0x28c8c8c8; 0x0250024c; 0x024f0259; 0x00000258;
+	0x28c8c8c8; 0x0205024d; 0x02500207; 0x00000259;
+	0x28c8c8c8; 0x0251024e; 0x01f801f4; 0x000001f6;
+	0x28c8c8c8; 0x0252024f; 0x025101f2; 0x000001f4;
+	0x28c8c8c8; 0x02530250; 0x025201f0; 0x000001f2;
+	0x28c8c8c8; 0x02540251; 0x025301ee; 0x000001f0;
+	0x28c8c8c8; 0x02550252; 0x025401ec; 0x000001ee;
+	0x28c8c8c8; 0x02560253; 0x025501ea; 0x000001ec;
+	0x28c8c8c8; 0x02570254; 0x025601e8; 0x000001ea;
+	0x28c8c8c8; 0x02580255; 0x025701e6; 0x000001e8;
+	0x28c8c8c8; 0x02590256; 0x025801e4; 0x000001e6;
+	0x28c8c8c8; 0x02070257; 0x025901e2; 0x000001e4;
+
+AnimPrimSet:
+	VNMIMePrimSet_0000 / 4;	/* next prim */
+	AnimPrimHdr / 4;
+	M(1);	/* num of types */
+
+AnimPrim_0000:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(INI|CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_NONE);
+	H((EndAnimPrim_0000 - AnimPrim_0000) / 4 - 1); M(H(2));	/* size, data */
+
+	SECT_OFFSET(4 /* MIMePrSect */)|OFFSET_IN_SECT(0);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(16); H(0xffff); /* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((LinearSeqBegin - CtrlSect_0000) / 4); B(0); B(0);/* start idx, start sid, travering */
+
+	SECT_OFFSET(4 /* MIMePrSect */)|OFFSET_IN_SECT(1);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(10); H(0xffff); /* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((LinearSeqBegin - CtrlSect_0000) / 4); B(0); B(0);/* start idx, start sid, travering */
+EndAnimPrim_0000:
+
+InterpFuncSect_0000:
+	M(1);	/* num of types */
+
+InterpLinear:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_GENERAL)
+		|PRIM_TYPE(GI_LINEAR|GI_WR(0x1)|GI_32);
+
+CtrlSect_0000:
+
+LinearSeq:
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((LinearSeqEnd - CtrlSect_0000) / 4);
+LinearSeqBegin:
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey1 - ParamSect_0000) / 4);
+LinearSeqEnd:
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((LinearSeqBegin - CtrlSect_0000) / 4);
+
+ParamSect_0000:
+
+LinearKey0:	0;
+LinearKey1:	4096;
+
+VNMIMePrimSet_0000:	/* 0x00004be8 */
+	TERMINATE;	/* next prim */
+	VNMIMePrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+VertMIMePrim_0000:	/* 0x00004bf4 */
+	DEV_ID(SCE)|CTG(CTG_MIMe)|DRV(MIMe_PRIM)
+		|PRIM_TYPE(VTX);	/* type[0] */
+	H(2); M(H(1));	/* size, data */
+	(VertMIMeDiff_0000 - VertMIMeDiff_0000) / 4;
+
+RstVNMIMePrimSet_0000:	/* 0x00004c00 */
+	TERMINATE;	/* next prim */
+	RstVNMIMePrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+RstVertMIMePrim_0000:	/* 0x00004c0c */
+	DEV_ID(SCE)|CTG(CTG_MIMe)|DRV(MIMe_PRIM)
+		|PRIM_TYPE(RST|VTX);	/* type[0] */
+	H(2); M(H(1));	/* size, data */
+	(RstVertMIMeDiff_0000 - VertMIMeDiff_0000) / 4;
+
+VertMIMeDiff_0000:	/* 0x00004c18 */
+	H(1); H(2);	/* onum, diffs num */
+	0x00000003;	/* dflags */
+	(VertMIMeDiffData_0000 - VertMIMeDiff_0000) / 4;
+	(VertMIMeDiffData_0001 - VertMIMeDiff_0000) / 4;
+	(RstVertMIMeChanged_0000 - VertMIMeDiff_0000) / 4;
+
+VertMIMeDiffData_0000:	/* 0x00004c2c */
+	0x00000000;	/* vstart */
+	H(0x0000); H(602);	/* res, vnum */
+	SVECTOR(  124,   256,     0);	/* diff[0] */
+	SVECTOR( -160,  -159,     0);	/* diff[1] */
+	SVECTOR(  214,   347,     0);	/* diff[2] */
+	SVECTOR(  -72,  -213,     0);	/* diff[3] */
+	SVECTOR(  314,   462,     0);	/* diff[4] */
+	SVECTOR(  103,  -313,     0);	/* diff[5] */
+	SVECTOR(  401,   546,     0);	/* diff[6] */
+	SVECTOR(  322,  -295,     0);	/* diff[7] */
+	SVECTOR(  482,   533,     0);	/* diff[8] */
+	SVECTOR(  476,   -24,     0);	/* diff[9] */
+	SVECTOR(  532,   345,     0);	/* diff[10] */
+	SVECTOR(  532,   345,     0);	/* diff[11] */
+	SVECTOR(  476,   -24,     0);	/* diff[12] */
+	SVECTOR(  482,   533,     0);	/* diff[13] */
+	SVECTOR(  322,  -295,     0);	/* diff[14] */
+	SVECTOR(  401,   546,     0);	/* diff[15] */
+	SVECTOR(  103,  -313,     0);	/* diff[16] */
+	SVECTOR(  314,   462,     0);	/* diff[17] */
+	SVECTOR(  -72,  -213,     0);	/* diff[18] */
+	SVECTOR(  214,   347,     0);	/* diff[19] */
+	SVECTOR( -160,  -159,     0);	/* diff[20] */
+	SVECTOR(  124,   256,     0);	/* diff[21] */
+	SVECTOR( -160,  -159,     0);	/* diff[22] */
+	SVECTOR(  124,   256,     0);	/* diff[23] */
+	SVECTOR( -160,  -159,     0);	/* diff[24] */
+	SVECTOR(  124,   256,     0);	/* diff[25] */
+	SVECTOR( -160,  -159,     0);	/* diff[26] */
+	SVECTOR(  124,   256,     0);	/* diff[27] */
+	SVECTOR( -160,  -159,     0);	/* diff[28] */
+	SVECTOR(  124,   256,     0);	/* diff[29] */
+	SVECTOR( -160,  -159,     0);	/* diff[30] */
+	SVECTOR(  124,   256,     0);	/* diff[31] */
+	SVECTOR( -160,  -159,     0);	/* diff[32] */
+	SVECTOR(  124,   256,     0);	/* diff[33] */
+	SVECTOR( -160,  -159,     0);	/* diff[34] */
+	SVECTOR(  124,   256,     0);	/* diff[35] */
+	SVECTOR( -160,  -159,     0);	/* diff[36] */
+	SVECTOR(  124,   256,     0);	/* diff[37] */
+	SVECTOR( -160,  -159,     0);	/* diff[38] */
+	SVECTOR(  124,   256,     0);	/* diff[39] */
+	SVECTOR(  214,   347,     0);	/* diff[40] */
+	SVECTOR(  314,   462,     0);	/* diff[41] */
+	SVECTOR(  401,   546,     0);	/* diff[42] */
+	SVECTOR(  482,   533,     0);	/* diff[43] */
+	SVECTOR(  532,   345,     0);	/* diff[44] */
+	SVECTOR(  476,   -24,     0);	/* diff[45] */
+	SVECTOR(  322,  -295,     0);	/* diff[46] */
+	SVECTOR(  103,  -313,     0);	/* diff[47] */
+	SVECTOR(  -72,  -213,     0);	/* diff[48] */
+	SVECTOR(  214,   347,     0);	/* diff[49] */
+	SVECTOR(  314,   462,     0);	/* diff[50] */
+	SVECTOR(  401,   546,     0);	/* diff[51] */
+	SVECTOR(  482,   533,     0);	/* diff[52] */
+	SVECTOR(  532,   345,     0);	/* diff[53] */
+	SVECTOR(  476,   -24,     0);	/* diff[54] */
+	SVECTOR(  322,  -295,     0);	/* diff[55] */
+	SVECTOR(  103,  -313,     0);	/* diff[56] */
+	SVECTOR(  -72,  -213,     0);	/* diff[57] */
+	SVECTOR(  214,   347,     0);	/* diff[58] */
+	SVECTOR(  314,   462,     0);	/* diff[59] */
+	SVECTOR(  401,   546,     0);	/* diff[60] */
+	SVECTOR(  482,   533,     0);	/* diff[61] */
+	SVECTOR(  532,   345,     0);	/* diff[62] */
+	SVECTOR(  476,   -24,     0);	/* diff[63] */
+	SVECTOR(  322,  -295,     0);	/* diff[64] */
+	SVECTOR(  103,  -313,     0);	/* diff[65] */
+	SVECTOR(  -72,  -213,     0);	/* diff[66] */
+	SVECTOR(  214,   347,     0);	/* diff[67] */
+	SVECTOR(  314,   462,     0);	/* diff[68] */
+	SVECTOR(  401,   546,     0);	/* diff[69] */
+	SVECTOR(  482,   533,     0);	/* diff[70] */
+	SVECTOR(  532,   345,     0);	/* diff[71] */
+	SVECTOR(  476,   -24,     0);	/* diff[72] */
+	SVECTOR(  322,  -295,     0);	/* diff[73] */
+	SVECTOR(  103,  -313,     0);	/* diff[74] */
+	SVECTOR(  -72,  -213,     0);	/* diff[75] */
+	SVECTOR(  214,   347,     0);	/* diff[76] */
+	SVECTOR(  314,   462,     0);	/* diff[77] */
+	SVECTOR(  401,   546,     0);	/* diff[78] */
+	SVECTOR(  482,   533,     0);	/* diff[79] */
+	SVECTOR(  532,   345,     0);	/* diff[80] */
+	SVECTOR(  476,   -24,     0);	/* diff[81] */
+	SVECTOR(  322,  -295,     0);	/* diff[82] */
+	SVECTOR(  103,  -313,     0);	/* diff[83] */
+	SVECTOR(  -72,  -213,     0);	/* diff[84] */
+	SVECTOR(  214,   347,     0);	/* diff[85] */
+	SVECTOR(  314,   462,     0);	/* diff[86] */
+	SVECTOR(  401,   546,     0);	/* diff[87] */
+	SVECTOR(  482,   533,     0);	/* diff[88] */
+	SVECTOR(  532,   345,     0);	/* diff[89] */
+	SVECTOR(  476,   -24,     0);	/* diff[90] */
+	SVECTOR(  322,  -295,     0);	/* diff[91] */
+	SVECTOR(  103,  -313,     0);	/* diff[92] */
+	SVECTOR(  -72,  -213,     0);	/* diff[93] */
+	SVECTOR(  214,   347,     0);	/* diff[94] */
+	SVECTOR(  314,   462,     0);	/* diff[95] */
+	SVECTOR(  401,   546,     0);	/* diff[96] */
+	SVECTOR(  482,   533,     0);	/* diff[97] */
+	SVECTOR(  532,   345,     0);	/* diff[98] */
+	SVECTOR(  476,   -24,     0);	/* diff[99] */
+	SVECTOR(  322,  -295,     0);	/* diff[100] */
+	SVECTOR(  103,  -313,     0);	/* diff[101] */
+	SVECTOR(  -72,  -213,     0);	/* diff[102] */
+	SVECTOR(  214,   347,     0);	/* diff[103] */
+	SVECTOR(  314,   462,     0);	/* diff[104] */
+	SVECTOR(  401,   546,     0);	/* diff[105] */
+	SVECTOR(  482,   533,     0);	/* diff[106] */
+	SVECTOR(  532,   345,     0);	/* diff[107] */
+	SVECTOR(  476,   -24,     0);	/* diff[108] */
+	SVECTOR(  322,  -295,     0);	/* diff[109] */
+	SVECTOR(  103,  -313,     0);	/* diff[110] */
+	SVECTOR(  -72,  -213,     0);	/* diff[111] */
+	SVECTOR(  214,   347,     0);	/* diff[112] */
+	SVECTOR(  314,   462,     0);	/* diff[113] */
+	SVECTOR(  401,   546,     0);	/* diff[114] */
+	SVECTOR(  482,   533,     0);	/* diff[115] */
+	SVECTOR(  532,   345,     0);	/* diff[116] */
+	SVECTOR(  476,   -24,     0);	/* diff[117] */
+	SVECTOR(  322,  -295,     0);	/* diff[118] */
+	SVECTOR(  103,  -313,     0);	/* diff[119] */
+	SVECTOR(  -72,  -213,     0);	/* diff[120] */
+	SVECTOR(  132,   386,     0);	/* diff[121] */
+	SVECTOR( -196,  -243,     0);	/* diff[122] */
+	SVECTOR(  215,   476,     0);	/* diff[123] */
+	SVECTOR( -113,  -303,     0);	/* diff[124] */
+	SVECTOR(  305,   576,     0);	/* diff[125] */
+	SVECTOR(   78,  -413,     0);	/* diff[126] */
+	SVECTOR(  395,   630,     0);	/* diff[127] */
+	SVECTOR(  296,  -414,     0);	/* diff[128] */
+	SVECTOR(  495,   569,     0);	/* diff[129] */
+	SVECTOR(  450,  -204,     0);	/* diff[130] */
+	SVECTOR(  530,   242,     0);	/* diff[131] */
+	SVECTOR(  530,   242,     0);	/* diff[132] */
+	SVECTOR(  450,  -204,     0);	/* diff[133] */
+	SVECTOR(  495,   569,     0);	/* diff[134] */
+	SVECTOR(  296,  -414,     0);	/* diff[135] */
+	SVECTOR(  395,   630,     0);	/* diff[136] */
+	SVECTOR(   78,  -413,     0);	/* diff[137] */
+	SVECTOR(  305,   576,     0);	/* diff[138] */
+	SVECTOR( -113,  -303,     0);	/* diff[139] */
+	SVECTOR(  215,   476,     0);	/* diff[140] */
+	SVECTOR( -196,  -243,     0);	/* diff[141] */
+	SVECTOR(  132,   386,     0);	/* diff[142] */
+	SVECTOR( -196,  -243,     0);	/* diff[143] */
+	SVECTOR(  132,   386,     0);	/* diff[144] */
+	SVECTOR( -196,  -243,     0);	/* diff[145] */
+	SVECTOR(  132,   386,     0);	/* diff[146] */
+	SVECTOR( -196,  -243,     0);	/* diff[147] */
+	SVECTOR(  132,   386,     0);	/* diff[148] */
+	SVECTOR( -196,  -243,     0);	/* diff[149] */
+	SVECTOR(  132,   386,     0);	/* diff[150] */
+	SVECTOR( -196,  -243,     0);	/* diff[151] */
+	SVECTOR(  132,   386,     0);	/* diff[152] */
+	SVECTOR( -196,  -243,     0);	/* diff[153] */
+	SVECTOR(  132,   386,     0);	/* diff[154] */
+	SVECTOR( -196,  -243,     0);	/* diff[155] */
+	SVECTOR(  132,   386,     0);	/* diff[156] */
+	SVECTOR( -196,  -243,     0);	/* diff[157] */
+	SVECTOR(  132,   386,     0);	/* diff[158] */
+	SVECTOR( -196,  -243,     0);	/* diff[159] */
+	SVECTOR(  132,   386,     0);	/* diff[160] */
+	SVECTOR(  130,   513,     0);	/* diff[161] */
+	SVECTOR( -234,  -329,     0);	/* diff[162] */
+	SVECTOR(  202,   581,     0);	/* diff[163] */
+	SVECTOR( -176,  -386,     0);	/* diff[164] */
+	SVECTOR(  283,   648,     0);	/* diff[165] */
+	SVECTOR(  -21,  -482,     0);	/* diff[166] */
+	SVECTOR(  389,   649,     0);	/* diff[167] */
+	SVECTOR(  189,  -541,     0);	/* diff[168] */
+	SVECTOR(  491,   431,     0);	/* diff[169] */
+	SVECTOR(  357,  -465,     0);	/* diff[170] */
+	SVECTOR(  467,  -111,     0);	/* diff[171] */
+	SVECTOR(  467,  -111,     0);	/* diff[172] */
+	SVECTOR(  357,  -465,     0);	/* diff[173] */
+	SVECTOR(  491,   431,     0);	/* diff[174] */
+	SVECTOR(  189,  -541,     0);	/* diff[175] */
+	SVECTOR(  389,   649,     0);	/* diff[176] */
+	SVECTOR(  -21,  -482,     0);	/* diff[177] */
+	SVECTOR(  283,   648,     0);	/* diff[178] */
+	SVECTOR( -176,  -386,     0);	/* diff[179] */
+	SVECTOR(  202,   581,     0);	/* diff[180] */
+	SVECTOR( -234,  -329,     0);	/* diff[181] */
+	SVECTOR(  130,   513,     0);	/* diff[182] */
+	SVECTOR( -234,  -329,     0);	/* diff[183] */
+	SVECTOR(  130,   513,     0);	/* diff[184] */
+	SVECTOR( -234,  -329,     0);	/* diff[185] */
+	SVECTOR(  130,   513,     0);	/* diff[186] */
+	SVECTOR( -234,  -329,     0);	/* diff[187] */
+	SVECTOR(  130,   513,     0);	/* diff[188] */
+	SVECTOR( -234,  -329,     0);	/* diff[189] */
+	SVECTOR(  130,   513,     0);	/* diff[190] */
+	SVECTOR( -234,  -329,     0);	/* diff[191] */
+	SVECTOR(  130,   513,     0);	/* diff[192] */
+	SVECTOR( -234,  -329,     0);	/* diff[193] */
+	SVECTOR(  130,   513,     0);	/* diff[194] */
+	SVECTOR( -234,  -329,     0);	/* diff[195] */
+	SVECTOR(  130,   513,     0);	/* diff[196] */
+	SVECTOR( -234,  -329,     0);	/* diff[197] */
+	SVECTOR(  130,   513,     0);	/* diff[198] */
+	SVECTOR( -234,  -329,     0);	/* diff[199] */
+	SVECTOR(  130,   513,     0);	/* diff[200] */
+	SVECTOR(  120,   617,     0);	/* diff[201] */
+	SVECTOR( -258,  -409,     0);	/* diff[202] */
+	SVECTOR(  181,   654,     0);	/* diff[203] */
+	SVECTOR( -232,  -458,     0);	/* diff[204] */
+	SVECTOR(  265,   672,     0);	/* diff[205] */
+	SVECTOR( -130,  -533,     0);	/* diff[206] */
+	SVECTOR(  395,   566,     0);	/* diff[207] */
+	SVECTOR(   59,  -619,     0);	/* diff[208] */
+	SVECTOR(  436,    72,     0);	/* diff[209] */
+	SVECTOR(  245,  -617,     0);	/* diff[210] */
+	SVECTOR(  372,  -445,     0);	/* diff[211] */
+	SVECTOR(  372,  -445,     0);	/* diff[212] */
+	SVECTOR(  245,  -617,     0);	/* diff[213] */
+	SVECTOR(  436,    72,     0);	/* diff[214] */
+	SVECTOR(   59,  -619,     0);	/* diff[215] */
+	SVECTOR(  395,   566,     0);	/* diff[216] */
+	SVECTOR( -130,  -533,     0);	/* diff[217] */
+	SVECTOR(  265,   672,     0);	/* diff[218] */
+	SVECTOR( -232,  -458,     0);	/* diff[219] */
+	SVECTOR(  181,   654,     0);	/* diff[220] */
+	SVECTOR( -258,  -409,     0);	/* diff[221] */
+	SVECTOR(  120,   617,     0);	/* diff[222] */
+	SVECTOR( -258,  -409,     0);	/* diff[223] */
+	SVECTOR(  120,   617,     0);	/* diff[224] */
+	SVECTOR( -258,  -409,     0);	/* diff[225] */
+	SVECTOR(  120,   617,     0);	/* diff[226] */
+	SVECTOR( -258,  -409,     0);	/* diff[227] */
+	SVECTOR(  120,   617,     0);	/* diff[228] */
+	SVECTOR( -258,  -409,     0);	/* diff[229] */
+	SVECTOR(  120,   617,     0);	/* diff[230] */
+	SVECTOR( -258,  -409,     0);	/* diff[231] */
+	SVECTOR(  120,   617,     0);	/* diff[232] */
+	SVECTOR( -258,  -409,     0);	/* diff[233] */
+	SVECTOR(  120,   617,     0);	/* diff[234] */
+	SVECTOR( -258,  -409,     0);	/* diff[235] */
+	SVECTOR(  120,   617,     0);	/* diff[236] */
+	SVECTOR( -258,  -409,     0);	/* diff[237] */
+	SVECTOR(  120,   617,     0);	/* diff[238] */
+	SVECTOR( -258,  -409,     0);	/* diff[239] */
+	SVECTOR(  120,   617,     0);	/* diff[240] */
+	SVECTOR(  106,   686,     0);	/* diff[241] */
+	SVECTOR( -275,  -483,     0);	/* diff[242] */
+	SVECTOR(  158,   693,     0);	/* diff[243] */
+	SVECTOR( -271,  -519,     0);	/* diff[244] */
+	SVECTOR(  262,   647,     0);	/* diff[245] */
+	SVECTOR( -210,  -577,     0);	/* diff[246] */
+	SVECTOR(  368,   348,     0);	/* diff[247] */
+	SVECTOR(  -49,  -669,     0);	/* diff[248] */
+	SVECTOR(  350,  -292,     0);	/* diff[249] */
+	SVECTOR(  155,  -695,     0);	/* diff[250] */
+	SVECTOR(  295,  -595,     0);	/* diff[251] */
+	SVECTOR(  295,  -595,     0);	/* diff[252] */
+	SVECTOR(  155,  -695,     0);	/* diff[253] */
+	SVECTOR(  350,  -292,     0);	/* diff[254] */
+	SVECTOR(  -49,  -669,     0);	/* diff[255] */
+	SVECTOR(  368,   348,     0);	/* diff[256] */
+	SVECTOR( -210,  -577,     0);	/* diff[257] */
+	SVECTOR(  262,   647,     0);	/* diff[258] */
+	SVECTOR( -271,  -519,     0);	/* diff[259] */
+	SVECTOR(  158,   693,     0);	/* diff[260] */
+	SVECTOR( -275,  -483,     0);	/* diff[261] */
+	SVECTOR(  106,   686,     0);	/* diff[262] */
+	SVECTOR( -275,  -483,     0);	/* diff[263] */
+	SVECTOR(  106,   686,     0);	/* diff[264] */
+	SVECTOR( -275,  -483,     0);	/* diff[265] */
+	SVECTOR(  106,   686,     0);	/* diff[266] */
+	SVECTOR( -275,  -483,     0);	/* diff[267] */
+	SVECTOR(  106,   686,     0);	/* diff[268] */
+	SVECTOR( -275,  -483,     0);	/* diff[269] */
+	SVECTOR(  106,   686,     0);	/* diff[270] */
+	SVECTOR( -275,  -483,     0);	/* diff[271] */
+	SVECTOR(  106,   686,     0);	/* diff[272] */
+	SVECTOR( -275,  -483,     0);	/* diff[273] */
+	SVECTOR(  106,   686,     0);	/* diff[274] */
+	SVECTOR( -275,  -483,     0);	/* diff[275] */
+	SVECTOR(  106,   686,     0);	/* diff[276] */
+	SVECTOR( -275,  -483,     0);	/* diff[277] */
+	SVECTOR(  106,   686,     0);	/* diff[278] */
+	SVECTOR( -275,  -483,     0);	/* diff[279] */
+	SVECTOR(  106,   686,     0);	/* diff[280] */
+	SVECTOR(   98,   717,     0);	/* diff[281] */
+	SVECTOR( -298,  -559,     0);	/* diff[282] */
+	SVECTOR(  144,   698,     0);	/* diff[283] */
+	SVECTOR( -299,  -571,     0);	/* diff[284] */
+	SVECTOR(  257,   569,     0);	/* diff[285] */
+	SVECTOR( -253,  -621,     0);	/* diff[286] */
+	SVECTOR(  302,    70,     0);	/* diff[287] */
+	SVECTOR( -106,  -713,     0);	/* diff[288] */
+	SVECTOR(  279,  -471,     0);	/* diff[289] */
+	SVECTOR(  119,  -732,     0);	/* diff[290] */
+	SVECTOR(  254,  -646,     0);	/* diff[291] */
+	SVECTOR(  254,  -646,     0);	/* diff[292] */
+	SVECTOR(  119,  -732,     0);	/* diff[293] */
+	SVECTOR(  279,  -471,     0);	/* diff[294] */
+	SVECTOR( -106,  -713,     0);	/* diff[295] */
+	SVECTOR(  302,    70,     0);	/* diff[296] */
+	SVECTOR( -253,  -621,     0);	/* diff[297] */
+	SVECTOR(  257,   569,     0);	/* diff[298] */
+	SVECTOR( -299,  -571,     0);	/* diff[299] */
+	SVECTOR(  144,   698,     0);	/* diff[300] */
+	SVECTOR( -298,  -559,     0);	/* diff[301] */
+	SVECTOR(   98,   717,     0);	/* diff[302] */
+	SVECTOR( -298,  -559,     0);	/* diff[303] */
+	SVECTOR(   98,   717,     0);	/* diff[304] */
+	SVECTOR( -298,  -559,     0);	/* diff[305] */
+	SVECTOR(   98,   717,     0);	/* diff[306] */
+	SVECTOR( -298,  -559,     0);	/* diff[307] */
+	SVECTOR(   98,   717,     0);	/* diff[308] */
+	SVECTOR( -298,  -559,     0);	/* diff[309] */
+	SVECTOR(   98,   717,     0);	/* diff[310] */
+	SVECTOR( -298,  -559,     0);	/* diff[311] */
+	SVECTOR(   98,   717,     0);	/* diff[312] */
+	SVECTOR( -298,  -559,     0);	/* diff[313] */
+	SVECTOR(   98,   717,     0);	/* diff[314] */
+	SVECTOR( -298,  -559,     0);	/* diff[315] */
+	SVECTOR(   98,   717,     0);	/* diff[316] */
+	SVECTOR( -298,  -559,     0);	/* diff[317] */
+	SVECTOR(   98,   717,     0);	/* diff[318] */
+	SVECTOR( -298,  -559,     0);	/* diff[319] */
+	SVECTOR(   98,   717,     0);	/* diff[320] */
+	SVECTOR(   98,   716,     0);	/* diff[321] */
+	SVECTOR( -316,  -625,     0);	/* diff[322] */
+	SVECTOR(  147,   670,     0);	/* diff[323] */
+	SVECTOR( -315,  -614,     0);	/* diff[324] */
+	SVECTOR(  233,   448,     0);	/* diff[325] */
+	SVECTOR( -250,  -674,     0);	/* diff[326] */
+	SVECTOR(  230,  -141,     0);	/* diff[327] */
+	SVECTOR(  -76,  -752,     0);	/* diff[328] */
+	SVECTOR(  230,  -524,     0);	/* diff[329] */
+	SVECTOR(  141,  -731,     0);	/* diff[330] */
+	SVECTOR(  234,  -650,     0);	/* diff[331] */
+	SVECTOR(  234,  -650,     0);	/* diff[332] */
+	SVECTOR(  141,  -731,     0);	/* diff[333] */
+	SVECTOR(  230,  -524,     0);	/* diff[334] */
+	SVECTOR(  -76,  -752,     0);	/* diff[335] */
+	SVECTOR(  230,  -141,     0);	/* diff[336] */
+	SVECTOR( -250,  -674,     0);	/* diff[337] */
+	SVECTOR(  233,   448,     0);	/* diff[338] */
+	SVECTOR( -315,  -614,     0);	/* diff[339] */
+	SVECTOR(  147,   670,     0);	/* diff[340] */
+	SVECTOR( -316,  -625,     0);	/* diff[341] */
+	SVECTOR(   98,   716,     0);	/* diff[342] */
+	SVECTOR( -316,  -625,     0);	/* diff[343] */
+	SVECTOR(   98,   716,     0);	/* diff[344] */
+	SVECTOR( -316,  -625,     0);	/* diff[345] */
+	SVECTOR(   98,   716,     0);	/* diff[346] */
+	SVECTOR( -316,  -625,     0);	/* diff[347] */
+	SVECTOR(   98,   716,     0);	/* diff[348] */
+	SVECTOR( -316,  -625,     0);	/* diff[349] */
+	SVECTOR(   98,   716,     0);	/* diff[350] */
+	SVECTOR( -316,  -625,     0);	/* diff[351] */
+	SVECTOR(   98,   716,     0);	/* diff[352] */
+	SVECTOR( -316,  -625,     0);	/* diff[353] */
+	SVECTOR(   98,   716,     0);	/* diff[354] */
+	SVECTOR( -316,  -625,     0);	/* diff[355] */
+	SVECTOR(   98,   716,     0);	/* diff[356] */
+	SVECTOR( -316,  -625,     0);	/* diff[357] */
+	SVECTOR(   98,   716,     0);	/* diff[358] */
+	SVECTOR( -316,  -625,     0);	/* diff[359] */
+	SVECTOR(   98,   716,     0);	/* diff[360] */
+	SVECTOR(  114,   686,     0);	/* diff[361] */
+	SVECTOR( -315,  -656,     0);	/* diff[362] */
+	SVECTOR(  166,   597,     0);	/* diff[363] */
+	SVECTOR( -276,  -672,     0);	/* diff[364] */
+	SVECTOR(  192,   294,     0);	/* diff[365] */
+	SVECTOR( -162,  -728,     0);	/* diff[366] */
+	SVECTOR(  171,  -259,     0);	/* diff[367] */
+	SVECTOR(   29,  -743,     0);	/* diff[368] */
+	SVECTOR(  191,  -526,     0);	/* diff[369] */
+	SVECTOR(  169,  -703,     0);	/* diff[370] */
+	SVECTOR(  212,  -630,     0);	/* diff[371] */
+	SVECTOR(  212,  -630,     0);	/* diff[372] */
+	SVECTOR(  169,  -703,     0);	/* diff[373] */
+	SVECTOR(  191,  -526,     0);	/* diff[374] */
+	SVECTOR(   29,  -743,     0);	/* diff[375] */
+	SVECTOR(  171,  -259,     0);	/* diff[376] */
+	SVECTOR( -162,  -728,     0);	/* diff[377] */
+	SVECTOR(  192,   294,     0);	/* diff[378] */
+	SVECTOR( -276,  -672,     0);	/* diff[379] */
+	SVECTOR(  166,   597,     0);	/* diff[380] */
+	SVECTOR( -315,  -656,     0);	/* diff[381] */
+	SVECTOR(  114,   686,     0);	/* diff[382] */
+	SVECTOR( -315,  -656,     0);	/* diff[383] */
+	SVECTOR(  114,   686,     0);	/* diff[384] */
+	SVECTOR( -315,  -656,     0);	/* diff[385] */
+	SVECTOR(  114,   686,     0);	/* diff[386] */
+	SVECTOR( -315,  -656,     0);	/* diff[387] */
+	SVECTOR(  114,   686,     0);	/* diff[388] */
+	SVECTOR( -315,  -656,     0);	/* diff[389] */
+	SVECTOR(  114,   686,     0);	/* diff[390] */
+	SVECTOR( -315,  -656,     0);	/* diff[391] */
+	SVECTOR(  114,   686,     0);	/* diff[392] */
+	SVECTOR( -315,  -656,     0);	/* diff[393] */
+	SVECTOR(  114,   686,     0);	/* diff[394] */
+	SVECTOR( -315,  -656,     0);	/* diff[395] */
+	SVECTOR(  114,   686,     0);	/* diff[396] */
+	SVECTOR( -315,  -656,     0);	/* diff[397] */
+	SVECTOR(  114,   686,     0);	/* diff[398] */
+	SVECTOR( -315,  -656,     0);	/* diff[399] */
+	SVECTOR(  114,   686,     0);	/* diff[400] */
+	SVECTOR(  143,   623,     0);	/* diff[401] */
+	SVECTOR( -251,  -661,     0);	/* diff[402] */
+	SVECTOR(  175,   470,     0);	/* diff[403] */
+	SVECTOR( -151,  -685,     0);	/* diff[404] */
+	SVECTOR(  145,    96,     0);	/* diff[405] */
+	SVECTOR(  -22,  -697,     0);	/* diff[406] */
+	SVECTOR(  129,  -329,     0);	/* diff[407] */
+	SVECTOR(   98,  -683,     0);	/* diff[408] */
+	SVECTOR(  159,  -510,     0);	/* diff[409] */
+	SVECTOR(  164,  -650,     0);	/* diff[410] */
+	SVECTOR(  180,  -593,     0);	/* diff[411] */
+	SVECTOR(  180,  -593,     0);	/* diff[412] */
+	SVECTOR(  164,  -650,     0);	/* diff[413] */
+	SVECTOR(  159,  -510,     0);	/* diff[414] */
+	SVECTOR(   98,  -683,     0);	/* diff[415] */
+	SVECTOR(  129,  -329,     0);	/* diff[416] */
+	SVECTOR(  -22,  -697,     0);	/* diff[417] */
+	SVECTOR(  145,    96,     0);	/* diff[418] */
+	SVECTOR( -151,  -685,     0);	/* diff[419] */
+	SVECTOR(  175,   470,     0);	/* diff[420] */
+	SVECTOR( -251,  -661,     0);	/* diff[421] */
+	SVECTOR(  143,   623,     0);	/* diff[422] */
+	SVECTOR( -251,  -661,     0);	/* diff[423] */
+	SVECTOR(  143,   623,     0);	/* diff[424] */
+	SVECTOR( -251,  -661,     0);	/* diff[425] */
+	SVECTOR(  143,   623,     0);	/* diff[426] */
+	SVECTOR( -251,  -661,     0);	/* diff[427] */
+	SVECTOR(  143,   623,     0);	/* diff[428] */
+	SVECTOR( -251,  -661,     0);	/* diff[429] */
+	SVECTOR(  143,   623,     0);	/* diff[430] */
+	SVECTOR( -251,  -661,     0);	/* diff[431] */
+	SVECTOR(  143,   623,     0);	/* diff[432] */
+	SVECTOR( -251,  -661,     0);	/* diff[433] */
+	SVECTOR(  143,   623,     0);	/* diff[434] */
+	SVECTOR( -251,  -661,     0);	/* diff[435] */
+	SVECTOR(  143,   623,     0);	/* diff[436] */
+	SVECTOR( -251,  -661,     0);	/* diff[437] */
+	SVECTOR(  143,   623,     0);	/* diff[438] */
+	SVECTOR( -251,  -661,     0);	/* diff[439] */
+	SVECTOR(  143,   623,     0);	/* diff[440] */
+	SVECTOR(  164,   531,     0);	/* diff[441] */
+	SVECTOR( -148,  -596,     0);	/* diff[442] */
+	SVECTOR(  151,   320,     0);	/* diff[443] */
+	SVECTOR(  -47,  -606,     0);	/* diff[444] */
+	SVECTOR(  105,   -67,     0);	/* diff[445] */
+	SVECTOR(   40,  -617,     0);	/* diff[446] */
+	SVECTOR(  104,  -373,     0);	/* diff[447] */
+	SVECTOR(   98,  -620,     0);	/* diff[448] */
+	SVECTOR(  129,  -495,     0);	/* diff[449] */
+	SVECTOR(  133,  -602,     0);	/* diff[450] */
+	SVECTOR(  143,  -560,     0);	/* diff[451] */
+	SVECTOR(  143,  -560,     0);	/* diff[452] */
+	SVECTOR(  133,  -602,     0);	/* diff[453] */
+	SVECTOR(  129,  -495,     0);	/* diff[454] */
+	SVECTOR(   98,  -620,     0);	/* diff[455] */
+	SVECTOR(  104,  -373,     0);	/* diff[456] */
+	SVECTOR(   40,  -617,     0);	/* diff[457] */
+	SVECTOR(  105,   -67,     0);	/* diff[458] */
+	SVECTOR(  -47,  -606,     0);	/* diff[459] */
+	SVECTOR(  151,   320,     0);	/* diff[460] */
+	SVECTOR( -148,  -596,     0);	/* diff[461] */
+	SVECTOR(  164,   531,     0);	/* diff[462] */
+	SVECTOR( -148,  -596,     0);	/* diff[463] */
+	SVECTOR(  164,   531,     0);	/* diff[464] */
+	SVECTOR( -148,  -596,     0);	/* diff[465] */
+	SVECTOR(  164,   531,     0);	/* diff[466] */
+	SVECTOR( -148,  -596,     0);	/* diff[467] */
+	SVECTOR(  164,   531,     0);	/* diff[468] */
+	SVECTOR( -148,  -596,     0);	/* diff[469] */
+	SVECTOR(  164,   531,     0);	/* diff[470] */
+	SVECTOR( -148,  -596,     0);	/* diff[471] */
+	SVECTOR(  164,   531,     0);	/* diff[472] */
+	SVECTOR( -148,  -596,     0);	/* diff[473] */
+	SVECTOR(  164,   531,     0);	/* diff[474] */
+	SVECTOR( -148,  -596,     0);	/* diff[475] */
+	SVECTOR(  164,   531,     0);	/* diff[476] */
+	SVECTOR( -148,  -596,     0);	/* diff[477] */
+	SVECTOR(  164,   531,     0);	/* diff[478] */
+	SVECTOR( -148,  -596,     0);	/* diff[479] */
+	SVECTOR(  164,   531,     0);	/* diff[480] */
+	SVECTOR(  151,   426,     0);	/* diff[481] */
+	SVECTOR( -114,  -525,     0);	/* diff[482] */
+	SVECTOR(  107,   186,     0);	/* diff[483] */
+	SVECTOR(  -39,  -542,     0);	/* diff[484] */
+	SVECTOR(   71,  -143,     0);	/* diff[485] */
+	SVECTOR(   20,  -562,     0);	/* diff[486] */
+	SVECTOR(   80,  -359,     0);	/* diff[487] */
+	SVECTOR(   65,  -574,     0);	/* diff[488] */
+	SVECTOR(   98,  -462,     0);	/* diff[489] */
+	SVECTOR(   95,  -569,     0);	/* diff[490] */
+	SVECTOR(  106,  -534,     0);	/* diff[491] */
+	SVECTOR(  106,  -534,     0);	/* diff[492] */
+	SVECTOR(   95,  -569,     0);	/* diff[493] */
+	SVECTOR(   98,  -462,     0);	/* diff[494] */
+	SVECTOR(   65,  -574,     0);	/* diff[495] */
+	SVECTOR(   80,  -359,     0);	/* diff[496] */
+	SVECTOR(   20,  -562,     0);	/* diff[497] */
+	SVECTOR(   71,  -143,     0);	/* diff[498] */
+	SVECTOR(  -39,  -542,     0);	/* diff[499] */
+	SVECTOR(  107,   186,     0);	/* diff[500] */
+	SVECTOR( -114,  -525,     0);	/* diff[501] */
+	SVECTOR(  151,   426,     0);	/* diff[502] */
+	SVECTOR( -114,  -525,     0);	/* diff[503] */
+	SVECTOR(  151,   426,     0);	/* diff[504] */
+	SVECTOR( -114,  -525,     0);	/* diff[505] */
+	SVECTOR(  151,   426,     0);	/* diff[506] */
+	SVECTOR( -114,  -525,     0);	/* diff[507] */
+	SVECTOR(  151,   426,     0);	/* diff[508] */
+	SVECTOR( -114,  -525,     0);	/* diff[509] */
+	SVECTOR(  151,   426,     0);	/* diff[510] */
+	SVECTOR( -114,  -525,     0);	/* diff[511] */
+	SVECTOR(  151,   426,     0);	/* diff[512] */
+	SVECTOR( -114,  -525,     0);	/* diff[513] */
+	SVECTOR(  151,   426,     0);	/* diff[514] */
+	SVECTOR( -114,  -525,     0);	/* diff[515] */
+	SVECTOR(  151,   426,     0);	/* diff[516] */
+	SVECTOR( -114,  -525,     0);	/* diff[517] */
+	SVECTOR(  151,   426,     0);	/* diff[518] */
+	SVECTOR( -114,  -525,     0);	/* diff[519] */
+	SVECTOR(  151,   426,     0);	/* diff[520] */
+	SVECTOR(  107,   186,     0);	/* diff[521] */
+	SVECTOR(   71,  -143,     0);	/* diff[522] */
+	SVECTOR(   80,  -359,     0);	/* diff[523] */
+	SVECTOR(   98,  -462,     0);	/* diff[524] */
+	SVECTOR(  106,  -534,     0);	/* diff[525] */
+	SVECTOR(   95,  -569,     0);	/* diff[526] */
+	SVECTOR(   65,  -574,     0);	/* diff[527] */
+	SVECTOR(   20,  -562,     0);	/* diff[528] */
+	SVECTOR(  -39,  -542,     0);	/* diff[529] */
+	SVECTOR(  107,   186,     0);	/* diff[530] */
+	SVECTOR(   71,  -143,     0);	/* diff[531] */
+	SVECTOR(   80,  -359,     0);	/* diff[532] */
+	SVECTOR(   98,  -462,     0);	/* diff[533] */
+	SVECTOR(  106,  -534,     0);	/* diff[534] */
+	SVECTOR(   95,  -569,     0);	/* diff[535] */
+	SVECTOR(   65,  -574,     0);	/* diff[536] */
+	SVECTOR(   20,  -562,     0);	/* diff[537] */
+	SVECTOR(  -39,  -542,     0);	/* diff[538] */
+	SVECTOR(  107,   186,     0);	/* diff[539] */
+	SVECTOR(   71,  -143,     0);	/* diff[540] */
+	SVECTOR(   80,  -359,     0);	/* diff[541] */
+	SVECTOR(   98,  -462,     0);	/* diff[542] */
+	SVECTOR(  106,  -534,     0);	/* diff[543] */
+	SVECTOR(   95,  -569,     0);	/* diff[544] */
+	SVECTOR(   65,  -574,     0);	/* diff[545] */
+	SVECTOR(   20,  -562,     0);	/* diff[546] */
+	SVECTOR(  -39,  -542,     0);	/* diff[547] */
+	SVECTOR(  107,   186,     0);	/* diff[548] */
+	SVECTOR(   71,  -143,     0);	/* diff[549] */
+	SVECTOR(   80,  -359,     0);	/* diff[550] */
+	SVECTOR(   98,  -462,     0);	/* diff[551] */
+	SVECTOR(  106,  -534,     0);	/* diff[552] */
+	SVECTOR(   95,  -569,     0);	/* diff[553] */
+	SVECTOR(   65,  -574,     0);	/* diff[554] */
+	SVECTOR(   20,  -562,     0);	/* diff[555] */
+	SVECTOR(  -39,  -542,     0);	/* diff[556] */
+	SVECTOR(  107,   186,     0);	/* diff[557] */
+	SVECTOR(   71,  -143,     0);	/* diff[558] */
+	SVECTOR(   80,  -359,     0);	/* diff[559] */
+	SVECTOR(   98,  -462,     0);	/* diff[560] */
+	SVECTOR(  106,  -534,     0);	/* diff[561] */
+	SVECTOR(   95,  -569,     0);	/* diff[562] */
+	SVECTOR(   65,  -574,     0);	/* diff[563] */
+	SVECTOR(   20,  -562,     0);	/* diff[564] */
+	SVECTOR(  -39,  -542,     0);	/* diff[565] */
+	SVECTOR(  107,   186,     0);	/* diff[566] */
+	SVECTOR(   71,  -143,     0);	/* diff[567] */
+	SVECTOR(   80,  -359,     0);	/* diff[568] */
+	SVECTOR(   98,  -462,     0);	/* diff[569] */
+	SVECTOR(  106,  -534,     0);	/* diff[570] */
+	SVECTOR(   95,  -569,     0);	/* diff[571] */
+	SVECTOR(   65,  -574,     0);	/* diff[572] */
+	SVECTOR(   20,  -562,     0);	/* diff[573] */
+	SVECTOR(  -39,  -542,     0);	/* diff[574] */
+	SVECTOR(  107,   186,     0);	/* diff[575] */
+	SVECTOR(   71,  -143,     0);	/* diff[576] */
+	SVECTOR(   80,  -359,     0);	/* diff[577] */
+	SVECTOR(   98,  -462,     0);	/* diff[578] */
+	SVECTOR(  106,  -534,     0);	/* diff[579] */
+	SVECTOR(   95,  -569,     0);	/* diff[580] */
+	SVECTOR(   65,  -574,     0);	/* diff[581] */
+	SVECTOR(   20,  -562,     0);	/* diff[582] */
+	SVECTOR(  -39,  -542,     0);	/* diff[583] */
+	SVECTOR(  107,   186,     0);	/* diff[584] */
+	SVECTOR(   71,  -143,     0);	/* diff[585] */
+	SVECTOR(   80,  -359,     0);	/* diff[586] */
+	SVECTOR(   98,  -462,     0);	/* diff[587] */
+	SVECTOR(  106,  -534,     0);	/* diff[588] */
+	SVECTOR(   95,  -569,     0);	/* diff[589] */
+	SVECTOR(   65,  -574,     0);	/* diff[590] */
+	SVECTOR(   20,  -562,     0);	/* diff[591] */
+	SVECTOR(  -39,  -542,     0);	/* diff[592] */
+	SVECTOR(  107,   186,     0);	/* diff[593] */
+	SVECTOR(   71,  -143,     0);	/* diff[594] */
+	SVECTOR(   80,  -359,     0);	/* diff[595] */
+	SVECTOR(   98,  -462,     0);	/* diff[596] */
+	SVECTOR(  106,  -534,     0);	/* diff[597] */
+	SVECTOR(   95,  -569,     0);	/* diff[598] */
+	SVECTOR(   65,  -574,     0);	/* diff[599] */
+	SVECTOR(   20,  -562,     0);	/* diff[600] */
+	SVECTOR(  -39,  -542,     0);	/* diff[601] */
+
+VertMIMeDiffData_0001:	/* 0x00005f04 */
+	0x00000000;	/* vstart */
+	H(0x0000); H(602);	/* res, vnum */
+	SVECTOR(  267,     0,  -275);	/* diff[0] */
+	SVECTOR(  -68,     0,    22);	/* diff[1] */
+	SVECTOR(  267,     0,  -275);	/* diff[2] */
+	SVECTOR(  -68,     0,    22);	/* diff[3] */
+	SVECTOR(  267,     0,  -275);	/* diff[4] */
+	SVECTOR(  -68,     0,    22);	/* diff[5] */
+	SVECTOR(  267,     0,  -275);	/* diff[6] */
+	SVECTOR(  -68,     0,    22);	/* diff[7] */
+	SVECTOR(  267,     0,  -275);	/* diff[8] */
+	SVECTOR(  -68,     0,    22);	/* diff[9] */
+	SVECTOR(  267,     0,  -275);	/* diff[10] */
+	SVECTOR(  -68,     0,    22);	/* diff[11] */
+	SVECTOR(  267,     0,  -275);	/* diff[12] */
+	SVECTOR(  -68,     0,    22);	/* diff[13] */
+	SVECTOR(  267,     0,  -275);	/* diff[14] */
+	SVECTOR(  -68,     0,    22);	/* diff[15] */
+	SVECTOR(  267,     0,  -275);	/* diff[16] */
+	SVECTOR(  -68,     0,    22);	/* diff[17] */
+	SVECTOR(  267,     0,  -275);	/* diff[18] */
+	SVECTOR(  -68,     0,    22);	/* diff[19] */
+	SVECTOR(  267,     0,  -275);	/* diff[20] */
+	SVECTOR(  -68,     0,    22);	/* diff[21] */
+	SVECTOR(  235,     0,  -248);	/* diff[22] */
+	SVECTOR( -127,     0,  -103);	/* diff[23] */
+	SVECTOR(  146,     0,  -287);	/* diff[24] */
+	SVECTOR( -309,     0,  -322);	/* diff[25] */
+	SVECTOR(   19,     0,  -377);	/* diff[26] */
+	SVECTOR( -550,     0,  -506);	/* diff[27] */
+	SVECTOR( -145,     0,  -488);	/* diff[28] */
+	SVECTOR( -563,     0,  -620);	/* diff[29] */
+	SVECTOR( -355,     0,  -591);	/* diff[30] */
+	SVECTOR( -355,     0,  -591);	/* diff[31] */
+	SVECTOR( -563,     0,  -620);	/* diff[32] */
+	SVECTOR( -145,     0,  -488);	/* diff[33] */
+	SVECTOR( -550,     0,  -506);	/* diff[34] */
+	SVECTOR(   19,     0,  -377);	/* diff[35] */
+	SVECTOR( -309,     0,  -322);	/* diff[36] */
+	SVECTOR(  146,     0,  -287);	/* diff[37] */
+	SVECTOR( -127,     0,  -103);	/* diff[38] */
+	SVECTOR(  235,     0,  -248);	/* diff[39] */
+	SVECTOR(  235,     0,  -248);	/* diff[40] */
+	SVECTOR(  235,     0,  -248);	/* diff[41] */
+	SVECTOR(  235,     0,  -248);	/* diff[42] */
+	SVECTOR(  235,     0,  -248);	/* diff[43] */
+	SVECTOR(  235,     0,  -248);	/* diff[44] */
+	SVECTOR(  235,     0,  -248);	/* diff[45] */
+	SVECTOR(  235,     0,  -248);	/* diff[46] */
+	SVECTOR(  235,     0,  -248);	/* diff[47] */
+	SVECTOR(  235,     0,  -248);	/* diff[48] */
+	SVECTOR(  146,     0,  -287);	/* diff[49] */
+	SVECTOR(  146,     0,  -287);	/* diff[50] */
+	SVECTOR(  146,     0,  -287);	/* diff[51] */
+	SVECTOR(  146,     0,  -287);	/* diff[52] */
+	SVECTOR(  146,     0,  -287);	/* diff[53] */
+	SVECTOR(  146,     0,  -287);	/* diff[54] */
+	SVECTOR(  146,     0,  -287);	/* diff[55] */
+	SVECTOR(  146,     0,  -287);	/* diff[56] */
+	SVECTOR(  146,     0,  -287);	/* diff[57] */
+	SVECTOR(   19,     0,  -377);	/* diff[58] */
+	SVECTOR(   19,     0,  -377);	/* diff[59] */
+	SVECTOR(   19,     0,  -377);	/* diff[60] */
+	SVECTOR(   19,     0,  -377);	/* diff[61] */
+	SVECTOR(   19,     0,  -377);	/* diff[62] */
+	SVECTOR(   19,     0,  -377);	/* diff[63] */
+	SVECTOR(   19,     0,  -377);	/* diff[64] */
+	SVECTOR(   19,     0,  -377);	/* diff[65] */
+	SVECTOR(   19,     0,  -377);	/* diff[66] */
+	SVECTOR( -145,     0,  -488);	/* diff[67] */
+	SVECTOR( -145,     0,  -488);	/* diff[68] */
+	SVECTOR( -145,     0,  -488);	/* diff[69] */
+	SVECTOR( -145,     0,  -488);	/* diff[70] */
+	SVECTOR( -145,     0,  -488);	/* diff[71] */
+	SVECTOR( -145,     0,  -488);	/* diff[72] */
+	SVECTOR( -145,     0,  -488);	/* diff[73] */
+	SVECTOR( -145,     0,  -488);	/* diff[74] */
+	SVECTOR( -145,     0,  -488);	/* diff[75] */
+	SVECTOR( -355,     0,  -591);	/* diff[76] */
+	SVECTOR( -355,     0,  -591);	/* diff[77] */
+	SVECTOR( -355,     0,  -591);	/* diff[78] */
+	SVECTOR( -355,     0,  -591);	/* diff[79] */
+	SVECTOR( -355,     0,  -591);	/* diff[80] */
+	SVECTOR( -355,     0,  -591);	/* diff[81] */
+	SVECTOR( -355,     0,  -591);	/* diff[82] */
+	SVECTOR( -355,     0,  -591);	/* diff[83] */
+	SVECTOR( -355,     0,  -591);	/* diff[84] */
+	SVECTOR( -563,     0,  -620);	/* diff[85] */
+	SVECTOR( -563,     0,  -620);	/* diff[86] */
+	SVECTOR( -563,     0,  -620);	/* diff[87] */
+	SVECTOR( -563,     0,  -620);	/* diff[88] */
+	SVECTOR( -563,     0,  -620);	/* diff[89] */
+	SVECTOR( -563,     0,  -620);	/* diff[90] */
+	SVECTOR( -563,     0,  -620);	/* diff[91] */
+	SVECTOR( -563,     0,  -620);	/* diff[92] */
+	SVECTOR( -563,     0,  -620);	/* diff[93] */
+	SVECTOR( -550,     0,  -506);	/* diff[94] */
+	SVECTOR( -550,     0,  -506);	/* diff[95] */
+	SVECTOR( -550,     0,  -506);	/* diff[96] */
+	SVECTOR( -550,     0,  -506);	/* diff[97] */
+	SVECTOR( -550,     0,  -506);	/* diff[98] */
+	SVECTOR( -550,     0,  -506);	/* diff[99] */
+	SVECTOR( -550,     0,  -506);	/* diff[100] */
+	SVECTOR( -550,     0,  -506);	/* diff[101] */
+	SVECTOR( -550,     0,  -506);	/* diff[102] */
+	SVECTOR( -309,     0,  -322);	/* diff[103] */
+	SVECTOR( -309,     0,  -322);	/* diff[104] */
+	SVECTOR( -309,     0,  -322);	/* diff[105] */
+	SVECTOR( -309,     0,  -322);	/* diff[106] */
+	SVECTOR( -309,     0,  -322);	/* diff[107] */
+	SVECTOR( -309,     0,  -322);	/* diff[108] */
+	SVECTOR( -309,     0,  -322);	/* diff[109] */
+	SVECTOR( -309,     0,  -322);	/* diff[110] */
+	SVECTOR( -309,     0,  -322);	/* diff[111] */
+	SVECTOR( -127,     0,  -103);	/* diff[112] */
+	SVECTOR( -127,     0,  -103);	/* diff[113] */
+	SVECTOR( -127,     0,  -103);	/* diff[114] */
+	SVECTOR( -127,     0,  -103);	/* diff[115] */
+	SVECTOR( -127,     0,  -103);	/* diff[116] */
+	SVECTOR( -127,     0,  -103);	/* diff[117] */
+	SVECTOR( -127,     0,  -103);	/* diff[118] */
+	SVECTOR( -127,     0,  -103);	/* diff[119] */
+	SVECTOR( -127,     0,  -103);	/* diff[120] */
+	SVECTOR(  221,     0,   -66);	/* diff[121] */
+	SVECTOR(  -64,     0,    66);	/* diff[122] */
+	SVECTOR(  221,     0,   -66);	/* diff[123] */
+	SVECTOR(  -64,     0,    66);	/* diff[124] */
+	SVECTOR(  221,     0,   -66);	/* diff[125] */
+	SVECTOR(  -64,     0,    66);	/* diff[126] */
+	SVECTOR(  221,     0,   -66);	/* diff[127] */
+	SVECTOR(  -64,     0,    66);	/* diff[128] */
+	SVECTOR(  221,     0,   -66);	/* diff[129] */
+	SVECTOR(  -64,     0,    66);	/* diff[130] */
+	SVECTOR(  221,     0,   -66);	/* diff[131] */
+	SVECTOR(  -64,     0,    66);	/* diff[132] */
+	SVECTOR(  221,     0,   -66);	/* diff[133] */
+	SVECTOR(  -64,     0,    66);	/* diff[134] */
+	SVECTOR(  221,     0,   -66);	/* diff[135] */
+	SVECTOR(  -64,     0,    66);	/* diff[136] */
+	SVECTOR(  221,     0,   -66);	/* diff[137] */
+	SVECTOR(  -64,     0,    66);	/* diff[138] */
+	SVECTOR(  221,     0,   -66);	/* diff[139] */
+	SVECTOR(  -64,     0,    66);	/* diff[140] */
+	SVECTOR(  221,     0,   -66);	/* diff[141] */
+	SVECTOR(  -64,     0,    66);	/* diff[142] */
+	SVECTOR(  130,     0,  -102);	/* diff[143] */
+	SVECTOR( -115,     0,   -51);	/* diff[144] */
+	SVECTOR(    6,     0,  -202);	/* diff[145] */
+	SVECTOR( -286,     0,  -281);	/* diff[146] */
+	SVECTOR( -125,     0,  -323);	/* diff[147] */
+	SVECTOR( -526,     0,  -499);	/* diff[148] */
+	SVECTOR( -263,     0,  -435);	/* diff[149] */
+	SVECTOR( -541,     0,  -572);	/* diff[150] */
+	SVECTOR( -408,     0,  -529);	/* diff[151] */
+	SVECTOR( -408,     0,  -529);	/* diff[152] */
+	SVECTOR( -541,     0,  -572);	/* diff[153] */
+	SVECTOR( -263,     0,  -435);	/* diff[154] */
+	SVECTOR( -526,     0,  -499);	/* diff[155] */
+	SVECTOR( -125,     0,  -323);	/* diff[156] */
+	SVECTOR( -286,     0,  -281);	/* diff[157] */
+	SVECTOR(    6,     0,  -202);	/* diff[158] */
+	SVECTOR( -115,     0,   -51);	/* diff[159] */
+	SVECTOR(  130,     0,  -102);	/* diff[160] */
+	SVECTOR(  113,     0,    76);	/* diff[161] */
+	SVECTOR(  -56,     0,   129);	/* diff[162] */
+	SVECTOR(  113,     0,    76);	/* diff[163] */
+	SVECTOR(  -56,     0,   129);	/* diff[164] */
+	SVECTOR(  113,     0,    76);	/* diff[165] */
+	SVECTOR(  -56,     0,   129);	/* diff[166] */
+	SVECTOR(  113,     0,    76);	/* diff[167] */
+	SVECTOR(  -56,     0,   129);	/* diff[168] */
+	SVECTOR(  113,     0,    76);	/* diff[169] */
+	SVECTOR(  -56,     0,   129);	/* diff[170] */
+	SVECTOR(  113,     0,    76);	/* diff[171] */
+	SVECTOR(  -56,     0,   129);	/* diff[172] */
+	SVECTOR(  113,     0,    76);	/* diff[173] */
+	SVECTOR(  -56,     0,   129);	/* diff[174] */
+	SVECTOR(  113,     0,    76);	/* diff[175] */
+	SVECTOR(  -56,     0,   129);	/* diff[176] */
+	SVECTOR(  113,     0,    76);	/* diff[177] */
+	SVECTOR(  -56,     0,   129);	/* diff[178] */
+	SVECTOR(  113,     0,    76);	/* diff[179] */
+	SVECTOR(  -56,     0,   129);	/* diff[180] */
+	SVECTOR(  113,     0,    76);	/* diff[181] */
+	SVECTOR(  -56,     0,   129);	/* diff[182] */
+	SVECTOR(  -10,     0,   -13);	/* diff[183] */
+	SVECTOR(  -91,     0,    46);	/* diff[184] */
+	SVECTOR( -135,     0,  -129);	/* diff[185] */
+	SVECTOR( -218,     0,  -153);	/* diff[186] */
+	SVECTOR( -244,     0,  -235);	/* diff[187] */
+	SVECTOR( -392,     0,  -356);	/* diff[188] */
+	SVECTOR( -323,     0,  -309);	/* diff[189] */
+	SVECTOR( -430,     0,  -405);	/* diff[190] */
+	SVECTOR( -385,     0,  -369);	/* diff[191] */
+	SVECTOR( -385,     0,  -369);	/* diff[192] */
+	SVECTOR( -430,     0,  -405);	/* diff[193] */
+	SVECTOR( -323,     0,  -309);	/* diff[194] */
+	SVECTOR( -392,     0,  -356);	/* diff[195] */
+	SVECTOR( -244,     0,  -235);	/* diff[196] */
+	SVECTOR( -218,     0,  -153);	/* diff[197] */
+	SVECTOR( -135,     0,  -129);	/* diff[198] */
+	SVECTOR(  -91,     0,    46);	/* diff[199] */
+	SVECTOR(  -10,     0,   -13);	/* diff[200] */
+	SVECTOR(   -2,     0,   175);	/* diff[201] */
+	SVECTOR(  -48,     0,   191);	/* diff[202] */
+	SVECTOR(   -2,     0,   175);	/* diff[203] */
+	SVECTOR(  -48,     0,   191);	/* diff[204] */
+	SVECTOR(   -2,     0,   175);	/* diff[205] */
+	SVECTOR(  -48,     0,   191);	/* diff[206] */
+	SVECTOR(   -2,     0,   175);	/* diff[207] */
+	SVECTOR(  -48,     0,   191);	/* diff[208] */
+	SVECTOR(   -2,     0,   175);	/* diff[209] */
+	SVECTOR(  -48,     0,   191);	/* diff[210] */
+	SVECTOR(   -2,     0,   175);	/* diff[211] */
+	SVECTOR(  -48,     0,   191);	/* diff[212] */
+	SVECTOR(   -2,     0,   175);	/* diff[213] */
+	SVECTOR(  -48,     0,   191);	/* diff[214] */
+	SVECTOR(   -2,     0,   175);	/* diff[215] */
+	SVECTOR(  -48,     0,   191);	/* diff[216] */
+	SVECTOR(   -2,     0,   175);	/* diff[217] */
+	SVECTOR(  -48,     0,   191);	/* diff[218] */
+	SVECTOR(   -2,     0,   175);	/* diff[219] */
+	SVECTOR(  -48,     0,   191);	/* diff[220] */
+	SVECTOR(   -2,     0,   175);	/* diff[221] */
+	SVECTOR(  -48,     0,   191);	/* diff[222] */
+	SVECTOR( -109,     0,    87);	/* diff[223] */
+	SVECTOR(  -72,     0,   148);	/* diff[224] */
+	SVECTOR( -197,     0,     0);	/* diff[225] */
+	SVECTOR( -136,     0,    21);	/* diff[226] */
+	SVECTOR( -220,     0,   -18);	/* diff[227] */
+	SVECTOR( -181,     0,   -55);	/* diff[228] */
+	SVECTOR( -188,     0,     2);	/* diff[229] */
+	SVECTOR( -178,     0,   -45);	/* diff[230] */
+	SVECTOR( -168,     0,    -8);	/* diff[231] */
+	SVECTOR( -168,     0,    -8);	/* diff[232] */
+	SVECTOR( -178,     0,   -45);	/* diff[233] */
+	SVECTOR( -188,     0,     2);	/* diff[234] */
+	SVECTOR( -181,     0,   -55);	/* diff[235] */
+	SVECTOR( -220,     0,   -18);	/* diff[236] */
+	SVECTOR( -136,     0,    21);	/* diff[237] */
+	SVECTOR( -197,     0,     0);	/* diff[238] */
+	SVECTOR(  -72,     0,   148);	/* diff[239] */
+	SVECTOR( -109,     0,    87);	/* diff[240] */
+	SVECTOR(  -63,     0,   286);	/* diff[241] */
+	SVECTOR(  -43,     0,   242);	/* diff[242] */
+	SVECTOR(  -63,     0,   286);	/* diff[243] */
+	SVECTOR(  -43,     0,   242);	/* diff[244] */
+	SVECTOR(  -63,     0,   286);	/* diff[245] */
+	SVECTOR(  -43,     0,   242);	/* diff[246] */
+	SVECTOR(  -63,     0,   286);	/* diff[247] */
+	SVECTOR(  -43,     0,   242);	/* diff[248] */
+	SVECTOR(  -63,     0,   286);	/* diff[249] */
+	SVECTOR(  -43,     0,   242);	/* diff[250] */
+	SVECTOR(  -63,     0,   286);	/* diff[251] */
+	SVECTOR(  -43,     0,   242);	/* diff[252] */
+	SVECTOR(  -63,     0,   286);	/* diff[253] */
+	SVECTOR(  -43,     0,   242);	/* diff[254] */
+	SVECTOR(  -63,     0,   286);	/* diff[255] */
+	SVECTOR(  -43,     0,   242);	/* diff[256] */
+	SVECTOR(  -63,     0,   286);	/* diff[257] */
+	SVECTOR(  -43,     0,   242);	/* diff[258] */
+	SVECTOR(  -63,     0,   286);	/* diff[259] */
+	SVECTOR(  -43,     0,   242);	/* diff[260] */
+	SVECTOR(  -63,     0,   286);	/* diff[261] */
+	SVECTOR(  -43,     0,   242);	/* diff[262] */
+	SVECTOR( -133,     0,   224);	/* diff[263] */
+	SVECTOR(  -62,     0,   232);	/* diff[264] */
+	SVECTOR( -153,     0,   205);	/* diff[265] */
+	SVECTOR(  -65,     0,   196);	/* diff[266] */
+	SVECTOR(  -84,     0,   266);	/* diff[267] */
+	SVECTOR(  -36,     0,   209);	/* diff[268] */
+	SVECTOR(  -13,     0,   307);	/* diff[269] */
+	SVECTOR(    1,     0,   254);	/* diff[270] */
+	SVECTOR(   15,     0,   296);	/* diff[271] */
+	SVECTOR(   15,     0,   296);	/* diff[272] */
+	SVECTOR(    1,     0,   254);	/* diff[273] */
+	SVECTOR(  -13,     0,   307);	/* diff[274] */
+	SVECTOR(  -36,     0,   209);	/* diff[275] */
+	SVECTOR(  -84,     0,   266);	/* diff[276] */
+	SVECTOR(  -65,     0,   196);	/* diff[277] */
+	SVECTOR( -153,     0,   205);	/* diff[278] */
+	SVECTOR(  -62,     0,   232);	/* diff[279] */
+	SVECTOR( -133,     0,   224);	/* diff[280] */
+	SVECTOR(  -69,     0,   404);	/* diff[281] */
+	SVECTOR(  -40,     0,   284);	/* diff[282] */
+	SVECTOR(  -69,     0,   404);	/* diff[283] */
+	SVECTOR(  -40,     0,   284);	/* diff[284] */
+	SVECTOR(  -69,     0,   404);	/* diff[285] */
+	SVECTOR(  -40,     0,   284);	/* diff[286] */
+	SVECTOR(  -69,     0,   404);	/* diff[287] */
+	SVECTOR(  -40,     0,   284);	/* diff[288] */
+	SVECTOR(  -69,     0,   404);	/* diff[289] */
+	SVECTOR(  -40,     0,   284);	/* diff[290] */
+	SVECTOR(  -69,     0,   404);	/* diff[291] */
+	SVECTOR(  -40,     0,   284);	/* diff[292] */
+	SVECTOR(  -69,     0,   404);	/* diff[293] */
+	SVECTOR(  -40,     0,   284);	/* diff[294] */
+	SVECTOR(  -69,     0,   404);	/* diff[295] */
+	SVECTOR(  -40,     0,   284);	/* diff[296] */
+	SVECTOR(  -69,     0,   404);	/* diff[297] */
+	SVECTOR(  -40,     0,   284);	/* diff[298] */
+	SVECTOR(  -69,     0,   404);	/* diff[299] */
+	SVECTOR(  -40,     0,   284);	/* diff[300] */
+	SVECTOR(  -69,     0,   404);	/* diff[301] */
+	SVECTOR(  -40,     0,   284);	/* diff[302] */
+	SVECTOR( -111,     0,   363);	/* diff[303] */
+	SVECTOR(  -54,     0,   299);	/* diff[304] */
+	SVECTOR(  -73,     0,   391);	/* diff[305] */
+	SVECTOR(  -18,     0,   320);	/* diff[306] */
+	SVECTOR(   17,     0,   442);	/* diff[307] */
+	SVECTOR(   41,     0,   358);	/* diff[308] */
+	SVECTOR(   89,     0,   453);	/* diff[309] */
+	SVECTOR(   95,     0,   399);	/* diff[310] */
+	SVECTOR(  116,     0,   433);	/* diff[311] */
+	SVECTOR(  116,     0,   433);	/* diff[312] */
+	SVECTOR(   95,     0,   399);	/* diff[313] */
+	SVECTOR(   89,     0,   453);	/* diff[314] */
+	SVECTOR(   41,     0,   358);	/* diff[315] */
+	SVECTOR(   17,     0,   442);	/* diff[316] */
+	SVECTOR(  -18,     0,   320);	/* diff[317] */
+	SVECTOR(  -73,     0,   391);	/* diff[318] */
+	SVECTOR(  -54,     0,   299);	/* diff[319] */
+	SVECTOR( -111,     0,   363);	/* diff[320] */
+	SVECTOR(  -47,     0,   500);	/* diff[321] */
+	SVECTOR(  -41,     0,   318);	/* diff[322] */
+	SVECTOR(  -47,     0,   500);	/* diff[323] */
+	SVECTOR(  -41,     0,   318);	/* diff[324] */
+	SVECTOR(  -47,     0,   500);	/* diff[325] */
+	SVECTOR(  -41,     0,   318);	/* diff[326] */
+	SVECTOR(  -47,     0,   500);	/* diff[327] */
+	SVECTOR(  -41,     0,   318);	/* diff[328] */
+	SVECTOR(  -47,     0,   500);	/* diff[329] */
+	SVECTOR(  -41,     0,   318);	/* diff[330] */
+	SVECTOR(  -47,     0,   500);	/* diff[331] */
+	SVECTOR(  -41,     0,   318);	/* diff[332] */
+	SVECTOR(  -47,     0,   500);	/* diff[333] */
+	SVECTOR(  -41,     0,   318);	/* diff[334] */
+	SVECTOR(  -47,     0,   500);	/* diff[335] */
+	SVECTOR(  -41,     0,   318);	/* diff[336] */
+	SVECTOR(  -47,     0,   500);	/* diff[337] */
+	SVECTOR(  -41,     0,   318);	/* diff[338] */
+	SVECTOR(  -47,     0,   500);	/* diff[339] */
+	SVECTOR(  -41,     0,   318);	/* diff[340] */
+	SVECTOR(  -47,     0,   500);	/* diff[341] */
+	SVECTOR(  -41,     0,   318);	/* diff[342] */
+	SVECTOR(  -72,     0,   471);	/* diff[343] */
+	SVECTOR(  -44,     0,   345);	/* diff[344] */
+	SVECTOR(   -3,     0,   495);	/* diff[345] */
+	SVECTOR(   15,     0,   384);	/* diff[346] */
+	SVECTOR(  104,     0,   506);	/* diff[347] */
+	SVECTOR(   97,     0,   413);	/* diff[348] */
+	SVECTOR(  191,     0,   484);	/* diff[349] */
+	SVECTOR(  176,     0,   433);	/* diff[350] */
+	SVECTOR(  218,     0,   456);	/* diff[351] */
+	SVECTOR(  218,     0,   456);	/* diff[352] */
+	SVECTOR(  176,     0,   433);	/* diff[353] */
+	SVECTOR(  191,     0,   484);	/* diff[354] */
+	SVECTOR(   97,     0,   413);	/* diff[355] */
+	SVECTOR(  104,     0,   506);	/* diff[356] */
+	SVECTOR(   15,     0,   384);	/* diff[357] */
+	SVECTOR(   -3,     0,   495);	/* diff[358] */
+	SVECTOR(  -44,     0,   345);	/* diff[359] */
+	SVECTOR(  -72,     0,   471);	/* diff[360] */
+	SVECTOR(  -11,     0,   557);	/* diff[361] */
+	SVECTOR(  -47,     0,   344);	/* diff[362] */
+	SVECTOR(  -11,     0,   557);	/* diff[363] */
+	SVECTOR(  -47,     0,   344);	/* diff[364] */
+	SVECTOR(  -11,     0,   557);	/* diff[365] */
+	SVECTOR(  -47,     0,   344);	/* diff[366] */
+	SVECTOR(  -11,     0,   557);	/* diff[367] */
+	SVECTOR(  -47,     0,   344);	/* diff[368] */
+	SVECTOR(  -11,     0,   557);	/* diff[369] */
+	SVECTOR(  -47,     0,   344);	/* diff[370] */
+	SVECTOR(  -11,     0,   557);	/* diff[371] */
+	SVECTOR(  -47,     0,   344);	/* diff[372] */
+	SVECTOR(  -11,     0,   557);	/* diff[373] */
+	SVECTOR(  -47,     0,   344);	/* diff[374] */
+	SVECTOR(  -11,     0,   557);	/* diff[375] */
+	SVECTOR(  -47,     0,   344);	/* diff[376] */
+	SVECTOR(  -11,     0,   557);	/* diff[377] */
+	SVECTOR(  -47,     0,   344);	/* diff[378] */
+	SVECTOR(  -11,     0,   557);	/* diff[379] */
+	SVECTOR(  -47,     0,   344);	/* diff[380] */
+	SVECTOR(  -11,     0,   557);	/* diff[381] */
+	SVECTOR(  -47,     0,   344);	/* diff[382] */
+	SVECTOR(  -23,     0,   535);	/* diff[383] */
+	SVECTOR(  -35,     0,   370);	/* diff[384] */
+	SVECTOR(   75,     0,   530);	/* diff[385] */
+	SVECTOR(   44,     0,   400);	/* diff[386] */
+	SVECTOR(  212,     0,   491);	/* diff[387] */
+	SVECTOR(  156,     0,   406);	/* diff[388] */
+	SVECTOR(  322,     0,   426);	/* diff[389] */
+	SVECTOR(  280,     0,   396);	/* diff[390] */
+	SVECTOR(  351,     0,   390);	/* diff[391] */
+	SVECTOR(  351,     0,   390);	/* diff[392] */
+	SVECTOR(  280,     0,   396);	/* diff[393] */
+	SVECTOR(  322,     0,   426);	/* diff[394] */
+	SVECTOR(  156,     0,   406);	/* diff[395] */
+	SVECTOR(  212,     0,   491);	/* diff[396] */
+	SVECTOR(   44,     0,   400);	/* diff[397] */
+	SVECTOR(   75,     0,   530);	/* diff[398] */
+	SVECTOR(  -35,     0,   370);	/* diff[399] */
+	SVECTOR(  -23,     0,   535);	/* diff[400] */
+	SVECTOR(   28,     0,   573);	/* diff[401] */
+	SVECTOR(  -59,     0,   356);	/* diff[402] */
+	SVECTOR(   28,     0,   573);	/* diff[403] */
+	SVECTOR(  -59,     0,   356);	/* diff[404] */
+	SVECTOR(   28,     0,   573);	/* diff[405] */
+	SVECTOR(  -59,     0,   356);	/* diff[406] */
+	SVECTOR(   28,     0,   573);	/* diff[407] */
+	SVECTOR(  -59,     0,   356);	/* diff[408] */
+	SVECTOR(   28,     0,   573);	/* diff[409] */
+	SVECTOR(  -59,     0,   356);	/* diff[410] */
+	SVECTOR(   28,     0,   573);	/* diff[411] */
+	SVECTOR(  -59,     0,   356);	/* diff[412] */
+	SVECTOR(   28,     0,   573);	/* diff[413] */
+	SVECTOR(  -59,     0,   356);	/* diff[414] */
+	SVECTOR(   28,     0,   573);	/* diff[415] */
+	SVECTOR(  -59,     0,   356);	/* diff[416] */
+	SVECTOR(   28,     0,   573);	/* diff[417] */
+	SVECTOR(  -59,     0,   356);	/* diff[418] */
+	SVECTOR(   28,     0,   573);	/* diff[419] */
+	SVECTOR(  -59,     0,   356);	/* diff[420] */
+	SVECTOR(   28,     0,   573);	/* diff[421] */
+	SVECTOR(  -59,     0,   356);	/* diff[422] */
+	SVECTOR(   33,     0,   551);	/* diff[423] */
+	SVECTOR(  -30,     0,   375);	/* diff[424] */
+	SVECTOR(  155,     0,   500);	/* diff[425] */
+	SVECTOR(   73,     0,   385);	/* diff[426] */
+	SVECTOR(  306,     0,   394);	/* diff[427] */
+	SVECTOR(  230,     0,   356);	/* diff[428] */
+	SVECTOR(  419,     0,   281);	/* diff[429] */
+	SVECTOR(  390,     0,   286);	/* diff[430] */
+	SVECTOR(  457,     0,   239);	/* diff[431] */
+	SVECTOR(  457,     0,   239);	/* diff[432] */
+	SVECTOR(  390,     0,   286);	/* diff[433] */
+	SVECTOR(  419,     0,   281);	/* diff[434] */
+	SVECTOR(  230,     0,   356);	/* diff[435] */
+	SVECTOR(  306,     0,   394);	/* diff[436] */
+	SVECTOR(   73,     0,   385);	/* diff[437] */
+	SVECTOR(  155,     0,   500);	/* diff[438] */
+	SVECTOR(  -30,     0,   375);	/* diff[439] */
+	SVECTOR(   33,     0,   551);	/* diff[440] */
+	SVECTOR(   59,     0,   540);	/* diff[441] */
+	SVECTOR(  -75,     0,   349);	/* diff[442] */
+	SVECTOR(   59,     0,   540);	/* diff[443] */
+	SVECTOR(  -75,     0,   349);	/* diff[444] */
+	SVECTOR(   59,     0,   540);	/* diff[445] */
+	SVECTOR(  -75,     0,   349);	/* diff[446] */
+	SVECTOR(   59,     0,   540);	/* diff[447] */
+	SVECTOR(  -75,     0,   349);	/* diff[448] */
+	SVECTOR(   59,     0,   540);	/* diff[449] */
+	SVECTOR(  -75,     0,   349);	/* diff[450] */
+	SVECTOR(   59,     0,   540);	/* diff[451] */
+	SVECTOR(  -75,     0,   349);	/* diff[452] */
+	SVECTOR(   59,     0,   540);	/* diff[453] */
+	SVECTOR(  -75,     0,   349);	/* diff[454] */
+	SVECTOR(   59,     0,   540);	/* diff[455] */
+	SVECTOR(  -75,     0,   349);	/* diff[456] */
+	SVECTOR(   59,     0,   540);	/* diff[457] */
+	SVECTOR(  -75,     0,   349);	/* diff[458] */
+	SVECTOR(   59,     0,   540);	/* diff[459] */
+	SVECTOR(  -75,     0,   349);	/* diff[460] */
+	SVECTOR(   59,     0,   540);	/* diff[461] */
+	SVECTOR(  -75,     0,   349);	/* diff[462] */
+	SVECTOR(   81,     0,   511);	/* diff[463] */
+	SVECTOR(  -27,     0,   359);	/* diff[464] */
+	SVECTOR(  206,     0,   410);	/* diff[465] */
+	SVECTOR(  107,     0,   344);	/* diff[466] */
+	SVECTOR(  350,     0,   254);	/* diff[467] */
+	SVECTOR(  303,     0,   264);	/* diff[468] */
+	SVECTOR(  460,     0,   139);	/* diff[469] */
+	SVECTOR(  456,     0,   147);	/* diff[470] */
+	SVECTOR(  505,     0,   106);	/* diff[471] */
+	SVECTOR(  505,     0,   106);	/* diff[472] */
+	SVECTOR(  456,     0,   147);	/* diff[473] */
+	SVECTOR(  460,     0,   139);	/* diff[474] */
+	SVECTOR(  303,     0,   264);	/* diff[475] */
+	SVECTOR(  350,     0,   254);	/* diff[476] */
+	SVECTOR(  107,     0,   344);	/* diff[477] */
+	SVECTOR(  206,     0,   410);	/* diff[478] */
+	SVECTOR(  -27,     0,   359);	/* diff[479] */
+	SVECTOR(   81,     0,   511);	/* diff[480] */
+	SVECTOR(   71,     0,   464);	/* diff[481] */
+	SVECTOR(  -90,     0,   327);	/* diff[482] */
+	SVECTOR(   71,     0,   464);	/* diff[483] */
+	SVECTOR(  -90,     0,   327);	/* diff[484] */
+	SVECTOR(   71,     0,   464);	/* diff[485] */
+	SVECTOR(  -90,     0,   327);	/* diff[486] */
+	SVECTOR(   71,     0,   464);	/* diff[487] */
+	SVECTOR(  -90,     0,   327);	/* diff[488] */
+	SVECTOR(   71,     0,   464);	/* diff[489] */
+	SVECTOR(  -90,     0,   327);	/* diff[490] */
+	SVECTOR(   71,     0,   464);	/* diff[491] */
+	SVECTOR(  -90,     0,   327);	/* diff[492] */
+	SVECTOR(   71,     0,   464);	/* diff[493] */
+	SVECTOR(  -90,     0,   327);	/* diff[494] */
+	SVECTOR(   71,     0,   464);	/* diff[495] */
+	SVECTOR(  -90,     0,   327);	/* diff[496] */
+	SVECTOR(   71,     0,   464);	/* diff[497] */
+	SVECTOR(  -90,     0,   327);	/* diff[498] */
+	SVECTOR(   71,     0,   464);	/* diff[499] */
+	SVECTOR(  -90,     0,   327);	/* diff[500] */
+	SVECTOR(   71,     0,   464);	/* diff[501] */
+	SVECTOR(  -90,     0,   327);	/* diff[502] */
+	SVECTOR(  105,     0,   422);	/* diff[503] */
+	SVECTOR(  -22,     0,   329);	/* diff[504] */
+	SVECTOR(  224,     0,   290);	/* diff[505] */
+	SVECTOR(  143,     0,   283);	/* diff[506] */
+	SVECTOR(  361,     0,   142);	/* diff[507] */
+	SVECTOR(  345,     0,   158);	/* diff[508] */
+	SVECTOR(  477,     0,    63);	/* diff[509] */
+	SVECTOR(  482,     0,    66);	/* diff[510] */
+	SVECTOR(  529,     0,    40);	/* diff[511] */
+	SVECTOR(  529,     0,    40);	/* diff[512] */
+	SVECTOR(  482,     0,    66);	/* diff[513] */
+	SVECTOR(  477,     0,    63);	/* diff[514] */
+	SVECTOR(  345,     0,   158);	/* diff[515] */
+	SVECTOR(  361,     0,   142);	/* diff[516] */
+	SVECTOR(  143,     0,   283);	/* diff[517] */
+	SVECTOR(  224,     0,   290);	/* diff[518] */
+	SVECTOR(  -22,     0,   329);	/* diff[519] */
+	SVECTOR(  105,     0,   422);	/* diff[520] */
+	SVECTOR(  105,     0,   422);	/* diff[521] */
+	SVECTOR(  105,     0,   422);	/* diff[522] */
+	SVECTOR(  105,     0,   422);	/* diff[523] */
+	SVECTOR(  105,     0,   422);	/* diff[524] */
+	SVECTOR(  105,     0,   422);	/* diff[525] */
+	SVECTOR(  105,     0,   422);	/* diff[526] */
+	SVECTOR(  105,     0,   422);	/* diff[527] */
+	SVECTOR(  105,     0,   422);	/* diff[528] */
+	SVECTOR(  105,     0,   422);	/* diff[529] */
+	SVECTOR(  224,     0,   290);	/* diff[530] */
+	SVECTOR(  224,     0,   290);	/* diff[531] */
+	SVECTOR(  224,     0,   290);	/* diff[532] */
+	SVECTOR(  224,     0,   290);	/* diff[533] */
+	SVECTOR(  224,     0,   290);	/* diff[534] */
+	SVECTOR(  224,     0,   290);	/* diff[535] */
+	SVECTOR(  224,     0,   290);	/* diff[536] */
+	SVECTOR(  224,     0,   290);	/* diff[537] */
+	SVECTOR(  224,     0,   290);	/* diff[538] */
+	SVECTOR(  361,     0,   142);	/* diff[539] */
+	SVECTOR(  361,     0,   142);	/* diff[540] */
+	SVECTOR(  361,     0,   142);	/* diff[541] */
+	SVECTOR(  361,     0,   142);	/* diff[542] */
+	SVECTOR(  361,     0,   142);	/* diff[543] */
+	SVECTOR(  361,     0,   142);	/* diff[544] */
+	SVECTOR(  361,     0,   142);	/* diff[545] */
+	SVECTOR(  361,     0,   142);	/* diff[546] */
+	SVECTOR(  361,     0,   142);	/* diff[547] */
+	SVECTOR(  477,     0,    63);	/* diff[548] */
+	SVECTOR(  477,     0,    63);	/* diff[549] */
+	SVECTOR(  477,     0,    63);	/* diff[550] */
+	SVECTOR(  477,     0,    63);	/* diff[551] */
+	SVECTOR(  477,     0,    63);	/* diff[552] */
+	SVECTOR(  477,     0,    63);	/* diff[553] */
+	SVECTOR(  477,     0,    63);	/* diff[554] */
+	SVECTOR(  477,     0,    63);	/* diff[555] */
+	SVECTOR(  477,     0,    63);	/* diff[556] */
+	SVECTOR(  529,     0,    40);	/* diff[557] */
+	SVECTOR(  529,     0,    40);	/* diff[558] */
+	SVECTOR(  529,     0,    40);	/* diff[559] */
+	SVECTOR(  529,     0,    40);	/* diff[560] */
+	SVECTOR(  529,     0,    40);	/* diff[561] */
+	SVECTOR(  529,     0,    40);	/* diff[562] */
+	SVECTOR(  529,     0,    40);	/* diff[563] */
+	SVECTOR(  529,     0,    40);	/* diff[564] */
+	SVECTOR(  529,     0,    40);	/* diff[565] */
+	SVECTOR(  482,     0,    66);	/* diff[566] */
+	SVECTOR(  482,     0,    66);	/* diff[567] */
+	SVECTOR(  482,     0,    66);	/* diff[568] */
+	SVECTOR(  482,     0,    66);	/* diff[569] */
+	SVECTOR(  482,     0,    66);	/* diff[570] */
+	SVECTOR(  482,     0,    66);	/* diff[571] */
+	SVECTOR(  482,     0,    66);	/* diff[572] */
+	SVECTOR(  482,     0,    66);	/* diff[573] */
+	SVECTOR(  482,     0,    66);	/* diff[574] */
+	SVECTOR(  345,     0,   158);	/* diff[575] */
+	SVECTOR(  345,     0,   158);	/* diff[576] */
+	SVECTOR(  345,     0,   158);	/* diff[577] */
+	SVECTOR(  345,     0,   158);	/* diff[578] */
+	SVECTOR(  345,     0,   158);	/* diff[579] */
+	SVECTOR(  345,     0,   158);	/* diff[580] */
+	SVECTOR(  345,     0,   158);	/* diff[581] */
+	SVECTOR(  345,     0,   158);	/* diff[582] */
+	SVECTOR(  345,     0,   158);	/* diff[583] */
+	SVECTOR(  143,     0,   283);	/* diff[584] */
+	SVECTOR(  143,     0,   283);	/* diff[585] */
+	SVECTOR(  143,     0,   283);	/* diff[586] */
+	SVECTOR(  143,     0,   283);	/* diff[587] */
+	SVECTOR(  143,     0,   283);	/* diff[588] */
+	SVECTOR(  143,     0,   283);	/* diff[589] */
+	SVECTOR(  143,     0,   283);	/* diff[590] */
+	SVECTOR(  143,     0,   283);	/* diff[591] */
+	SVECTOR(  143,     0,   283);	/* diff[592] */
+	SVECTOR(  -22,     0,   329);	/* diff[593] */
+	SVECTOR(  -22,     0,   329);	/* diff[594] */
+	SVECTOR(  -22,     0,   329);	/* diff[595] */
+	SVECTOR(  -22,     0,   329);	/* diff[596] */
+	SVECTOR(  -22,     0,   329);	/* diff[597] */
+	SVECTOR(  -22,     0,   329);	/* diff[598] */
+	SVECTOR(  -22,     0,   329);	/* diff[599] */
+	SVECTOR(  -22,     0,   329);	/* diff[600] */
+	SVECTOR(  -22,     0,   329);	/* diff[601] */
+
+RstVertMIMeDiff_0000:	/* 0x000071dc */
+	H(0x0000); H(1);	/* pad, diffs num */
+
+RstVertMIMeDiffData_0000:	/* 0x000071e0 */
+	0x00000000;	/* vstart */
+	0x00000000;	/* ostart */
+
+RstVertMIMeChanged_0000:	/* 0x000071e8 */
+	H(0); H(602);	/* changed, vnum */
+
+VNMIMeOrgsVNSect_0000:	/* 0x000071ec */
+	SVECTOR(    0,     0,     0);	/* orgs VN[0] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[1] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[2] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[3] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[4] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[5] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[6] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[7] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[8] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[9] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[10] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[11] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[12] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[13] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[14] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[15] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[16] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[17] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[18] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[19] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[20] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[21] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[22] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[23] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[24] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[25] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[26] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[27] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[28] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[29] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[30] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[31] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[32] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[33] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[34] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[35] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[36] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[37] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[38] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[39] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[40] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[41] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[42] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[43] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[44] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[45] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[46] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[47] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[48] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[49] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[50] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[51] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[52] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[53] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[54] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[55] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[56] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[57] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[58] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[59] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[60] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[61] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[62] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[63] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[64] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[65] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[66] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[67] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[68] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[69] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[70] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[71] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[72] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[73] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[74] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[75] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[76] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[77] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[78] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[79] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[80] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[81] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[82] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[83] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[84] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[85] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[86] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[87] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[88] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[89] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[90] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[91] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[92] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[93] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[94] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[95] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[96] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[97] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[98] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[99] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[100] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[101] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[102] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[103] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[104] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[105] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[106] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[107] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[108] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[109] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[110] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[111] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[112] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[113] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[114] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[115] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[116] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[117] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[118] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[119] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[120] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[121] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[122] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[123] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[124] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[125] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[126] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[127] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[128] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[129] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[130] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[131] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[132] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[133] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[134] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[135] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[136] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[137] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[138] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[139] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[140] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[141] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[142] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[143] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[144] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[145] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[146] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[147] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[148] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[149] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[150] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[151] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[152] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[153] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[154] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[155] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[156] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[157] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[158] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[159] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[160] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[161] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[162] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[163] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[164] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[165] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[166] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[167] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[168] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[169] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[170] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[171] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[172] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[173] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[174] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[175] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[176] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[177] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[178] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[179] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[180] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[181] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[182] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[183] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[184] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[185] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[186] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[187] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[188] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[189] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[190] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[191] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[192] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[193] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[194] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[195] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[196] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[197] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[198] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[199] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[200] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[201] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[202] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[203] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[204] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[205] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[206] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[207] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[208] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[209] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[210] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[211] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[212] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[213] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[214] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[215] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[216] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[217] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[218] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[219] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[220] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[221] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[222] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[223] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[224] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[225] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[226] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[227] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[228] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[229] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[230] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[231] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[232] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[233] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[234] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[235] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[236] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[237] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[238] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[239] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[240] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[241] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[242] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[243] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[244] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[245] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[246] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[247] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[248] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[249] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[250] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[251] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[252] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[253] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[254] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[255] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[256] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[257] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[258] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[259] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[260] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[261] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[262] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[263] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[264] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[265] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[266] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[267] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[268] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[269] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[270] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[271] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[272] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[273] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[274] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[275] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[276] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[277] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[278] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[279] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[280] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[281] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[282] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[283] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[284] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[285] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[286] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[287] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[288] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[289] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[290] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[291] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[292] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[293] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[294] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[295] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[296] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[297] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[298] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[299] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[300] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[301] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[302] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[303] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[304] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[305] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[306] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[307] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[308] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[309] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[310] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[311] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[312] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[313] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[314] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[315] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[316] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[317] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[318] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[319] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[320] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[321] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[322] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[323] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[324] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[325] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[326] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[327] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[328] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[329] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[330] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[331] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[332] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[333] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[334] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[335] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[336] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[337] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[338] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[339] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[340] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[341] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[342] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[343] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[344] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[345] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[346] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[347] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[348] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[349] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[350] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[351] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[352] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[353] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[354] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[355] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[356] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[357] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[358] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[359] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[360] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[361] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[362] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[363] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[364] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[365] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[366] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[367] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[368] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[369] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[370] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[371] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[372] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[373] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[374] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[375] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[376] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[377] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[378] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[379] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[380] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[381] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[382] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[383] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[384] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[385] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[386] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[387] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[388] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[389] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[390] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[391] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[392] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[393] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[394] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[395] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[396] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[397] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[398] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[399] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[400] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[401] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[402] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[403] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[404] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[405] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[406] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[407] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[408] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[409] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[410] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[411] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[412] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[413] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[414] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[415] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[416] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[417] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[418] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[419] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[420] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[421] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[422] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[423] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[424] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[425] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[426] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[427] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[428] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[429] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[430] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[431] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[432] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[433] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[434] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[435] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[436] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[437] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[438] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[439] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[440] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[441] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[442] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[443] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[444] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[445] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[446] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[447] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[448] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[449] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[450] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[451] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[452] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[453] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[454] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[455] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[456] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[457] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[458] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[459] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[460] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[461] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[462] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[463] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[464] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[465] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[466] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[467] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[468] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[469] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[470] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[471] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[472] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[473] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[474] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[475] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[476] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[477] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[478] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[479] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[480] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[481] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[482] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[483] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[484] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[485] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[486] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[487] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[488] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[489] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[490] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[491] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[492] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[493] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[494] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[495] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[496] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[497] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[498] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[499] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[500] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[501] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[502] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[503] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[504] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[505] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[506] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[507] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[508] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[509] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[510] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[511] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[512] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[513] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[514] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[515] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[516] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[517] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[518] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[519] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[520] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[521] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[522] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[523] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[524] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[525] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[526] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[527] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[528] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[529] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[530] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[531] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[532] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[533] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[534] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[535] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[536] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[537] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[538] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[539] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[540] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[541] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[542] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[543] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[544] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[545] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[546] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[547] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[548] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[549] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[550] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[551] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[552] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[553] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[554] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[555] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[556] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[557] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[558] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[559] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[560] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[561] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[562] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[563] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[564] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[565] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[566] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[567] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[568] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[569] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[570] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[571] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[572] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[573] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[574] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[575] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[576] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[577] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[578] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[579] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[580] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[581] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[582] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[583] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[584] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[585] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[586] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[587] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[588] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[589] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[590] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[591] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[592] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[593] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[594] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[595] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[596] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[597] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[598] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[599] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[600] */
+	SVECTOR(    0,     0,     0);	/* orgs VN[601] */

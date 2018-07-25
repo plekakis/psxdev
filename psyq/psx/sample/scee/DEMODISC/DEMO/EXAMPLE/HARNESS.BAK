@@ -1,0 +1,55 @@
+#include <sys/types.h>
+#include <kernel.h>
+#include <libsn.h>
+#include <libcd.h>
+#include <libetc.h>
+#include <libgte.h>
+#include <libgpu.h>
+
+#include "ddp.h"
+
+#ifdef LINKED_NONE2
+int main(int argc, char **argv)
+#else
+int main()
+#endif
+{
+   int mode, timeout, mytrack;
+
+   ResetCallback();
+   CdInit();
+
+	PadInit(0);		   
+	ResetGraph(0);		
+	SetGraphDebug(0);	
+	SetDispMask(1);
+
+   printf("\n\nHarness: Go.\n");
+
+   #ifdef LINKED_NONE2
+     printf("Linked None2.\n");
+     mode = ((int *)argv)[0];
+     timeout = ((int *)argv)[1];
+     mytrack = ((int *)argv)[2];
+
+     printf("Hello, I am a playable game section.\n");
+     printf("I am running in %s mode, with a timeout of %d seconds.\n",
+            (mode == INTERACTIVE)?"interactive":"attract",timeout);
+
+     if ( mytrack > 0 )
+       printf("For your entertainment, I will be playing CD track %d.\n",mytrack);
+     else
+       printf("I don't play any CD tracks, I bravely use the SPU or XA.\n");
+
+   #else
+     printf("Harness: Not linked None2.\n");
+   #endif
+
+   while (!PadRead(0));
+
+	StopCallback();
+	PadStop();
+	ResetGraph(3);
+	return(0);
+}
+

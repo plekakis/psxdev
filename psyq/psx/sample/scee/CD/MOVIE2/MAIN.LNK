@@ -1,0 +1,37 @@
+	org     $80018000
+
+text    group                           ; main text group
+bss     group   bss                     ; main data group
+
+
+	section .rdata,text     	; main sections
+	section .text,text
+	section .data,text
+	section .sdata,text
+	section .sbss,bss
+	section .bss,bss
+
+
+        inclib  "libapi.lib"
+        inclib  "libgpu.lib"
+        inclib  "libgte.lib"
+        inclib  "libetc.lib"
+        inclib  "libcd.lib"
+        inclib  "libpress.lib"
+        inclib  "libc.lib"
+        inclib  "libspu.lib"
+        inclib  "libsnd.lib"
+        inclib  "libds.lib"
+
+
+; Use libsn.lib for development and None2.lib for child.
+        inclib  "libsn.lib"
+;	inclib  "c:\demo2\none2.lib"
+
+	include obj\main.obj
+	include obj\movie.obj
+	include obj\control.obj
+       
+	
+	regs    pc=__SN_ENTRY_POINT     ; entry point
+

@@ -1,0 +1,25 @@
+		include "test.obj"
+		include "vsdie.obj"
+		include "vsex.obj"
+
+		inclib "C:\PS\LIB\libapi.lib"
+		inclib "C:\PS\LIB\libcd.lib"
+		inclib "C:\PS\LIB\libetc.lib"
+		inclib "C:\PS\LIB\libgpu.lib"
+		inclib "C:\PS\LIB\libgs.lib"
+		inclib "C:\PS\LIB\libgte.lib"
+		inclib "C:\PS\LIB\libpress.lib"
+		inclib "C:\PS\LIB\libspu.lib"
+		inclib "C:\PS\LIB\libc.lib"
+		inclib "C:\PS\LIB\libcard.lib"
+		inclib "C:\PS\LIB\libcomb.lib"
+		inclib "C:\PS\LIB\libsnd.lib"
+		inclib "C:\PS\LIB\libsn.lib"
+		include "C:\PS\LIB\2mbyte.obj"
+
+		org     $80010100
+		REGS    pc=__SN_ENTRY_POINT
+
+comdata group
+code    group
+bssdata group   bss

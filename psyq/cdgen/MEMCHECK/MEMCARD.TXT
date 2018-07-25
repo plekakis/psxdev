@@ -1,0 +1,21 @@
+FILE:
+memcard.zip
+
+DATE:
+July 29, 1997
+
+CONTENTS:
+This directory contains the  Memory Card Manager 1.5 program, 
+"psx.exe",  which should be used to test your memory cards 
+according to the conditions of the Technical Requirements Checklist.
+
+
+INSTRUCTIONS:
+Create a gold disk, with "psx.exe" at the root.  
+For more information about burning a debug station CD-ROM, 
+refer to the Technical Reference CD, in the document "\faq\cd4", 
+section 1.5.3.
+
+
+--------------------------------------------------------------------------------------
+Copyright (C) 1997 - 1998. Sony Computer Entertainment America Inc.

@@ -1,0 +1,643 @@
+/*
+ * LightWave 3D PSX Animation Saver  (c) 1997 D-STORM, Inc.
+ *
+ *	C:\home\yos\LightWave\scenes\dice\dice.LAB	date :Thu Nov 20 16:51:55 1997
+ *
+ *	Scene File   : C:\home\yos\LightWave\scenes\dice\dice.lws
+ *	Coordinates  : 3
+ *	Objects      : 3
+ *	Bones        : 0
+ *	Images       : 6
+ *	Surfaces     : 12
+ *
+ *	Total points : 49  polygons : 12
+
+	SCEI modified around the first word of tiled texture packets,
+	CBA and TSB to make this read more easy.
+
+ */
+
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect_0000 / 4;
+	5;		/* num of blocks */
+	ImagePrimSet_0000 / 4;
+	0x00000000;	/* no polygon Null [0] */
+	PolyPrimSet_0000 / 4;	/* [1] */
+	PolyPrimSet_0001 / 4;	/* [2] */
+	0x00000000;
+
+CoordSect_0000:	/* 0x00000024 */
+	3;	/* num of coords */
+
+Coord0_obj_Null:	/* 0x00000028  (Null) */
+	0x00000000;	/* flg */
+	COORDM(  2048,  2048,  2048,
+	            0,     0,     0);
+	0;	/* super */
+
+Coord1_obj_dice_notile:	/* 0x00000078  (dice-notile.lwo) */
+	0x00000000;	/* flg */
+	COORDM(  2048,  2048,  2048,
+	         -139,     0,     0);
+	Coord0_obj_Null / 4;
+
+Coord2_obj_dice_tiled:	/* 0x000000c8  (dice-tiled.lwo) */
+	0x00000000;	/* flg */
+	COORDM(  2048,  2048,  2048,
+	          139,     0,     0);
+	Coord0_obj_Null / 4;
+
+PrimHdrSect_0000:	/* 0x00000118 */
+	2;	/* num prim hdrs */
+
+PolyPrimHdr_0000:	/* 0x0000011c */
+	4;	/* hdr size */
+	M(Poly_0000 / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+ImagePrimHdr_0000:	/* 0x00000130 */
+	2;	/* hdr size */
+	M(ImageData_0000 / 4);
+	M(ClutData_0000 / 4);
+
+PolyPrimSet_0000:	/* 0x0000013c  (dice-notile.lwo) */
+	TERMINATE;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+PolyPrim_0000:	/* 0x00000148 */
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(INI)
+		|PRIM_TYPE(QUAD|TME);	/* type[0] */
+	H(2); M(H(6));	/* size, data */
+	(Poly_0000 - Poly_0000) / 4;
+
+PolyPrimSet_0001:	/* 0x00000154  (dice-tiled.lwo) */
+	TERMINATE;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+PolyPrim_0001:	/* 0x00000160 */
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)
+		|PRIM_TYPE(QUAD|TILE|TME);	/* type[1] */
+	H(2); M(H(6));	/* size, data */
+	(Poly_0001 - Poly_0000) / 4;
+
+Vert_0000:	/* 0x0000016c */
+	SVECTOR(  -100,   100,  -100);	/* vert[0] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[1] */
+	SVECTOR(   100,   100,  -100);	/* vert[2] */
+	SVECTOR(   100,  -100,  -100);	/* vert[3] */
+	SVECTOR(  -100,  -100,   100);	/* vert[4] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[5] */
+	SVECTOR(   100,  -100,   100);	/* vert[6] */
+	SVECTOR(   100,  -100,  -100);	/* vert[7] */
+	SVECTOR(  -100,   100,  -100);	/* vert[8] */
+	SVECTOR(  -100,  -100,   100);	/* vert[9] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[10] */
+	SVECTOR(  -100,   100,   100);	/* vert[11] */
+	SVECTOR(   100,   100,  -100);	/* vert[12] */
+	SVECTOR(   100,  -100,   100);	/* vert[13] */
+	SVECTOR(   100,  -100,  -100);	/* vert[14] */
+	SVECTOR(   100,   100,   100);	/* vert[15] */
+	SVECTOR(  -100,   100,  -100);	/* vert[16] */
+	SVECTOR(  -100,   100,   100);	/* vert[17] */
+	SVECTOR(   100,   100,  -100);	/* vert[18] */
+	SVECTOR(   100,   100,   100);	/* vert[19] */
+	SVECTOR(  -100,  -100,   100);	/* vert[20] */
+	SVECTOR(  -100,   100,   100);	/* vert[21] */
+	SVECTOR(   100,  -100,   100);	/* vert[22] */
+	SVECTOR(   100,   100,   100);	/* vert[23] */
+	SVECTOR(  -100,   100,  -100);	/* vert[24] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[25] */
+	SVECTOR(   100,   100,  -100);	/* vert[26] */
+	SVECTOR(   100,  -100,  -100);	/* vert[27] */
+	SVECTOR(  -100,  -100,   100);	/* vert[28] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[29] */
+	SVECTOR(   100,  -100,   100);	/* vert[30] */
+	SVECTOR(   100,  -100,  -100);	/* vert[31] */
+	SVECTOR(  -100,   100,  -100);	/* vert[32] */
+	SVECTOR(  -100,  -100,   100);	/* vert[33] */
+	SVECTOR(  -100,  -100,  -100);	/* vert[34] */
+	SVECTOR(  -100,   100,   100);	/* vert[35] */
+	SVECTOR(   100,   100,  -100);	/* vert[36] */
+	SVECTOR(   100,  -100,   100);	/* vert[37] */
+	SVECTOR(   100,  -100,  -100);	/* vert[38] */
+	SVECTOR(   100,   100,   100);	/* vert[39] */
+	SVECTOR(  -100,   100,  -100);	/* vert[40] */
+	SVECTOR(  -100,   100,   100);	/* vert[41] */
+	SVECTOR(   100,   100,  -100);	/* vert[42] */
+	SVECTOR(   100,   100,   100);	/* vert[43] */
+	SVECTOR(  -100,  -100,   100);	/* vert[44] */
+	SVECTOR(  -100,   100,   100);	/* vert[45] */
+	SVECTOR(   100,  -100,   100);	/* vert[46] */
+	SVECTOR(   100,   100,   100);	/* vert[47] */
+
+Norm_0000:	/* 0x000002ec */
+	SVECTOR(     0,     0,  4096);	/* normal[0] */
+	SVECTOR(     0,  4096,     0);	/* normal[1] */
+	SVECTOR(  4096,     0,     0);	/* normal[2] */
+	SVECTOR( -4096,     0,     0);	/* normal[3] */
+	SVECTOR(     0, -4096,     0);	/* normal[4] */
+	SVECTOR(     0,     0, -4096);	/* normal[5] */
+	SVECTOR(     0,     0,  4096);	/* normal[6] */
+	SVECTOR(     0,  4096,     0);	/* normal[7] */
+	SVECTOR(  4096,     0,     0);	/* normal[8] */
+	SVECTOR( -4096,     0,     0);	/* normal[9] */
+	SVECTOR(     0, -4096,     0);	/* normal[10] */
+	SVECTOR(     0,     0, -4096);	/* normal[11] */
+
+
+Poly_0000:	/* 0x0000034c  index[0] */
+	B(160); B(0); CBA(5*16, 480);	/* U0, V0, CBA */
+	B(160); B(31); TSB(0, 0, 640+5*32/4, 0);	/* U1, V1, TSB */
+	B(191); B(0); H(0x0000);	/* U2, V2, -   */
+	B(191); B(31); H(0);		/* U3, V3, N0  */
+	H(20); H(21);			/* V0, V1 */
+	H(22); H(23);			/* V2, V3 */
+
+	B(128); B(0); CBA(4*16, 480);	/* U0, V0, CBA */
+	B(128); B(31); TSB(0, 0, 640+4*32/4, 0);	/* U1, V1, TSB */
+	B(159); B(0); H(0x0000);	/* U2, V2, -   */
+	B(159); B(31); H(1);		/* U3, V3, N0  */
+	H(17); H(16);			/* V0, V1 */
+	H(19); H(18);			/* V2, V3 */
+
+	B(96); B(0); CBA(3*16, 480);	/* U0, V0, CBA */
+	B(127); B(0); TSB(0, 0, 640+3*32/4, 0);	/* U1, V1, TSB */
+	B(96); B(31); H(0x0000);	/* U2, V2, -   */
+	B(127); B(31); H(2);		/* U3, V3, N0  */
+	H(14); H(13);			/* V0, V1 */
+	H(12); H(15);			/* V2, V3 */
+
+	B(95); B(31); CBA(2*16, 480);	/* U0, V0, CBA */
+	B(95); B(0); TSB(0, 0, 640+2*32/4, 0);	/* U1, V1, TSB */
+	B(64); B(31); H(0x0000);	/* U2, V2, -   */
+	B(64); B(0); H(3);		/* U3, V3, N0  */
+	H(11); H(9);			/* V0, V1 */
+	H(8); H(10);			/* V2, V3 */
+
+	B(32); B(31); CBA(1*16, 480);	/* U0, V0, CBA */
+	B(32); B(0); TSB(0, 0, 640+1*32/4, 0);	/* U1, V1, TSB */
+	B(63); B(31); H(0x0000);	/* U2, V2, -   */
+	B(63); B(0); H(4);		/* U3, V3, N0  */
+	H(5); H(4);			/* V0, V1 */
+	H(7); H(6);			/* V2, V3 */
+
+	B(0); B(31); CBA(0*16, 480);	/* U0, V0, CBA */
+	B(0); B(0); TSB(0, 0, 640+0*32/4, 0);	/* U1, V1, TSB */
+	B(31); B(31); H(0x0000);	/* U2, V2, -   */
+	B(31); B(0); H(5);		/* U3, V3, N0  */
+	H(0); H(1);			/* V0, V1 */
+	H(2); H(3);			/* V2, V3 */
+
+
+Poly_0001:	/* 0x000003dc  index[36] */
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x14)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(5*32, 0, 32, 32);
+	B(16); B(16); CBA(5*16, 480);	/* U0, V0, CBA */
+	B(16); B(207); TSB(0, 0, 640+5*32/4, 0);	/* U1, V1, TSB */
+	B(207); B(16); H(0x0000);	/* U2, V2, -   */
+	B(207); B(207); H(6);		/* U3, V3, N0  */
+	H(44); H(45);			/* V0, V1 */
+	H(46); H(47);			/* V2, V3 */
+
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x10)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(4*32, 0, 32, 32);
+	B(0); B(0); CBA(4*16, 480);	/* U0, V0, CBA */
+	B(0); B(159); TSB(0, 0, 640+4*32/4, 0);	/* U1, V1, TSB */
+	B(159); B(0); H(0x0000);	/* U2, V2, -   */
+	B(159); B(159); H(7);		/* U3, V3, N0  */
+	H(41); H(40);			/* V0, V1 */
+	H(43); H(42);			/* V2, V3 */
+
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x0c)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(3*32, 0, 32, 32);
+	B(16); B(16); CBA(3*16, 480);	/* U0, V0, CBA */
+	B(144); B(16); TSB(0, 0, 640+3*32/4, 0);	/* U1, V1, TSB */
+	B(16); B(144); H(0x0000);	/* U2, V2, -   */
+	B(144); B(144); H(8);		/* U3, V3, N0  */
+	H(38); H(37);			/* V0, V1 */
+	H(36); H(39);			/* V2, V3 */
+
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x08)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(2*32, 0, 32, 32);
+	B(95); B(128); CBA(2*16, 480);	/* U0, V0, CBA */
+	B(95); B(31); TSB(0, 0, 640+2*32/4, 0);	/* U1, V1, TSB */
+	B(0); B(128); H(0x0000);	/* U2, V2, -   */
+	B(0); B(31); H(9);		/* U3, V3, N0  */
+	H(35); H(33);			/* V0, V1 */
+	H(32); H(34);			/* V2, V3 */
+
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x04)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(1*32, 0, 32, 32);
+	B(16); B(80); CBA(1*16, 480);	/* U0, V0, CBA */
+	B(16); B(16); TSB(0, 0, 640+1*32/4, 0);	/* U1, V1, TSB */
+	B(80); B(80); H(0x0000);	/* U2, V2, -   */
+	B(80); B(16); H(10);		/* U3, V3, N0  */
+	H(29); H(28);			/* V0, V1 */
+	H(31); H(30);			/* V2, V3 */
+
+	/*TUM(0x1c)|TVM(0x1c)|TUA(0x00)|TVA(0x00)|0xe2000000;*/
+	TEX_WIN(0*32, 0, 32, 32);
+	B(0); B(31); CBA(0*16, 480);	/* U0, V0, CBA */
+	B(0); B(0); TSB(0, 0, 640+0*32/4, 0);	/* U1, V1, TSB */
+	B(31); B(31); H(0x0000);	/* U2, V2, -   */
+	B(31); B(0); H(11);		/* U3, V3, N0  */
+	H(24); H(25);			/* V0, V1 */
+	H(26); H(27);			/* V2, V3 */
+
+
+ImagePrimSet_0000:	/* 0x00000484 */
+	TERMINATE;	/* next prim */
+	ImagePrimHdr_0000 / 4;
+	M(6);	/* num of types */
+
+ClutImagePrim_0000:	/* 0x00000490 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[0] */
+	H(7); M(H(1));	/* size, data */
+	H(680); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0000 - ImageData_0000) / 4;
+	H(80); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0000 - ClutData_0000) / 4;
+
+ClutImagePrim_0001:	/* 0x000004b0 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[1] */
+	H(7); M(H(1));	/* size, data */
+	H(672); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0001 - ImageData_0000) / 4;
+	H(64); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0001 - ClutData_0000) / 4;
+
+ClutImagePrim_0002:	/* 0x000004d0 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[2] */
+	H(7); M(H(1));	/* size, data */
+	H(664); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0002 - ImageData_0000) / 4;
+	H(48); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0002 - ClutData_0000) / 4;
+
+ClutImagePrim_0003:	/* 0x000004f0 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[3] */
+	H(7); M(H(1));	/* size, data */
+	H(656); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0003 - ImageData_0000) / 4;
+	H(32); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0003 - ClutData_0000) / 4;
+
+ClutImagePrim_0004:	/* 0x00000510 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[4] */
+	H(7); M(H(1));	/* size, data */
+	H(648); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0004 - ImageData_0000) / 4;
+	H(16); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0004 - ClutData_0000) / 4;
+
+ClutImagePrim_0005:	/* 0x00000530 */
+	DEV_ID(SCE)|CTG(CTG_IMAGE)|DRV(0)
+		|PRIM_TYPE(WITHCLUT);	/* type[5] */
+	H(7); M(H(1));	/* size, data */
+	H(640); H(0);	/* dx, dy */
+	H(8); H(32);	/* w, h */
+	(ImageData_0005 - ImageData_0000) / 4;
+	H(0); H(480);	/* dx, dy */
+	H(16); H(1);	/* w, h */
+	(ClutData_0005 - ClutData_0000) / 4;
+
+ImageData_0000:	/* 0x00000550 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x00000fff; 0x8ffff000; 
+	0x000ffff7; 0xfffff000; 0x0000ffff; 0x8fffff00; 
+	0x00fffff7; 0xffffff00; 0x000fffff; 0x8ffffff0; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ImageData_0001:	/* 0x00000750 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfffffff0; 0x0fffffff; 0x8ffff000; 
+	0x0000fff7; 0xffffff00; 0x00ffffff; 0x8fff0000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x0000fff7; 0xffffff00; 0x00ffffff; 0x8fff0000; 
+	0x000ffff7; 0xfffffff0; 0x0fffffff; 0x8ffff000; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0x00ffffff; 0xffffff00; 0x8fffffff; 
+	0xfffffff7; 0x000fffff; 0xfffff000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x000fffff; 0xfffff000; 0x8fffffff; 
+	0xfffffff7; 0x00ffffff; 0xffffff00; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfffffff0; 0x0fffffff; 0x8ffff000; 
+	0x0000fff7; 0xffffff00; 0x00ffffff; 0x8fff0000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x00000ff7; 0xfffff000; 0x000fffff; 0x8ff00000; 
+	0x0000fff7; 0xffffff00; 0x00ffffff; 0x8fff0000; 
+	0x000ffff7; 0xfffffff0; 0x0fffffff; 0x8ffff000; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ImageData_0002:	/* 0x00000950 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffffff00; 0x00ffffff; 0x8fffff00; 
+	0x000ffff7; 0xfffff000; 0x000fffff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x000ffff7; 0xfffff000; 0x000fffff; 0x8ffff000; 
+	0x00fffff7; 0xffffff00; 0x00ffffff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffffff00; 0x00ffffff; 0x8fffff00; 
+	0x000ffff7; 0xfffff000; 0x000fffff; 0x8ffff000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x0000fff7; 0xffff0000; 0x0000ffff; 0x8fff0000; 
+	0x000ffff7; 0xfffff000; 0x000fffff; 0x8ffff000; 
+	0x00fffff7; 0xffffff00; 0x00ffffff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ImageData_0003:	/* 0x00000b50 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x0000fff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x00000ff7; 0xfffffff0; 0xffffffff; 0x8fffffff; 
+	0x000000f7; 0xffffff00; 0xffffffff; 0x8fffffff; 
+	0x000000f7; 0xffffff00; 0xffffffff; 0x8fffffff; 
+	0x000000f7; 0xffffff00; 0xffffffff; 0x8fffffff; 
+	0x000000f7; 0xffffff00; 0xffffffff; 0x8fffffff; 
+	0x00000ff7; 0xfffffff0; 0xffffffff; 0x8fffffff; 
+	0x0000fff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0x00ffffff; 0xffffff00; 0x8fffffff; 
+	0xfffffff7; 0x000fffff; 0xfffff000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x0000ffff; 0xffff0000; 0x8fffffff; 
+	0xfffffff7; 0x000fffff; 0xfffff000; 0x8fffffff; 
+	0xfffffff7; 0x00ffffff; 0xffffff00; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0x0fffffff; 0x8ffff000; 
+	0xfffffff7; 0xffffffff; 0x00ffffff; 0x8fff0000; 
+	0xfffffff7; 0xffffffff; 0x000fffff; 0x8ff00000; 
+	0xfffffff7; 0xffffffff; 0x000fffff; 0x8ff00000; 
+	0xfffffff7; 0xffffffff; 0x000fffff; 0x8ff00000; 
+	0xfffffff7; 0xffffffff; 0x000fffff; 0x8ff00000; 
+	0xfffffff7; 0xffffffff; 0x00ffffff; 0x8fff0000; 
+	0xfffffff7; 0xffffffff; 0x0fffffff; 0x8ffff000; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ImageData_0004:	/* 0x00000d50 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x0ffffff7; 0xfffff000; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffff0000; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfff00000; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfff00000; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfff00000; 0xffffffff; 0x8fffffff; 
+	0x000ffff7; 0xfff00000; 0xffffffff; 0x8fffffff; 
+	0x00fffff7; 0xffff0000; 0xffffffff; 0x8fffffff; 
+	0x0ffffff7; 0xfffff000; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0x0000ffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0x00000fff; 0x8ffffff0; 
+	0xfffffff7; 0xffffffff; 0x000000ff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0x000000ff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0x000000ff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0x000000ff; 0x8fffff00; 
+	0xfffffff7; 0xffffffff; 0x00000fff; 0x8ffffff0; 
+	0xfffffff7; 0xffffffff; 0x0000ffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ImageData_0005:	/* 0x00000f50 */
+	0x77777777; 0x77777777; 0x77777777; 0x77777777; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0x99ffffff; 0xffffff99; 0x8fffffff; 
+	0xfffffff7; 0x999fffff; 0xfffff999; 0x8fffffff; 
+	0xfffffff7; 0x9999ffff; 0xffff9999; 0x8fffffff; 
+	0xfffffff7; 0x9999ffff; 0xffff9999; 0x8fffffff; 
+	0xfffffff7; 0x9999ffff; 0xffff9999; 0x8fffffff; 
+	0xfffffff7; 0x9999ffff; 0xffff9999; 0x8fffffff; 
+	0xfffffff7; 0x999fffff; 0xfffff999; 0x8fffffff; 
+	0xfffffff7; 0x99ffffff; 0xffffff99; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0xfffffff7; 0xffffffff; 0xffffffff; 0x8fffffff; 
+	0x88888888; 0x88888888; 0x88888888; 0x88888888; 
+
+ClutData_0000:	/* 0x00001150 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+
+ClutData_0001:	/* 0x00001190 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+
+ClutData_0002:	/* 0x000011d0 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+
+ClutData_0003:	/* 0x00001210 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+
+ClutData_0004:	/* 0x00001250 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+
+ClutData_0005:	/* 0x00001290 */
+	H(0x8000);
+	H(0x0010);
+	H(0x0200);
+	H(0x0210);
+	H(0x4000);
+	H(0x4010);
+	H(0x4200);
+	H(0x6318);
+	H(0x4210);
+	H(0x001f);
+	H(0x03e0);
+	H(0x03ff);
+	H(0x7c00);
+	H(0x7c1f);
+	H(0x7fe0);
+	H(0x7fff);
+
+

@@ -1,0 +1,9 @@
+
+	-Xo$80010000 -Xm
+
+	main.obj
+	subdiv.obj
+
+	-omain.cpe,main.sym,main.map
+
+

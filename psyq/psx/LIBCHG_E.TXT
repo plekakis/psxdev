@@ -1,0 +1,278 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$    
+                                                            Oct. 1998
+                                       PlayStation(R) Programmer Tool
+                                          Runtime Library Release 4.4
+                       Library Changes, New Additions, and Known Bugs
+                                                     from Release 4.3
+----------------------------------------------------------------------
+                    Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                  All Rights Reserved.
+----------------------------------------------------------------------
+Known Bugs and Cautions
+----------------------------------------------------------------------
+<Disclosure of HMD Primitive Driver Source Codes> 
+- The source codes for libhmd were disclosed in psx\src\lib\hmd.
+Please refer to psx\src\lib\hmd\readme_e.txt for details.
+
+<Limitations on libhmd>
+- The environment map is provided as a Beta version, because the 
+format may change in future releases without keeping compatibility.  
+The Beta-version primitives are not officially supported by SCE at 
+this point.  If you want to use them for creating titles, please do 
+so on your own responsibility.
+
+<Addition of libmcx>
+- Libmcx, the library to control the PDA, was added.
+
+<Addition of Memory Card GUI Module>
+- McGUI, the module which supports the Memory Card access in the user 
+interface level, was added.
+
+<Addition of SN Debugger for Windows ver. 2.4>
+- SN Debugger for Windows ver. 2.4 was added.  Due to this addition, 
+the structure of the pssn directory was changed. Please refer to 
+pssn\readme.1st(Japanese) for details.
+
+<Deletion of libsn.a>
+- Libsn.a was deleted, because it was judged unnecessary.
+
+<Known Bugs>
+- In the Extended Sound Library (libsnd), the phonation of noise 
+currently does not work properly. Use the Basic Sound Library 
+(libspu) to use noises. This problem will be fixed in the next 
+release.
+
+- When channel starts/stops are repeatedly executed during SPU streaming
+execution, the SPU streaming might go into a loop. This problem will be 
+fixed in the next release. 
+
+All product and company names mentioned herein are the registered 
+trademarks or trademarks of their respective owners.
+
+
+SDevTC Tools
+----------------------------------------------------------------------
+- The tools in the pssn directory were moved to pssn\bin.
+
+- The contents of the compiler directory were moved to pssn\bin.
+
+<Files Changed>
+pssn\readme.1st			About pssn directory structure changes
+pssn\readme_j.txt       
+pssn\bin\aspsx.exe		Updated
+pssn\bin\psylink.exe		Updated
+pssn\bin\sn.ini    		Modification due to directory changes, 
+				addition of libmcx
+pssn\bin\dos\aspsx.exe		Updated
+pssn\bin\prefsmp1\readme.txt	Modification due to deletion of the sn
+				directory
+
+pssn\bin\COPYING		GNU GENERAL PUBLIC LICENSE 
+				Moved from \compiler      
+pssn\bin\cpppsx.exe		Updated GNU 2.8.1  Moved from \compiler
+pssn\bin\cc1psx.exe		Updated GNU 2.8.1  Moved from \compiler
+pssn\bin\cc1p1psx.exe		Updated GNU 2.8.1  Moved from \compiler
+pssn\bin\dos\cpppsx.exe		Updated GNU 2.8.1  Moved from \compiler\dos
+pssn\bin\dos\cc1psx.exe		Updated GNU 2.8.1  Moved from \compiler\dos
+pssn\bin\dos\cc1p1psx.exe	Updated GNU 2.8.1  Moved from \compiler\dos
+pssn\bin\dos\SNGNUBUG.TXT  	Known bugs	   Moved from \compiler\dos
+pssn\bin\dos\SNGNUVER.TXT	Updated information 
+				Moved from \compiler\dos
+
+<Files Added>
+pssn\windbg\Psx1604.EXE		SN Debugger for Windows Ver. 2.4 package 
+pssn\windbg\dset95_j.txt	Setup manual for Windows95	
+pssn\windbg\dsetNT_j.txt	Setup manual for WindowsNT
+pssn\windbg\dbgman_j.txt	Easy instruction manual (Japanese)
+pssn\gnusrc\gcc281s.zip		GCC 2.8.1 compressed source file
+pssn\bin\sn_SCE.ini		Same contents as sn.ini (for storage)
+
+<Files Deleted>
+pssn\bin\prefsmp1\sn		Deleted because the contents were based 
+				on old libraries
+
+
+DMPSX
+----------------------------------------------------------------------
+- Even though the macro conversion failed, it was judged as a normal
+end. This problem has been fixed by processing the failure as an abnormal
+end.
+
+
+CD-ROM Library (libcd)
+----------------------------------------------------------------------
+<Library Specification Changes>
+- Because the "pause" command issued at the data read completion with 
+CdRead() was a block type, it took time to perform the process when the
+data read was completed. Thus it has been changed to a non-block type.
+
+- The processing speed of CdControl()-related functions, called 
+immediately after CdReadSync(), was slightly improved.
+
+
+Extended CD-ROM Library (libds)
+----------------------------------------------------------------------
+<Library Bug Fixes>
+- In the retry process of DsRead(), although the operation of DsRead() 
+was at a halt, the simple callback system started working. This problem 
+has been fixed.  
+
+<Library Specification Changes>
+- To eliminate the waste in processing, the specification to issue the 
+"pause" command has been changed to issue the "nop" command when the 
+operation is already in the "pause" state. 
+
+
+ETC Library (libetc)
+----------------------------------------------------------------------
+<Header File Modification>
+- When macros were dicompressed by libetc.h macro, getScratchAddr(offset), 
+because the argument "offset" was not enclosed with parentheses, 
+decompression was not correctly performed depending on the argument.  
+This problem has been fixed. 
+
+
+HMD Library (libhmd)
+----------------------------------------------------------------------
+<Functions Added>
+- The primitive drivers for tiled textures were added..
+
+  Please refer to "Appendix A: Primitive type list" in format\hmd.doc 
+  and overview\hmdstat.xls for details on the added drivers. Since this
+  file includes some macros, a warning message might be displayed when
+  opening it with the EXCEL. For reference, the use of the EXCEL viewer
+  97 included on the Technical Reference CD is recommended to avoid macro
+  virus infection by unexpected causes although this file on the CD-ROM
+  does NOT included any dangerous macros. To open the file with the
+  EXCEL, please take an appropriate measure such as virus check to make
+  sure that it is secure in advance.
+
+ 
+Basic Graphics Library (libgpu)
+----------------------------------------------------------------------
+<Functions Added>
+- The function to obtain the current drawing environment, GetDrawEnv2(),
+was added.
+
+<Library Bug Fixes>
+- With ContinueDraw(), the last packet of the OT was not occasionally 
+executed. This problem has been fixed.
+
+- When ContinueDraw() was executed again before the process for the 
+OT inserted by ContinueDraw() was completed, the operation was not 
+perfomed correctly. This problem has been fixed.
+Due to this, the primitive which returns the TPAGE to the previous 
+state has been removed. To change the TPAGE, it is necessary to add 
+DR_TPAGE primitive or the like to the last packet of the OT inserted by
+ContinueDraw().  
+
+<Header File Modification>
+- The functions GetTPage() and GetClut(), which are used in setTPage 
+and setClut in libgpu.h, have been changed to their macro version, 
+getTPage and getClut.
+
+- When macros were dicompressed by libgpu.h macro getClut(x,y), because 
+the arguments "x, y" were not enclosed with parentheses, decompression 
+was not correctly performed depending on the arguments. This problem 
+has been fixed. 
+
+
+Math Library (libmath)
+----------------------------------------------------------------------
+<Library Bug Fixes>
+- When converting negative numbers (a string of numerical values with a 
+minus sign) with atof() and strtod(), the result was 0. This problem has 
+been fixed.
+
+It said that the following problems were fixed in Release 4.3, but 
+they were not actually.  They have been fixed in this release.
+
+- When converting (int)0x80000000 to a floating or double type, an 
+infinite loop was entered. This problem has been fixed.
+
+- When converting (floating or double)-0.0 to an int, 0x80000000 was 
+returned. This problem has been fixed.
+
+
+Extended Memory Card Library (libmcrd)
+----------------------------------------------------------------------
+<Library Bug Fixes>
+- When the Memory Card was accessed, insertion or removal of the 
+controller or another Memory Card to the other slot resulted in access 
+failure occasionally.  This problem has been fixed by adding a retry 
+logic. 
+ 
+- With MemCardOpen(), even if the Memory Card was removed just before 
+the open operation, the file was opened properly. This problem has been 
+fixed.
+
+- When the Memory Card was removed while being initialized by 
+MemCardFormat(), it was judged as a defective card (halfway-initialized.) 
+This problem has been fixed.  
+
+<Function Specification Change>
+- MemCardInit() has been separated as an object file.
+
+Controller Library (libpad)
+----------------------------------------------------------------------
+<Library Bug Fixes>
+- When the Multi Tap was used, if the Multi Tap itself or the controller 
+inserted into the other port was repeatedly inserted or removed, 
+an incorrect value was set to the receive buffer for the Multi Tap 
+occasionally. This problem has been fixed.    
+
+- When the Analog Controller (SCPH-1180) was connected, even though the 
+terminal type was switched by pressing the analog mode switch, the 
+returned value was set to 2 and kept unchanged. This problem has been 
+fixed.
+
+- When initialization was performed by PadInitMtap(), if the mouse was 
+inserted into the controller port 2, it was not recognized. This problem 
+has been fixed.
+
+- When turning on/off the actuator of the controller at the frequency of 
+every frame, the vibration was stopped completely. This problem has been 
+fixed.
+
+
+Extended Sound Library (libsnd)
+----------------------------------------------------------------------
+<Library Bug Fixes>
+- When the SEQ/SEP data was played, if automatic changes of panning to 
+sound effects with SsUtAutoPan() were executed, proper changes were not 
+made. This problem has been fixed.
+
+- When the SEQ data was played with the sound whose shift value of VAB 
+was set to 128 or higher, the sound was not phonated at a correct pitch. 
+This problem has been fixed.
+
+- With the VB data transfer by SsVabTransBodyPartly(), if SsVabClose() was 
+executed before transferring all the VB, SsVabClose() failed in operation 
+and then SsVabTransBodyPartly() was not performed correctly.  
+This problem has been fixed. 
+
+- The SEQ/SEP data was opened only up to 31 by SsSeqOpen(), SsSeqOpenJ(), 
+SsSepOpen() and SsSepOpenJ(). This problem has been fixed.
+
+- When executing SsInit(), SpuReadDecodedData() did not return a correct 
+return value. This problem has been fixed.
+
+- Data transfer to the sound buffer is performed in units of 64 bytes, 
+so if the VB data size was not a multiple of 64, the memory areas which 
+followed the area allocated by the data transfer were damaged.  
+This problem has been fixed so that the allocated memory size should be 
+multiple of 64 bytes. 
+
+
+Basic Sound Library (libspu)
+----------------------------------------------------------------------
+<Function Added>
+- SpuLSetVoiceAttr(), a function which combines and sets the voice 
+attributs of different types, was added. 
+
+<Library Bug Fixes>
+- With SpuMallocWithStartAddr(), although there was enough free space in 
+the sound memory, the memory could not be allocated from the specified 
+top address. This problem has been fixed. 
+
+

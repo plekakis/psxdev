@@ -1,0 +1,21 @@
+
+	org     $80010000
+
+text    group                           ; main text group
+bss     group   bss                     ; main data group
+
+	section .rdata,text     ; main sections
+	section .text,text
+	section .data,text
+	section .sdata,text
+	section .sbss,bss
+	section .bss,bss
+
+	include bs.obj
+	include icon.obj
+	inclib  "bs.lib"
+	inclib  "D:\ps\lib\libsn.lib"
+
+
+	regs    pc=__SN_ENTRY_POINT     ; entry point
+

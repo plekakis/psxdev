@@ -1,0 +1,93 @@
+-----------------------------------------------------------------------
+VAB/VAG PC Sound Tools  V1.0 alpha
+
+by Mark Breugelmans
+
+10 September
+
+(c) 1997 Sony Computer Entertainment Europe
+-----------------------------------------------------------------------
+
+Overview:
+
+The following tools have been created to help PC users contruct sound files
+more easily for the PlayStation. Most of the current sound tools are geared
+towards Mac users which can cause problems for developers without access to
+an Apple Mac computer.
+
+So far I have only written tools for VAB/VAG format but I hope to also pro-
+duce tools to handle SEQ and SEP files in the near future.
+
+Tools:
+
+1. Wav2Vag - This is a simple program which stips off the header from
+             Windows format '.wav' files and then shells the Aiff2Vag
+             program with the correct options. It requires 16bit mono
+             wav files. It runs as a DOS program with command line
+             parameters.
+
+2. VABTool - This is a windows program to contruct/edit VAB files
+
+             a) You can edit/add programs and tones.
+             b) You can set ADSR settings for tones.
+             c) You can add VAG format files to the sound data section
+                of the VAB file.
+             d) You can edit '.VH' format VAB Headers
+             
+3. Vag_Play - This is a windows program that allows you to preview programs
+              in a VAB file on the PC using a standard 16bit PC sound card.
+
+              a) You can play notes by clicking on a 'keyboard' image.
+              b) It supports playback of multiple tones mapped to one note.
+              c) It previews panning, volume and tone settings for note.                                                                                
+              d) Notes can be looped for continuous playback
+              e) This program when used with VABTool provides a means of
+                 modifying and previewing VAB's on the PC.
+
+Instructions/Notes:
+
+1. This is the very first version so I fully expect there to be few bugs, so
+   be carefull! You have been warned.
+
+2. Wav2Vag may not work with some of the newer format 'wav' files if they use
+   non standard format.
+
+3. You will need your screen set to at least 800x600 to view the dialogs on
+   VABTool and Vag_Play.
+
+4. You can double click the grids on VABTool to access other dialogs more
+   quickly.
+
+5. Vag_Play only represents an approximation of the sound output on the PSX
+   in particular features such as reverb and ADSR are ignored.
+
+6. You will need to set the path for 'Vag_Play.exe' to use it with VABTool
+   there is an option on the tools menu for VABTool to do this.
+
+7. When previewing files with Vag_Play via VABTool remember to close Vag_Play
+   and restart it if you make a change.
+
+8. To use Vag_Play on it's own you must launch it with a command line which
+   is the filename (including path) of the VAB file you wish to play.
+
+9. There's some pretty intensive processing going on to decode the VAG sound
+   data and modify sampling rates etc, so you may find this needs a fast
+   PC. I'll be interested to get feedback on this.
+
+Comming Soon:
+
+1. I am hoping to write a SEP and SEQ tool to go with this tool.
+2. Extra facilities for VAB Tool I would like to add are:
+        a) Fully integrating the preview tool into VABTool
+        b) Improving the dialogs possibly with a graphical view of tones
+        c) Adding a '.VB' import routine to reconstruct VAB files from
+           the '.VH' and '.VB' files
+        d) Supporting preview on PSX cards in some form or other.
+
+Support/Fixes:
+
+Please email me with any comments, requests or suggestions I'll be happy to
+hear some feedback.
+
+
+

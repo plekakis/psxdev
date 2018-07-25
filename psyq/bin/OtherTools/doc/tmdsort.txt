@@ -1,0 +1,10 @@
+                                TMDSORT.EXE
+                                -----------
+
+This small program sorts the polygons in a TMD by type. With a sorted TMD
+polygons of the same type are processed together, resulting in a speed
+increase. The speed increase is dependent on how badly sorted the original
+TMD was, but can be quite substantial.
+
+Example usage:
+tmdsort.exe -o new.tmd old.tmd

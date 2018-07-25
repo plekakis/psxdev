@@ -1,0 +1,303 @@
+#include <hmd/hmd.def>
+
+#define USE_NWORLD_OBJS	0
+#define USE_3DMAX_OBJS	1
+
+#define SPD	16
+
+#define PX0	 1000
+#define PY0	 1000
+#define PZ0	 1000
+#define PX1	 1000
+#define PY1	-1000
+#define PZ1	    0
+#define PX2	-1000
+#define PY2	-1000
+#define PZ2	    0
+#define PX3	-1000
+#define PY3	 1000
+#define PZ3	    0
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect_0000 / 4;
+	10;	/* num of blocks */
+	AnimPrimSet_0000 / 4;
+	0;	/* null */
+	SpherePolyPrimSet_0000 / 4;
+	SpherePolyPrimSet_0000 / 4;
+	SpherePolyPrimSet_0000 / 4;
+	SpherePolyPrimSet_0000 / 4;
+	LinearPolyPrimSet_0000 / 4;
+	BezierPolyPrimSet_0000 / 4;
+	BSplinePolyPrimSet_0000 / 4;
+	0x00000000;
+
+CoordSect_0000:	/* 0x0000001c */
+	8;	/* num of coords */
+
+Coord_root:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		-300, 300, 0);	/* trans */
+	0;	/* super */
+
+Coord_Sphere0:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		PX0, PY0, PZ0);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_Sphere1:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		PX1, PY1, PZ1);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_Sphere2:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		PX2, PY2, PZ2);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_Sphere3:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		PX3, PY3, PZ3);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_Linear:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, 0, 0);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_Bezier:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, 0, 0);	/* trans */
+	Coord_root / 4;	/* super */
+
+Coord_BSpline:	/* 0x00000020 */
+	0x00000000;	/* flg */
+	COORDM(	0, 0, 0,	/* rot */
+		0, 0, 0);	/* trans */
+	Coord_root / 4;	/* super */
+
+PrimHdrSect_0000:	/* 0x00000070 */
+	5;	/* num prim hdrs */
+
+SpherePolyPrimHdr_0000:	/* 0x00000074 */
+	4;	/* hdr size */
+	M(SpherePoly_0000 / 4);
+	M(SphereVert_0000 / 4);
+	M(SphereNorm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+LinearPolyPrimHdr_0000:	/* 0x00000074 */
+	4;	/* hdr size */
+	M(LinearPoly_0000 / 4);
+	M(LinearVert_0000 / 4);
+	M(LinearNorm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+BezierPolyPrimHdr_0000:	/* 0x00000074 */
+	4;	/* hdr size */
+	M(BezierPoly_0000 / 4);
+	M(BezierVert_0000 / 4);
+	M(BezierNorm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+BSplinePolyPrimHdr_0000:	/* 0x00000074 */
+	4;	/* hdr size */
+	M(BSplinePoly_0000 / 4);
+	M(BSplineVert_0000 / 4);
+	M(BSplineNorm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+AnimPrimHdr_0000:
+	5;	/* hdr size */
+	5;	/* anim hdr size */
+	M(InterpFuncSect_0000 / 4);
+	M(CtrlSect_0000 / 4);
+	M(ParamSect_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+#define DO_INI
+#include "sphere.inc"
+#undef DO_INI
+
+#if USE_NWORLD_OBJS
+
+#include "linear.inc"
+#include "bezier.inc"
+#include "bspline.inc"
+
+#elif USE_3DMAX_OBJS
+
+#include "ri.inc"
+#include "be.inc"
+#include "su.inc"
+
+#endif
+
+AnimPrimSet_0000:
+	TERMINATE;	/* next prim */
+	AnimPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+AnimPrim_0000:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(INI|CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_NONE);
+	H((EndAnimPrim_0000 - AnimPrim_0000) / 4 - 1); M(H(3));	/* size, data */
+
+	/* Linear */
+	SECT_OFFSET(4 /* CoordSect_0000 */)
+		|OFFSET_IN_SECT((Coord_Linear - CoordSect_0000) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(SPD); H(0xffff); /* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((LinearSeqBegin - CtrlSect_0000) / 4); B(0); B(0);/* start idx, start sid, travering */
+
+	/* Bezier */
+	SECT_OFFSET(4 /* CoordSect_0000 */)
+		|OFFSET_IN_SECT((Coord_Bezier - CoordSect_0000) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(SPD); H(0xffff); /* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((BezierSeqBegin - CtrlSect_0000) / 4); B(0); B(0);/* start idx, start sid, travering */
+
+	/* BSpline */
+	SECT_OFFSET(4 /* CoordSect_0000 */)
+		|OFFSET_IN_SECT((Coord_BSpline - CoordSect_0000) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(SPD); H(0xffff); /* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((BSplineSeqInit - CtrlSect_0000) / 4); B(0); B(0);/* start idx, start sid, travering */
+EndAnimPrim_0000:
+
+InterpFuncSect_0000:
+	M(3);	/* num of types */
+
+InterpLinear:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_LINEAR);
+InterpBezier:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_BEZIER);
+InterpBSpline:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_BSPLINE);
+
+CtrlSect_0000:
+
+LinearSeq:
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((LinearSeqEnd - CtrlSect_0000) / 4);
+LinearSeqBegin:
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey2 - ParamSect_0000) / 4);
+LinearSeqEnd:
+	SEQD(NORMAL)|TYPE_IDX((InterpLinear - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((LinearKey3 - ParamSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((LinearSeqBegin - CtrlSect_0000) / 4);
+
+BezierSeq:
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BezierSeqEnd - CtrlSect_0000) / 4);
+BezierSeqBegin:
+	SEQD(NORMAL)|TYPE_IDX((InterpBezier - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BezierKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBezier - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BezierKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBezier - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BezierKey2 - ParamSect_0000) / 4);
+BezierSeqEnd:
+	SEQD(NORMAL)|TYPE_IDX((InterpBezier - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BezierKey3 - ParamSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BezierSeqBegin - CtrlSect_0000) / 4);
+
+BSplineSeq:
+
+BSplineSeqInit:
+	SEQD(CONTROL)|CODE(0x02)|P1(0)
+		|P2((BSplineWork - ParamSect_0000) / 4);
+	/*
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((BSplineKey0 - ParamSect_0000) / 4);
+	*/
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((BSplineKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((BSplineKey2 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((BSplineKey3 - ParamSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BSplineSeqBegin - CtrlSect_0000) / 4);
+
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BSplineSeqEnd - CtrlSect_0000) / 4);
+BSplineSeqBegin:
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BSplineKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BSplineKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BSplineKey2 - ParamSect_0000) / 4);
+BSplineSeqEnd:
+	SEQD(NORMAL)|TYPE_IDX((InterpBSpline - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(50)|PARAM_IDX((BSplineKey3 - ParamSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BSplineSeqBegin - CtrlSect_0000) / 4);
+
+ParamSect_0000:
+
+LinearKey0:
+	PX0; PY0; PZ0;
+LinearKey1:
+	PX1; PY1; PZ1;
+LinearKey2:
+	PX2; PY2; PZ2;
+LinearKey3:
+	PX3; PY3; PZ3;
+
+BezierKey0:
+	PX0; PY0; PZ0;
+	PX1; PY1; PZ1;
+	PX2; PY2; PZ2;
+BezierKey1:
+	PX3; PY3; PZ3;
+	PX0; PY0; PZ0;
+	PX1; PY1; PZ1;
+BezierKey2:
+	PX2; PY2; PZ2;
+	PX3; PY3; PZ3;
+	PX0; PY0; PZ0;
+BezierKey3:
+	PX1; PY1; PZ1;
+	PX2; PY2; PZ2;
+	PX3; PY3; PZ3;
+
+BSplineWork:
+	 0;	0;	0;	0;
+
+BSplineKey0:
+	PX0; PY0; PZ0;
+BSplineKey1:
+	PX1; PY1; PZ1;
+BSplineKey2:
+	PX2; PY2; PZ2;
+BSplineKey3:
+	PX3; PY3; PZ3;

@@ -1,0 +1,40 @@
+CCS2POS <in-file> <outfile> 
+<infile>   - .CCS file output from CD-GEN software
+<outfile>  - .H file to compile in your code
+
+
+(C) Sony Computer Entertainment Europe 1996.  All Rights Reserved.
+
+
+This is a utility that takes a .CCS file (as saved from CD-Gen 
+software) as input, and outputs a header file, with all the files 
+defined as macros and their values having their absolute sector
+address on the CD.
+
+This method of locating files on the CD is intended to be a faster
+alternative for CdSearchFile().  Using a header file, with hard-coded 
+locations reduces the seek times because only one seek is required.  
+See the Developer Conference '96 slides on the CD Overview : Part One 
+talk for more details.
+
+It is advisable to have your main executable file as the last file in 
+track one.  This allows the size of this executable to vary, without 
+changing any of the locations of the preceding files.
+
+In this utility, the filenames are used without the path.  Therefore, 
+all files will need to have a unique filename.  Later versions of this 
+utility may include full paths - but don't count on it.  The full stop
+preceding the extension cannot be used in a macro definition and 
+therefore are replaced with an underscore.  For example, the 
+location for the file LEV1_MOD.DAT;1 will be referenced by the macro 
+LEV1_MOD_DAT.   As you may have noticed, the ";1" has also been 
+ommitted from the macro.
+
+Once the header file has been created, recompile the code and build 
+the emulator image or burn the CD and away you go!!!.
+
+
+
+
+
+			

@@ -1,0 +1,100 @@
+HITMEN LICENSE TOOL Version 1.0
+-------------------------------
+
+Author: Jihad/HITMEN (jihad@hitmen-psx.ml.org)
+
+Purpose: Build PlayStation CD's that contain your own PSX productions
+         and make it boot CORRECTLY with a modified PSX.
+
+##############################################################################
+THIS TOOL DOES IN NO WAY DEFEAT THE COPY PROTECTION SCHEME OF THE PLAYSTATION
+##############################################################################
+    {and well, one couldn't care less, the PIC's are THAT cheap nowadayz :)}
+
+
+'Where's the problem ?' i hear you say. Well, it's pretty simple: if you just
+build a normal ISO file, burn the CD and insert it into the modified PSX
+you will experience something rather strange: Instead of the normal black
+screen with a 4-color PSX logo and the 'Licensed by .....' statement
+you will get a black screen, sometimes a wrecked blue SONY logo, and in 90%
+of the cases the PSX crashes after that.It actually appears because of a 
+graphics information lack, caused by missing data in sectors 0-11.           
+This tool adds the appropriate information, thus creating a 100% working disc.
+
+Apparantly you now also got to know (one of the few reasons atleast) why a
+single file-copy of a PSX disc NEVER worked properly without pre-booting
+with a working one.
+
+Anyway, here we go: 
+
+Step 1: Edit a SYSTEM.CNF that fits your purposes: 
+
+BOOT = cdrom:\MYINTRO.EXE;1
+TCB = 4
+EVENT = 10
+STACK = 801FFFF0
+
+Step 2: Build an ISO image, containing your EXE file and the SYSTEM.CNF
+        Make sure you select CDROM-XA and MODE2 ! This tool expects 2352 
+        bytes/sector ! We used EZCD pro 95 btw. :)
+        
+Step 3: Use this tool to 'license' the ISO image you built.
+
+Step 4: Burn the CD
+
+Step 5: Put in inside your modified PSX, reset and enjoy !!
+
+
+YAROZE COMPILER USERS READ THIS:
+
+Yaroze exe files in ECOFF format cannot be burned directly. The procedure is
+quite hard, but it's possible. The problem is that you have to have LIBPS.EXE
+loaded, even when you convert your ECOFF file with our ECO2EXE tool.  
+So you would have to link your exe and the LIBPSX.EXE together and adjust
+the filelength in the header or the LIBPS.EXE file to get it 100% working.
+I experienced problems with the only available tool for that at the moment;
+i will try to contact the author or write one myself as soon as possible.
+If you have better experience with the above mentioned tool, let me know asap.
+
+
+DISCLAIMER:
+                
+In NO FUCKING WAY we are responsible for:
+
+-  any copyright violations that appear after using this tool. It has been
+   created for the ONLY purpose that the sceners can burn their own, working
+   CD's to take them to neighbours, friends, whatever to show their piece of
+   PSX art. If someone thinks it's useful to link intros infront of cracked 
+   games or insert trainer, levelskip or whatever to a game that still works
+   after beeing filecopied (Games without .STR/.STX movies and no multiple
+   audio tracks, e.g. track01 does also appear as DATA like track01.raw
+   or track01.pcm), it's their own fucking problem. In no way we mean to 
+   support people that support game piracy, trade PSX CD images, and harm
+   SONY COMPUTER ENTERTAINMENT (TM) in any other way. 
+
+-  any frisbees you get out of your CD toaster because you are to stupid to
+   read the instructions closely. We tested the program, and on OUR equipment
+   it worked perfectly without problems.
+
+-  Copyright problems arising out of the use of the license file. The license
+   file that this tool uses is in no way taken from any officially released
+   game or production. It doesnt even say that it's licensed by the big S,
+   so what the fuck ?!
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

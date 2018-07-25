@@ -1,0 +1,17 @@
+
+ Release Notes for Performance Analyzer Version 2.07
+
+
+ Features
+
+ 1) PA Un-Supported file format Reading Problem has been fixed.
+
+ Known Bugs and Cautions
+
+ 1) PA does not support the "IntelliMouse".
+
+
+--
+Copyright (C) 1998 by Sony Computer Entertainment Inc.
+		All Rights Reserved.
+

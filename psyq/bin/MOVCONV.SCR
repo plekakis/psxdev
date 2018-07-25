@@ -1,0 +1,392 @@
+##########################################
+##  Sample script for MovConv version 2.2
+##########################################
+#
+# < Available functions >
+#	- Avi -
+#	Avi2strMdecAv()
+#	Avi2strMdecV()
+#	Avi2strMdecC()
+#
+#	- Yuv -
+#	Yuv2strMdecAv()
+#	Yuv2strMdecV()
+#	Yuv2strMdecC()
+#	Yuv2bsAv()
+#	Yuv2bsV()
+#	Yuv2bsC()
+#	Yuv2avi()
+#
+#	- Rgb -
+#	Rgb2strMdecAv()
+#	Rgb2strMdecV()
+#	Rgb2strMdecC()
+#	Rgb2bsAv()
+#	Rgb2bsV()
+#	Rgb2bsC()
+#	Rgb2avi()
+#
+#	- Tim -
+#	Tim2strMdecAv()
+#	Tim2strMdecV()
+#	Tim2strMdecC()
+#	Tim2bsAv()
+#	Tim2bsV()
+#	Tim2bsC()
+#
+#	- Wav -
+#	Wav2xa()
+#
+#	- Pcm -
+#	Pcm2xa()
+#
+#	- Others -
+#	MakeAv()
+#	MakeV()
+#
+# < Arguments >
+#	CD-ROM speed:			'x1' or 'x2'
+#	Frame rate:				'10fps', '12.5fps', '15fps',
+#							'16.7fps', '20fps', '25fps' or '30fps'
+#	Number of channels:		'1', '2' or '4'
+#	MDEC version:			'2' or '3'
+#	Frequency of xa audio:	'37.8KHz' or '18.9KHz'
+#	Stereo or Mono:			'Stereo' or 'Mono'
+#	Maximum frame size:		ex. '10sectors', '20000bytes'
+#	Frame mode:				'FixedFrameSize', 'VariableFrameSize'
+#	Video format name:		'strMDEC', 'bs'
+# 	Leap Sector:			'TRUE' or 'FALSE'
+# 	Ver1.98 compatible leap sector:		'TRUE' or 'FALSE'
+#	Bits Per Sample of PCM audio:		'16bit'
+#	Frequency of PCM audio:				(KHz)
+
+#######################
+## Avi -> Str (MDEC)
+#######################
+Avi2strMdecAv(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\avia.str,	# Output file name
+	x2,					# CD-ROM speed
+	15fps,				# Frame rate
+	1,					# Number of channels
+	2,					# MDEC version
+	FALSE,				# LeapSector
+	37.8KHz,			# Frequency of audio
+	Stereo				# Stereo or Mono
+);
+
+Avi2strMdecV(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\aviv.str,	# Output file name
+	x2,					# CD-ROM speed
+	15fps,				# Frame rate
+	2,					# Number of channels
+	2,					# MDEC version
+	TRUE				# LeapSector
+);
+
+Avi2strMdecC(
+	c:\tmp\data.avi,	# Input file name
+	c:\tmp\avic.str,	# Output file name
+	10sectors,			# Maximum size for one frame
+	FixedFrameSize,		# Fixed frame size or not
+	2					# MDEC version
+);
+
+
+
+#######################
+## Yuv -> Str (MDEC)
+#######################
+Yuv2strMdecAv(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuva.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Yuv2strMdecV(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuvv.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Yuv2strMdecC(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuvc.str,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Yuv -> Bs
+#######################
+Yuv2bsAv(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuva0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Yuv2bsV(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuvv0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Yuv2bsC(
+	c:\tmp\data0000.yuv,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\yuvc0000.bs,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Yuv -> Avi
+#######################
+Yuv2avi(
+	c:\tmp\data0000.yuv,# Input file name
+	320,				# Width
+	240,				# Height
+	c:\tmp\yuv.avi,		# Output file name
+	15fps			# Frame rate
+);
+
+#######################
+## Rgb -> Str (MDEC)
+#######################
+Rgb2strMdecAv(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgba.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Rgb2strMdecV(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgbv.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Rgb2strMdecC(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgbc.str,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Rgb -> Bs
+#######################
+Rgb2bsAv(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgba0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Rgb2bsV(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgbv0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Rgb2bsC(
+	c:\tmp\data0000.rgb,	# Input file name
+	320,					# Width
+	240,					# Height
+	c:\tmp\rgbc0000.bs,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Rgb -> Avi
+#######################
+Rgb2avi(
+	c:\tmp\data0000.rgb,# Input file name
+	320,				# Width
+	240,				# Height
+	c:\tmp\rgb.avi,		# Output file name
+	15fps				# Frame rate
+);
+
+#######################
+## Tim -> Str (MDEC)
+#######################
+Tim2strMdecAv(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\tima.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Tim2strMdecV(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\timv.str,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Tim2strMdecC(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\timc.str,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Tim -> Bs
+#######################
+Tim2bsAv(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\tima0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	1,						# Number of channels
+	2,						# MDEC version
+	TRUE,					# LeapSector
+	37.8KHz,				# Frequency of audio
+	Mono					# Stereo or Mono
+);
+
+Tim2bsV(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\timv0000.bs,		# Output file name
+	x2,						# CD-ROM speed
+	15fps,					# Frame rate
+	2,						# Number of channels
+	2,						# MDEC version
+	TRUE					# LeapSector
+);
+
+Tim2bsC(
+	c:\tmp\data0000.tim,	# Input file name
+	c:\tmp\timc0000.bs,		# Output file name
+	10sectors,				# Maximum size for one frame
+	FixedFrameSize,			# Fixed frame size or not
+	2						# MDEC version
+);
+
+#######################
+## Wav -> Xa
+#######################
+Wav2xa(
+	c:\tmp\data.wav,	# Input file name
+	c:\tmp\wav.xa,		# Output file name
+	37.8KHz,			# Frequency of xa audio 
+	Stereo				# Stereo or Mono for xa audio
+);
+
+#######################
+## Pcm -> Xa
+#######################
+Pcm2xa(
+	c:\tmp\data.pcm,	# Input file name
+	16bit,				# Bits Per Sample
+	44.1KHz,			# Frequency of PCM audio (KHz)	
+	Stereo,				# Stereo or Mono for PCM audio	
+	c:\tmp\pcm.xa,		# Output file name
+	37.8KHz,			# Frequency of xa audio
+	Stereo				# Stereo or Mono for xa audio
+);
+
+#######################
+## MakeAv (Interleave encoded data)
+#######################
+MakeAv(
+	c:\tmp\data.str,	# Video file name
+	strMDEC,			# Video format name
+	c:\tmp\data.xa,		# Audio file name
+	c:\tmp\makeav.str,	# Output file name (audio & video)	
+	x2,					# CD-ROM speed
+	15fps,				# Frame rate
+	1,					# Number of channels
+	FALSE,				# LeapSector
+	FALSE,				# ver1.98 compatible leap sector
+	37.8KHz,			# Frequency of audio 
+	Stereo				# Stereo or Mono
+);
+
+MakeV(
+	c:\tmp\data.str,	# Video file name
+	strMDEC,			# Video format name
+	c:\tmp\makev.str,	# Output file name (video)	
+	x2,					# CD-ROM speed
+	15fps,				# Frame rate
+	1,					# Number of channels
+	TRUE,				# LeapSector
+	FALSE				# ver1.98 compatible leap sector
+);
+

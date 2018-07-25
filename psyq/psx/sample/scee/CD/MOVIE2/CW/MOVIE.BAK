@@ -1,0 +1,34 @@
+;Codewright Project File (do not remove or modify this line)
+
+[State]
+
+
+[Editor]
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=37
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+_RestoreSysFlags=0x220935da, 0xfffffffc, 0
+_RestoreSysFlags=0x00000000, 0xffffffff, 1
+
+[Compiler]
+CompilerAssign='^A-Za-z0-9_','.c'
+CompilerAssign='Microsoft C(NT-i386)','.h'
+CompilerAssign='Microsoft C(NT-i386)','.cpp'
+CompilerAssign='Default Compiler Settings','.*'
+CompilerAssign='Microsoft C(NT-i386)','.cxx'
+CompilerNewExt=.asm
+CompilerAssign='Microsoft C(NT-i386)','.hpp'
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+BrowseSetFile='tagfile.ptg'
+TagSetFile='C:\CW32\tagfile.tag'
+CompilerAddCmd='Default Compiler Settings','',16,'',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='Default Compiler Settings',
+CompilerAddCmd='^A-Za-z0-9_','',16,'',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='^A-Za-z0-9_',
+CompilerAddCmd='Microsoft C(NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C(NT-i386)',

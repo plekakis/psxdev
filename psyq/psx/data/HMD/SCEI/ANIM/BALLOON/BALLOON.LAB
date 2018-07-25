@@ -1,0 +1,2264 @@
+#include <hmd/hmd.def>
+
+	HMD_VERSION;
+	0x00000000;	/* MAP FLAG */
+	PrimHdrSect_0000 / 4;
+	4;
+	AnimPrimSet_0000 / 4;
+	BalloonPolyPrimSet / 4;
+	CabinPolyPrimSet / 4;
+	WireSharedPolyPrimSet / 4;
+
+CoordSect_0000:
+	2;	/* num of coords */
+
+Coord_0000:	/* Balloon */
+	0x00000000;	/* flg */
+	COORDM(	0,     0,     0,	/* rot */
+		0,     0,     0);	/* trans */
+	0;	/* super */
+
+Coord_0001:	/* Cabin */
+	0x00000000;	/* flg */
+	COORDM(	0,     0,     0,	/* rot */
+		0,     0,     0);	/* trans */
+	Coord_0000 / 4;	/* super */
+
+PrimHdrSect_0000:
+	3;	/* num prim hdrs */
+
+PolyPrimHdr_0000:
+	4;	/* hdr size */
+	M(PolySect / 4);
+	M(Vert_0000 / 4);
+	M(Norm_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+SharedPrimHdr:
+	5;	/* hdr size */
+	M(SharedPolySect / 4);
+	M(SharedVertSect / 4);
+	M(CalcedVertSect / 4);
+	M(SharedNormSect / 4);
+	M(CalcedNormSect / 4);
+
+AnimPrimHdr_0000:
+	5;	/* hdr size */
+	5;	/* anim hdr size */
+	M(InterpFuncSect_0000 / 4);
+	M(CtrlSect_0000 / 4);
+	M(ParamSect_0000 / 4);
+	M(CoordSect_0000 / 4);
+
+WireSharedPolyPrimSet:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+
+WireSharedPolyPrim_xxxx:
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(8));	/* size, data */
+	(WirePoly_xxxx - SharedPolySect) / 4;
+
+BalloonPolyPrimSet:
+	BalloonSharedPrimSet / 4;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(4);	/* num of types */
+
+BalloonPolyPrim_0000:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(INI)|PRIM_TYPE(TRI|IIP);
+	H(2); M(H(24));	/* size, data */
+	(BalloonPoly_0000 - PolySect) / 4;
+
+BalloonPolyPrim_xxxx:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(240));	/* size, data */
+	(BalloonPoly_xxxx - PolySect) / 4;
+
+BalloonPolyPrim_0006:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(TRI|IIP);
+	H(2); M(H(24));	/* size, data */
+	(BalloonPoly_0006 - PolySect) / 4;
+
+BalloonPolyPrim_0007:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(240));	/* size, data */
+	(BalloonPoly_0007 - PolySect) / 4;
+
+BalloonSharedPrimSet:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+	
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	16;		/* num of shared vertices */
+	(BalloonSharedVert - SharedVertSect) / 8;	/* src */
+	(BalloonCalcedVert - CalcedVertSect) / 8;	/* dst */
+	16;		/* num of shared normal vectors */
+	(BalloonSharedNorm - SharedNormSect) / 8;	/* src */
+	(BalloonCalcedNorm - CalcedNormSect) / 8;	/* dst */
+
+CabinPolyPrimSet:
+	CabinSharedPrimSet / 4;	/* next prim */
+	PolyPrimHdr_0000 / 4;
+	M(5);	/* num of types */
+
+CabinPolyPrim_xxxx:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(4));	/* size, data */
+	(CabinPoly_xxxx - PolySect) / 4;
+
+CabinPolyPrim_0002:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(TRI|IIP);
+	H(2); M(H(4));	/* size, data */
+	(CabinPoly_0002 - PolySect) / 4;
+
+CabinPolyPrim_0003:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(13));	/* size, data */
+	(CabinPoly_0003 - PolySect) / 4;
+
+CabinPolyPrim_0004:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(TRI|IIP);
+	H(2); M(H(4));	/* size, data */
+	(CabinPoly_0004 - PolySect) / 4;
+
+CabinPolyPrim_0005:
+	DEV_ID(SCE)|CTG(CTG_POLY)|DRV(0)|PRIM_TYPE(QUAD|IIP);
+	H(2); M(H(9));	/* size, data */
+	(CabinPoly_0005 - PolySect) / 4;
+
+CabinSharedPrimSet:
+	TERMINATE;	/* next prim */
+	SharedPrimHdr / 4;
+	M(1);	/* num of types */
+	
+	DEV_ID(SCE)|CTG(CTG_SHARED)|DRV(0)|PRIM_TYPE(0);
+	H(7); M(H(0));	/* size, data */
+	16;		/* num of shared vertices */
+	(CabinSharedVert - SharedVertSect) / 8;	/* src */
+	(CabinCalcedVert - CalcedVertSect) / 8;	/* dst */
+	16;		/* num of shared normal vectors */
+	(CabinSharedNorm - SharedNormSect) / 8;	/* src */
+	(CabinCalcedNorm - CalcedNormSect) / 8;	/* dst */
+
+Vert_0000:
+	SVECTOR(     0,  -250,     0);	/* vert[0] */
+	SVECTOR(     0,  -250,     0);	/* vert[1] */
+	SVECTOR(    64,  -241,     0);	/* vert[2] */
+	SVECTOR(    64,  -241,     0);	/* vert[3] */
+	SVECTOR(    62,  -241,    16);	/* vert[4] */
+	SVECTOR(    62,  -241,    16);	/* vert[5] */
+	SVECTOR(    56,  -241,    32);	/* vert[6] */
+	SVECTOR(    56,  -241,    32);	/* vert[7] */
+	SVECTOR(    45,  -241,    45);	/* vert[8] */
+	SVECTOR(    45,  -241,    45);	/* vert[9] */
+	SVECTOR(    32,  -241,    56);	/* vert[10] */
+	SVECTOR(    32,  -241,    56);	/* vert[11] */
+	SVECTOR(    16,  -241,    62);	/* vert[12] */
+	SVECTOR(    16,  -241,    62);	/* vert[13] */
+	SVECTOR(     0,  -241,    64);	/* vert[14] */
+	SVECTOR(     0,  -241,    64);	/* vert[15] */
+	SVECTOR(   -16,  -241,    62);	/* vert[16] */
+	SVECTOR(   -16,  -241,    62);	/* vert[17] */
+	SVECTOR(   -32,  -241,    56);	/* vert[18] */
+	SVECTOR(   -32,  -241,    56);	/* vert[19] */
+	SVECTOR(   -45,  -241,    45);	/* vert[20] */
+	SVECTOR(   -45,  -241,    45);	/* vert[21] */
+	SVECTOR(   -56,  -241,    32);	/* vert[22] */
+	SVECTOR(   -56,  -241,    32);	/* vert[23] */
+	SVECTOR(   -62,  -241,    16);	/* vert[24] */
+	SVECTOR(   -62,  -241,    16);	/* vert[25] */
+	SVECTOR(   -64,  -241,     0);	/* vert[26] */
+	SVECTOR(   -64,  -241,     0);	/* vert[27] */
+	SVECTOR(   -62,  -241,   -16);	/* vert[28] */
+	SVECTOR(   -62,  -241,   -16);	/* vert[29] */
+	SVECTOR(   -56,  -241,   -32);	/* vert[30] */
+	SVECTOR(   -56,  -241,   -32);	/* vert[31] */
+	SVECTOR(   -45,  -241,   -45);	/* vert[32] */
+	SVECTOR(   -45,  -241,   -45);	/* vert[33] */
+	SVECTOR(   -32,  -241,   -56);	/* vert[34] */
+	SVECTOR(   -32,  -241,   -56);	/* vert[35] */
+	SVECTOR(   -16,  -241,   -62);	/* vert[36] */
+	SVECTOR(   -16,  -241,   -62);	/* vert[37] */
+	SVECTOR(     0,  -241,   -64);	/* vert[38] */
+	SVECTOR(     0,  -241,   -64);	/* vert[39] */
+	SVECTOR(    16,  -241,   -62);	/* vert[40] */
+	SVECTOR(    16,  -241,   -62);	/* vert[41] */
+	SVECTOR(    32,  -241,   -56);	/* vert[42] */
+	SVECTOR(    32,  -241,   -56);	/* vert[43] */
+	SVECTOR(    45,  -241,   -45);	/* vert[44] */
+	SVECTOR(    45,  -241,   -45);	/* vert[45] */
+	SVECTOR(    56,  -241,   -32);	/* vert[46] */
+	SVECTOR(    56,  -241,   -32);	/* vert[47] */
+	SVECTOR(    62,  -241,   -16);	/* vert[48] */
+	SVECTOR(    62,  -241,   -16);	/* vert[49] */
+	SVECTOR(   125,  -216,     0);	/* vert[50] */
+	SVECTOR(   125,  -216,     0);	/* vert[51] */
+	SVECTOR(   120,  -216,    32);	/* vert[52] */
+	SVECTOR(   120,  -216,    32);	/* vert[53] */
+	SVECTOR(   108,  -216,    62);	/* vert[54] */
+	SVECTOR(   108,  -216,    62);	/* vert[55] */
+	SVECTOR(    88,  -216,    88);	/* vert[56] */
+	SVECTOR(    88,  -216,    88);	/* vert[57] */
+	SVECTOR(    62,  -216,   108);	/* vert[58] */
+	SVECTOR(    62,  -216,   108);	/* vert[59] */
+	SVECTOR(    32,  -216,   120);	/* vert[60] */
+	SVECTOR(    32,  -216,   120);	/* vert[61] */
+	SVECTOR(     0,  -216,   125);	/* vert[62] */
+	SVECTOR(     0,  -216,   125);	/* vert[63] */
+	SVECTOR(   -32,  -216,   120);	/* vert[64] */
+	SVECTOR(   -32,  -216,   120);	/* vert[65] */
+	SVECTOR(   -62,  -216,   108);	/* vert[66] */
+	SVECTOR(   -62,  -216,   108);	/* vert[67] */
+	SVECTOR(   -88,  -216,    88);	/* vert[68] */
+	SVECTOR(   -88,  -216,    88);	/* vert[69] */
+	SVECTOR(  -108,  -216,    62);	/* vert[70] */
+	SVECTOR(  -108,  -216,    62);	/* vert[71] */
+	SVECTOR(  -120,  -216,    32);	/* vert[72] */
+	SVECTOR(  -120,  -216,    32);	/* vert[73] */
+	SVECTOR(  -125,  -216,     0);	/* vert[74] */
+	SVECTOR(  -125,  -216,     0);	/* vert[75] */
+	SVECTOR(  -120,  -216,   -32);	/* vert[76] */
+	SVECTOR(  -120,  -216,   -32);	/* vert[77] */
+	SVECTOR(  -108,  -216,   -62);	/* vert[78] */
+	SVECTOR(  -108,  -216,   -62);	/* vert[79] */
+	SVECTOR(   -88,  -216,   -88);	/* vert[80] */
+	SVECTOR(   -88,  -216,   -88);	/* vert[81] */
+	SVECTOR(   -62,  -216,  -108);	/* vert[82] */
+	SVECTOR(   -62,  -216,  -108);	/* vert[83] */
+	SVECTOR(   -32,  -216,  -120);	/* vert[84] */
+	SVECTOR(   -32,  -216,  -120);	/* vert[85] */
+	SVECTOR(     0,  -216,  -125);	/* vert[86] */
+	SVECTOR(     0,  -216,  -125);	/* vert[87] */
+	SVECTOR(    32,  -216,  -120);	/* vert[88] */
+	SVECTOR(    32,  -216,  -120);	/* vert[89] */
+	SVECTOR(    62,  -216,  -108);	/* vert[90] */
+	SVECTOR(    62,  -216,  -108);	/* vert[91] */
+	SVECTOR(    88,  -216,   -88);	/* vert[92] */
+	SVECTOR(    88,  -216,   -88);	/* vert[93] */
+	SVECTOR(   108,  -216,   -62);	/* vert[94] */
+	SVECTOR(   108,  -216,   -62);	/* vert[95] */
+	SVECTOR(   120,  -216,   -32);	/* vert[96] */
+	SVECTOR(   120,  -216,   -32);	/* vert[97] */
+	SVECTOR(   176,  -176,     0);	/* vert[98] */
+	SVECTOR(   176,  -176,     0);	/* vert[99] */
+	SVECTOR(   170,  -176,    45);	/* vert[100] */
+	SVECTOR(   170,  -176,    45);	/* vert[101] */
+	SVECTOR(   153,  -176,    88);	/* vert[102] */
+	SVECTOR(   153,  -176,    88);	/* vert[103] */
+	SVECTOR(   125,  -176,   125);	/* vert[104] */
+	SVECTOR(   125,  -176,   125);	/* vert[105] */
+	SVECTOR(    88,  -176,   153);	/* vert[106] */
+	SVECTOR(    88,  -176,   153);	/* vert[107] */
+	SVECTOR(    45,  -176,   170);	/* vert[108] */
+	SVECTOR(    45,  -176,   170);	/* vert[109] */
+	SVECTOR(     0,  -176,   176);	/* vert[110] */
+	SVECTOR(     0,  -176,   176);	/* vert[111] */
+	SVECTOR(   -45,  -176,   170);	/* vert[112] */
+	SVECTOR(   -45,  -176,   170);	/* vert[113] */
+	SVECTOR(   -88,  -176,   153);	/* vert[114] */
+	SVECTOR(   -88,  -176,   153);	/* vert[115] */
+	SVECTOR(  -125,  -176,   125);	/* vert[116] */
+	SVECTOR(  -125,  -176,   125);	/* vert[117] */
+	SVECTOR(  -153,  -176,    88);	/* vert[118] */
+	SVECTOR(  -153,  -176,    88);	/* vert[119] */
+	SVECTOR(  -170,  -176,    45);	/* vert[120] */
+	SVECTOR(  -170,  -176,    45);	/* vert[121] */
+	SVECTOR(  -176,  -176,     0);	/* vert[122] */
+	SVECTOR(  -176,  -176,     0);	/* vert[123] */
+	SVECTOR(  -170,  -176,   -45);	/* vert[124] */
+	SVECTOR(  -170,  -176,   -45);	/* vert[125] */
+	SVECTOR(  -153,  -176,   -88);	/* vert[126] */
+	SVECTOR(  -153,  -176,   -88);	/* vert[127] */
+	SVECTOR(  -125,  -176,  -125);	/* vert[128] */
+	SVECTOR(  -125,  -176,  -125);	/* vert[129] */
+	SVECTOR(   -88,  -176,  -153);	/* vert[130] */
+	SVECTOR(   -88,  -176,  -153);	/* vert[131] */
+	SVECTOR(   -45,  -176,  -170);	/* vert[132] */
+	SVECTOR(   -45,  -176,  -170);	/* vert[133] */
+	SVECTOR(     0,  -176,  -176);	/* vert[134] */
+	SVECTOR(     0,  -176,  -176);	/* vert[135] */
+	SVECTOR(    45,  -176,  -170);	/* vert[136] */
+	SVECTOR(    45,  -176,  -170);	/* vert[137] */
+	SVECTOR(    88,  -176,  -153);	/* vert[138] */
+	SVECTOR(    88,  -176,  -153);	/* vert[139] */
+	SVECTOR(   125,  -176,  -125);	/* vert[140] */
+	SVECTOR(   125,  -176,  -125);	/* vert[141] */
+	SVECTOR(   153,  -176,   -88);	/* vert[142] */
+	SVECTOR(   153,  -176,   -88);	/* vert[143] */
+	SVECTOR(   170,  -176,   -45);	/* vert[144] */
+	SVECTOR(   170,  -176,   -45);	/* vert[145] */
+	SVECTOR(   216,  -125,     0);	/* vert[146] */
+	SVECTOR(   216,  -125,     0);	/* vert[147] */
+	SVECTOR(   209,  -125,    56);	/* vert[148] */
+	SVECTOR(   209,  -125,    56);	/* vert[149] */
+	SVECTOR(   187,  -125,   108);	/* vert[150] */
+	SVECTOR(   187,  -125,   108);	/* vert[151] */
+	SVECTOR(   153,  -125,   153);	/* vert[152] */
+	SVECTOR(   153,  -125,   153);	/* vert[153] */
+	SVECTOR(   108,  -125,   187);	/* vert[154] */
+	SVECTOR(   108,  -125,   187);	/* vert[155] */
+	SVECTOR(    56,  -125,   209);	/* vert[156] */
+	SVECTOR(    56,  -125,   209);	/* vert[157] */
+	SVECTOR(     0,  -125,   216);	/* vert[158] */
+	SVECTOR(     0,  -125,   216);	/* vert[159] */
+	SVECTOR(   -56,  -125,   209);	/* vert[160] */
+	SVECTOR(   -56,  -125,   209);	/* vert[161] */
+	SVECTOR(  -108,  -125,   187);	/* vert[162] */
+	SVECTOR(  -108,  -125,   187);	/* vert[163] */
+	SVECTOR(  -153,  -125,   153);	/* vert[164] */
+	SVECTOR(  -153,  -125,   153);	/* vert[165] */
+	SVECTOR(  -187,  -125,   108);	/* vert[166] */
+	SVECTOR(  -187,  -125,   108);	/* vert[167] */
+	SVECTOR(  -209,  -125,    56);	/* vert[168] */
+	SVECTOR(  -209,  -125,    56);	/* vert[169] */
+	SVECTOR(  -216,  -125,     0);	/* vert[170] */
+	SVECTOR(  -216,  -125,     0);	/* vert[171] */
+	SVECTOR(  -209,  -125,   -56);	/* vert[172] */
+	SVECTOR(  -209,  -125,   -56);	/* vert[173] */
+	SVECTOR(  -187,  -125,  -108);	/* vert[174] */
+	SVECTOR(  -187,  -125,  -108);	/* vert[175] */
+	SVECTOR(  -153,  -125,  -153);	/* vert[176] */
+	SVECTOR(  -153,  -125,  -153);	/* vert[177] */
+	SVECTOR(  -108,  -125,  -187);	/* vert[178] */
+	SVECTOR(  -108,  -125,  -187);	/* vert[179] */
+	SVECTOR(   -56,  -125,  -209);	/* vert[180] */
+	SVECTOR(   -56,  -125,  -209);	/* vert[181] */
+	SVECTOR(     0,  -125,  -216);	/* vert[182] */
+	SVECTOR(     0,  -125,  -216);	/* vert[183] */
+	SVECTOR(    56,  -125,  -209);	/* vert[184] */
+	SVECTOR(    56,  -125,  -209);	/* vert[185] */
+	SVECTOR(   108,  -125,  -187);	/* vert[186] */
+	SVECTOR(   108,  -125,  -187);	/* vert[187] */
+	SVECTOR(   153,  -125,  -153);	/* vert[188] */
+	SVECTOR(   153,  -125,  -153);	/* vert[189] */
+	SVECTOR(   187,  -125,  -108);	/* vert[190] */
+	SVECTOR(   187,  -125,  -108);	/* vert[191] */
+	SVECTOR(   209,  -125,   -56);	/* vert[192] */
+	SVECTOR(   209,  -125,   -56);	/* vert[193] */
+	SVECTOR(   241,   -64,     0);	/* vert[194] */
+	SVECTOR(   241,   -64,     0);	/* vert[195] */
+	SVECTOR(   233,   -64,    62);	/* vert[196] */
+	SVECTOR(   233,   -64,    62);	/* vert[197] */
+	SVECTOR(   209,   -64,   120);	/* vert[198] */
+	SVECTOR(   209,   -64,   120);	/* vert[199] */
+	SVECTOR(   170,   -64,   170);	/* vert[200] */
+	SVECTOR(   170,   -64,   170);	/* vert[201] */
+	SVECTOR(   120,   -64,   209);	/* vert[202] */
+	SVECTOR(   120,   -64,   209);	/* vert[203] */
+	SVECTOR(    62,   -64,   233);	/* vert[204] */
+	SVECTOR(    62,   -64,   233);	/* vert[205] */
+	SVECTOR(     0,   -64,   241);	/* vert[206] */
+	SVECTOR(     0,   -64,   241);	/* vert[207] */
+	SVECTOR(   -62,   -64,   233);	/* vert[208] */
+	SVECTOR(   -62,   -64,   233);	/* vert[209] */
+	SVECTOR(  -120,   -64,   209);	/* vert[210] */
+	SVECTOR(  -120,   -64,   209);	/* vert[211] */
+	SVECTOR(  -170,   -64,   170);	/* vert[212] */
+	SVECTOR(  -170,   -64,   170);	/* vert[213] */
+	SVECTOR(  -209,   -64,   120);	/* vert[214] */
+	SVECTOR(  -209,   -64,   120);	/* vert[215] */
+	SVECTOR(  -233,   -64,    62);	/* vert[216] */
+	SVECTOR(  -233,   -64,    62);	/* vert[217] */
+	SVECTOR(  -241,   -64,     0);	/* vert[218] */
+	SVECTOR(  -241,   -64,     0);	/* vert[219] */
+	SVECTOR(  -233,   -64,   -62);	/* vert[220] */
+	SVECTOR(  -233,   -64,   -62);	/* vert[221] */
+	SVECTOR(  -209,   -64,  -120);	/* vert[222] */
+	SVECTOR(  -209,   -64,  -120);	/* vert[223] */
+	SVECTOR(  -170,   -64,  -170);	/* vert[224] */
+	SVECTOR(  -170,   -64,  -170);	/* vert[225] */
+	SVECTOR(  -120,   -64,  -209);	/* vert[226] */
+	SVECTOR(  -120,   -64,  -209);	/* vert[227] */
+	SVECTOR(   -62,   -64,  -233);	/* vert[228] */
+	SVECTOR(   -62,   -64,  -233);	/* vert[229] */
+	SVECTOR(     0,   -64,  -241);	/* vert[230] */
+	SVECTOR(     0,   -64,  -241);	/* vert[231] */
+	SVECTOR(    62,   -64,  -233);	/* vert[232] */
+	SVECTOR(    62,   -64,  -233);	/* vert[233] */
+	SVECTOR(   120,   -64,  -209);	/* vert[234] */
+	SVECTOR(   120,   -64,  -209);	/* vert[235] */
+	SVECTOR(   170,   -64,  -170);	/* vert[236] */
+	SVECTOR(   170,   -64,  -170);	/* vert[237] */
+	SVECTOR(   209,   -64,  -120);	/* vert[238] */
+	SVECTOR(   209,   -64,  -120);	/* vert[239] */
+	SVECTOR(   233,   -64,   -62);	/* vert[240] */
+	SVECTOR(   233,   -64,   -62);	/* vert[241] */
+	SVECTOR(   250,     0,     0);	/* vert[242] */
+	SVECTOR(   250,     0,     0);	/* vert[243] */
+	SVECTOR(   241,     0,    64);	/* vert[244] */
+	SVECTOR(   241,     0,    64);	/* vert[245] */
+	SVECTOR(   216,     0,   125);	/* vert[246] */
+	SVECTOR(   216,     0,   125);	/* vert[247] */
+	SVECTOR(   176,     0,   176);	/* vert[248] */
+	SVECTOR(   176,     0,   176);	/* vert[249] */
+	SVECTOR(   125,     0,   216);	/* vert[250] */
+	SVECTOR(   125,     0,   216);	/* vert[251] */
+	SVECTOR(    64,     0,   241);	/* vert[252] */
+	SVECTOR(    64,     0,   241);	/* vert[253] */
+	SVECTOR(     0,     0,   250);	/* vert[254] */
+	SVECTOR(     0,     0,   250);	/* vert[255] */
+	SVECTOR(   -64,     0,   241);	/* vert[256] */
+	SVECTOR(   -64,     0,   241);	/* vert[257] */
+	SVECTOR(  -125,     0,   216);	/* vert[258] */
+	SVECTOR(  -125,     0,   216);	/* vert[259] */
+	SVECTOR(  -176,     0,   176);	/* vert[260] */
+	SVECTOR(  -176,     0,   176);	/* vert[261] */
+	SVECTOR(  -216,     0,   125);	/* vert[262] */
+	SVECTOR(  -216,     0,   125);	/* vert[263] */
+	SVECTOR(  -241,     0,    64);	/* vert[264] */
+	SVECTOR(  -241,     0,    64);	/* vert[265] */
+	SVECTOR(  -250,     0,     0);	/* vert[266] */
+	SVECTOR(  -250,     0,     0);	/* vert[267] */
+	SVECTOR(  -241,     0,   -64);	/* vert[268] */
+	SVECTOR(  -241,     0,   -64);	/* vert[269] */
+	SVECTOR(  -216,     0,  -125);	/* vert[270] */
+	SVECTOR(  -216,     0,  -125);	/* vert[271] */
+	SVECTOR(  -176,     0,  -176);	/* vert[272] */
+	SVECTOR(  -176,     0,  -176);	/* vert[273] */
+	SVECTOR(  -125,     0,  -216);	/* vert[274] */
+	SVECTOR(  -125,     0,  -216);	/* vert[275] */
+	SVECTOR(   -64,     0,  -241);	/* vert[276] */
+	SVECTOR(   -64,     0,  -241);	/* vert[277] */
+	SVECTOR(     0,     0,  -250);	/* vert[278] */
+	SVECTOR(     0,     0,  -250);	/* vert[279] */
+	SVECTOR(    64,     0,  -241);	/* vert[280] */
+	SVECTOR(    64,     0,  -241);	/* vert[281] */
+	SVECTOR(   125,     0,  -216);	/* vert[282] */
+	SVECTOR(   125,     0,  -216);	/* vert[283] */
+	SVECTOR(   176,     0,  -176);	/* vert[284] */
+	SVECTOR(   176,     0,  -176);	/* vert[285] */
+	SVECTOR(   216,     0,  -125);	/* vert[286] */
+	SVECTOR(   216,     0,  -125);	/* vert[287] */
+	SVECTOR(   241,     0,   -64);	/* vert[288] */
+	SVECTOR(   241,     0,   -64);	/* vert[289] */
+	SVECTOR(   241,    64,     0);	/* vert[290] */
+	SVECTOR(   241,    64,     0);	/* vert[291] */
+	SVECTOR(   233,    64,    62);	/* vert[292] */
+	SVECTOR(   233,    64,    62);	/* vert[293] */
+	SVECTOR(   209,    64,   120);	/* vert[294] */
+	SVECTOR(   209,    64,   120);	/* vert[295] */
+	SVECTOR(   170,    64,   170);	/* vert[296] */
+	SVECTOR(   170,    64,   170);	/* vert[297] */
+	SVECTOR(   120,    64,   209);	/* vert[298] */
+	SVECTOR(   120,    64,   209);	/* vert[299] */
+	SVECTOR(    62,    64,   233);	/* vert[300] */
+	SVECTOR(    62,    64,   233);	/* vert[301] */
+	SVECTOR(     0,    64,   241);	/* vert[302] */
+	SVECTOR(     0,    64,   241);	/* vert[303] */
+	SVECTOR(   -62,    64,   233);	/* vert[304] */
+	SVECTOR(   -62,    64,   233);	/* vert[305] */
+	SVECTOR(  -120,    64,   209);	/* vert[306] */
+	SVECTOR(  -120,    64,   209);	/* vert[307] */
+	SVECTOR(  -170,    64,   170);	/* vert[308] */
+	SVECTOR(  -170,    64,   170);	/* vert[309] */
+	SVECTOR(  -209,    64,   120);	/* vert[310] */
+	SVECTOR(  -209,    64,   120);	/* vert[311] */
+	SVECTOR(  -233,    64,    62);	/* vert[312] */
+	SVECTOR(  -233,    64,    62);	/* vert[313] */
+	SVECTOR(  -241,    64,     0);	/* vert[314] */
+	SVECTOR(  -241,    64,     0);	/* vert[315] */
+	SVECTOR(  -233,    64,   -62);	/* vert[316] */
+	SVECTOR(  -233,    64,   -62);	/* vert[317] */
+	SVECTOR(  -209,    64,  -120);	/* vert[318] */
+	SVECTOR(  -209,    64,  -120);	/* vert[319] */
+	SVECTOR(  -170,    64,  -170);	/* vert[320] */
+	SVECTOR(  -170,    64,  -170);	/* vert[321] */
+	SVECTOR(  -120,    64,  -209);	/* vert[322] */
+	SVECTOR(  -120,    64,  -209);	/* vert[323] */
+	SVECTOR(   -62,    64,  -233);	/* vert[324] */
+	SVECTOR(   -62,    64,  -233);	/* vert[325] */
+	SVECTOR(     0,    64,  -241);	/* vert[326] */
+	SVECTOR(     0,    64,  -241);	/* vert[327] */
+	SVECTOR(    62,    64,  -233);	/* vert[328] */
+	SVECTOR(    62,    64,  -233);	/* vert[329] */
+	SVECTOR(   120,    64,  -209);	/* vert[330] */
+	SVECTOR(   120,    64,  -209);	/* vert[331] */
+	SVECTOR(   170,    64,  -170);	/* vert[332] */
+	SVECTOR(   170,    64,  -170);	/* vert[333] */
+	SVECTOR(   209,    64,  -120);	/* vert[334] */
+	SVECTOR(   209,    64,  -120);	/* vert[335] */
+	SVECTOR(   233,    64,   -62);	/* vert[336] */
+	SVECTOR(   233,    64,   -62);	/* vert[337] */
+	SVECTOR(   216,   125,     0);	/* vert[338] */
+	SVECTOR(   216,   125,     0);	/* vert[339] */
+	SVECTOR(   209,   125,    56);	/* vert[340] */
+	SVECTOR(   209,   125,    56);	/* vert[341] */
+	SVECTOR(   187,   125,   108);	/* vert[342] */
+	SVECTOR(   187,   125,   108);	/* vert[343] */
+	SVECTOR(   153,   125,   153);	/* vert[344] */
+	SVECTOR(   153,   125,   153);	/* vert[345] */
+	SVECTOR(   108,   125,   187);	/* vert[346] */
+	SVECTOR(   108,   125,   187);	/* vert[347] */
+	SVECTOR(    56,   125,   209);	/* vert[348] */
+	SVECTOR(    56,   125,   209);	/* vert[349] */
+	SVECTOR(     0,   125,   216);	/* vert[350] */
+	SVECTOR(     0,   125,   216);	/* vert[351] */
+	SVECTOR(   -56,   125,   209);	/* vert[352] */
+	SVECTOR(   -56,   125,   209);	/* vert[353] */
+	SVECTOR(  -108,   125,   187);	/* vert[354] */
+	SVECTOR(  -108,   125,   187);	/* vert[355] */
+	SVECTOR(  -153,   125,   153);	/* vert[356] */
+	SVECTOR(  -153,   125,   153);	/* vert[357] */
+	SVECTOR(  -187,   125,   108);	/* vert[358] */
+	SVECTOR(  -187,   125,   108);	/* vert[359] */
+	SVECTOR(  -209,   125,    56);	/* vert[360] */
+	SVECTOR(  -209,   125,    56);	/* vert[361] */
+	SVECTOR(  -216,   125,     0);	/* vert[362] */
+	SVECTOR(  -216,   125,     0);	/* vert[363] */
+	SVECTOR(  -209,   125,   -56);	/* vert[364] */
+	SVECTOR(  -209,   125,   -56);	/* vert[365] */
+	SVECTOR(  -187,   125,  -108);	/* vert[366] */
+	SVECTOR(  -187,   125,  -108);	/* vert[367] */
+	SVECTOR(  -153,   125,  -153);	/* vert[368] */
+	SVECTOR(  -153,   125,  -153);	/* vert[369] */
+	SVECTOR(  -108,   125,  -187);	/* vert[370] */
+	SVECTOR(  -108,   125,  -187);	/* vert[371] */
+	SVECTOR(   -56,   125,  -209);	/* vert[372] */
+	SVECTOR(   -56,   125,  -209);	/* vert[373] */
+	SVECTOR(     0,   125,  -216);	/* vert[374] */
+	SVECTOR(     0,   125,  -216);	/* vert[375] */
+	SVECTOR(    56,   125,  -209);	/* vert[376] */
+	SVECTOR(    56,   125,  -209);	/* vert[377] */
+	SVECTOR(   108,   125,  -187);	/* vert[378] */
+	SVECTOR(   108,   125,  -187);	/* vert[379] */
+	SVECTOR(   153,   125,  -153);	/* vert[380] */
+	SVECTOR(   153,   125,  -153);	/* vert[381] */
+	SVECTOR(   187,   125,  -108);	/* vert[382] */
+	SVECTOR(   187,   125,  -108);	/* vert[383] */
+	SVECTOR(   209,   125,   -56);	/* vert[384] */
+	SVECTOR(   209,   125,   -56);	/* vert[385] */
+	SVECTOR(   176,   176,     0);	/* vert[386] */
+	SVECTOR(   176,   176,     0);	/* vert[387] */
+	SVECTOR(   170,   176,    45);	/* vert[388] */
+	SVECTOR(   170,   176,    45);	/* vert[389] */
+	SVECTOR(   153,   176,    88);	/* vert[390] */
+	SVECTOR(   153,   176,    88);	/* vert[391] */
+	SVECTOR(   125,   176,   125);	/* vert[392] */
+	SVECTOR(   125,   176,   125);	/* vert[393] */
+	SVECTOR(    88,   176,   153);	/* vert[394] */
+	SVECTOR(    88,   176,   153);	/* vert[395] */
+	SVECTOR(    45,   176,   170);	/* vert[396] */
+	SVECTOR(    45,   176,   170);	/* vert[397] */
+	SVECTOR(     0,   176,   176);	/* vert[398] */
+	SVECTOR(     0,   176,   176);	/* vert[399] */
+	SVECTOR(   -45,   176,   170);	/* vert[400] */
+	SVECTOR(   -45,   176,   170);	/* vert[401] */
+	SVECTOR(   -88,   176,   153);	/* vert[402] */
+	SVECTOR(   -88,   176,   153);	/* vert[403] */
+	SVECTOR(  -125,   176,   125);	/* vert[404] */
+	SVECTOR(  -125,   176,   125);	/* vert[405] */
+	SVECTOR(  -153,   176,    88);	/* vert[406] */
+	SVECTOR(  -153,   176,    88);	/* vert[407] */
+	SVECTOR(  -170,   176,    45);	/* vert[408] */
+	SVECTOR(  -170,   176,    45);	/* vert[409] */
+	SVECTOR(  -176,   176,     0);	/* vert[410] */
+	SVECTOR(  -176,   176,     0);	/* vert[411] */
+	SVECTOR(  -170,   176,   -45);	/* vert[412] */
+	SVECTOR(  -170,   176,   -45);	/* vert[413] */
+	SVECTOR(  -153,   176,   -88);	/* vert[414] */
+	SVECTOR(  -153,   176,   -88);	/* vert[415] */
+	SVECTOR(  -125,   176,  -125);	/* vert[416] */
+	SVECTOR(  -125,   176,  -125);	/* vert[417] */
+	SVECTOR(   -88,   176,  -153);	/* vert[418] */
+	SVECTOR(   -88,   176,  -153);	/* vert[419] */
+	SVECTOR(   -45,   176,  -170);	/* vert[420] */
+	SVECTOR(   -45,   176,  -170);	/* vert[421] */
+	SVECTOR(     0,   176,  -176);	/* vert[422] */
+	SVECTOR(     0,   176,  -176);	/* vert[423] */
+	SVECTOR(    45,   176,  -170);	/* vert[424] */
+	SVECTOR(    45,   176,  -170);	/* vert[425] */
+	SVECTOR(    88,   176,  -153);	/* vert[426] */
+	SVECTOR(    88,   176,  -153);	/* vert[427] */
+	SVECTOR(   125,   176,  -125);	/* vert[428] */
+	SVECTOR(   125,   176,  -125);	/* vert[429] */
+	SVECTOR(   153,   176,   -88);	/* vert[430] */
+	SVECTOR(   153,   176,   -88);	/* vert[431] */
+	SVECTOR(   170,   176,   -45);	/* vert[432] */
+	SVECTOR(   170,   176,   -45);	/* vert[433] */
+	SVECTOR(   137,   238,     0);	/* vert[434] */
+	SVECTOR(   137,   238,     0);	/* vert[435] */
+	SVECTOR(   132,   238,    35);	/* vert[436] */
+	SVECTOR(   132,   238,    35);	/* vert[437] */
+	SVECTOR(   119,   238,    68);	/* vert[438] */
+	SVECTOR(   119,   238,    68);	/* vert[439] */
+	SVECTOR(    97,   238,    97);	/* vert[440] */
+	SVECTOR(    97,   238,    97);	/* vert[441] */
+	SVECTOR(    68,   238,   119);	/* vert[442] */
+	SVECTOR(    68,   238,   119);	/* vert[443] */
+	SVECTOR(    35,   238,   132);	/* vert[444] */
+	SVECTOR(    35,   238,   132);	/* vert[445] */
+	SVECTOR(     0,   238,   137);	/* vert[446] */
+	SVECTOR(     0,   238,   137);	/* vert[447] */
+	SVECTOR(   -35,   238,   132);	/* vert[448] */
+	SVECTOR(   -35,   238,   132);	/* vert[449] */
+	SVECTOR(   -68,   238,   119);	/* vert[450] */
+	SVECTOR(   -68,   238,   119);	/* vert[451] */
+	SVECTOR(   -97,   238,    97);	/* vert[452] */
+	SVECTOR(   -97,   238,    97);	/* vert[453] */
+	SVECTOR(  -119,   238,    68);	/* vert[454] */
+	SVECTOR(  -119,   238,    68);	/* vert[455] */
+	SVECTOR(  -132,   238,    35);	/* vert[456] */
+	SVECTOR(  -132,   238,    35);	/* vert[457] */
+	SVECTOR(  -137,   238,     0);	/* vert[458] */
+	SVECTOR(  -137,   238,     0);	/* vert[459] */
+	SVECTOR(  -132,   238,   -35);	/* vert[460] */
+	SVECTOR(  -132,   238,   -35);	/* vert[461] */
+	SVECTOR(  -119,   238,   -68);	/* vert[462] */
+	SVECTOR(  -119,   238,   -68);	/* vert[463] */
+	SVECTOR(   -97,   238,   -97);	/* vert[464] */
+	SVECTOR(   -97,   238,   -97);	/* vert[465] */
+	SVECTOR(   -68,   238,  -119);	/* vert[466] */
+	SVECTOR(   -68,   238,  -119);	/* vert[467] */
+	SVECTOR(   -35,   238,  -132);	/* vert[468] */
+	SVECTOR(   -35,   238,  -132);	/* vert[469] */
+	SVECTOR(     0,   238,  -137);	/* vert[470] */
+	SVECTOR(     0,   238,  -137);	/* vert[471] */
+	SVECTOR(    35,   238,  -132);	/* vert[472] */
+	SVECTOR(    35,   238,  -132);	/* vert[473] */
+	SVECTOR(    68,   238,  -119);	/* vert[474] */
+	SVECTOR(    68,   238,  -119);	/* vert[475] */
+	SVECTOR(    97,   238,   -97);	/* vert[476] */
+	SVECTOR(    97,   238,   -97);	/* vert[477] */
+	SVECTOR(   119,   238,   -68);	/* vert[478] */
+	SVECTOR(   119,   238,   -68);	/* vert[479] */
+	SVECTOR(   132,   238,   -35);	/* vert[480] */
+	SVECTOR(   132,   238,   -35);	/* vert[481] */
+	SVECTOR(   109,   296,     0);	/* vert[482] */
+	SVECTOR(   109,   296,     0);	/* vert[483] */
+	SVECTOR(   106,   296,    28);	/* vert[484] */
+	SVECTOR(   106,   296,    28);	/* vert[485] */
+	SVECTOR(    95,   296,    54);	/* vert[486] */
+	SVECTOR(    95,   296,    54);	/* vert[487] */
+v488:	SVECTOR(    77,   296,    77);	/* vert[488] */
+	SVECTOR(    77,   296,    77);	/* vert[489] */
+v490:	SVECTOR(    77,   296,    77);	/* vert[490] */
+	SVECTOR(    54,   296,    95);	/* vert[491] */
+v492:	SVECTOR(    54,   296,    95);	/* vert[492] */
+v493:	SVECTOR(    54,   296,    95);	/* vert[493] */
+	SVECTOR(    28,   296,   106);	/* vert[494] */
+	SVECTOR(    28,   296,   106);	/* vert[495] */
+	SVECTOR(     0,   296,   109);	/* vert[496] */
+	SVECTOR(     0,   296,   109);	/* vert[497] */
+	SVECTOR(   -28,   296,   106);	/* vert[498] */
+	SVECTOR(   -28,   296,   106);	/* vert[499] */
+	SVECTOR(   -54,   296,    95);	/* vert[500] */
+	SVECTOR(   -54,   296,    95);	/* vert[501] */
+v502:	SVECTOR(   -77,   296,    77);	/* vert[502] */
+	SVECTOR(   -77,   296,    77);	/* vert[503] */
+v504:	SVECTOR(   -77,   296,    77);	/* vert[504] */
+	SVECTOR(   -77,   296,    77);	/* vert[505] */
+v506:	SVECTOR(   -95,   296,    54);	/* vert[506] */
+	SVECTOR(   -95,   296,    54);	/* vert[507] */
+	SVECTOR(   -95,   296,    54);	/* vert[508] */
+v509:	SVECTOR(   -95,   296,    54);	/* vert[509] */
+	SVECTOR(  -106,   296,    28);	/* vert[510] */
+	SVECTOR(  -106,   296,    28);	/* vert[511] */
+	SVECTOR(  -109,   296,     0);	/* vert[512] */
+	SVECTOR(  -109,   296,     0);	/* vert[513] */
+	SVECTOR(  -106,   296,   -28);	/* vert[514] */
+	SVECTOR(  -106,   296,   -28);	/* vert[515] */
+	SVECTOR(   -95,   296,   -54);	/* vert[516] */
+	SVECTOR(   -95,   296,   -54);	/* vert[517] */
+v518:	SVECTOR(   -77,   296,   -77);	/* vert[518] */
+v519:	SVECTOR(   -77,   296,   -77);	/* vert[519] */
+	SVECTOR(   -77,   296,   -77);	/* vert[520] */
+v521:	SVECTOR(   -54,   296,   -95);	/* vert[521] */
+v522:	SVECTOR(   -54,   296,   -95);	/* vert[522] */
+	SVECTOR(   -54,   296,   -95);	/* vert[523] */
+	SVECTOR(   -28,   296,  -106);	/* vert[524] */
+	SVECTOR(   -28,   296,  -106);	/* vert[525] */
+	SVECTOR(     0,   296,  -109);	/* vert[526] */
+	SVECTOR(     0,   296,  -109);	/* vert[527] */
+	SVECTOR(    28,   296,  -106);	/* vert[528] */
+	SVECTOR(    28,   296,  -106);	/* vert[529] */
+	SVECTOR(    54,   296,   -95);	/* vert[530] */
+	SVECTOR(    54,   296,   -95);	/* vert[531] */
+v532:	SVECTOR(    77,   296,   -77);	/* vert[532] */
+v533:	SVECTOR(    77,   296,   -77);	/* vert[533] */
+	SVECTOR(    77,   296,   -77);	/* vert[534] */
+v535:	SVECTOR(    95,   296,   -54);	/* vert[535] */
+v536:	SVECTOR(    95,   296,   -54);	/* vert[536] */
+	SVECTOR(    95,   296,   -54);	/* vert[537] */
+	SVECTOR(   106,   296,   -28);	/* vert[538] */
+	SVECTOR(   106,   296,   -28);	/* vert[539] */
+	SVECTOR(   -62,   556,   -67);	/* vert[540] */
+	SVECTOR(   -76,   556,    51);	/* vert[541] */
+v542:	SVECTOR(   -92,   485,    63);	/* vert[542] */
+v543:	SVECTOR(   -92,   485,    63);	/* vert[543] */
+	SVECTOR(   -92,   485,    63);	/* vert[544] */
+v545:	SVECTOR(   -74,   485,   -83);	/* vert[545] */
+v546:	SVECTOR(   -74,   485,   -83);	/* vert[546] */
+	SVECTOR(    67,   556,   -62);	/* vert[547] */
+	SVECTOR(   -51,   556,   -76);	/* vert[548] */
+v549:	SVECTOR(   -63,   485,   -92);	/* vert[549] */
+v550:	SVECTOR(   -63,   485,   -92);	/* vert[550] */
+v551:	SVECTOR(    83,   485,   -74);	/* vert[551] */
+v552:	SVECTOR(    83,   485,   -74);	/* vert[552] */
+v553:	SVECTOR(    63,   485,    92);	/* vert[553] */
+v554:	SVECTOR(    63,   485,    92);	/* vert[554] */
+v556:	SVECTOR(   -83,   485,    74);	/* vert[555] */
+v566:	SVECTOR(   -83,   485,    74);	/* vert[556] */
+v557:	SVECTOR(   -83,   485,    74);	/* vert[557] */
+	SVECTOR(   -67,   556,    62);	/* vert[558] */
+	SVECTOR(    51,   556,    76);	/* vert[559] */
+	SVECTOR(    51,   564,    65);	/* vert[560] */
+	SVECTOR(   -65,   564,    51);	/* vert[561] */
+	SVECTOR(   -51,   564,   -65);	/* vert[562] */
+	SVECTOR(    65,   564,   -51);	/* vert[563] */
+	SVECTOR(    76,   556,   -51);	/* vert[564] */
+v565:	SVECTOR(    92,   485,   -63);	/* vert[565] */
+	SVECTOR(    92,   485,   -63);	/* vert[566] */
+v567:	SVECTOR(    74,   485,    83);	/* vert[567] */
+v568:	SVECTOR(    74,   485,    83);	/* vert[568] */
+	SVECTOR(    62,   556,    67);	/* vert[569] */
+
+SharedVertSect:
+
+BalloonSharedVert:
+sv488:	SVECTOR(    77,   296,    77);	/* vert[488] */
+sv490:	SVECTOR(    77,   296,    77);	/* vert[490] */
+sv492:	SVECTOR(    54,   296,    95);	/* vert[492] */
+sv493:	SVECTOR(    54,   296,    95);	/* vert[493] */
+sv502:	SVECTOR(   -77,   296,    77);	/* vert[502] */
+sv504:	SVECTOR(   -77,   296,    77);	/* vert[504] */
+sv506:	SVECTOR(   -95,   296,    54);	/* vert[506] */
+sv509:	SVECTOR(   -95,   296,    54);	/* vert[509] */
+sv518:	SVECTOR(   -77,   296,   -77);	/* vert[518] */
+sv519:	SVECTOR(   -77,   296,   -77);	/* vert[519] */
+sv521:	SVECTOR(   -54,   296,   -95);	/* vert[521] */
+sv522:	SVECTOR(   -54,   296,   -95);	/* vert[522] */
+sv532:	SVECTOR(    77,   296,   -77);	/* vert[532] */
+sv533:	SVECTOR(    77,   296,   -77);	/* vert[533] */
+sv535:	SVECTOR(    95,   296,   -54);	/* vert[535] */
+sv536:	SVECTOR(    95,   296,   -54);	/* vert[536] */
+
+CabinSharedVert:
+sv542:	SVECTOR(   -92,   485,    63);	/* vert[542] */
+sv543:	SVECTOR(   -92,   485,    63);	/* vert[543] */
+sv545:	SVECTOR(   -74,   485,   -83);	/* vert[545] */
+sv546:	SVECTOR(   -74,   485,   -83);	/* vert[546] */
+sv549:	SVECTOR(   -63,   485,   -92);	/* vert[549] */
+sv550:	SVECTOR(   -63,   485,   -92);	/* vert[550] */
+sv551:	SVECTOR(    83,   485,   -74);	/* vert[551] */
+sv552:	SVECTOR(    83,   485,   -74);	/* vert[552] */
+sv553:	SVECTOR(    63,   485,    92);	/* vert[553] */
+sv554:	SVECTOR(    63,   485,    92);	/* vert[554] */
+sv556:	SVECTOR(   -83,   485,    74);	/* vert[555] */
+sv566:	SVECTOR(   -83,   485,    74);	/* vert[556] */
+sv557:	SVECTOR(   -83,   485,    74);	/* vert[557] */
+sv565:	SVECTOR(    92,   485,   -63);	/* vert[565] */
+sv567:	SVECTOR(    74,   485,    83);	/* vert[567] */
+sv568:	SVECTOR(    74,   485,    83);	/* vert[568] */
+
+CalcedVertSect:
+
+BalloonCalcedVert:
+cv488:	SVECTOR(0, 0, 0);
+cv490:	SVECTOR(0, 0, 0);
+cv492:	SVECTOR(0, 0, 0);
+cv493:	SVECTOR(0, 0, 0);
+cv502:	SVECTOR(0, 0, 0);
+cv504:	SVECTOR(0, 0, 0);
+cv506:	SVECTOR(0, 0, 0);
+cv509:	SVECTOR(0, 0, 0);
+cv518:	SVECTOR(0, 0, 0);
+cv519:	SVECTOR(0, 0, 0);
+cv521:	SVECTOR(0, 0, 0);
+cv522:	SVECTOR(0, 0, 0);
+cv532:	SVECTOR(0, 0, 0);
+cv533:	SVECTOR(0, 0, 0);
+cv535:	SVECTOR(0, 0, 0);
+cv536:	SVECTOR(0, 0, 0);
+
+CabinCalcedVert:
+cv542:	SVECTOR(0, 0, 0);
+cv543:	SVECTOR(0, 0, 0);
+cv545:	SVECTOR(0, 0, 0);
+cv546:	SVECTOR(0, 0, 0);
+cv549:	SVECTOR(0, 0, 0);
+cv550:	SVECTOR(0, 0, 0);
+cv551:	SVECTOR(0, 0, 0);
+cv552:	SVECTOR(0, 0, 0);
+cv553:	SVECTOR(0, 0, 0);
+cv554:	SVECTOR(0, 0, 0);
+cv556:	SVECTOR(0, 0, 0);
+cv566:	SVECTOR(0, 0, 0);
+cv557:	SVECTOR(0, 0, 0);
+cv565:	SVECTOR(0, 0, 0);
+cv567:	SVECTOR(0, 0, 0);
+cv568:	SVECTOR(0, 0, 0);
+
+Norm_0000:
+	SVECTOR(     0, -4096,     0);	/* normal[0] */
+	SVECTOR(  1023, -3956,   274);	/* normal[1] */
+	SVECTOR(  1059, -3956,     0);	/* normal[2] */
+	SVECTOR(   917, -3956,   529);	/* normal[3] */
+	SVECTOR(   749, -3956,   749);	/* normal[4] */
+	SVECTOR(   529, -3956,   917);	/* normal[5] */
+	SVECTOR(   274, -3956,  1023);	/* normal[6] */
+	SVECTOR(     0, -3956,  1059);	/* normal[7] */
+	SVECTOR(  -274, -3956,  1023);	/* normal[8] */
+	SVECTOR(  -529, -3956,   917);	/* normal[9] */
+	SVECTOR(  -749, -3956,   749);	/* normal[10] */
+	SVECTOR(  -917, -3956,   529);	/* normal[11] */
+	SVECTOR( -1023, -3956,   274);	/* normal[12] */
+	SVECTOR( -1059, -3956,     0);	/* normal[13] */
+	SVECTOR( -1023, -3956,  -274);	/* normal[14] */
+	SVECTOR(  -917, -3956,  -529);	/* normal[15] */
+	SVECTOR(  -749, -3956,  -749);	/* normal[16] */
+	SVECTOR(  -529, -3956,  -917);	/* normal[17] */
+	SVECTOR(  -274, -3956, -1023);	/* normal[18] */
+	SVECTOR(     0, -3956, -1059);	/* normal[19] */
+	SVECTOR(   274, -3956, -1023);	/* normal[20] */
+	SVECTOR(   529, -3956,  -917);	/* normal[21] */
+	SVECTOR(   749, -3956,  -749);	/* normal[22] */
+	SVECTOR(   917, -3956,  -529);	/* normal[23] */
+	SVECTOR(  1023, -3956,  -274);	/* normal[24] */
+	SVECTOR(  2047, -3547,     0);	/* normal[25] */
+	SVECTOR(  1977, -3547,   529);	/* normal[26] */
+	SVECTOR(  1773, -3547,  1023);	/* normal[27] */
+	SVECTOR(  1447, -3547,  1447);	/* normal[28] */
+	SVECTOR(  1023, -3547,  1773);	/* normal[29] */
+	SVECTOR(   529, -3547,  1977);	/* normal[30] */
+	SVECTOR(     0, -3547,  2047);	/* normal[31] */
+	SVECTOR(  -529, -3547,  1977);	/* normal[32] */
+	SVECTOR( -1023, -3547,  1773);	/* normal[33] */
+	SVECTOR( -1447, -3547,  1447);	/* normal[34] */
+	SVECTOR( -1773, -3547,  1023);	/* normal[35] */
+	SVECTOR( -1977, -3547,   529);	/* normal[36] */
+	SVECTOR( -2047, -3547,     0);	/* normal[37] */
+	SVECTOR( -1977, -3547,  -529);	/* normal[38] */
+	SVECTOR( -1773, -3547, -1023);	/* normal[39] */
+	SVECTOR( -1447, -3547, -1447);	/* normal[40] */
+	SVECTOR( -1023, -3547, -1773);	/* normal[41] */
+	SVECTOR(  -529, -3547, -1977);	/* normal[42] */
+	SVECTOR(     0, -3547, -2047);	/* normal[43] */
+	SVECTOR(   529, -3547, -1977);	/* normal[44] */
+	SVECTOR(  1023, -3547, -1773);	/* normal[45] */
+	SVECTOR(  1447, -3547, -1447);	/* normal[46] */
+	SVECTOR(  1773, -3547, -1023);	/* normal[47] */
+	SVECTOR(  1977, -3547,  -529);	/* normal[48] */
+	SVECTOR(  2895, -2896,     0);	/* normal[49] */
+	SVECTOR(  2797, -2896,   749);	/* normal[50] */
+	SVECTOR(  2507, -2896,  1447);	/* normal[51] */
+	SVECTOR(  2047, -2896,  2047);	/* normal[52] */
+	SVECTOR(  1447, -2896,  2507);	/* normal[53] */
+	SVECTOR(   749, -2896,  2797);	/* normal[54] */
+	SVECTOR(     0, -2896,  2895);	/* normal[55] */
+	SVECTOR(  -749, -2896,  2797);	/* normal[56] */
+	SVECTOR( -1447, -2896,  2507);	/* normal[57] */
+	SVECTOR( -2047, -2896,  2047);	/* normal[58] */
+	SVECTOR( -2507, -2896,  1447);	/* normal[59] */
+	SVECTOR( -2797, -2896,   749);	/* normal[60] */
+	SVECTOR( -2895, -2896,     0);	/* normal[61] */
+	SVECTOR( -2797, -2896,  -749);	/* normal[62] */
+	SVECTOR( -2507, -2896, -1447);	/* normal[63] */
+	SVECTOR( -2047, -2896, -2047);	/* normal[64] */
+	SVECTOR( -1447, -2896, -2507);	/* normal[65] */
+	SVECTOR(  -749, -2896, -2797);	/* normal[66] */
+	SVECTOR(     0, -2896, -2895);	/* normal[67] */
+	SVECTOR(   749, -2896, -2797);	/* normal[68] */
+	SVECTOR(  1447, -2896, -2507);	/* normal[69] */
+	SVECTOR(  2047, -2896, -2047);	/* normal[70] */
+	SVECTOR(  2507, -2896, -1447);	/* normal[71] */
+	SVECTOR(  2797, -2896,  -749);	/* normal[72] */
+	SVECTOR(  3546, -2048,     0);	/* normal[73] */
+	SVECTOR(  3426, -2048,   918);	/* normal[74] */
+	SVECTOR(  3071, -2048,  1773);	/* normal[75] */
+	SVECTOR(  2508, -2048,  2508);	/* normal[76] */
+	SVECTOR(  1773, -2048,  3071);	/* normal[77] */
+	SVECTOR(   918, -2048,  3426);	/* normal[78] */
+	SVECTOR(     0, -2048,  3546);	/* normal[79] */
+	SVECTOR(  -918, -2048,  3426);	/* normal[80] */
+	SVECTOR( -1773, -2048,  3071);	/* normal[81] */
+	SVECTOR( -2508, -2048,  2508);	/* normal[82] */
+	SVECTOR( -3071, -2048,  1773);	/* normal[83] */
+	SVECTOR( -3426, -2048,   918);	/* normal[84] */
+	SVECTOR( -3546, -2048,     0);	/* normal[85] */
+	SVECTOR( -3426, -2048,  -918);	/* normal[86] */
+	SVECTOR( -3071, -2048, -1773);	/* normal[87] */
+	SVECTOR( -2508, -2048, -2508);	/* normal[88] */
+	SVECTOR( -1773, -2048, -3071);	/* normal[89] */
+	SVECTOR(  -918, -2048, -3426);	/* normal[90] */
+	SVECTOR(     0, -2048, -3546);	/* normal[91] */
+	SVECTOR(   918, -2048, -3426);	/* normal[92] */
+	SVECTOR(  1773, -2048, -3071);	/* normal[93] */
+	SVECTOR(  2508, -2048, -2508);	/* normal[94] */
+	SVECTOR(  3071, -2048, -1773);	/* normal[95] */
+	SVECTOR(  3426, -2048,  -918);	/* normal[96] */
+	SVECTOR(  3956, -1060,     0);	/* normal[97] */
+	SVECTOR(  3821, -1060,  1023);	/* normal[98] */
+	SVECTOR(  3426, -1060,  1978);	/* normal[99] */
+	SVECTOR(  2797, -1060,  2797);	/* normal[100] */
+	SVECTOR(  1978, -1060,  3426);	/* normal[101] */
+	SVECTOR(  1023, -1060,  3821);	/* normal[102] */
+	SVECTOR(     0, -1060,  3956);	/* normal[103] */
+	SVECTOR( -1023, -1060,  3821);	/* normal[104] */
+	SVECTOR( -1978, -1060,  3426);	/* normal[105] */
+	SVECTOR( -2797, -1060,  2797);	/* normal[106] */
+	SVECTOR( -3426, -1060,  1978);	/* normal[107] */
+	SVECTOR( -3821, -1060,  1023);	/* normal[108] */
+	SVECTOR( -3956, -1060,     0);	/* normal[109] */
+	SVECTOR( -3821, -1060, -1023);	/* normal[110] */
+	SVECTOR( -3426, -1060, -1978);	/* normal[111] */
+	SVECTOR( -2797, -1060, -2797);	/* normal[112] */
+	SVECTOR( -1978, -1060, -3426);	/* normal[113] */
+	SVECTOR( -1023, -1060, -3821);	/* normal[114] */
+	SVECTOR(     0, -1060, -3956);	/* normal[115] */
+	SVECTOR(  1023, -1060, -3821);	/* normal[116] */
+	SVECTOR(  1978, -1060, -3426);	/* normal[117] */
+	SVECTOR(  2797, -1060, -2797);	/* normal[118] */
+	SVECTOR(  3426, -1060, -1978);	/* normal[119] */
+	SVECTOR(  3821, -1060, -1023);	/* normal[120] */
+	SVECTOR(  4096,     0,     0);	/* normal[121] */
+	SVECTOR(  3956,     0,  1060);	/* normal[122] */
+	SVECTOR(  3547,     0,  2048);	/* normal[123] */
+	SVECTOR(  2896,     0,  2896);	/* normal[124] */
+	SVECTOR(  2047,     0,  3547);	/* normal[125] */
+	SVECTOR(  1060,     0,  3956);	/* normal[126] */
+	SVECTOR(     0,     0,  4096);	/* normal[127] */
+	SVECTOR( -1060,     0,  3956);	/* normal[128] */
+	SVECTOR( -2047,     0,  3547);	/* normal[129] */
+	SVECTOR( -2896,     0,  2896);	/* normal[130] */
+	SVECTOR( -3547,     0,  2048);	/* normal[131] */
+	SVECTOR( -3956,     0,  1060);	/* normal[132] */
+	SVECTOR( -4096,     0,     0);	/* normal[133] */
+	SVECTOR( -3956,     0, -1060);	/* normal[134] */
+	SVECTOR( -3547,     0, -2048);	/* normal[135] */
+	SVECTOR( -2896,     0, -2896);	/* normal[136] */
+	SVECTOR( -2047,     0, -3547);	/* normal[137] */
+	SVECTOR( -1060,     0, -3956);	/* normal[138] */
+	SVECTOR(     0,     0, -4096);	/* normal[139] */
+	SVECTOR(  1060,     0, -3956);	/* normal[140] */
+	SVECTOR(  2047,     0, -3547);	/* normal[141] */
+	SVECTOR(  2896,     0, -2896);	/* normal[142] */
+	SVECTOR(  3547,     0, -2048);	/* normal[143] */
+	SVECTOR(  3956,     0, -1060);	/* normal[144] */
+	SVECTOR(  3956,  1060,     0);	/* normal[145] */
+	SVECTOR(  3821,  1060,  1023);	/* normal[146] */
+	SVECTOR(  3426,  1060,  1978);	/* normal[147] */
+	SVECTOR(  2797,  1060,  2797);	/* normal[148] */
+	SVECTOR(  1978,  1060,  3426);	/* normal[149] */
+	SVECTOR(  1023,  1060,  3821);	/* normal[150] */
+	SVECTOR(     0,  1060,  3956);	/* normal[151] */
+	SVECTOR( -1023,  1060,  3821);	/* normal[152] */
+	SVECTOR( -1978,  1060,  3426);	/* normal[153] */
+	SVECTOR( -2797,  1060,  2797);	/* normal[154] */
+	SVECTOR( -3426,  1060,  1978);	/* normal[155] */
+	SVECTOR( -3821,  1060,  1023);	/* normal[156] */
+	SVECTOR( -3956,  1060,     0);	/* normal[157] */
+	SVECTOR( -3821,  1060, -1023);	/* normal[158] */
+	SVECTOR( -3426,  1060, -1978);	/* normal[159] */
+	SVECTOR( -2797,  1060, -2797);	/* normal[160] */
+	SVECTOR( -1978,  1060, -3426);	/* normal[161] */
+	SVECTOR( -1023,  1060, -3821);	/* normal[162] */
+	SVECTOR(     0,  1060, -3956);	/* normal[163] */
+	SVECTOR(  1023,  1060, -3821);	/* normal[164] */
+	SVECTOR(  1978,  1060, -3426);	/* normal[165] */
+	SVECTOR(  2797,  1060, -2797);	/* normal[166] */
+	SVECTOR(  3426,  1060, -1978);	/* normal[167] */
+	SVECTOR(  3821,  1060, -1023);	/* normal[168] */
+	SVECTOR(  3546,  2048,     0);	/* normal[169] */
+	SVECTOR(  3426,  2048,   918);	/* normal[170] */
+	SVECTOR(  3071,  2048,  1773);	/* normal[171] */
+	SVECTOR(  2508,  2048,  2508);	/* normal[172] */
+	SVECTOR(  1773,  2048,  3071);	/* normal[173] */
+	SVECTOR(   918,  2048,  3426);	/* normal[174] */
+	SVECTOR(     0,  2048,  3546);	/* normal[175] */
+	SVECTOR(  -918,  2048,  3426);	/* normal[176] */
+	SVECTOR( -1773,  2048,  3071);	/* normal[177] */
+	SVECTOR( -2508,  2048,  2508);	/* normal[178] */
+	SVECTOR( -3071,  2048,  1773);	/* normal[179] */
+	SVECTOR( -3426,  2048,   918);	/* normal[180] */
+	SVECTOR( -3546,  2048,     0);	/* normal[181] */
+	SVECTOR( -3426,  2048,  -918);	/* normal[182] */
+	SVECTOR( -3071,  2048, -1773);	/* normal[183] */
+	SVECTOR( -2508,  2048, -2508);	/* normal[184] */
+	SVECTOR( -1773,  2048, -3071);	/* normal[185] */
+	SVECTOR(  -918,  2048, -3426);	/* normal[186] */
+	SVECTOR(     0,  2048, -3546);	/* normal[187] */
+	SVECTOR(   918,  2048, -3426);	/* normal[188] */
+	SVECTOR(  1773,  2048, -3071);	/* normal[189] */
+	SVECTOR(  2508,  2048, -2508);	/* normal[190] */
+	SVECTOR(  3071,  2048, -1773);	/* normal[191] */
+	SVECTOR(  3426,  2048,  -918);	/* normal[192] */
+	SVECTOR(  3352,  2352,     0);	/* normal[193] */
+	SVECTOR(  3238,  2352,   867);	/* normal[194] */
+	SVECTOR(  2903,  2352,  1676);	/* normal[195] */
+	SVECTOR(  2370,  2352,  2370);	/* normal[196] */
+	SVECTOR(  1676,  2352,  2903);	/* normal[197] */
+	SVECTOR(   867,  2352,  3238);	/* normal[198] */
+	SVECTOR(     0,  2352,  3352);	/* normal[199] */
+	SVECTOR(  -867,  2352,  3238);	/* normal[200] */
+	SVECTOR( -1676,  2352,  2903);	/* normal[201] */
+	SVECTOR( -2370,  2352,  2370);	/* normal[202] */
+	SVECTOR( -2903,  2352,  1676);	/* normal[203] */
+	SVECTOR( -3238,  2352,   867);	/* normal[204] */
+	SVECTOR( -3352,  2352,     0);	/* normal[205] */
+	SVECTOR( -3238,  2352,  -867);	/* normal[206] */
+	SVECTOR( -2903,  2352, -1676);	/* normal[207] */
+	SVECTOR( -2370,  2352, -2370);	/* normal[208] */
+	SVECTOR( -1676,  2352, -2903);	/* normal[209] */
+	SVECTOR(  -867,  2352, -3238);	/* normal[210] */
+	SVECTOR(     0,  2352, -3352);	/* normal[211] */
+	SVECTOR(   867,  2352, -3238);	/* normal[212] */
+	SVECTOR(  1676,  2352, -2903);	/* normal[213] */
+	SVECTOR(  2370,  2352, -2370);	/* normal[214] */
+	SVECTOR(  2903,  2352, -1676);	/* normal[215] */
+	SVECTOR(  3238,  2352,  -867);	/* normal[216] */
+	SVECTOR(  3583,  1984,     0);	/* normal[217] */
+	SVECTOR(  3461,  1984,   927);	/* normal[218] */
+	SVECTOR(  3103,  1984,  1791);	/* normal[219] */
+	SVECTOR(  2533,  1984,  2533);	/* normal[220] */
+	SVECTOR(  1791,  1984,  3103);	/* normal[221] */
+	SVECTOR(   927,  1984,  3461);	/* normal[222] */
+	SVECTOR(     0,  1984,  3583);	/* normal[223] */
+	SVECTOR(  -927,  1984,  3461);	/* normal[224] */
+	SVECTOR( -1791,  1984,  3103);	/* normal[225] */
+	SVECTOR( -2533,  1984,  2533);	/* normal[226] */
+	SVECTOR( -3103,  1984,  1791);	/* normal[227] */
+	SVECTOR( -3461,  1984,   927);	/* normal[228] */
+	SVECTOR( -3583,  1984,     0);	/* normal[229] */
+	SVECTOR( -3461,  1984,  -927);	/* normal[230] */
+	SVECTOR( -3103,  1984, -1791);	/* normal[231] */
+	SVECTOR( -2533,  1984, -2533);	/* normal[232] */
+	SVECTOR( -1791,  1984, -3103);	/* normal[233] */
+	SVECTOR(  -927,  1984, -3461);	/* normal[234] */
+	SVECTOR(     0,  1984, -3583);	/* normal[235] */
+	SVECTOR(   927,  1984, -3461);	/* normal[236] */
+	SVECTOR(  1791,  1984, -3103);	/* normal[237] */
+	SVECTOR(  2533,  1984, -2533);	/* normal[238] */
+	SVECTOR(  3103,  1984, -1791);	/* normal[239] */
+	SVECTOR(  3461,  1984,  -927);	/* normal[240] */
+	SVECTOR(  3701,  1752,     0);	/* normal[241] */
+	SVECTOR(  3575,  1752,   958);	/* normal[242] */
+	SVECTOR(  3205,  1752,  1850);	/* normal[243] */
+	SVECTOR(  2617,  1752,  2617);	/* normal[244] */
+	SVECTOR(  1850,  1752,  3205);	/* normal[245] */
+	SVECTOR(   958,  1752,  3575);	/* normal[246] */
+	SVECTOR(     0,  1752,  3701);	/* normal[247] */
+	SVECTOR(  -958,  1752,  3575);	/* normal[248] */
+	SVECTOR( -1850,  1752,  3205);	/* normal[249] */
+	SVECTOR( -2617,  1752,  2617);	/* normal[250] */
+	SVECTOR( -3205,  1752,  1850);	/* normal[251] */
+	SVECTOR( -3575,  1752,   958);	/* normal[252] */
+	SVECTOR( -3701,  1752,     0);	/* normal[253] */
+	SVECTOR( -3575,  1752,  -958);	/* normal[254] */
+	SVECTOR( -3205,  1752, -1850);	/* normal[255] */
+	SVECTOR( -2617,  1752, -2617);	/* normal[256] */
+	SVECTOR( -1850,  1752, -3205);	/* normal[257] */
+	SVECTOR(  -958,  1752, -3575);	/* normal[258] */
+	SVECTOR(     0,  1752, -3701);	/* normal[259] */
+	SVECTOR(   958,  1752, -3575);	/* normal[260] */
+	SVECTOR(  1850,  1752, -3205);	/* normal[261] */
+	SVECTOR(  2617,  1752, -2617);	/* normal[262] */
+	SVECTOR(  3205,  1752, -1850);	/* normal[263] */
+	SVECTOR(  3575,  1752,  -958);	/* normal[264] */
+n265:	SVECTOR(  2507,    56,  3238);	/* normal[265] */
+n266:	SVECTOR(  2507,    56,  3238);	/* normal[266] */
+n267:	SVECTOR(  2507,    56,  3238);	/* normal[267] */
+n268:	SVECTOR(  2507,    56,  3238);	/* normal[268] */
+n269:	SVECTOR( -2507,   -56, -3238);	/* normal[269] */
+n270:	SVECTOR( -2507,   -56, -3238);	/* normal[270] */
+n271:	SVECTOR( -1607,   668, -3707);	/* normal[271] */
+n272:	SVECTOR( -3214,   669, -2448);	/* normal[272] */
+n273:	SVECTOR(  3238,    56, -2507);	/* normal[273] */
+n274:	SVECTOR(  3238,    56, -2507);	/* normal[274] */
+n275:	SVECTOR(  3238,    56, -2507);	/* normal[275] */
+n276:	SVECTOR(  3238,    56, -2507);	/* normal[276] */
+n277:	SVECTOR(  2507,   -56,  3238);	/* normal[277] */
+n278:	SVECTOR(  2507,   -56,  3238);	/* normal[278] */
+n279:	SVECTOR(  2507,   -56,  3238);	/* normal[279] */
+n280:	SVECTOR(  2507,   -56,  3238);	/* normal[280] */
+n281:	SVECTOR( -2123, -1176, -3299);	/* normal[281] */
+n282:	SVECTOR( -2646, -1175, -2897);	/* normal[282] */
+n283:	SVECTOR( -3214,  -669, -2448);	/* normal[283] */
+n284:	SVECTOR( -1607,  -668, -3707);	/* normal[284] */
+n285:	SVECTOR( -3238,    56,  2507);	/* normal[285] */
+n286:	SVECTOR( -3238,    56,  2507);	/* normal[286] */
+n287:	SVECTOR( -3238,    56,  2507);	/* normal[287] */
+n288:	SVECTOR( -3238,    56,  2507);	/* normal[288] */
+n289:	SVECTOR( -3238,   -56,  2507);	/* normal[289] */
+n290:	SVECTOR( -3238,   -56,  2507);	/* normal[290] */
+n291:	SVECTOR( -3238,   -56,  2507);	/* normal[291] */
+n292:	SVECTOR( -3238,   -56,  2507);	/* normal[292] */
+n293:	SVECTOR(  3238,   -56, -2507);	/* normal[293] */
+n294:	SVECTOR(  3238,   -56, -2507);	/* normal[294] */
+n295:	SVECTOR(  3707,   668, -1607);	/* normal[295] */
+n296:	SVECTOR(  2448,   669, -3214);	/* normal[296] */
+	SVECTOR( -1141,  3657, -1448);	/* normal[297] */
+	SVECTOR( -1448,  3657,  1141);	/* normal[298] */
+	SVECTOR( -3326,  2181,   973);	/* normal[299] */
+	SVECTOR( -3007,  2181, -1723);	/* normal[300] */
+	SVECTOR(  1723,  2181, -3007);	/* normal[301] */
+	SVECTOR(  1448,  3657, -1141);	/* normal[302] */
+	SVECTOR(  -973,  2181, -3326);	/* normal[303] */
+	SVECTOR(  3326,  2181,  -973);	/* normal[304] */
+	SVECTOR(  3007,  2181,  1723);	/* normal[305] */
+	SVECTOR(  1141,  3657,  1448);	/* normal[306] */
+	SVECTOR(   973,  2181,  3326);	/* normal[307] */
+	SVECTOR( -1723,  2181,  3007);	/* normal[308] */
+	SVECTOR( -1923,  1033,  3465);	/* normal[309] */
+	SVECTOR( -3818,  1033,  1060);	/* normal[310] */
+	SVECTOR(  1060,  1033,  3818);	/* normal[311] */
+	SVECTOR(  3465,  1033,  1923);	/* normal[312] */
+	SVECTOR(  1141, -3657,  1448);	/* normal[313] */
+	SVECTOR(  3007, -2181,  1723);	/* normal[314] */
+	SVECTOR(  3326, -2181,  -973);	/* normal[315] */
+	SVECTOR(  1448, -3657, -1141);	/* normal[316] */
+	SVECTOR( -1723, -2181,  3007);	/* normal[317] */
+	SVECTOR(   973, -2181,  3326);	/* normal[318] */
+	SVECTOR( -1448, -3657,  1141);	/* normal[319] */
+	SVECTOR( -3326, -2181,   973);	/* normal[320] */
+	SVECTOR( -1141, -3657, -1448);	/* normal[321] */
+	SVECTOR( -3007, -2181, -1723);	/* normal[322] */
+	SVECTOR(  1723, -2181, -3007);	/* normal[323] */
+	SVECTOR(  -973, -2181, -3326);	/* normal[324] */
+	SVECTOR(  1923, -1033, -3465);	/* normal[325] */
+	SVECTOR(  3818, -1033, -1060);	/* normal[326] */
+	SVECTOR(  3465, -1033,  1923);	/* normal[327] */
+	SVECTOR(  1060, -1033,  3818);	/* normal[328] */
+	SVECTOR( -1923, -1033,  3465);	/* normal[329] */
+	SVECTOR( -3818, -1033,  1060);	/* normal[330] */
+	SVECTOR(     0,  4096,     0);	/* normal[331] */
+	SVECTOR( -1059,  3956,     0);	/* normal[332] */
+	SVECTOR( -1023,  3956,  -274);	/* normal[333] */
+	SVECTOR(  -917,  3956,  -529);	/* normal[334] */
+	SVECTOR(  -749,  3956,  -749);	/* normal[335] */
+	SVECTOR(  -529,  3956,  -917);	/* normal[336] */
+	SVECTOR(  -274,  3956, -1023);	/* normal[337] */
+	SVECTOR(     0,  3956, -1059);	/* normal[338] */
+	SVECTOR(   274,  3956, -1023);	/* normal[339] */
+	SVECTOR(   529,  3956,  -917);	/* normal[340] */
+	SVECTOR(   749,  3956,  -749);	/* normal[341] */
+	SVECTOR(   917,  3956,  -529);	/* normal[342] */
+	SVECTOR(  1023,  3956,  -274);	/* normal[343] */
+	SVECTOR(  1059,  3956,     0);	/* normal[344] */
+	SVECTOR(  1023,  3956,   274);	/* normal[345] */
+	SVECTOR(   917,  3956,   529);	/* normal[346] */
+	SVECTOR(   749,  3956,   749);	/* normal[347] */
+	SVECTOR(   529,  3956,   917);	/* normal[348] */
+	SVECTOR(   274,  3956,  1023);	/* normal[349] */
+	SVECTOR(     0,  3956,  1059);	/* normal[350] */
+	SVECTOR(  -274,  3956,  1023);	/* normal[351] */
+	SVECTOR(  -529,  3956,   917);	/* normal[352] */
+	SVECTOR(  -749,  3956,   749);	/* normal[353] */
+	SVECTOR(  -917,  3956,   529);	/* normal[354] */
+	SVECTOR( -1023,  3956,   274);	/* normal[355] */
+	SVECTOR( -2047,  3547,     0);	/* normal[356] */
+	SVECTOR( -1977,  3547,  -529);	/* normal[357] */
+	SVECTOR( -1773,  3547, -1023);	/* normal[358] */
+	SVECTOR( -1447,  3547, -1447);	/* normal[359] */
+	SVECTOR( -1023,  3547, -1773);	/* normal[360] */
+	SVECTOR(  -529,  3547, -1977);	/* normal[361] */
+	SVECTOR(     0,  3547, -2047);	/* normal[362] */
+	SVECTOR(   529,  3547, -1977);	/* normal[363] */
+	SVECTOR(  1023,  3547, -1773);	/* normal[364] */
+	SVECTOR(  1447,  3547, -1447);	/* normal[365] */
+	SVECTOR(  1773,  3547, -1023);	/* normal[366] */
+	SVECTOR(  1977,  3547,  -529);	/* normal[367] */
+	SVECTOR(  2047,  3547,     0);	/* normal[368] */
+	SVECTOR(  1977,  3547,   529);	/* normal[369] */
+	SVECTOR(  1773,  3547,  1023);	/* normal[370] */
+	SVECTOR(  1447,  3547,  1447);	/* normal[371] */
+	SVECTOR(  1023,  3547,  1773);	/* normal[372] */
+	SVECTOR(   529,  3547,  1977);	/* normal[373] */
+	SVECTOR(     0,  3547,  2047);	/* normal[374] */
+	SVECTOR(  -529,  3547,  1977);	/* normal[375] */
+	SVECTOR( -1023,  3547,  1773);	/* normal[376] */
+	SVECTOR( -1447,  3547,  1447);	/* normal[377] */
+	SVECTOR( -1773,  3547,  1023);	/* normal[378] */
+	SVECTOR( -1977,  3547,   529);	/* normal[379] */
+	SVECTOR( -2895,  2896,     0);	/* normal[380] */
+	SVECTOR( -2797,  2896,  -749);	/* normal[381] */
+	SVECTOR( -2507,  2896, -1447);	/* normal[382] */
+	SVECTOR( -2047,  2896, -2047);	/* normal[383] */
+	SVECTOR( -1447,  2896, -2507);	/* normal[384] */
+	SVECTOR(  -749,  2896, -2797);	/* normal[385] */
+	SVECTOR(     0,  2896, -2895);	/* normal[386] */
+	SVECTOR(   749,  2896, -2797);	/* normal[387] */
+	SVECTOR(  1447,  2896, -2507);	/* normal[388] */
+	SVECTOR(  2047,  2896, -2047);	/* normal[389] */
+	SVECTOR(  2507,  2896, -1447);	/* normal[390] */
+	SVECTOR(  2797,  2896,  -749);	/* normal[391] */
+	SVECTOR(  2895,  2896,     0);	/* normal[392] */
+	SVECTOR(  2797,  2896,   749);	/* normal[393] */
+	SVECTOR(  2507,  2896,  1447);	/* normal[394] */
+	SVECTOR(  2047,  2896,  2047);	/* normal[395] */
+	SVECTOR(  1447,  2896,  2507);	/* normal[396] */
+	SVECTOR(   749,  2896,  2797);	/* normal[397] */
+	SVECTOR(     0,  2896,  2895);	/* normal[398] */
+	SVECTOR(  -749,  2896,  2797);	/* normal[399] */
+	SVECTOR( -1447,  2896,  2507);	/* normal[400] */
+	SVECTOR( -2047,  2896,  2047);	/* normal[401] */
+	SVECTOR( -2507,  2896,  1447);	/* normal[402] */
+	SVECTOR( -2797,  2896,   749);	/* normal[403] */
+	SVECTOR( -3546,  2048,     0);	/* normal[404] */
+	SVECTOR( -3426,  2048,  -918);	/* normal[405] */
+	SVECTOR( -3071,  2048, -1773);	/* normal[406] */
+	SVECTOR( -2508,  2048, -2508);	/* normal[407] */
+	SVECTOR( -1773,  2048, -3071);	/* normal[408] */
+	SVECTOR(  -918,  2048, -3426);	/* normal[409] */
+	SVECTOR(     0,  2048, -3546);	/* normal[410] */
+	SVECTOR(   918,  2048, -3426);	/* normal[411] */
+	SVECTOR(  1773,  2048, -3071);	/* normal[412] */
+	SVECTOR(  2508,  2048, -2508);	/* normal[413] */
+	SVECTOR(  3071,  2048, -1773);	/* normal[414] */
+	SVECTOR(  3426,  2048,  -918);	/* normal[415] */
+	SVECTOR(  3546,  2048,     0);	/* normal[416] */
+	SVECTOR(  3426,  2048,   918);	/* normal[417] */
+	SVECTOR(  3071,  2048,  1773);	/* normal[418] */
+	SVECTOR(  2508,  2048,  2508);	/* normal[419] */
+	SVECTOR(  1773,  2048,  3071);	/* normal[420] */
+	SVECTOR(   918,  2048,  3426);	/* normal[421] */
+	SVECTOR(     0,  2048,  3546);	/* normal[422] */
+	SVECTOR(  -918,  2048,  3426);	/* normal[423] */
+	SVECTOR( -1773,  2048,  3071);	/* normal[424] */
+	SVECTOR( -2508,  2048,  2508);	/* normal[425] */
+	SVECTOR( -3071,  2048,  1773);	/* normal[426] */
+	SVECTOR( -3426,  2048,   918);	/* normal[427] */
+	SVECTOR( -3956,  1060,     0);	/* normal[428] */
+	SVECTOR( -3821,  1060, -1023);	/* normal[429] */
+	SVECTOR( -3426,  1060, -1978);	/* normal[430] */
+	SVECTOR( -2797,  1060, -2797);	/* normal[431] */
+	SVECTOR( -1978,  1060, -3426);	/* normal[432] */
+	SVECTOR( -1023,  1060, -3821);	/* normal[433] */
+	SVECTOR(     0,  1060, -3956);	/* normal[434] */
+	SVECTOR(  1023,  1060, -3821);	/* normal[435] */
+	SVECTOR(  1978,  1060, -3426);	/* normal[436] */
+	SVECTOR(  2797,  1060, -2797);	/* normal[437] */
+	SVECTOR(  3426,  1060, -1978);	/* normal[438] */
+	SVECTOR(  3821,  1060, -1023);	/* normal[439] */
+	SVECTOR(  3956,  1060,     0);	/* normal[440] */
+	SVECTOR(  3821,  1060,  1023);	/* normal[441] */
+	SVECTOR(  3426,  1060,  1978);	/* normal[442] */
+	SVECTOR(  2797,  1060,  2797);	/* normal[443] */
+	SVECTOR(  1978,  1060,  3426);	/* normal[444] */
+	SVECTOR(  1023,  1060,  3821);	/* normal[445] */
+	SVECTOR(     0,  1060,  3956);	/* normal[446] */
+	SVECTOR( -1023,  1060,  3821);	/* normal[447] */
+	SVECTOR( -1978,  1060,  3426);	/* normal[448] */
+	SVECTOR( -2797,  1060,  2797);	/* normal[449] */
+	SVECTOR( -3426,  1060,  1978);	/* normal[450] */
+	SVECTOR( -3821,  1060,  1023);	/* normal[451] */
+	SVECTOR( -4096,     0,     0);	/* normal[452] */
+	SVECTOR( -3956,     0, -1060);	/* normal[453] */
+	SVECTOR( -3547,     0, -2048);	/* normal[454] */
+	SVECTOR( -2896,     0, -2896);	/* normal[455] */
+	SVECTOR( -2047,     0, -3547);	/* normal[456] */
+	SVECTOR( -1060,     0, -3956);	/* normal[457] */
+	SVECTOR(     0,     0, -4096);	/* normal[458] */
+	SVECTOR(  1060,     0, -3956);	/* normal[459] */
+	SVECTOR(  2047,     0, -3547);	/* normal[460] */
+	SVECTOR(  2896,     0, -2896);	/* normal[461] */
+	SVECTOR(  3547,     0, -2048);	/* normal[462] */
+	SVECTOR(  3956,     0, -1060);	/* normal[463] */
+	SVECTOR(  4096,     0,     0);	/* normal[464] */
+	SVECTOR(  3956,     0,  1060);	/* normal[465] */
+	SVECTOR(  3547,     0,  2048);	/* normal[466] */
+	SVECTOR(  2896,     0,  2896);	/* normal[467] */
+	SVECTOR(  2047,     0,  3547);	/* normal[468] */
+	SVECTOR(  1060,     0,  3956);	/* normal[469] */
+	SVECTOR(     0,     0,  4096);	/* normal[470] */
+	SVECTOR( -1060,     0,  3956);	/* normal[471] */
+	SVECTOR( -2047,     0,  3547);	/* normal[472] */
+	SVECTOR( -2896,     0,  2896);	/* normal[473] */
+	SVECTOR( -3547,     0,  2048);	/* normal[474] */
+	SVECTOR( -3956,     0,  1060);	/* normal[475] */
+	SVECTOR( -3956, -1060,     0);	/* normal[476] */
+	SVECTOR( -3821, -1060, -1023);	/* normal[477] */
+	SVECTOR( -3426, -1060, -1978);	/* normal[478] */
+	SVECTOR( -2797, -1060, -2797);	/* normal[479] */
+	SVECTOR( -1978, -1060, -3426);	/* normal[480] */
+	SVECTOR( -1023, -1060, -3821);	/* normal[481] */
+	SVECTOR(     0, -1060, -3956);	/* normal[482] */
+	SVECTOR(  1023, -1060, -3821);	/* normal[483] */
+	SVECTOR(  1978, -1060, -3426);	/* normal[484] */
+	SVECTOR(  2797, -1060, -2797);	/* normal[485] */
+	SVECTOR(  3426, -1060, -1978);	/* normal[486] */
+	SVECTOR(  3821, -1060, -1023);	/* normal[487] */
+	SVECTOR(  3956, -1060,     0);	/* normal[488] */
+	SVECTOR(  3821, -1060,  1023);	/* normal[489] */
+	SVECTOR(  3426, -1060,  1978);	/* normal[490] */
+	SVECTOR(  2797, -1060,  2797);	/* normal[491] */
+	SVECTOR(  1978, -1060,  3426);	/* normal[492] */
+	SVECTOR(  1023, -1060,  3821);	/* normal[493] */
+	SVECTOR(     0, -1060,  3956);	/* normal[494] */
+	SVECTOR( -1023, -1060,  3821);	/* normal[495] */
+	SVECTOR( -1978, -1060,  3426);	/* normal[496] */
+	SVECTOR( -2797, -1060,  2797);	/* normal[497] */
+	SVECTOR( -3426, -1060,  1978);	/* normal[498] */
+	SVECTOR( -3821, -1060,  1023);	/* normal[499] */
+	SVECTOR( -3546, -2048,     0);	/* normal[500] */
+	SVECTOR( -3426, -2048,  -918);	/* normal[501] */
+	SVECTOR( -3071, -2048, -1773);	/* normal[502] */
+	SVECTOR( -2508, -2048, -2508);	/* normal[503] */
+	SVECTOR( -1773, -2048, -3071);	/* normal[504] */
+	SVECTOR(  -918, -2048, -3426);	/* normal[505] */
+	SVECTOR(     0, -2048, -3546);	/* normal[506] */
+	SVECTOR(   918, -2048, -3426);	/* normal[507] */
+	SVECTOR(  1773, -2048, -3071);	/* normal[508] */
+	SVECTOR(  2508, -2048, -2508);	/* normal[509] */
+	SVECTOR(  3071, -2048, -1773);	/* normal[510] */
+	SVECTOR(  3426, -2048,  -918);	/* normal[511] */
+	SVECTOR(  3546, -2048,     0);	/* normal[512] */
+	SVECTOR(  3426, -2048,   918);	/* normal[513] */
+	SVECTOR(  3071, -2048,  1773);	/* normal[514] */
+	SVECTOR(  2508, -2048,  2508);	/* normal[515] */
+	SVECTOR(  1773, -2048,  3071);	/* normal[516] */
+	SVECTOR(   918, -2048,  3426);	/* normal[517] */
+	SVECTOR(     0, -2048,  3546);	/* normal[518] */
+	SVECTOR(  -918, -2048,  3426);	/* normal[519] */
+	SVECTOR( -1773, -2048,  3071);	/* normal[520] */
+	SVECTOR( -2508, -2048,  2508);	/* normal[521] */
+	SVECTOR( -3071, -2048,  1773);	/* normal[522] */
+	SVECTOR( -3426, -2048,   918);	/* normal[523] */
+	SVECTOR( -3352, -2352,     0);	/* normal[524] */
+	SVECTOR( -3238, -2352,  -867);	/* normal[525] */
+	SVECTOR( -2903, -2352, -1676);	/* normal[526] */
+	SVECTOR( -2370, -2352, -2370);	/* normal[527] */
+	SVECTOR( -1676, -2352, -2903);	/* normal[528] */
+	SVECTOR(  -867, -2352, -3238);	/* normal[529] */
+	SVECTOR(     0, -2352, -3352);	/* normal[530] */
+	SVECTOR(   867, -2352, -3238);	/* normal[531] */
+	SVECTOR(  1676, -2352, -2903);	/* normal[532] */
+	SVECTOR(  2370, -2352, -2370);	/* normal[533] */
+	SVECTOR(  2903, -2352, -1676);	/* normal[534] */
+	SVECTOR(  3238, -2352,  -867);	/* normal[535] */
+	SVECTOR(  3352, -2352,     0);	/* normal[536] */
+	SVECTOR(  3238, -2352,   867);	/* normal[537] */
+	SVECTOR(  2903, -2352,  1676);	/* normal[538] */
+	SVECTOR(  2370, -2352,  2370);	/* normal[539] */
+	SVECTOR(  1676, -2352,  2903);	/* normal[540] */
+	SVECTOR(   867, -2352,  3238);	/* normal[541] */
+	SVECTOR(     0, -2352,  3352);	/* normal[542] */
+	SVECTOR(  -867, -2352,  3238);	/* normal[543] */
+	SVECTOR( -1676, -2352,  2903);	/* normal[544] */
+	SVECTOR( -2370, -2352,  2370);	/* normal[545] */
+	SVECTOR( -2903, -2352,  1676);	/* normal[546] */
+	SVECTOR( -3238, -2352,   867);	/* normal[547] */
+	SVECTOR( -3583, -1984,     0);	/* normal[548] */
+	SVECTOR( -3461, -1984,  -927);	/* normal[549] */
+	SVECTOR( -3103, -1984, -1791);	/* normal[550] */
+	SVECTOR( -2533, -1984, -2533);	/* normal[551] */
+	SVECTOR( -1791, -1984, -3103);	/* normal[552] */
+	SVECTOR(  -927, -1984, -3461);	/* normal[553] */
+	SVECTOR(     0, -1984, -3583);	/* normal[554] */
+	SVECTOR(   927, -1984, -3461);	/* normal[555] */
+	SVECTOR(  1791, -1984, -3103);	/* normal[556] */
+	SVECTOR(  2533, -1984, -2533);	/* normal[557] */
+	SVECTOR(  3103, -1984, -1791);	/* normal[558] */
+	SVECTOR(  3461, -1984,  -927);	/* normal[559] */
+	SVECTOR(  3583, -1984,     0);	/* normal[560] */
+	SVECTOR(  3461, -1984,   927);	/* normal[561] */
+	SVECTOR(  3103, -1984,  1791);	/* normal[562] */
+	SVECTOR(  2533, -1984,  2533);	/* normal[563] */
+	SVECTOR(  1791, -1984,  3103);	/* normal[564] */
+	SVECTOR(   927, -1984,  3461);	/* normal[565] */
+	SVECTOR(     0, -1984,  3583);	/* normal[566] */
+	SVECTOR(  -927, -1984,  3461);	/* normal[567] */
+	SVECTOR( -1791, -1984,  3103);	/* normal[568] */
+	SVECTOR( -2533, -1984,  2533);	/* normal[569] */
+	SVECTOR( -3103, -1984,  1791);	/* normal[570] */
+	SVECTOR( -3461, -1984,   927);	/* normal[571] */
+	SVECTOR( -3701, -1752,     0);	/* normal[572] */
+	SVECTOR( -3575, -1752,  -958);	/* normal[573] */
+	SVECTOR( -3205, -1752, -1850);	/* normal[574] */
+	SVECTOR(  -958, -1752, -3575);	/* normal[575] */
+	SVECTOR(     0, -1752, -3701);	/* normal[576] */
+	SVECTOR(   958, -1752, -3575);	/* normal[577] */
+	SVECTOR(  1850, -1752, -3205);	/* normal[578] */
+	SVECTOR(  2617, -1752, -2617);	/* normal[579] */
+	SVECTOR(  3205, -1752, -1850);	/* normal[580] */
+	SVECTOR(  3575, -1752,  -958);	/* normal[581] */
+	SVECTOR(  3701, -1752,     0);	/* normal[582] */
+	SVECTOR(  3575, -1752,   958);	/* normal[583] */
+	SVECTOR(  3205, -1752,  1850);	/* normal[584] */
+	SVECTOR(  2617, -1752,  2617);	/* normal[585] */
+	SVECTOR(  1850, -1752,  3205);	/* normal[586] */
+	SVECTOR(   958, -1752,  3575);	/* normal[587] */
+	SVECTOR(     0, -1752,  3701);	/* normal[588] */
+	SVECTOR(  -958, -1752,  3575);	/* normal[589] */
+	SVECTOR( -1850, -1752,  3205);	/* normal[590] */
+	SVECTOR( -2617, -1752,  2617);	/* normal[591] */
+	SVECTOR( -3205, -1752,  1850);	/* normal[592] */
+	SVECTOR( -3575, -1752,   958);	/* normal[593] */
+
+SharedNormSect:
+
+BalloonSharedNorm:
+sn265:	SVECTOR(  2507,    56,  3238);	/* normal[265] */
+sn266:	SVECTOR(  2507,    56,  3238);	/* normal[266] */
+sn267:	SVECTOR(  2507,    56,  3238);	/* normal[267] */
+sn268:	SVECTOR(  2507,    56,  3238);	/* normal[268] */
+sn269:	SVECTOR( -2507,   -56, -3238);	/* normal[269] */
+sn270:	SVECTOR( -2507,   -56, -3238);	/* normal[270] */
+sn271:	SVECTOR( -1607,   668, -3707);	/* normal[271] */
+sn272:	SVECTOR( -3214,   669, -2448);	/* normal[272] */
+sn273:	SVECTOR(  3238,    56, -2507);	/* normal[273] */
+sn274:	SVECTOR(  3238,    56, -2507);	/* normal[274] */
+sn275:	SVECTOR(  3238,    56, -2507);	/* normal[275] */
+sn276:	SVECTOR(  3238,    56, -2507);	/* normal[276] */
+sn277:	SVECTOR(  2507,   -56,  3238);	/* normal[277] */
+sn278:	SVECTOR(  2507,   -56,  3238);	/* normal[278] */
+sn279:	SVECTOR(  2507,   -56,  3238);	/* normal[279] */
+sn280:	SVECTOR(  2507,   -56,  3238);	/* normal[280] */
+
+CabinSharedNorm:
+sn281:	SVECTOR( -2123, -1176, -3299);	/* normal[281] */
+sn282:	SVECTOR( -2646, -1175, -2897);	/* normal[282] */
+sn283:	SVECTOR( -3214,  -669, -2448);	/* normal[283] */
+sn284:	SVECTOR( -1607,  -668, -3707);	/* normal[284] */
+sn285:	SVECTOR( -3238,    56,  2507);	/* normal[285] */
+sn286:	SVECTOR( -3238,    56,  2507);	/* normal[286] */
+sn287:	SVECTOR( -3238,    56,  2507);	/* normal[287] */
+sn288:	SVECTOR( -3238,    56,  2507);	/* normal[288] */
+sn289:	SVECTOR( -3238,   -56,  2507);	/* normal[289] */
+sn290:	SVECTOR( -3238,   -56,  2507);	/* normal[290] */
+sn291:	SVECTOR( -3238,   -56,  2507);	/* normal[291] */
+sn292:	SVECTOR( -3238,   -56,  2507);	/* normal[292] */
+sn293:	SVECTOR(  3238,   -56, -2507);	/* normal[293] */
+sn294:	SVECTOR(  3238,   -56, -2507);	/* normal[294] */
+sn295:	SVECTOR(  3707,   668, -1607);	/* normal[295] */
+sn296:	SVECTOR(  2448,   669, -3214);	/* normal[296] */
+
+CalcedNormSect:
+
+BalloonCalcedNorm:
+cn265:	SVECTOR(0, 0, 0);
+cn266:	SVECTOR(0, 0, 0);
+cn267:	SVECTOR(0, 0, 0);
+cn268:	SVECTOR(0, 0, 0);
+cn269:	SVECTOR(0, 0, 0);
+cn270:	SVECTOR(0, 0, 0);
+cn271:	SVECTOR(0, 0, 0);
+cn272:	SVECTOR(0, 0, 0);
+cn273:	SVECTOR(0, 0, 0);
+cn274:	SVECTOR(0, 0, 0);
+cn275:	SVECTOR(0, 0, 0);
+cn276:	SVECTOR(0, 0, 0);
+cn277:	SVECTOR(0, 0, 0);
+cn278:	SVECTOR(0, 0, 0);
+cn279:	SVECTOR(0, 0, 0);
+cn280:	SVECTOR(0, 0, 0);
+
+CabinCalcedNorm:
+cn281:	SVECTOR(0, 0, 0);
+cn282:	SVECTOR(0, 0, 0);
+cn283:	SVECTOR(0, 0, 0);
+cn284:	SVECTOR(0, 0, 0);
+cn285:	SVECTOR(0, 0, 0);
+cn286:	SVECTOR(0, 0, 0);
+cn287:	SVECTOR(0, 0, 0);
+cn288:	SVECTOR(0, 0, 0);
+cn289:	SVECTOR(0, 0, 0);
+cn290:	SVECTOR(0, 0, 0);
+cn291:	SVECTOR(0, 0, 0);
+cn292:	SVECTOR(0, 0, 0);
+cn293:	SVECTOR(0, 0, 0);
+cn294:	SVECTOR(0, 0, 0);
+cn295:	SVECTOR(0, 0, 0);
+cn296:	SVECTOR(0, 0, 0);
+
+PolySect:
+
+BalloonPoly_0000:
+	0x30c8c8c8; 0x00010000; 0x00050001; 0x00030002; 
+	0x30c8c8c8; 0x00010000; 0x00060003; 0x00050001; 
+	0x30c8c8c8; 0x00010000; 0x00080004; 0x00060003; 
+	0x30c8c8c8; 0x00010000; 0x000a0005; 0x00080004; 
+	0x30c8c8c8; 0x00010000; 0x000c0006; 0x000a0005; 
+	0x30c8c8c8; 0x00010000; 0x000f0007; 0x000c0006; 
+	0x30c8c8c8; 0x00010000; 0x00100008; 0x000f0007; 
+	0x30c8c8c8; 0x00010000; 0x00120009; 0x00100008; 
+	0x30c8c8c8; 0x00010000; 0x0014000a; 0x00120009; 
+	0x30c8c8c8; 0x00010000; 0x0016000b; 0x0014000a; 
+	0x30c8c8c8; 0x00010000; 0x0018000c; 0x0016000b; 
+	0x30c8c8c8; 0x00010000; 0x001b000d; 0x0018000c; 
+	0x30c8c8c8; 0x00010000; 0x001d000e; 0x001b000d; 
+	0x30c8c8c8; 0x00010000; 0x001e000f; 0x001d000e; 
+	0x30c8c8c8; 0x00010000; 0x00210010; 0x001e000f; 
+	0x30c8c8c8; 0x00010000; 0x00230011; 0x00210010; 
+	0x30c8c8c8; 0x00010000; 0x00240012; 0x00230011; 
+	0x30c8c8c8; 0x00010000; 0x00270013; 0x00240012; 
+	0x30c8c8c8; 0x00010000; 0x00280014; 0x00270013; 
+	0x30c8c8c8; 0x00010000; 0x002b0015; 0x00280014; 
+	0x30c8c8c8; 0x00010000; 0x002d0016; 0x002b0015; 
+	0x30c8c8c8; 0x00010000; 0x002f0017; 0x002d0016; 
+	0x30c8c8c8; 0x00010000; 0x00310018; 0x002f0017; 
+	0x30c8c8c8; 0x00010000; 0x00030002; 0x00310018; 
+
+SharedPolySect:
+
+WirePoly_xxxx:
+	/* Wire; 8 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn266 - CalcedNormSect) / 8); H((cv546 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn267 - CalcedNormSect) / 8); H((cv549 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn265 - CalcedNormSect) / 8); H((cv519 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn268 - CalcedNormSect) / 8); H((cv521 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn270 - CalcedNormSect) / 8); H((cv522 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn271 - CalcedNormSect) / 8); H((cv550 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn269 - CalcedNormSect) / 8); H((cv518 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn272 - CalcedNormSect) / 8); H((cv545 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn274 - CalcedNormSect) / 8); H((cv557 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn275 - CalcedNormSect) / 8); H((cv542 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn273 - CalcedNormSect) / 8); H((cv504 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn276 - CalcedNormSect) / 8); H((cv509 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn278 - CalcedNormSect) / 8); H((cv553 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn279 - CalcedNormSect) / 8); H((cv568 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn277 - CalcedNormSect) / 8); H((cv493 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn280 - CalcedNormSect) / 8); H((cv490 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn282 - CalcedNormSect) / 8); H((cv488 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn283 - CalcedNormSect) / 8); H((cv567 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn281 - CalcedNormSect) / 8); H((cv492 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn284 - CalcedNormSect) / 8); H((cv554 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn286 - CalcedNormSect) / 8); H((cv565 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn287 - CalcedNormSect) / 8); H((cv536 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn285 - CalcedNormSect) / 8); H((cv551 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn288 - CalcedNormSect) / 8); H((cv532 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn290 - CalcedNormSect) / 8); H((cv506 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn291 - CalcedNormSect) / 8); H((cv543 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn289 - CalcedNormSect) / 8); H((cv502 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn292 - CalcedNormSect) / 8); H((cv556 - CalcedVertSect) / 8);	/* norm3, vert3 */
+	B(0xff); B(0x00); B(0x00); B(0x38);	/* R, G, B */
+	H((cn294 - CalcedNormSect) / 8); H((cv536 - CalcedVertSect) / 8);	/* norm0, vert0 */
+	H((cn295 - CalcedNormSect) / 8); H((cv565 - CalcedVertSect) / 8);	/* norm1, vert1 */
+	H((cn293 - CalcedNormSect) / 8); H((cv532 - CalcedVertSect) / 8);	/* norm2, vert2 */
+	H((cn296 - CalcedNormSect) / 8); H((cv551 - CalcedVertSect) / 8);	/* norm3, vert3 */
+
+BalloonPoly_xxxx:
+	/* Balloon; 240 */
+	0x38c8c8c8; 0x00030002; 0x00050001; 0x00330019;  0x0034001a;
+	0x38c8c8c8; 0x00050001; 0x00060003; 0x0034001a;  0x0037001b;
+	0x38c8c8c8; 0x00060003; 0x00080004; 0x0037001b;  0x0039001c;
+	0x38c8c8c8; 0x00080004; 0x000a0005; 0x0039001c;  0x003a001d;
+	0x38c8c8c8; 0x000a0005; 0x000c0006; 0x003a001d;  0x003d001e;
+	0x38c8c8c8; 0x000c0006; 0x000f0007; 0x003d001e;  0x003e001f;
+	0x38c8c8c8; 0x000f0007; 0x00100008; 0x003e001f;  0x00410020;
+	0x38c8c8c8; 0x00100008; 0x00120009; 0x00410020;  0x00420021;
+	0x38c8c8c8; 0x00120009; 0x0014000a; 0x00420021;  0x00440022;
+	0x38c8c8c8; 0x0014000a; 0x0016000b; 0x00440022;  0x00460023;
+	0x38c8c8c8; 0x0016000b; 0x0018000c; 0x00460023;  0x00490024;
+	0x38c8c8c8; 0x0018000c; 0x001b000d; 0x00490024;  0x004a0025;
+	0x38c8c8c8; 0x001b000d; 0x001d000e; 0x004a0025;  0x004c0026;
+	0x38c8c8c8; 0x001d000e; 0x001e000f; 0x004c0026;  0x004e0027;
+	0x38c8c8c8; 0x001e000f; 0x00210010; 0x004e0027;  0x00500028;
+	0x38c8c8c8; 0x00210010; 0x00230011; 0x00500028;  0x00520029;
+	0x38c8c8c8; 0x00230011; 0x00240012; 0x00520029;  0x0055002a;
+	0x38c8c8c8; 0x00240012; 0x00270013; 0x0055002a;  0x0057002b;
+	0x38c8c8c8; 0x00270013; 0x00280014; 0x0057002b;  0x0059002c;
+	0x38c8c8c8; 0x00280014; 0x002b0015; 0x0059002c;  0x005b002d;
+	0x38c8c8c8; 0x002b0015; 0x002d0016; 0x005b002d;  0x005c002e;
+	0x38c8c8c8; 0x002d0016; 0x002f0017; 0x005c002e;  0x005e002f;
+	0x38c8c8c8; 0x002f0017; 0x00310018; 0x005e002f;  0x00600030;
+	0x38c8c8c8; 0x00310018; 0x00030002; 0x00600030;  0x00330019;
+	0x38c8c8c8; 0x00330019; 0x0034001a; 0x00620031;  0x00650032;
+	0x38c8c8c8; 0x0034001a; 0x0037001b; 0x00650032;  0x00670033;
+	0x38c8c8c8; 0x0037001b; 0x0039001c; 0x00670033;  0x00690034;
+	0x38c8c8c8; 0x0039001c; 0x003a001d; 0x00690034;  0x006a0035;
+	0x38c8c8c8; 0x003a001d; 0x003d001e; 0x006a0035;  0x006d0036;
+	0x38c8c8c8; 0x003d001e; 0x003e001f; 0x006d0036;  0x006f0037;
+	0x38c8c8c8; 0x003e001f; 0x00410020; 0x006f0037;  0x00710038;
+	0x38c8c8c8; 0x00410020; 0x00420021; 0x00710038;  0x00730039;
+	0x38c8c8c8; 0x00420021; 0x00440022; 0x00730039;  0x0075003a;
+	0x38c8c8c8; 0x00440022; 0x00460023; 0x0075003a;  0x0076003b;
+	0x38c8c8c8; 0x00460023; 0x00490024; 0x0076003b;  0x0078003c;
+	0x38c8c8c8; 0x00490024; 0x004a0025; 0x0078003c;  0x007b003d;
+	0x38c8c8c8; 0x004a0025; 0x004c0026; 0x007b003d;  0x007c003e;
+	0x38c8c8c8; 0x004c0026; 0x004e0027; 0x007c003e;  0x007e003f;
+	0x38c8c8c8; 0x004e0027; 0x00500028; 0x007e003f;  0x00800040;
+	0x38c8c8c8; 0x00500028; 0x00520029; 0x00800040;  0x00830041;
+	0x38c8c8c8; 0x00520029; 0x0055002a; 0x00830041;  0x00850042;
+	0x38c8c8c8; 0x0055002a; 0x0057002b; 0x00850042;  0x00870043;
+	0x38c8c8c8; 0x0057002b; 0x0059002c; 0x00870043;  0x00880044;
+	0x38c8c8c8; 0x0059002c; 0x005b002d; 0x00880044;  0x008a0045;
+	0x38c8c8c8; 0x005b002d; 0x005c002e; 0x008a0045;  0x008d0046;
+	0x38c8c8c8; 0x005c002e; 0x005e002f; 0x008d0046;  0x008f0047;
+	0x38c8c8c8; 0x005e002f; 0x00600030; 0x008f0047;  0x00900048;
+	0x38c8c8c8; 0x00600030; 0x00330019; 0x00900048;  0x00620031;
+	0x38c8c8c8; 0x00620031; 0x00650032; 0x00920049;  0x0094004a;
+	0x38c8c8c8; 0x00650032; 0x00670033; 0x0094004a;  0x0096004b;
+	0x38c8c8c8; 0x00670033; 0x00690034; 0x0096004b;  0x0099004c;
+	0x38c8c8c8; 0x00690034; 0x006a0035; 0x0099004c;  0x009b004d;
+	0x38c8c8c8; 0x006a0035; 0x006d0036; 0x009b004d;  0x009d004e;
+	0x38c8c8c8; 0x006d0036; 0x006f0037; 0x009d004e;  0x009e004f;
+	0x38c8c8c8; 0x006f0037; 0x00710038; 0x009e004f;  0x00a10050;
+	0x38c8c8c8; 0x00710038; 0x00730039; 0x00a10050;  0x00a20051;
+	0x38c8c8c8; 0x00730039; 0x0075003a; 0x00a20051;  0x00a40052;
+	0x38c8c8c8; 0x0075003a; 0x0076003b; 0x00a40052;  0x00a70053;
+	0x38c8c8c8; 0x0076003b; 0x0078003c; 0x00a70053;  0x00a80054;
+	0x38c8c8c8; 0x0078003c; 0x007b003d; 0x00a80054;  0x00ab0055;
+	0x38c8c8c8; 0x007b003d; 0x007c003e; 0x00ab0055;  0x00ac0056;
+	0x38c8c8c8; 0x007c003e; 0x007e003f; 0x00ac0056;  0x00af0057;
+	0x38c8c8c8; 0x007e003f; 0x00800040; 0x00af0057;  0x00b00058;
+	0x38c8c8c8; 0x00800040; 0x00830041; 0x00b00058;  0x00b20059;
+	0x38c8c8c8; 0x00830041; 0x00850042; 0x00b20059;  0x00b5005a;
+	0x38c8c8c8; 0x00850042; 0x00870043; 0x00b5005a;  0x00b6005b;
+	0x38c8c8c8; 0x00870043; 0x00880044; 0x00b6005b;  0x00b8005c;
+	0x38c8c8c8; 0x00880044; 0x008a0045; 0x00b8005c;  0x00ba005d;
+	0x38c8c8c8; 0x008a0045; 0x008d0046; 0x00ba005d;  0x00bc005e;
+	0x38c8c8c8; 0x008d0046; 0x008f0047; 0x00bc005e;  0x00bf005f;
+	0x38c8c8c8; 0x008f0047; 0x00900048; 0x00bf005f;  0x00c00060;
+	0x38c8c8c8; 0x00900048; 0x00620031; 0x00c00060;  0x00920049;
+	0x38c8c8c8; 0x00920049; 0x0094004a; 0x00c30061;  0x00c40062;
+	0x38c8c8c8; 0x0094004a; 0x0096004b; 0x00c40062;  0x00c70063;
+	0x38c8c8c8; 0x0096004b; 0x0099004c; 0x00c70063;  0x00c80064;
+	0x38c8c8c8; 0x0099004c; 0x009b004d; 0x00c80064;  0x00cb0065;
+	0x38c8c8c8; 0x009b004d; 0x009d004e; 0x00cb0065;  0x00cd0066;
+	0x38c8c8c8; 0x009d004e; 0x009e004f; 0x00cd0066;  0x00ce0067;
+	0x38c8c8c8; 0x009e004f; 0x00a10050; 0x00ce0067;  0x00d10068;
+	0x38c8c8c8; 0x00a10050; 0x00a20051; 0x00d10068;  0x00d30069;
+	0x38c8c8c8; 0x00a20051; 0x00a40052; 0x00d30069;  0x00d5006a;
+	0x38c8c8c8; 0x00a40052; 0x00a70053; 0x00d5006a;  0x00d6006b;
+	0x38c8c8c8; 0x00a70053; 0x00a80054; 0x00d6006b;  0x00d9006c;
+	0x38c8c8c8; 0x00a80054; 0x00ab0055; 0x00d9006c;  0x00db006d;
+	0x38c8c8c8; 0x00ab0055; 0x00ac0056; 0x00db006d;  0x00dc006e;
+	0x38c8c8c8; 0x00ac0056; 0x00af0057; 0x00dc006e;  0x00de006f;
+	0x38c8c8c8; 0x00af0057; 0x00b00058; 0x00de006f;  0x00e10070;
+	0x38c8c8c8; 0x00b00058; 0x00b20059; 0x00e10070;  0x00e30071;
+	0x38c8c8c8; 0x00b20059; 0x00b5005a; 0x00e30071;  0x00e50072;
+	0x38c8c8c8; 0x00b5005a; 0x00b6005b; 0x00e50072;  0x00e70073;
+	0x38c8c8c8; 0x00b6005b; 0x00b8005c; 0x00e70073;  0x00e90074;
+	0x38c8c8c8; 0x00b8005c; 0x00ba005d; 0x00e90074;  0x00ea0075;
+	0x38c8c8c8; 0x00ba005d; 0x00bc005e; 0x00ea0075;  0x00ec0076;
+	0x38c8c8c8; 0x00bc005e; 0x00bf005f; 0x00ec0076;  0x00ef0077;
+	0x38c8c8c8; 0x00bf005f; 0x00c00060; 0x00ef0077;  0x00f00078;
+	0x38c8c8c8; 0x00c00060; 0x00920049; 0x00f00078;  0x00c30061;
+	0x38c8c8c8; 0x00c30061; 0x00c40062; 0x00f20079;  0x00f4007a;
+	0x38c8c8c8; 0x00c40062; 0x00c70063; 0x00f4007a;  0x00f7007b;
+	0x38c8c8c8; 0x00c70063; 0x00c80064; 0x00f7007b;  0x00f8007c;
+	0x38c8c8c8; 0x00c80064; 0x00cb0065; 0x00f8007c;  0x00fb007d;
+	0x38c8c8c8; 0x00cb0065; 0x00cd0066; 0x00fb007d;  0x00fd007e;
+	0x38c8c8c8; 0x00cd0066; 0x00ce0067; 0x00fd007e;  0x00fe007f;
+	0x38c8c8c8; 0x00ce0067; 0x00d10068; 0x00fe007f;  0x01010080;
+	0x38c8c8c8; 0x00d10068; 0x00d30069; 0x01010080;  0x01030081;
+	0x38c8c8c8; 0x00d30069; 0x00d5006a; 0x01030081;  0x01040082;
+	0x38c8c8c8; 0x00d5006a; 0x00d6006b; 0x01040082;  0x01060083;
+	0x38c8c8c8; 0x00d6006b; 0x00d9006c; 0x01060083;  0x01080084;
+	0x38c8c8c8; 0x00d9006c; 0x00db006d; 0x01080084;  0x010a0085;
+	0x38c8c8c8; 0x00db006d; 0x00dc006e; 0x010a0085;  0x010d0086;
+	0x38c8c8c8; 0x00dc006e; 0x00de006f; 0x010d0086;  0x010f0087;
+	0x38c8c8c8; 0x00de006f; 0x00e10070; 0x010f0087;  0x01110088;
+	0x38c8c8c8; 0x00e10070; 0x00e30071; 0x01110088;  0x01130089;
+	0x38c8c8c8; 0x00e30071; 0x00e50072; 0x01130089;  0x0114008a;
+	0x38c8c8c8; 0x00e50072; 0x00e70073; 0x0114008a;  0x0117008b;
+	0x38c8c8c8; 0x00e70073; 0x00e90074; 0x0117008b;  0x0119008c;
+	0x38c8c8c8; 0x00e90074; 0x00ea0075; 0x0119008c;  0x011b008d;
+	0x38c8c8c8; 0x00ea0075; 0x00ec0076; 0x011b008d;  0x011c008e;
+	0x38c8c8c8; 0x00ec0076; 0x00ef0077; 0x011c008e;  0x011e008f;
+	0x38c8c8c8; 0x00ef0077; 0x00f00078; 0x011e008f;  0x01200090;
+	0x38c8c8c8; 0x00f00078; 0x00c30061; 0x01200090;  0x00f20079;
+	0x38c8c8c8; 0x00f20079; 0x00f4007a; 0x01230091;  0x01240092;
+	0x38c8c8c8; 0x00f4007a; 0x00f7007b; 0x01240092;  0x01260093;
+	0x38c8c8c8; 0x00f7007b; 0x00f8007c; 0x01260093;  0x01280094;
+	0x38c8c8c8; 0x00f8007c; 0x00fb007d; 0x01280094;  0x012b0095;
+	0x38c8c8c8; 0x00fb007d; 0x00fd007e; 0x012b0095;  0x012c0096;
+	0x38c8c8c8; 0x00fd007e; 0x00fe007f; 0x012c0096;  0x012e0097;
+	0x38c8c8c8; 0x00fe007f; 0x01010080; 0x012e0097;  0x01310098;
+	0x38c8c8c8; 0x01010080; 0x01030081; 0x01310098;  0x01320099;
+	0x38c8c8c8; 0x01030081; 0x01040082; 0x01320099;  0x0135009a;
+	0x38c8c8c8; 0x01040082; 0x01060083; 0x0135009a;  0x0136009b;
+	0x38c8c8c8; 0x01060083; 0x01080084; 0x0136009b;  0x0138009c;
+	0x38c8c8c8; 0x01080084; 0x010a0085; 0x0138009c;  0x013a009d;
+	0x38c8c8c8; 0x010a0085; 0x010d0086; 0x013a009d;  0x013c009e;
+	0x38c8c8c8; 0x010d0086; 0x010f0087; 0x013c009e;  0x013e009f;
+	0x38c8c8c8; 0x010f0087; 0x01110088; 0x013e009f;  0x014100a0;
+	0x38c8c8c8; 0x01110088; 0x01130089; 0x014100a0;  0x014300a1;
+	0x38c8c8c8; 0x01130089; 0x0114008a; 0x014300a1;  0x014500a2;
+	0x38c8c8c8; 0x0114008a; 0x0117008b; 0x014500a2;  0x014700a3;
+	0x38c8c8c8; 0x0117008b; 0x0119008c; 0x014700a3;  0x014900a4;
+	0x38c8c8c8; 0x0119008c; 0x011b008d; 0x014900a4;  0x014a00a5;
+	0x38c8c8c8; 0x011b008d; 0x011c008e; 0x014a00a5;  0x014d00a6;
+	0x38c8c8c8; 0x011c008e; 0x011e008f; 0x014d00a6;  0x014e00a7;
+	0x38c8c8c8; 0x011e008f; 0x01200090; 0x014e00a7;  0x015000a8;
+	0x38c8c8c8; 0x01200090; 0x00f20079; 0x015000a8;  0x01230091;
+	0x38c8c8c8; 0x01230091; 0x01240092; 0x015300a9;  0x015400aa;
+	0x38c8c8c8; 0x01240092; 0x01260093; 0x015400aa;  0x015700ab;
+	0x38c8c8c8; 0x01260093; 0x01280094; 0x015700ab;  0x015800ac;
+	0x38c8c8c8; 0x01280094; 0x012b0095; 0x015800ac;  0x015b00ad;
+	0x38c8c8c8; 0x012b0095; 0x012c0096; 0x015b00ad;  0x015c00ae;
+	0x38c8c8c8; 0x012c0096; 0x012e0097; 0x015c00ae;  0x015f00af;
+	0x38c8c8c8; 0x012e0097; 0x01310098; 0x015f00af;  0x016100b0;
+	0x38c8c8c8; 0x01310098; 0x01320099; 0x016100b0;  0x016200b1;
+	0x38c8c8c8; 0x01320099; 0x0135009a; 0x016200b1;  0x016400b2;
+	0x38c8c8c8; 0x0135009a; 0x0136009b; 0x016400b2;  0x016700b3;
+	0x38c8c8c8; 0x0136009b; 0x0138009c; 0x016700b3;  0x016800b4;
+	0x38c8c8c8; 0x0138009c; 0x013a009d; 0x016800b4;  0x016b00b5;
+	0x38c8c8c8; 0x013a009d; 0x013c009e; 0x016b00b5;  0x016d00b6;
+	0x38c8c8c8; 0x013c009e; 0x013e009f; 0x016d00b6;  0x016e00b7;
+	0x38c8c8c8; 0x013e009f; 0x014100a0; 0x016e00b7;  0x017000b8;
+	0x38c8c8c8; 0x014100a0; 0x014300a1; 0x017000b8;  0x017300b9;
+	0x38c8c8c8; 0x014300a1; 0x014500a2; 0x017300b9;  0x017400ba;
+	0x38c8c8c8; 0x014500a2; 0x014700a3; 0x017400ba;  0x017700bb;
+	0x38c8c8c8; 0x014700a3; 0x014900a4; 0x017700bb;  0x017800bc;
+	0x38c8c8c8; 0x014900a4; 0x014a00a5; 0x017800bc;  0x017b00bd;
+	0x38c8c8c8; 0x014a00a5; 0x014d00a6; 0x017b00bd;  0x017d00be;
+	0x38c8c8c8; 0x014d00a6; 0x014e00a7; 0x017d00be;  0x017e00bf;
+	0x38c8c8c8; 0x014e00a7; 0x015000a8; 0x017e00bf;  0x018000c0;
+	0x38c8c8c8; 0x015000a8; 0x01230091; 0x018000c0;  0x015300a9;
+	0x38c8c8c8; 0x015300a9; 0x015400aa; 0x018200c1;  0x018500c2;
+	0x38c8c8c8; 0x015400aa; 0x015700ab; 0x018500c2;  0x018700c3;
+	0x38c8c8c8; 0x015700ab; 0x015800ac; 0x018700c3;  0x018900c4;
+	0x38c8c8c8; 0x015800ac; 0x015b00ad; 0x018900c4;  0x018a00c5;
+	0x38c8c8c8; 0x015b00ad; 0x015c00ae; 0x018a00c5;  0x018d00c6;
+	0x38c8c8c8; 0x015c00ae; 0x015f00af; 0x018d00c6;  0x018f00c7;
+	0x38c8c8c8; 0x015f00af; 0x016100b0; 0x018f00c7;  0x019100c8;
+	0x38c8c8c8; 0x016100b0; 0x016200b1; 0x019100c8;  0x019200c9;
+	0x38c8c8c8; 0x016200b1; 0x016400b2; 0x019200c9;  0x019400ca;
+	0x38c8c8c8; 0x016400b2; 0x016700b3; 0x019400ca;  0x019600cb;
+	0x38c8c8c8; 0x016700b3; 0x016800b4; 0x019600cb;  0x019800cc;
+	0x38c8c8c8; 0x016800b4; 0x016b00b5; 0x019800cc;  0x019a00cd;
+	0x38c8c8c8; 0x016b00b5; 0x016d00b6; 0x019a00cd;  0x019c00ce;
+	0x38c8c8c8; 0x016d00b6; 0x016e00b7; 0x019c00ce;  0x019e00cf;
+	0x38c8c8c8; 0x016e00b7; 0x017000b8; 0x019e00cf;  0x01a100d0;
+	0x38c8c8c8; 0x017000b8; 0x017300b9; 0x01a100d0;  0x01a200d1;
+	0x38c8c8c8; 0x017300b9; 0x017400ba; 0x01a200d1;  0x01a400d2;
+	0x38c8c8c8; 0x017400ba; 0x017700bb; 0x01a400d2;  0x01a600d3;
+	0x38c8c8c8; 0x017700bb; 0x017800bc; 0x01a600d3;  0x01a900d4;
+	0x38c8c8c8; 0x017800bc; 0x017b00bd; 0x01a900d4;  0x01aa00d5;
+	0x38c8c8c8; 0x017b00bd; 0x017d00be; 0x01aa00d5;  0x01ad00d6;
+	0x38c8c8c8; 0x017d00be; 0x017e00bf; 0x01ad00d6;  0x01ae00d7;
+	0x38c8c8c8; 0x017e00bf; 0x018000c0; 0x01ae00d7;  0x01b000d8;
+	0x38c8c8c8; 0x018000c0; 0x015300a9; 0x01b000d8;  0x018200c1;
+	0x38c8c8c8; 0x018200c1; 0x018500c2; 0x01b300d9;  0x01b500da;
+	0x38c8c8c8; 0x018500c2; 0x018700c3; 0x01b500da;  0x01b700db;
+	0x38c8c8c8; 0x018700c3; 0x018900c4; 0x01b700db;  0x01b800dc;
+	0x38c8c8c8; 0x018900c4; 0x018a00c5; 0x01b800dc;  0x01ba00dd;
+	0x38c8c8c8; 0x018a00c5; 0x018d00c6; 0x01ba00dd;  0x01bc00de;
+	0x38c8c8c8; 0x018d00c6; 0x018f00c7; 0x01bc00de;  0x01be00df;
+	0x38c8c8c8; 0x018f00c7; 0x019100c8; 0x01be00df;  0x01c000e0;
+	0x38c8c8c8; 0x019100c8; 0x019200c9; 0x01c000e0;  0x01c200e1;
+	0x38c8c8c8; 0x019200c9; 0x019400ca; 0x01c200e1;  0x01c400e2;
+	0x38c8c8c8; 0x019400ca; 0x019600cb; 0x01c400e2;  0x01c700e3;
+	0x38c8c8c8; 0x019600cb; 0x019800cc; 0x01c700e3;  0x01c800e4;
+	0x38c8c8c8; 0x019800cc; 0x019a00cd; 0x01c800e4;  0x01cb00e5;
+	0x38c8c8c8; 0x019a00cd; 0x019c00ce; 0x01cb00e5;  0x01cd00e6;
+	0x38c8c8c8; 0x019c00ce; 0x019e00cf; 0x01cd00e6;  0x01ce00e7;
+	0x38c8c8c8; 0x019e00cf; 0x01a100d0; 0x01ce00e7;  0x01d000e8;
+	0x38c8c8c8; 0x01a100d0; 0x01a200d1; 0x01d000e8;  0x01d300e9;
+	0x38c8c8c8; 0x01a200d1; 0x01a400d2; 0x01d300e9;  0x01d400ea;
+	0x38c8c8c8; 0x01a400d2; 0x01a600d3; 0x01d400ea;  0x01d700eb;
+	0x38c8c8c8; 0x01a600d3; 0x01a900d4; 0x01d700eb;  0x01d800ec;
+	0x38c8c8c8; 0x01a900d4; 0x01aa00d5; 0x01d800ec;  0x01da00ed;
+	0x38c8c8c8; 0x01aa00d5; 0x01ad00d6; 0x01da00ed;  0x01dd00ee;
+	0x38c8c8c8; 0x01ad00d6; 0x01ae00d7; 0x01dd00ee;  0x01de00ef;
+	0x38c8c8c8; 0x01ae00d7; 0x01b000d8; 0x01de00ef;  0x01e100f0;
+	0x38c8c8c8; 0x01b000d8; 0x018200c1; 0x01e100f0;  0x01b300d9;
+	0x38c8c8c8; 0x01b300d9; 0x01b500da; 0x01e300f1;  0x01e400f2;
+	0x38c8c8c8; 0x01b500da; 0x01b700db; 0x01e400f2;  0x01e600f3;
+	0x38c8c8c8; 0x01b700db; 0x01b800dc; 0x01e600f3;  0x01e900f4;
+	0x38c8c8c8; 0x01b800dc; 0x01ba00dd; 0x01e900f4;  0x01eb00f5;
+	0x38c8c8c8; 0x01ba00dd; 0x01bc00de; 0x01eb00f5;  0x01ee00f6;
+	0x38c8c8c8; 0x01bc00de; 0x01be00df; 0x01ee00f6;  0x01f000f7;
+	0x38c8c8c8; 0x01be00df; 0x01c000e0; 0x01f000f7;  0x01f200f8;
+	0x38c8c8c8; 0x01c000e0; 0x01c200e1; 0x01f200f8;  0x01f400f9;
+	0x38c8c8c8; 0x01c200e1; 0x01c400e2; 0x01f400f9;  0x01f900fa;
+	0x38c8c8c8; 0x01c400e2; 0x01c700e3; 0x01f900fa;  0x01fc00fb;
+	0x38c8c8c8; 0x01c700e3; 0x01c800e4; 0x01fc00fb;  0x01fe00fc;
+	0x38c8c8c8; 0x01c800e4; 0x01cb00e5; 0x01fe00fc;  0x020100fd;
+	0x38c8c8c8; 0x01cb00e5; 0x01cd00e6; 0x020100fd;  0x020200fe;
+	0x38c8c8c8; 0x01cd00e6; 0x01ce00e7; 0x020200fe;  0x020400ff;
+	0x38c8c8c8; 0x01ce00e7; 0x01d000e8; 0x020400ff;  0x02080100;
+	0x38c8c8c8; 0x01d000e8; 0x01d300e9; 0x02080100;  0x020b0101;
+	0x38c8c8c8; 0x01d300e9; 0x01d400ea; 0x020b0101;  0x020d0102;
+	0x38c8c8c8; 0x01d400ea; 0x01d700eb; 0x020d0102;  0x020f0103;
+	0x38c8c8c8; 0x01d700eb; 0x01d800ec; 0x020f0103;  0x02110104;
+	0x38c8c8c8; 0x01d800ec; 0x01da00ed; 0x02110104;  0x02130105;
+	0x38c8c8c8; 0x01da00ed; 0x01dd00ee; 0x02130105;  0x02160106;
+	0x38c8c8c8; 0x01dd00ee; 0x01de00ef; 0x02160106;  0x02190107;
+	0x38c8c8c8; 0x01de00ef; 0x01e100f0; 0x02190107;  0x021a0108;
+	0x38c8c8c8; 0x01e100f0; 0x01b300d9; 0x021a0108;  0x01e300f1;
+
+CabinPoly_xxxx:
+	/* Cabin; 4 */
+	0x38008080; 0x0231012a; 0x021d012b; 0x02320129;  0x021c012c;
+	0x38008080; 0x0233012e; 0x02320129; 0x0223012d;  0x0224012f;
+	0x38008080; 0x02390131; 0x02300132; 0x02340130;  0x0233012e;
+	0x38008080; 0x02300132; 0x022f0133; 0x0231012a;  0x022e0134;
+
+CabinPoly_0002:
+	0x30008080; 0x0224012f; 0x02320129; 0x021c012c; 
+	0x30008080; 0x0223012d; 0x02340130; 0x0233012e; 
+	0x30008080; 0x022f0133; 0x02300132; 0x02390131; 
+	0x30008080; 0x022e0134; 0x021d012b; 0x0231012a; 
+
+CabinPoly_0003:
+	0x38008080; 0x02200136; 0x021d012b; 0x022b0135;  0x022e0134;
+	0x38008080; 0x022f0133; 0x02390131; 0x022a0137;  0x02370138;
+	0x38008080; 0x0226010f; 0x0224012f; 0x02210110;  0x021c012c;
+	0x38008080; 0x02350127; 0x02340130; 0x02270128;  0x0223012d;
+	0x38008080; 0x0224012f; 0x0226010f; 0x0223012d;  0x02270128;
+	0x38008080; 0x021d012b; 0x02200136; 0x021c012c;  0x02210110;
+	0x38008080; 0x022b0135; 0x022e0134; 0x022a0137;  0x022f0133;
+	0x38008080; 0x0231012a; 0x02320129; 0x02300132;  0x0233012e;
+	0x38008080; 0x02350127; 0x02370138; 0x02340130;  0x02390131;
+	0x38008080; 0x021c013a; 0x021d013b; 0x02320139;  0x0231013c;
+	0x38008080; 0x0224013e; 0x02320139; 0x0223013d;  0x0233013f;
+	0x38008080; 0x0233013f; 0x02300141; 0x02340140;  0x02390142;
+	0x38008080; 0x022e0143; 0x022f0144; 0x0231013c;  0x02300141;
+
+CabinPoly_0004:
+	0x30008080; 0x0224013e; 0x021c013a; 0x02320139; 
+	0x30008080; 0x0223013d; 0x0233013f; 0x02340140; 
+	0x30008080; 0x022f0144; 0x02390142; 0x02300141; 
+	0x30008080; 0x022e0143; 0x0231013c; 0x021d013b; 
+
+CabinPoly_0005:
+	0x38008080; 0x022e0143; 0x021d013b; 0x022b0145;  0x02200146;
+	0x38008080; 0x0237011b; 0x02390142; 0x022a011c;  0x022f0144;
+	0x38008080; 0x021c013a; 0x0224013e; 0x02210147;  0x02260148;
+	0x38008080; 0x0223013d; 0x02340140; 0x02270149;  0x0235014a;
+	0x38008080; 0x02270149; 0x02260148; 0x0223013d;  0x0224013e;
+	0x38008080; 0x02210147; 0x02200146; 0x021c013a;  0x021d013b;
+	0x38008080; 0x022f0144; 0x022e0143; 0x022a011c;  0x022b0145;
+	0x38008080; 0x0233013f; 0x02320139; 0x02300141;  0x0231013c;
+	0x38008080; 0x02390142; 0x0237011b; 0x02340140;  0x0235014a;
+
+BalloonPoly_0006:
+	0x30c8c8c8; 0x0000014b; 0x0002014c; 0x0004014d; 
+	0x30c8c8c8; 0x0000014b; 0x0004014d; 0x0007014e; 
+	0x30c8c8c8; 0x0000014b; 0x0007014e; 0x0009014f; 
+	0x30c8c8c8; 0x0000014b; 0x0009014f; 0x000b0150; 
+	0x30c8c8c8; 0x0000014b; 0x000b0150; 0x000d0151; 
+	0x30c8c8c8; 0x0000014b; 0x000d0151; 0x000e0152; 
+	0x30c8c8c8; 0x0000014b; 0x000e0152; 0x00110153; 
+	0x30c8c8c8; 0x0000014b; 0x00110153; 0x00130154; 
+	0x30c8c8c8; 0x0000014b; 0x00130154; 0x00150155; 
+	0x30c8c8c8; 0x0000014b; 0x00150155; 0x00170156; 
+	0x30c8c8c8; 0x0000014b; 0x00170156; 0x00190157; 
+	0x30c8c8c8; 0x0000014b; 0x00190157; 0x001a0158; 
+	0x30c8c8c8; 0x0000014b; 0x001a0158; 0x001c0159; 
+	0x30c8c8c8; 0x0000014b; 0x001c0159; 0x001f015a; 
+	0x30c8c8c8; 0x0000014b; 0x001f015a; 0x0020015b; 
+	0x30c8c8c8; 0x0000014b; 0x0020015b; 0x0022015c; 
+	0x30c8c8c8; 0x0000014b; 0x0022015c; 0x0025015d; 
+	0x30c8c8c8; 0x0000014b; 0x0025015d; 0x0026015e; 
+	0x30c8c8c8; 0x0000014b; 0x0026015e; 0x0029015f; 
+	0x30c8c8c8; 0x0000014b; 0x0029015f; 0x002a0160; 
+	0x30c8c8c8; 0x0000014b; 0x002a0160; 0x002c0161; 
+	0x30c8c8c8; 0x0000014b; 0x002c0161; 0x002e0162; 
+	0x30c8c8c8; 0x0000014b; 0x002e0162; 0x00300163; 
+	0x30c8c8c8; 0x0000014b; 0x00300163; 0x0002014c; 
+
+BalloonPoly_0007:
+	0x38c8c8c8; 0x00350165; 0x0004014d; 0x00320164;  0x0002014c;
+	0x38c8c8c8; 0x00360166; 0x0007014e; 0x00350165;  0x0004014d;
+	0x38c8c8c8; 0x00380167; 0x0009014f; 0x00360166;  0x0007014e;
+	0x38c8c8c8; 0x003b0168; 0x000b0150; 0x00380167;  0x0009014f;
+	0x38c8c8c8; 0x003c0169; 0x000d0151; 0x003b0168;  0x000b0150;
+	0x38c8c8c8; 0x003f016a; 0x000e0152; 0x003c0169;  0x000d0151;
+	0x38c8c8c8; 0x0040016b; 0x00110153; 0x003f016a;  0x000e0152;
+	0x38c8c8c8; 0x0043016c; 0x00130154; 0x0040016b;  0x00110153;
+	0x38c8c8c8; 0x0045016d; 0x00150155; 0x0043016c;  0x00130154;
+	0x38c8c8c8; 0x0047016e; 0x00170156; 0x0045016d;  0x00150155;
+	0x38c8c8c8; 0x0048016f; 0x00190157; 0x0047016e;  0x00170156;
+	0x38c8c8c8; 0x004b0170; 0x001a0158; 0x0048016f;  0x00190157;
+	0x38c8c8c8; 0x004d0171; 0x001c0159; 0x004b0170;  0x001a0158;
+	0x38c8c8c8; 0x004f0172; 0x001f015a; 0x004d0171;  0x001c0159;
+	0x38c8c8c8; 0x00510173; 0x0020015b; 0x004f0172;  0x001f015a;
+	0x38c8c8c8; 0x00530174; 0x0022015c; 0x00510173;  0x0020015b;
+	0x38c8c8c8; 0x00540175; 0x0025015d; 0x00530174;  0x0022015c;
+	0x38c8c8c8; 0x00560176; 0x0026015e; 0x00540175;  0x0025015d;
+	0x38c8c8c8; 0x00580177; 0x0029015f; 0x00560176;  0x0026015e;
+	0x38c8c8c8; 0x005a0178; 0x002a0160; 0x00580177;  0x0029015f;
+	0x38c8c8c8; 0x005d0179; 0x002c0161; 0x005a0178;  0x002a0160;
+	0x38c8c8c8; 0x005f017a; 0x002e0162; 0x005d0179;  0x002c0161;
+	0x38c8c8c8; 0x0061017b; 0x00300163; 0x005f017a;  0x002e0162;
+	0x38c8c8c8; 0x00320164; 0x0002014c; 0x0061017b;  0x00300163;
+	0x38c8c8c8; 0x0064017d; 0x00350165; 0x0063017c;  0x00320164;
+	0x38c8c8c8; 0x0066017e; 0x00360166; 0x0064017d;  0x00350165;
+	0x38c8c8c8; 0x0068017f; 0x00380167; 0x0066017e;  0x00360166;
+	0x38c8c8c8; 0x006b0180; 0x003b0168; 0x0068017f;  0x00380167;
+	0x38c8c8c8; 0x006c0181; 0x003c0169; 0x006b0180;  0x003b0168;
+	0x38c8c8c8; 0x006e0182; 0x003f016a; 0x006c0181;  0x003c0169;
+	0x38c8c8c8; 0x00700183; 0x0040016b; 0x006e0182;  0x003f016a;
+	0x38c8c8c8; 0x00720184; 0x0043016c; 0x00700183;  0x0040016b;
+	0x38c8c8c8; 0x00740185; 0x0045016d; 0x00720184;  0x0043016c;
+	0x38c8c8c8; 0x00770186; 0x0047016e; 0x00740185;  0x0045016d;
+	0x38c8c8c8; 0x00790187; 0x0048016f; 0x00770186;  0x0047016e;
+	0x38c8c8c8; 0x007a0188; 0x004b0170; 0x00790187;  0x0048016f;
+	0x38c8c8c8; 0x007d0189; 0x004d0171; 0x007a0188;  0x004b0170;
+	0x38c8c8c8; 0x007f018a; 0x004f0172; 0x007d0189;  0x004d0171;
+	0x38c8c8c8; 0x0081018b; 0x00510173; 0x007f018a;  0x004f0172;
+	0x38c8c8c8; 0x0082018c; 0x00530174; 0x0081018b;  0x00510173;
+	0x38c8c8c8; 0x0084018d; 0x00540175; 0x0082018c;  0x00530174;
+	0x38c8c8c8; 0x0086018e; 0x00560176; 0x0084018d;  0x00540175;
+	0x38c8c8c8; 0x0089018f; 0x00580177; 0x0086018e;  0x00560176;
+	0x38c8c8c8; 0x008b0190; 0x005a0178; 0x0089018f;  0x00580177;
+	0x38c8c8c8; 0x008c0191; 0x005d0179; 0x008b0190;  0x005a0178;
+	0x38c8c8c8; 0x008e0192; 0x005f017a; 0x008c0191;  0x005d0179;
+	0x38c8c8c8; 0x00910193; 0x0061017b; 0x008e0192;  0x005f017a;
+	0x38c8c8c8; 0x0063017c; 0x00320164; 0x00910193;  0x0061017b;
+	0x38c8c8c8; 0x00950195; 0x0064017d; 0x00930194;  0x0063017c;
+	0x38c8c8c8; 0x00970196; 0x0066017e; 0x00950195;  0x0064017d;
+	0x38c8c8c8; 0x00980197; 0x0068017f; 0x00970196;  0x0066017e;
+	0x38c8c8c8; 0x009a0198; 0x006b0180; 0x00980197;  0x0068017f;
+	0x38c8c8c8; 0x009c0199; 0x006c0181; 0x009a0198;  0x006b0180;
+	0x38c8c8c8; 0x009f019a; 0x006e0182; 0x009c0199;  0x006c0181;
+	0x38c8c8c8; 0x00a0019b; 0x00700183; 0x009f019a;  0x006e0182;
+	0x38c8c8c8; 0x00a3019c; 0x00720184; 0x00a0019b;  0x00700183;
+	0x38c8c8c8; 0x00a5019d; 0x00740185; 0x00a3019c;  0x00720184;
+	0x38c8c8c8; 0x00a6019e; 0x00770186; 0x00a5019d;  0x00740185;
+	0x38c8c8c8; 0x00a9019f; 0x00790187; 0x00a6019e;  0x00770186;
+	0x38c8c8c8; 0x00aa01a0; 0x007a0188; 0x00a9019f;  0x00790187;
+	0x38c8c8c8; 0x00ad01a1; 0x007d0189; 0x00aa01a0;  0x007a0188;
+	0x38c8c8c8; 0x00ae01a2; 0x007f018a; 0x00ad01a1;  0x007d0189;
+	0x38c8c8c8; 0x00b101a3; 0x0081018b; 0x00ae01a2;  0x007f018a;
+	0x38c8c8c8; 0x00b301a4; 0x0082018c; 0x00b101a3;  0x0081018b;
+	0x38c8c8c8; 0x00b401a5; 0x0084018d; 0x00b301a4;  0x0082018c;
+	0x38c8c8c8; 0x00b701a6; 0x0086018e; 0x00b401a5;  0x0084018d;
+	0x38c8c8c8; 0x00b901a7; 0x0089018f; 0x00b701a6;  0x0086018e;
+	0x38c8c8c8; 0x00bb01a8; 0x008b0190; 0x00b901a7;  0x0089018f;
+	0x38c8c8c8; 0x00bd01a9; 0x008c0191; 0x00bb01a8;  0x008b0190;
+	0x38c8c8c8; 0x00be01aa; 0x008e0192; 0x00bd01a9;  0x008c0191;
+	0x38c8c8c8; 0x00c101ab; 0x00910193; 0x00be01aa;  0x008e0192;
+	0x38c8c8c8; 0x00930194; 0x0063017c; 0x00c101ab;  0x00910193;
+	0x38c8c8c8; 0x00c501ad; 0x00950195; 0x00c201ac;  0x00930194;
+	0x38c8c8c8; 0x00c601ae; 0x00970196; 0x00c501ad;  0x00950195;
+	0x38c8c8c8; 0x00c901af; 0x00980197; 0x00c601ae;  0x00970196;
+	0x38c8c8c8; 0x00ca01b0; 0x009a0198; 0x00c901af;  0x00980197;
+	0x38c8c8c8; 0x00cc01b1; 0x009c0199; 0x00ca01b0;  0x009a0198;
+	0x38c8c8c8; 0x00cf01b2; 0x009f019a; 0x00cc01b1;  0x009c0199;
+	0x38c8c8c8; 0x00d001b3; 0x00a0019b; 0x00cf01b2;  0x009f019a;
+	0x38c8c8c8; 0x00d201b4; 0x00a3019c; 0x00d001b3;  0x00a0019b;
+	0x38c8c8c8; 0x00d401b5; 0x00a5019d; 0x00d201b4;  0x00a3019c;
+	0x38c8c8c8; 0x00d701b6; 0x00a6019e; 0x00d401b5;  0x00a5019d;
+	0x38c8c8c8; 0x00d801b7; 0x00a9019f; 0x00d701b6;  0x00a6019e;
+	0x38c8c8c8; 0x00da01b8; 0x00aa01a0; 0x00d801b7;  0x00a9019f;
+	0x38c8c8c8; 0x00dd01b9; 0x00ad01a1; 0x00da01b8;  0x00aa01a0;
+	0x38c8c8c8; 0x00df01ba; 0x00ae01a2; 0x00dd01b9;  0x00ad01a1;
+	0x38c8c8c8; 0x00e001bb; 0x00b101a3; 0x00df01ba;  0x00ae01a2;
+	0x38c8c8c8; 0x00e201bc; 0x00b301a4; 0x00e001bb;  0x00b101a3;
+	0x38c8c8c8; 0x00e401bd; 0x00b401a5; 0x00e201bc;  0x00b301a4;
+	0x38c8c8c8; 0x00e601be; 0x00b701a6; 0x00e401bd;  0x00b401a5;
+	0x38c8c8c8; 0x00e801bf; 0x00b901a7; 0x00e601be;  0x00b701a6;
+	0x38c8c8c8; 0x00eb01c0; 0x00bb01a8; 0x00e801bf;  0x00b901a7;
+	0x38c8c8c8; 0x00ed01c1; 0x00bd01a9; 0x00eb01c0;  0x00bb01a8;
+	0x38c8c8c8; 0x00ee01c2; 0x00be01aa; 0x00ed01c1;  0x00bd01a9;
+	0x38c8c8c8; 0x00f101c3; 0x00c101ab; 0x00ee01c2;  0x00be01aa;
+	0x38c8c8c8; 0x00c201ac; 0x00930194; 0x00f101c3;  0x00c101ab;
+	0x38c8c8c8; 0x00f501c5; 0x00c501ad; 0x00f301c4;  0x00c201ac;
+	0x38c8c8c8; 0x00f601c6; 0x00c601ae; 0x00f501c5;  0x00c501ad;
+	0x38c8c8c8; 0x00f901c7; 0x00c901af; 0x00f601c6;  0x00c601ae;
+	0x38c8c8c8; 0x00fa01c8; 0x00ca01b0; 0x00f901c7;  0x00c901af;
+	0x38c8c8c8; 0x00fc01c9; 0x00cc01b1; 0x00fa01c8;  0x00ca01b0;
+	0x38c8c8c8; 0x00ff01ca; 0x00cf01b2; 0x00fc01c9;  0x00cc01b1;
+	0x38c8c8c8; 0x010001cb; 0x00d001b3; 0x00ff01ca;  0x00cf01b2;
+	0x38c8c8c8; 0x010201cc; 0x00d201b4; 0x010001cb;  0x00d001b3;
+	0x38c8c8c8; 0x010501cd; 0x00d401b5; 0x010201cc;  0x00d201b4;
+	0x38c8c8c8; 0x010701ce; 0x00d701b6; 0x010501cd;  0x00d401b5;
+	0x38c8c8c8; 0x010901cf; 0x00d801b7; 0x010701ce;  0x00d701b6;
+	0x38c8c8c8; 0x010b01d0; 0x00da01b8; 0x010901cf;  0x00d801b7;
+	0x38c8c8c8; 0x010c01d1; 0x00dd01b9; 0x010b01d0;  0x00da01b8;
+	0x38c8c8c8; 0x010e01d2; 0x00df01ba; 0x010c01d1;  0x00dd01b9;
+	0x38c8c8c8; 0x011001d3; 0x00e001bb; 0x010e01d2;  0x00df01ba;
+	0x38c8c8c8; 0x011201d4; 0x00e201bc; 0x011001d3;  0x00e001bb;
+	0x38c8c8c8; 0x011501d5; 0x00e401bd; 0x011201d4;  0x00e201bc;
+	0x38c8c8c8; 0x011601d6; 0x00e601be; 0x011501d5;  0x00e401bd;
+	0x38c8c8c8; 0x011801d7; 0x00e801bf; 0x011601d6;  0x00e601be;
+	0x38c8c8c8; 0x011a01d8; 0x00eb01c0; 0x011801d7;  0x00e801bf;
+	0x38c8c8c8; 0x011d01d9; 0x00ed01c1; 0x011a01d8;  0x00eb01c0;
+	0x38c8c8c8; 0x011f01da; 0x00ee01c2; 0x011d01d9;  0x00ed01c1;
+	0x38c8c8c8; 0x012101db; 0x00f101c3; 0x011f01da;  0x00ee01c2;
+	0x38c8c8c8; 0x00f301c4; 0x00c201ac; 0x012101db;  0x00f101c3;
+	0x38c8c8c8; 0x012501dd; 0x00f501c5; 0x012201dc;  0x00f301c4;
+	0x38c8c8c8; 0x012701de; 0x00f601c6; 0x012501dd;  0x00f501c5;
+	0x38c8c8c8; 0x012901df; 0x00f901c7; 0x012701de;  0x00f601c6;
+	0x38c8c8c8; 0x012a01e0; 0x00fa01c8; 0x012901df;  0x00f901c7;
+	0x38c8c8c8; 0x012d01e1; 0x00fc01c9; 0x012a01e0;  0x00fa01c8;
+	0x38c8c8c8; 0x012f01e2; 0x00ff01ca; 0x012d01e1;  0x00fc01c9;
+	0x38c8c8c8; 0x013001e3; 0x010001cb; 0x012f01e2;  0x00ff01ca;
+	0x38c8c8c8; 0x013301e4; 0x010201cc; 0x013001e3;  0x010001cb;
+	0x38c8c8c8; 0x013401e5; 0x010501cd; 0x013301e4;  0x010201cc;
+	0x38c8c8c8; 0x013701e6; 0x010701ce; 0x013401e5;  0x010501cd;
+	0x38c8c8c8; 0x013901e7; 0x010901cf; 0x013701e6;  0x010701ce;
+	0x38c8c8c8; 0x013b01e8; 0x010b01d0; 0x013901e7;  0x010901cf;
+	0x38c8c8c8; 0x013d01e9; 0x010c01d1; 0x013b01e8;  0x010b01d0;
+	0x38c8c8c8; 0x013f01ea; 0x010e01d2; 0x013d01e9;  0x010c01d1;
+	0x38c8c8c8; 0x014001eb; 0x011001d3; 0x013f01ea;  0x010e01d2;
+	0x38c8c8c8; 0x014201ec; 0x011201d4; 0x014001eb;  0x011001d3;
+	0x38c8c8c8; 0x014401ed; 0x011501d5; 0x014201ec;  0x011201d4;
+	0x38c8c8c8; 0x014601ee; 0x011601d6; 0x014401ed;  0x011501d5;
+	0x38c8c8c8; 0x014801ef; 0x011801d7; 0x014601ee;  0x011601d6;
+	0x38c8c8c8; 0x014b01f0; 0x011a01d8; 0x014801ef;  0x011801d7;
+	0x38c8c8c8; 0x014c01f1; 0x011d01d9; 0x014b01f0;  0x011a01d8;
+	0x38c8c8c8; 0x014f01f2; 0x011f01da; 0x014c01f1;  0x011d01d9;
+	0x38c8c8c8; 0x015101f3; 0x012101db; 0x014f01f2;  0x011f01da;
+	0x38c8c8c8; 0x012201dc; 0x00f301c4; 0x015101f3;  0x012101db;
+	0x38c8c8c8; 0x015501f5; 0x012501dd; 0x015201f4;  0x012201dc;
+	0x38c8c8c8; 0x015601f6; 0x012701de; 0x015501f5;  0x012501dd;
+	0x38c8c8c8; 0x015901f7; 0x012901df; 0x015601f6;  0x012701de;
+	0x38c8c8c8; 0x015a01f8; 0x012a01e0; 0x015901f7;  0x012901df;
+	0x38c8c8c8; 0x015d01f9; 0x012d01e1; 0x015a01f8;  0x012a01e0;
+	0x38c8c8c8; 0x015e01fa; 0x012f01e2; 0x015d01f9;  0x012d01e1;
+	0x38c8c8c8; 0x016001fb; 0x013001e3; 0x015e01fa;  0x012f01e2;
+	0x38c8c8c8; 0x016301fc; 0x013301e4; 0x016001fb;  0x013001e3;
+	0x38c8c8c8; 0x016501fd; 0x013401e5; 0x016301fc;  0x013301e4;
+	0x38c8c8c8; 0x016601fe; 0x013701e6; 0x016501fd;  0x013401e5;
+	0x38c8c8c8; 0x016901ff; 0x013901e7; 0x016601fe;  0x013701e6;
+	0x38c8c8c8; 0x016a0200; 0x013b01e8; 0x016901ff;  0x013901e7;
+	0x38c8c8c8; 0x016c0201; 0x013d01e9; 0x016a0200;  0x013b01e8;
+	0x38c8c8c8; 0x016f0202; 0x013f01ea; 0x016c0201;  0x013d01e9;
+	0x38c8c8c8; 0x01710203; 0x014001eb; 0x016f0202;  0x013f01ea;
+	0x38c8c8c8; 0x01720204; 0x014201ec; 0x01710203;  0x014001eb;
+	0x38c8c8c8; 0x01750205; 0x014401ed; 0x01720204;  0x014201ec;
+	0x38c8c8c8; 0x01760206; 0x014601ee; 0x01750205;  0x014401ed;
+	0x38c8c8c8; 0x01790207; 0x014801ef; 0x01760206;  0x014601ee;
+	0x38c8c8c8; 0x017a0208; 0x014b01f0; 0x01790207;  0x014801ef;
+	0x38c8c8c8; 0x017c0209; 0x014c01f1; 0x017a0208;  0x014b01f0;
+	0x38c8c8c8; 0x017f020a; 0x014f01f2; 0x017c0209;  0x014c01f1;
+	0x38c8c8c8; 0x0181020b; 0x015101f3; 0x017f020a;  0x014f01f2;
+	0x38c8c8c8; 0x015201f4; 0x012201dc; 0x0181020b;  0x015101f3;
+	0x38c8c8c8; 0x0184020d; 0x015501f5; 0x0183020c;  0x015201f4;
+	0x38c8c8c8; 0x0186020e; 0x015601f6; 0x0184020d;  0x015501f5;
+	0x38c8c8c8; 0x0188020f; 0x015901f7; 0x0186020e;  0x015601f6;
+	0x38c8c8c8; 0x018b0210; 0x015a01f8; 0x0188020f;  0x015901f7;
+	0x38c8c8c8; 0x018c0211; 0x015d01f9; 0x018b0210;  0x015a01f8;
+	0x38c8c8c8; 0x018e0212; 0x015e01fa; 0x018c0211;  0x015d01f9;
+	0x38c8c8c8; 0x01900213; 0x016001fb; 0x018e0212;  0x015e01fa;
+	0x38c8c8c8; 0x01930214; 0x016301fc; 0x01900213;  0x016001fb;
+	0x38c8c8c8; 0x01950215; 0x016501fd; 0x01930214;  0x016301fc;
+	0x38c8c8c8; 0x01970216; 0x016601fe; 0x01950215;  0x016501fd;
+	0x38c8c8c8; 0x01990217; 0x016901ff; 0x01970216;  0x016601fe;
+	0x38c8c8c8; 0x019b0218; 0x016a0200; 0x01990217;  0x016901ff;
+	0x38c8c8c8; 0x019d0219; 0x016c0201; 0x019b0218;  0x016a0200;
+	0x38c8c8c8; 0x019f021a; 0x016f0202; 0x019d0219;  0x016c0201;
+	0x38c8c8c8; 0x01a0021b; 0x01710203; 0x019f021a;  0x016f0202;
+	0x38c8c8c8; 0x01a3021c; 0x01720204; 0x01a0021b;  0x01710203;
+	0x38c8c8c8; 0x01a5021d; 0x01750205; 0x01a3021c;  0x01720204;
+	0x38c8c8c8; 0x01a7021e; 0x01760206; 0x01a5021d;  0x01750205;
+	0x38c8c8c8; 0x01a8021f; 0x01790207; 0x01a7021e;  0x01760206;
+	0x38c8c8c8; 0x01ab0220; 0x017a0208; 0x01a8021f;  0x01790207;
+	0x38c8c8c8; 0x01ac0221; 0x017c0209; 0x01ab0220;  0x017a0208;
+	0x38c8c8c8; 0x01af0222; 0x017f020a; 0x01ac0221;  0x017c0209;
+	0x38c8c8c8; 0x01b10223; 0x0181020b; 0x01af0222;  0x017f020a;
+	0x38c8c8c8; 0x0183020c; 0x015201f4; 0x01b10223;  0x0181020b;
+	0x38c8c8c8; 0x01b40225; 0x0184020d; 0x01b20224;  0x0183020c;
+	0x38c8c8c8; 0x01b60226; 0x0186020e; 0x01b40225;  0x0184020d;
+	0x38c8c8c8; 0x01b90227; 0x0188020f; 0x01b60226;  0x0186020e;
+	0x38c8c8c8; 0x01bb0228; 0x018b0210; 0x01b90227;  0x0188020f;
+	0x38c8c8c8; 0x01bd0229; 0x018c0211; 0x01bb0228;  0x018b0210;
+	0x38c8c8c8; 0x01bf022a; 0x018e0212; 0x01bd0229;  0x018c0211;
+	0x38c8c8c8; 0x01c1022b; 0x01900213; 0x01bf022a;  0x018e0212;
+	0x38c8c8c8; 0x01c3022c; 0x01930214; 0x01c1022b;  0x01900213;
+	0x38c8c8c8; 0x01c5022d; 0x01950215; 0x01c3022c;  0x01930214;
+	0x38c8c8c8; 0x01c6022e; 0x01970216; 0x01c5022d;  0x01950215;
+	0x38c8c8c8; 0x01c9022f; 0x01990217; 0x01c6022e;  0x01970216;
+	0x38c8c8c8; 0x01ca0230; 0x019b0218; 0x01c9022f;  0x01990217;
+	0x38c8c8c8; 0x01cc0231; 0x019d0219; 0x01ca0230;  0x019b0218;
+	0x38c8c8c8; 0x01cf0232; 0x019f021a; 0x01cc0231;  0x019d0219;
+	0x38c8c8c8; 0x01d10233; 0x01a0021b; 0x01cf0232;  0x019f021a;
+	0x38c8c8c8; 0x01d20234; 0x01a3021c; 0x01d10233;  0x01a0021b;
+	0x38c8c8c8; 0x01d50235; 0x01a5021d; 0x01d20234;  0x01a3021c;
+	0x38c8c8c8; 0x01d60236; 0x01a7021e; 0x01d50235;  0x01a5021d;
+	0x38c8c8c8; 0x01d90237; 0x01a8021f; 0x01d60236;  0x01a7021e;
+	0x38c8c8c8; 0x01db0238; 0x01ab0220; 0x01d90237;  0x01a8021f;
+	0x38c8c8c8; 0x01dc0239; 0x01ac0221; 0x01db0238;  0x01ab0220;
+	0x38c8c8c8; 0x01df023a; 0x01af0222; 0x01dc0239;  0x01ac0221;
+	0x38c8c8c8; 0x01e0023b; 0x01b10223; 0x01df023a;  0x01af0222;
+	0x38c8c8c8; 0x01b20224; 0x0183020c; 0x01e0023b;  0x01b10223;
+	0x38c8c8c8; 0x01e5023d; 0x01b40225; 0x01e2023c;  0x01b20224;
+	0x38c8c8c8; 0x01e7023e; 0x01b60226; 0x01e5023d;  0x01b40225;
+	0x38c8c8c8; 0x01e8011a; 0x01b90227; 0x01e7023e;  0x01b60226;
+	0x38c8c8c8; 0x01ec0119; 0x01bb0228; 0x01e8011a;  0x01b90227;
+	0x38c8c8c8; 0x01ef023f; 0x01bd0229; 0x01ec0119;  0x01bb0228;
+	0x38c8c8c8; 0x01f10240; 0x01bf022a; 0x01ef023f;  0x01bd0229;
+	0x38c8c8c8; 0x01f30241; 0x01c1022b; 0x01f10240;  0x01bf022a;
+	0x38c8c8c8; 0x01f50242; 0x01c3022c; 0x01f30241;  0x01c1022b;
+	0x38c8c8c8; 0x01f70243; 0x01c5022d; 0x01f50242;  0x01c3022c;
+	0x38c8c8c8; 0x01fb0244; 0x01c6022e; 0x01f70243;  0x01c5022d;
+	0x38c8c8c8; 0x01ff0245; 0x01c9022f; 0x01fb0244;  0x01c6022e;
+	0x38c8c8c8; 0x02000246; 0x01ca0230; 0x01ff0245;  0x01c9022f;
+	0x38c8c8c8; 0x02030247; 0x01cc0231; 0x02000246;  0x01ca0230;
+	0x38c8c8c8; 0x02050248; 0x01cf0232; 0x02030247;  0x01cc0231;
+	0x38c8c8c8; 0x02060249; 0x01d10233; 0x02050248;  0x01cf0232;
+	0x38c8c8c8; 0x020a024a; 0x01d20234; 0x02060249;  0x01d10233;
+	0x38c8c8c8; 0x020c024b; 0x01d50235; 0x020a024a;  0x01d20234;
+	0x38c8c8c8; 0x020e024c; 0x01d60236; 0x020c024b;  0x01d50235;
+	0x38c8c8c8; 0x0210024d; 0x01d90237; 0x020e024c;  0x01d60236;
+	0x38c8c8c8; 0x0212024e; 0x01db0238; 0x0210024d;  0x01d90237;
+	0x38c8c8c8; 0x0214024f; 0x01dc0239; 0x0212024e;  0x01db0238;
+	0x38c8c8c8; 0x02180250; 0x01df023a; 0x0214024f;  0x01dc0239;
+	0x38c8c8c8; 0x021b0251; 0x01e0023b; 0x02180250;  0x01df023a;
+	0x38c8c8c8; 0x01e2023c; 0x01b20224; 0x021b0251;  0x01e0023b;
+
+AnimPrimSet_0000:
+	TERMINATE;	/* next prim */
+	AnimPrimHdr_0000 / 4;
+	M(1);	/* num of types */
+
+AnimPrim_0000:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(INI|CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_NONE);
+	H(1 + 7 + 7); M(H(2));	/* size, data */
+
+	SECT_OFFSET(4)|OFFSET_IN_SECT((Coord_0000 - CoordSect_0000) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(0); H(40);	/* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((BalloonWork - CtrlSect_0000) / 4); B(0); B(0);	/* start idx, start sid, traveling */
+
+	SECT_OFFSET(4)|OFFSET_IN_SECT((Coord_0001 - CoordSect_0000) / 4);
+	H(7); H(1);	/* siz, num of sequences */
+	H(0); H(0);	/* intr idx, aframe */
+	B(0); B(0); H(40);	/* stream id, speed(fixed), src intr idx */
+	H(0); H(0);	/* rframe(fixed), tframe */
+	H(0); H(0);	/* ctr idx, tctr idx */
+	H((CabinSeq1 - CtrlSect_0000) / 4); B(0); B(0);	/* start idx, start sid, traveling */
+
+InterpFuncSect_0000:
+	M(2);	/* num of types */
+
+TransBsplineFunc:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_NONE|TI_BSPLINE_S);
+TransRotBezierFunc:
+	DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+		|PRIM_TYPE(SI_NONE|RI_BEZIER|TI_BEZIER_S);
+
+CtrlSect_0000:
+	/*
+		Sequences for the balloon.
+	*/
+BalloonWork:
+	SEQD(CONTROL)|CODE(0x02)|P1(0)
+		|P2((TransBsplineWork - ParamSect_0000) / 4);
+BalloonSeq1:
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((TransBsplineKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((TransBsplineKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(0)|PARAM_IDX((TransBsplineKey2 - ParamSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BalloonSeq2 - CtrlSect_0000) / 4);
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BalloonSeq3 - CtrlSect_0000) / 4);
+BalloonSeq2:
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey3 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey4 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey5 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey1 - ParamSect_0000) / 4);
+BalloonSeq3:
+	SEQD(NORMAL)|TYPE_IDX((TransBsplineFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransBsplineKey2 - ParamSect_0000) / 4);
+	/*SEQD(CONTROL)|CODE(0x01)|P1(0)|P2(0);	/* END */
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((BalloonSeq2 - CtrlSect_0000) / 4);
+
+	/*
+		Sequences for the cabin.
+	*/
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((CabinSeq2 - CtrlSect_0000) / 4);
+CabinSeq1:
+	SEQD(NORMAL)|TYPE_IDX((TransRotBezierFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransRotBezierKey0 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransRotBezierFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransRotBezierKey1 - ParamSect_0000) / 4);
+	SEQD(NORMAL)|TYPE_IDX((TransRotBezierFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransRotBezierKey2 - ParamSect_0000) / 4);
+CabinSeq2:
+	SEQD(NORMAL)|TYPE_IDX((TransRotBezierFunc - InterpFuncSect_0000) / 4 - 1)
+		|TFRAME(80)|PARAM_IDX((TransRotBezierKey3 - ParamSect_0000) / 4);
+
+	SEQD(JUMP)|SID_DST(0)|SID_CND(0)
+		|SEQ_IDX((CabinSeq1 - CtrlSect_0000) / 4);
+
+ParamSect_0000:
+	/*
+		key frames for TransBsplineFunc:
+		DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+			|PRIM_TYPE(SI_NONE|RI_NONE|TI_BSPLINE_S);
+
+		Tx; Ty; Tz;
+	*/
+
+TransBsplineWork:/* 4 word work is necessary for tracing past key frames */
+	 0;	0;	0;	0;
+TransBsplineKey0:
+	 H(400);H(-200);H(0 + 500);H(0);
+TransBsplineKey1:
+	 H(200);H(-200);H(400 + 500);H(0);
+TransBsplineKey2:
+	H(-200);H(-200);H(400 + 500);H(0);
+TransBsplineKey3:
+	H(-400);H(-200);H(0 + 500);H(0);
+TransBsplineKey4:
+	H(-200);H(-200);H(-400 + 500);H(0);
+TransBsplineKey5:
+	H(200);H(-200);H(-400 + 500);H(0);
+
+/*
+TransBsplineKey0:
+	 400;-200;0 + 500;
+TransBsplineKey1:
+	 200;-200;400 + 500;
+TransBsplineKey2:
+	-200;-200;400 + 500;
+TransBsplineKey3:
+	-400;-200;0 + 500;
+TransBsplineKey4:
+	-200;-200;-400 + 500;
+TransBsplineKey5:
+	200;-200;-400 + 500;
+*/
+
+	/*
+		key frames for TransRotBezierFunc:
+		DEV_ID(SCE)|CTG(CTG_ANIM)|DRV(CAT_STD|TGT_COORD)
+			|PRIM_TYPE(SI_NONE|RI_BEZIER|TI_BEZIER_S);
+
+		H(Tx0); H(Ty0); H(Tz0);
+		H(Tx1); H(Ty1); H(Tz1);
+		H(Tx2); H(Ty2); H(Tz2);
+		H(Sx0); H(Sy0); H(Sz0);
+		H(Sx1); H(Sy1); H(Sz1);
+		H(Sx2); H(Sy2); H(Sz2);
+	*/
+TransRotBezierKey0:
+	H(-200); H( 200); H(   0);
+	H(-200); H( 200); H( 400);
+	H(-100); H( 200); H( 400);
+	H(-200); H( 200); H(   0);
+	H(-200); H( 200); H( 400);
+	H(-100); H( 200); H( 400);
+TransRotBezierKey1:
+	H(   0); H( 200); H(   0);
+	H( 100); H( 200); H(-400);
+	H( 200); H( 200); H(-400);
+	H(   0); H( 200); H(   0);
+	H( 100); H( 200); H(-400);
+	H( 200); H( 200); H(-400);
+TransRotBezierKey2:
+	H( 200); H( 200); H(   0);
+	H( 200); H( 200); H( 400);
+	H( 100); H( 200); H( 400);
+	H( 200); H( 200); H(   0);
+	H( 200); H( 200); H( 400);
+	H( 100); H( 200); H( 400);
+TransRotBezierKey3:
+	H(   0); H( 200); H(   0);
+	H(-100); H( 200); H(-400);
+	H(-200); H( 200); H(-400);
+	H(   0); H( 200); H(   0);
+	H(-100); H( 200); H(-400);
+	H(-200); H( 200); H(-400);

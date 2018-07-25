@@ -1,0 +1,23 @@
+ SEX=EL 
+ MACHINE=MW3
+ TYPE=MW3
+LIBDIR  = ../../../lib
+LIBDIR2  = ../../../lib
+
+INCDIR  = ../../../include
+MAKE	  = make
+TADDR	  = 80080000	
+CC        = cc  -EL -G 0 -O2 -I$(INCDIR) -DMW3 -DEL
+AS      = as -cpp -G 0 -I$(INCDIR) -$(SEX) -D$(MACHINE) -D$(TYPE)
+
+LIBS      = $(LIBDIR)/libgpu.a  $(LIBDIR)/libetc.a $(LIBDIR)/libcd.a $(LIBDIR)/libtap.a  $(LIBDIR)/libcard.a $(LIBDIR)/libapi.a $(LIBDIR)/libc.a  
+#LIBS      = $(LIBDIR)/libgpu.a  $(LIBDIR)/libetc.a $(LIBDIR)/libapi.a $(LIBDIR)/libcard.a $(LIBDIR)/libc.a
+
+LOBJS	  = main.o 
+
+main :   makefile $(LOBJS)
+	ld -EL -N -T $(TADDR) -e main -o main   $(LOBJS) $(LIBS)
+
+clean :
+	rm -f *.o npad.o *~
+ 	

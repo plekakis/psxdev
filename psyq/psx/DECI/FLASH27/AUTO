@@ -1,0 +1,11 @@
+local dipsw 2
+local mode27 rom
+local reset
+local wait-prompt
+local down2 h2700.img
+call
+local wait-prompt
+local mode27 flash
+local reset
+local quit
+

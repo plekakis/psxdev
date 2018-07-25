@@ -1,0 +1,1 @@
+Contents of text1.txt. Hi there!

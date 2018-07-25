@@ -1,0 +1,20 @@
+ECO2EXE Version 0.5 By SiLPHEED of Hitmen.
+
+Recently some yaroze executables have turned up that couldn't be converted
+with the old version of this tool (apparently a problem with objcopy.exe), so
+I decided to release this version I made a while ago that doesn't use objcopy
+anymore. Hopefully there won't be any more problems.
+
+INSTRUCTIONS:
+
+'ECO2EXE filename' will convert the given file to a PS-X EXE.
+'ECO2EXE -p filename' will convert to PS-X EXE, and patch the exe to work on
+a normal playstation. (don't forget to load libps.exe first of course)
+
+
+Quick greetings in no order to: EZ-O-RAY, BlackBag, Nagra, DANZiG, K-COMM, 
+The Roncler Gang, HeroZero, Segmond, Uxorious, and eveyone else in #psxdev.
+Let's just hope that '98 will be the year the psx scene really takes off!
+
+                
+              SiLPHEED/HITMEN, January 2 1998. 

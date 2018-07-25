@@ -1,0 +1,66 @@
+;Codewright Project File (do not remove or modify this line)
+[ProjInit]
+ProjSetConfigFlags=0x00010140
+
+[Files]
+c:\support\movie2\MAIN.C
+c:\support\movie2\MAIN.H
+c:\support\movie2\MOVIE.C
+c:\support\movie2\MOVIE.H
+c:\support\movie2\CONTROL.C
+c:\support\movie2\CONTROL.H
+c:\support\movie2\CTRLLER.H
+
+[State]
+SysSetCwd='C:\support\movie2'
+SrchSetFlags=0x041020ba
+FileSortMode=0x1
+StateWindowFrame=-3,-4,1036,780,0x220935da
+_StateWindow=142,103,688,481,0x00100000,'C:\support\movie2\MAIN.C',208,15,212,32,32,0,32,32,126,32,8,4294967295,4294967295,1,10,'',12,255,48,0,10,469,222,223,729,220,209,159,1,400,0,212,214,210,220,0,0,0,0,0,0,0
+_StateWindow=81,57,671,479,0x00100000,'C:\support\movie2\MOVIE.H',208,15,212,32,32,0,32,32,126,32,8,4294967295,4294967295,0,10,'',12,255,48,0,10,469,222,223,729,220,209,7,4,400,0,212,214,210,220,0,0,0,0,0,0,0
+_StateWindow=34,21,649,475,0x00100000,'C:\support\movie2\MOVIE.C',208,15,212,32,32,0,32,32,126,32,8,4294967295,4294967295,0,10,'',12,255,48,0,10,469,222,223,729,220,209,67,2,400,0,212,214,210,220,0,0,0,0,0,0,0
+_StateWindow=22,147,634,431,0x00100020,'C:\psx\include\LIBGPU.H',208,15,212,32,32,0,32,32,126,32,8,160,597,0,10,'',12,255,48,0,10,469,222,223,729,220,209,329,1,400,0,212,214,210,220,0,0,0,0,0,0,0
+_StateWindow=63,39,678,491,0x00100020,'C:\demo2\fnlsrc\MOVIE.C',208,15,212,32,32,0,32,32,126,32,8,0,597,0,10,'',12,255,48,0,10,469,222,223,729,220,209,1,1,400,0,212,214,210,220,0,0,0,0,0,0,0
+_StateBuffer='C:\support\movie2\MAIN.C',0x0400048e,159,1,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\MOVIE.H',0x0400048e,7,4,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\MOVIE.C',0x0400048e,67,2,0,'5 9','',0x0,''
+_StateBuffer='C:\psx\include\LIBGPU.H',0x0400048e,329,1,0,'5 9','',0x0,''
+_StateBuffer='C:\demo2\fnlsrc\MOVIE.C',0x0400048e,1,1,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\README.TXT',0x0400048e,70,1,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\MAIN.H',0x0400048e,6,22,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\CTRLLER.H',0x0400048e,107,1,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\CONTROL.H',0x0400048e,1,1,0,'5 9','',0x0,''
+_StateBuffer='C:\support\movie2\CONTROL.C',0x0400048e,10,22,0,'5 9','',0x0,''
+_StateHistory=SEARCH,'ClearIm','WAIT_TIM','StrNex','StrGetN','Str','STR','timer','StrKick','libpress','TEMP'
+_StateHistory=FILELIST,'C:\gfx\world\MAIN.C','C:\WINDOWS\TEMP\~0026457.C','C:\support\movie15\MAIN.H','C:\support\movie15\MAIN.C','C:\support\movie15\MOVIE.C','g:\program\psx\doc.37\change_e.txt','C:\DEMO2\FNLSRC\makefile.mak','C:\DEMO2\FNLSRC\CW\makefile.mak','C:\SUPPORT\MOVIE2\MAKEFILE.MAK','C:\SUPPORT\MOVIE2\MAKEFILE'
+_StateHistory=EDITFILE,'C:\DEMO2\FNLSRC\CW\Dd','C:\SUPPORT\MOVIE2\MAKEFILE'
+
+[Editor]
+ClipboardSetTermStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableSepStr=1
+ScrapSetCount=37
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+_RestoreSysFlags=0x220935da, 0xfffffffc, 0
+_RestoreSysFlags=0x00000000, 0xffffffff, 1
+
+[Compiler]
+TagSetFile=''
+BrowseSetFile=''
+CompilerAssign='^A-Za-z0-9_','.c'
+CompilerAssign='Microsoft C(NT-i386)','.h'
+CompilerAssign='Microsoft C(NT-i386)','.cpp'
+CompilerAssign='Default Compiler Settings','.*'
+CompilerAssign='Microsoft C(NT-i386)','.cxx'
+CompilerNewExt=.asm
+CompilerAssign='Microsoft C(NT-i386)','.hpp'
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+CompilerAddCmd='Default Compiler Settings','',16,'',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='Default Compiler Settings',
+CompilerAddCmd='^A-Za-z0-9_','',16,'',16,'',16,'',16,'',0,'',0,'','','','',''
+CompilerAddResponse='^A-Za-z0-9_',
+CompilerAddCmd='Microsoft C(NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'',144,'',144,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C(NT-i386)',

@@ -1,0 +1,67 @@
+; link file : menu.lnk
+
+; リンクファイル menu.lnk
+; 全体の配置、リンクオブジェクト等を記述している。
+; 「PSY-Qプログラマーズガイド」参照。
+
+	org     $80010000                       ; main load address
+
+text    group                                   ; main text group
+bss     group   bss                             ; main data group
+
+balls   group   file("balls.bin")
+; output balls.bin.
+; balls.binを出力する。org指定も可能。
+
+rcube   group   over(balls),file("rcube.bin")
+; overlay to balls. output rcube.bin.
+; rcubeをballsの位置にオーバレイさせる。rcube.binを出力する。
+
+anim    group   over(balls),file("anim.bin")
+; overlay to balls. output anim.bin.
+; animをballsの位置にオーバレイさせる。anim.binを出力する。
+
+
+	section .rdata,text     ; main sections
+	section .text,text
+	section .data,text
+	section .sdata,text
+	section .sbss,bss
+	section .bss,bss
+
+	include menu.obj
+	include address.obj
+	include fonttex1.obj
+	include snd.obj
+
+	include balls.obj
+	include rcube.obj
+	include anim.obj
+
+	inclib  "d:\ps\lib\libmath.lib"; all library code will go into main.
+	inclib  "d:\ps\lib\libspu.lib"
+	inclib  "d:\ps\lib\libsnd.lib"
+	inclib  "d:\ps\lib\libsn.lib"
+	inclib  "d:\ps\lib\libetc.lib"
+	inclib  "d:\ps\lib\libcd.lib"
+	inclib  "d:\ps\lib\libgte.lib"
+	inclib  "d:\ps\lib\libgs.lib"
+	inclib  "d:\ps\lib\libgpu.lib"
+	inclib  "d:\ps\lib\libpress.lib"
+	inclib  "d:\ps\lib\libcard.lib"
+	inclib  "d:\ps\lib\libc.lib"
+	inclib  "d:\ps\lib\libapi.lib"
+
+	regs    pc=__SN_ENTRY_POINT     ; entry point
+
+
+
+
+
+
+
+
+
+
+
+

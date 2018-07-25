@@ -1,0 +1,96 @@
+
+================
+DATE:
+April 24, 1998
+
+
+===================
+CONTENTS OVERVIEW:
+Sample code and file compression utilities 
+from SCEE's Mike Kavallierou (Mike_Kavallierou@playstation.sony.com)
+(and Colin Hugues) demonstrating  different CD loading techniques.
+
+
+============
+SIZE:
+1.8 MByte.
+
+==================
+INSTRUCTIONS:
+
+Use PKUNZIP or WinZip to extract the contents of this ZIP file
+to a directory on your hard-drive.  Then read the "readme.txt"
+that accompanies each sample.  For any questions, write to Mike
+at his email adddress "Mike_Kavallierou@playstation.sony.com".
+
+
+============================
+CONTENTS IN DETAIL 
+(written by Mike Kavallierou):
+
+Author: Mike Kavallierou
+
+Example Code showing various different CD loading techniques.
+
+NOTES		This is the first version of this sample code so there's
+		just bound to be the odd error. If you find any
+		problems / see anything stupid or alternatively wish to
+		either comment on the code or request other samples you
+		feel are lacking from the current set of sample code (as
+		if) mail me at work  - Mike_Kavallierou@playstation.sony.com
+
+		You will need to change the various filenames for your
+		own in all the examples as I have not included any of
+		the files I reference in any of the loading demos except
+		for example 6 where both quotes.dat and test.txt are
+		included
+
+		Create zip file with the following command:
+			pkzip -p -r cd.zip *.*
+REVISION HISTORY
+****************
+
+	CHANGED		PROGRAMMER	REASON
+	-------  	----------  	------
+	05/01/98	Mike Kav	Initial Revision / Release
+	20/01/98	Mike Kav	Example 6 added
+
+Directory Structure
+*******************
+
+CompTool - Compression Tools and source code used for these examples
+ 
+Example1 - Normal data file loading, however some extra functions.
+		Functions to cache file positions and create a
+		pos.h file for use instead of CdSearchFile in the final
+		build.
+		Tracker function to provide a file on PC containing the
+		order of files accessed to enable restructuring of the
+		CD file layout to an optimal one.
+
+Example2 - Modified Example1 showing compressed data file loading,
+		uses the RSB compression after file has been loaded
+		in.
+
+Example3 - Modified Example1 showing compressed data file loading,
+		uses the RS compression after file has been loaded
+		in.
+
+Example4 - Modified Example1 showing compressed data file loading,
+		uses the RSB compression during file loading. This
+		code is unfinished and therefore not tidied up
+
+Example5 - Modified Example1 showing normal loading, the cd.h,cd.c files
+		have been replaced with a new set of functions that
+		use a callback system to load the data making it
+		easier to hook in a loading animated graphic.
+
+Example6 - Code for loading data on a per sector basis, data can be read
+		into a 2k buffer which is filled with new data each
+		time more data is required or alternatively a number
+		of sectors can be read into a buffer in one go
+test	- Test file images containing .TIM's and the compressed versions
+		of the files used in the tests for the example code 
+
+---------------------------------------------------------------
+Copyright (C) 1998.  Sony Computer Entertainment America Inc.

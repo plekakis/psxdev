@@ -1,0 +1,55 @@
+	org     $80010100       ; this can be omitted if you specify the
+				; org address on the linker command line
+
+
+text    group                   ; group containing defined data
+bss     group   bss             ; group containing unuinitialised data
+
+	section .rdata,text     ; sections created bye C compiler
+	section .text,text      ; specifying them here is not strictly necessary
+	section .data,text      ; but does ensure that they appear in tyhe correct
+	section .sdata,text     ; order in the linked output file
+
+	section .sbss,bss       ; the bss sections
+	section .bss,bss
+
+
+
+	inclib  "d:\ps\lib\libsn.lib"       ; a library file from the Sony standard libraries
+	inclib  "d:\ps\lib\libetc.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libcard.lib"     ; another library file from Sony
+	inclib  "d:\ps\lib\libapi.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libgte.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libgpu.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libgs.lib"       ; another library file from Sony
+	inclib  "d:\ps\lib\libcd.lib"       ; another library file from Sony
+	inclib  "d:\ps\lib\libpress.lib"    ; another library file from Sony
+	inclib  "d:\ps\lib\libsnd.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libspu.lib"      ; another library file from Sony
+	inclib  "d:\ps\lib\libc.lib"        ; another library file from Sony
+	include "d:\ps\lib\2mbyte.obj"
+
+	include "main.obj"              ;main program
+	include "card.obj"              ;card routines
+	include "cardman.obj"           ;card manager routines
+	include "graph.obj"             ;graph routines
+	include "sjis2asc.obj"          ;sjis2asc routines
+	include "text.obj"              ;text routines
+	include "copy.obj"              ;copy routines
+	include "inter.obj"             ;interpol routines
+	include "mainmenu.obj"          ;mainmenu routines
+	include "vsex.obj"              ;exception handler
+	include "vsdie.obj"             ;ditto
+	include "stream.obj"            ;simple streaming code
+	include "sound.obj"            ;simple sound code
+
+
+
+	regs    pc=__SN_ENTRY_POINT     ; this initialises the program counter register so
+					; that the downloader sets the entry point before
+					; the program is executed
+
+					; SN_ENTRY_POINT is defined in a module in libsn.lib and
+					; clears the bss, sets up the heap, etc. before calling main()
+
+

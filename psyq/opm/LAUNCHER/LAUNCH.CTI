@@ -1,0 +1,49 @@
+Disc CDROMXA_PSX
+
+LeadIn XA
+  Empty 1350
+  PostGap 150
+EndTrack
+
+Track XA
+  Pause 150
+  Volume ISO9660
+    PrimaryVolume
+      SystemIdentifier PLAYSTATION
+      ApplicationIdentifier PLAYSTATION
+      LPath
+      MPath
+      Hierarchy
+        Directory SHADOW
+          File SHADOW.EXE
+            XAFileAttributes Form1 Data
+            Source c:\sampler\example\shadow\shadow.exe
+          EndFile
+        EndDirectory
+        Directory FBALLS
+          File FBALLS.EXE
+            XAFileAttributes Form1 Data
+            Source c:\sampler\example\fsballs\fballs.exe
+          EndFile
+        EndDirectory
+        Directory MENU
+          File MENU.EXE
+            XAFileAttributes Form1 Data
+            Source c:\sampler\MENU\MENU.EXE
+          EndFile
+        EndDirectory
+
+        File PSX.EXE
+          XAFileAttributes Form1 Data
+          Source c:\sampler\LAUNCHER\LAUNCH.EXE
+        EndFile
+      EndHierarchy
+    EndPrimaryVolume
+  EndVolume
+EndTrack
+
+LeadOut XA
+  Empty 150
+EndTrack
+
+EndDisc

@@ -1,0 +1,147 @@
+
+all: tuto1.cpe tuto2.cpe tuto3.cpe main.cpe
+	
+for_menu: a_tuto1.exe a_tuto2.exe a_tuto3.exe wave.exe
+	
+CC_CPE = ccpsx -O3 -G 0 -Xo$80100000 -Xm
+#CC_EXE = ccpsx -O3 -G 0 -Xo$80100000 -Xm \psx\lib\none3.obj
+CC_EXE = ccpsx -O3 -G 0 -Xo$80100000 -Xm $(LIBRARY_PATH)\none3.obj
+OBJ    = render.ob2
+
+render.ob2: render.c
+	$(CC_CPE) -c render.c
+	dmpsx render.obj -o render.ob2
+
+tuto1.ob2: tuto.c
+	$(CC_CPE) -DTUNE=1 -c -o tuto1.obj tuto.c
+	dmpsx tuto1.obj -o tuto1.ob2
+
+tuto2.ob2: tuto.c
+	$(CC_CPE) -DTUNE=2 -c -o tuto2.obj tuto.c
+	dmpsx tuto2.obj -o tuto2.ob2
+
+tuto3.ob2: tuto.c
+	$(CC_CPE) -DTUNE=3 -c -o tuto3.obj tuto.c
+	dmpsx tuto3.obj -o tuto3.ob2
+
+main.ob2: main.c $(OBJ)
+	$(CC_CPE) -DTUNE=3 -c -o main.obj main.c
+	dmpsx main.obj -o main.ob2
+
+tuto1.cpe: tuto1.ob2 $(OBJ)
+	$(CC_CPE) tuto1.ob2 $(OBJ) -otuto1.cpe,tuto1.sym,tuto1.map
+
+tuto2.cpe: tuto2.ob2 $(OBJ)
+	$(CC_CPE) tuto2.ob2 $(OBJ) -otuto2.cpe,tuto2.sym,tuto2.map
+
+tuto3.cpe: tuto3.ob2 $(OBJ)
+	$(CC_CPE) tuto3.ob2 $(OBJ) -otuto3.cpe,tuto3.sym,tuto3.map
+
+main.cpe: main.c $(OBJ)
+	$(CC_CPE) -DTUNE=3 -c -o main.obj main.c
+	dmpsx -b main.obj
+	$(CC_CPE) main.obj $(OBJ) -omain.cpe,main.sym,main.map
+
+a_tuto1.exe: tuto1.ob2 $(OBJ)
+	$(CC_EXE) tuto1.ob2 $(OBJ) -oa_tuto1.cpe
+	cpe2x a_tuto1.cpe
+
+a_tuto2.exe: tuto2.ob2 $(OBJ)
+	$(CC_EXE) tuto2.ob2 $(OBJ) -oa_tuto2.cpe
+	cpe2x a_tuto2.cpe
+
+a_tuto3.exe: tuto3.ob2 $(OBJ)
+	$(CC_EXE) tuto3.ob2 $(OBJ) -oa_tuto3.cpe
+	cpe2x a_tuto3.cpe
+
+wave.exe: main.ob2 $(OBJ)
+	$(CC_EXE) main.ob2 $(OBJ) -owave.cpe
+	cpe2x wave.cpe
+
+apd_save: $(OBJ)
+	$(CC_CPE) -DAPD_SAVE -DTUNE=1 -c -o tuto1s.obj tuto.c
+	dmpsx -b tuto1s.obj
+	$(CC_CPE) -DAPD_SAVE -DTUNE=2 -c -o tuto2s.obj tuto.c
+	dmpsx -b tuto2s.obj
+	$(CC_CPE) -DAPD_SAVE -DTUNE=3 -c -o tuto3s.obj tuto.c
+	dmpsx -b tuto3s.obj
+	$(CC_CPE) -DAPD_SAVE -DTUNE=3 -c -o wave_s.obj main.c
+	dmpsx -b wave_s.obj
+	$(CC_CPE) tuto1s.obj $(OBJ) \psx\lib\autopad.obj -otuto1s.cpe
+	$(CC_CPE) tuto2s.obj $(OBJ) \psx\lib\autopad.obj -otuto2s.cpe
+	$(CC_CPE) tuto3s.obj $(OBJ) \psx\lib\autopad.obj -otuto3s.cpe
+	$(CC_CPE) wave_s.obj $(OBJ) \psx\lib\autopad.obj -owave_s.cpe
+
+apd_load: $(OBJ)
+	$(CC_CPE) -DAPD_LOAD -DTUNE=1 -c -o tuto1l.obj tuto.c
+	dmpsx -b tuto1l.obj
+	$(CC_CPE) -DAPD_LOAD -DTUNE=2 -c -o tuto2l.obj tuto.c
+	dmpsx -b tuto2l.obj
+	$(CC_CPE) -DAPD_LOAD -DTUNE=3 -c -o tuto3l.obj tuto.c
+	dmpsx -b tuto3l.obj
+	$(CC_CPE) -DAPD_LOAD -DTUNE=3 -c -o wave_l.obj main.c
+	dmpsx -b wave_l.obj
+	$(CC_CPE) tuto1l.obj $(OBJ) \psx\lib\autopad.obj -otuto1l.cpe
+	$(CC_CPE) tuto2l.obj $(OBJ) \psx\lib\autopad.obj -otuto2l.cpe
+	$(CC_CPE) tuto3l.obj $(OBJ) \psx\lib\autopad.obj -otuto3l.cpe
+	$(CC_CPE) wave_l.obj $(OBJ) \psx\lib\autopad.obj -owave_l.cpe
+
+# tuto1 tuto2 tuto3
+load1: 
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave15.tmd 800D0000
+
+# main
+load2: 
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave14.tmd 800D0000
+
+tuto1: 
+	resetps 1
+	delay 20
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave15.tmd 800D0000
+	delay 20
+	run tuto1
+
+tuto2: 
+	resetps 1
+	delay 20
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave15.tmd 800D0000
+	delay 20
+	run tuto2
+
+tuto3: 
+	resetps 1
+	delay 20
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave15.tmd 800D0000
+	delay 20
+	run tuto3
+
+main: 
+	resetps 1
+	delay 20
+	pqbload data\sky.tim     80018000
+	pqbload data\tile.tim    80068000
+	pqbload data\black.tim   80090000
+	pqbload data\clock.tmd   800C8000
+	pqbload data\gwave14.tmd 800D0000
+	delay 20
+	run main

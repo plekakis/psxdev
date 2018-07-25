@@ -1,0 +1,39 @@
+
+	org	$80010000			; main load address
+text	group					; main text group
+bss	group	bss				; main data group
+spad	group	obj($1f800000)
+; 'spad' is assembled as if its address is $1f800000.
+; Please refer to 'Psy-Q Programmer's Guide'.
+; spadはbssの後に置かれるが、$1f800000にあるかのようにアセンブルされる。
+; 「DTL-D2130 Psy-Q Programmer's Guide」P.165 参照。
+
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+	section spad.text,spad
+
+	include	address.obj
+	include	..\..\..\lib\2mbyte.obj
+	include	..\..\..\lib\autopad.obj
+	include	mains.obj
+
+	inclib	lib\libmath.lib; all library code will go into main.
+	inclib	lib\libspu.lib
+	inclib	lib\libsnd.lib
+	inclib	lib\libsn.lib
+	inclib	lib\libetc.lib
+	inclib	lib\libcd.lib
+	inclib	lib\libgte.lib
+	inclib	lib\libgs.lib
+	inclib	lib\libgpu.lib
+	inclib	lib\libpress.lib
+	inclib	lib\libcard.lib
+	inclib	lib\libc.lib
+	inclib	lib\libapi.lib
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

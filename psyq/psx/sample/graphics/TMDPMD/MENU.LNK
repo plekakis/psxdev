@@ -1,0 +1,37 @@
+
+	org	$80020000			; main load address
+text	group					; main text group
+bss	group	bss				; main data group
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include	tuto0.obj
+	include	tuto1.obj
+	include	tuto2.obj
+	include	tuto3.obj
+	include	tuto4.obj
+	include	tuto5.obj
+	include	tuto6.obj
+	include	db.obj
+	include	\psx\lib\none3.obj
+	include	main.obj
+
+	inclib	"libapi.lib"
+	inclib	"libc2.lib"
+	inclib	"libpress.lib"
+	inclib	"libmath.lib"
+	inclib	"libspu.lib"
+	inclib	"libsnd.lib"
+	inclib	"libsn.lib"
+	inclib	"libetc.lib"
+	inclib	"libcd.lib"
+	inclib	"libgte.lib"
+	inclib	"libgpu.lib"
+	inclib	"libcard.lib"
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

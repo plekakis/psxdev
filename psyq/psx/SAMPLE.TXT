@@ -1,0 +1,233 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.3$
+                                                                May 1998
+
+                                          PlayStation(R) Programmer Tool
+                                             Runtime Library Release 4.3
+
+                       Sample Changes and New Additions, and Known Bugs
+                                                       from Release 4.2   
+---------------------------------------------------------------------------
+                      Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.
+---------------------------------------------------------------------------
+
+Known Bugs and Cautions
+---------------------------------------------------------------------------
+< Known Bugs >
+
+- The following 2D environment mapping data of HMD environment mapping
+  (beta version) can not be converted correctly HMD -> LAB -> HMD.
+  This problem will be fixed on the next release.
+
+	data\hmd\scei\envmap\star09
+	data\hmd\scei\envmap\venus26
+
+
+- "tuto5", "tuto6", "tuto7", "tuto8" and "tuto9" in the following directories
+  provide messages "Use DTL-S2320" and/or "Use DTL-S2310" on the screen.
+  The correct name of CD-ROM that is required to run those samples, is
+  DTL-S2340.  Those messages will be removed on the next release.
+
+	sample\cd\tuto\
+	sample\ds\tuto\
+
+
+- When the following sample programs are executed as a child process of the 
+  "pcmenu" program in sample\module\menu, and then the child process
+  returns to the "pcmenu" program, a hang-up occurs occasionally.
+  This problem will be fixed in the next release.
+
+	sample\sound\stream\tuto1
+	sample\sound\stream\tuto2
+
+
+Directory Structure Changes
+---------------------------------------------------------------------------
+< Addition for \psx\data >
+- Formally, sample data were placed on each sample directory.
+  Those sample data are gathered under \psx\data from this release.
+  Herewith this changes data paths in each sample's "makefile.mak" are
+  modified.  In addition, the following directories are removed.
+
+	\psx\sample\graphics\data
+	\psx\sample\graphics\hmd\data
+	\psx\sample\graphics\texaddr\wave\data
+	\psx\sample\graphics\tmdview\data
+	\psx\sample\graphics\tod\janken\tmd
+	\psx\sample\graphics\tod\janken\tod
+	\psx\sample\sound\data
+
+< Addition for \xdata >
+- "da", "xa" and "mov.str" files are moved from \xa, \da and \data directories
+  to \xdata.  Herewith, sample programs that accesses to those data on CD-ROM
+  are modified.  In addition, the following directories are removed.
+
+	\da
+	\xa
+	\data
+
+
+< Remove for \execmenu and \overmenu >
+- \execmenu and \overmenu directories are removed from this release CD-ROM.
+
+< Remove for \psx\utility >
+- \psx\utility is removed from this release.  Samples formally under the
+  \psx\utility directory are changed as the following.
+
+	- \psx\utility\cdexec
+		This directory is removed from this release.
+		Please refer to the similar sample in sample\module\cdexec.
+	- \psx\utility\menu\
+		This directory is moved to \psx\sample\module.
+	- \psx\utility\screen\
+		This directory is moved to \psx\sample\graphics.
+
+< Remove for \psx\kanji >
+- ROM font sample program formally on \psx\kanji is moved to \psx\sample\kanji.
+
+< Remove for "makefile.6x" >
+- "makefile.6x" for DTL-H5000 in each sample are removed from this release.
+  Please write your own make file with refer to "makefile.mak", to compile on
+  DTL-H5000 environment.
+
+
+New Additions
+---------------------------------------------------------------------------
+< HMD data addition >
+- data\hmd\scei\anim\rots
+	New sample data that shows 6 variations of rotation order is added.
+
+- data\hmd\scei\anim\domesc
+	New sample data to show almost of HMD colored polygons/shared-polygons
+	is added.
+
+- data\hmd\scei\equip\pp
+	HMD equipment primitive (camera) sample data are added.
+	This directory contains 3 kind of data corresponds with 3 camera
+	types.
+
+- data\hmd\scei\equip\snowman
+	HMD equipment primitive (camera and light) sample data is added.
+
+< HMD sample addition >
+- sample\graphics\hmd\basic
+	normview to display polygon normal vectors is added.
+
+- sample\graphics\hmd\common
+	New scanning routine for HMD equipment primitive (camera and light)
+	and sample primitive driver to display polygon normal vectors are
+	added.
+
+
+Existing Samples Improved, Changed and Corrected
+---------------------------------------------------------------------------
+< module >
+- sample\module\execmenu
+- sample\module\overmenu
+	Descriptions in readme_j.txt and readme_e.txt regarding data on CD-ROM
+	are removed because of removing \execmenu and \overmenu.
+	Please create CD-R disk with referring to readme_j.txt or readme_e.txt
+	to run sample\module\execmenu and/or sample\module\overmenu.
+
+< HMD >
+- data\hmd\scei\envmap\star09
+	Formally, star09.hmd was not able to dis-assemble with xhmd command.
+	Because PolyPrimHdr_0000 was defined as a header for environment
+	mapping however this header related to ordinary polygon primitive.
+	xhmd will provide an error when such invalid data found in input file.
+	Now, star09 has fixed, star09.hmd can be dis-assembled.
+
+- data\hmd\scei\envmap\venus11
+- data\hmd\scei\envmap\venus26
+- data\hmd\scei\envmap\yesno5
+	M(0) is changed to NULL in environment mapping primitive headers.
+	With M(0), it causes unexpected mapping with GsMapUnit() function	calling.
+
+- data\hmd\scei\envmap\texture
+	"readme_e.txt" was released as empty file, thus this problem is fixed.
+
+- sample\graphics\hmd\common
+	Scanning routine is changed to correspond for new primitive drivers.
+
+________________________________________________________________________________
+
+
+Brief Description of Directory: \PSX\SAMPLE
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This directory contains all samples produced by SCE (Japan),
+SCEE (Europe) and SCEA (America).  The most basic samples
+are in the "tuto" subdirectories (short for tutorial).
+They are not accompanied by an actual tutorial, but they 
+can be understood using the concepts discussed in the 
+"Library Overview" manual of the Technical Reference CDROM.
+
+	\CD       -Contains samples that demonstrate streaming
+		   music and video data from the CD. 
+	\CMPLR    -Contains a scratch pad sample.
+	\CONTRIB* -Contains information about contributing 
+		   your own samples
+	\CONTROL* -Contains samples that demonstrate
+		   code for controllers, such as the mouse, 
+		   multitap, and the light gun.
+	\DS	  -Contains samples that mirror those
+		   in \PSX\SAMPLE\CD\TUTO, but use
+		   LIBDS functions instead. 
+	\ETC	  -This directory has been eliminated. The contents
+		   have been placed in the directories marked
+		   by a "*" in this list.  
+	\GRAPHICS -Contains dozens of samples for creating
+		   2D and 3D graphics, including sprites,
+		   textured polygons, and hierarchical animation.
+		   Demonstrates the low level LIBGTE and LIBPU 
+		   functions as well as the higher level
+		   LIBGS.
+	\KANJI	  -Demonstrates how to use the Kanji routines.
+	\MATH	  -Demonstrates higher level math functions.
+	\MEMCARD* -Demonstrates how to use the memory card.
+	\MODULE	  -Demonstrates how programs can launch other
+		   programs on the PlayStation.
+	\OLD	  -Legacy code provided only for reference.
+	\PRESS	  -Demonstrates MDEG image comPRESSion routines.
+	\SERIAL*  -Contains samples that use the combat cable and 
+		   the DTL-H3050.
+	\SCEA	  -Samples contributed by developers and 
+		   tech supporters in North America.
+	\SCEE	  -Samples contributed by developers and
+		   tech supporters in Europe.
+	\SOUND	  -Sound samples demonstrating LIBSND and LIBSPU. 		  
+	\THREAD*  -Sample demonstrating how to use threads.
+
+("*" indicates that the contents of these  directories 
+  were formerly in the directory "\ETC", which has now
+  been eliminated to avoid confusion with LIBETC.) 
+
+Almost all samples (except those in \SCEE and \SCEE) have
+been precompiled for use with the  utility
+"cdmenu.bat" in the directory \psx\utility\menu.  This
+utility allows you to browse through all of the samples
+with the Programmer Tools CD inserted into the DTL-H2010 or
+the DTL-H2510 (your development board's CD-ROM drives).
+
+
+The contents of this CD are comprehensively discussed in 
+the HTML document "readme.htm" in the root directory of the Programmer
+Tools CD. You should point your HTML 3.0  compatible Web browser at 
+the document on the CD.  Because the hyperlinks refer to documents on the CD,
+make sure the CD is in the drive.
+
+You can download the latest Web browsers at www.netscape.com (for the 
+Netscape Navigator) and at www.microsoft.com (for the Internet Explorer).
+
+If you do not have access to the Web, pdf versions of these documents are
+available in the directory "doc" on the CD.  Read the "readme.txt" there
+for more information on its contents. 
+
+Adobe Acrobat, which can read pdf files, is available on the 
+Technical Reference CD.
+ 
+
+
+
+========================================================================
+ Copyright(C) 1998 Sony Computer Entertainment Inc.
+                                                    All Rights Reserved.

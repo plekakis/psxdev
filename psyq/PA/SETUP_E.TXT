@@ -1,0 +1,87 @@
+
+ Performance Analyzer Version 2.07
+
+ * Introduction
+
+   Performance Analyzer Version 2.07 is the application for DTL-H2700.  Now
+   the driver supports the use of this application in both Windows 95/98 and
+   NT are enabled.
+
+ * OS, Model Type
+
+   OS and model type are explained by the classification of the following two 
+   combinations.  According to the OS and model type you keep at hand, choose 
+   the optimum combination and read it.
+
+  A. Combination of Windows 95/98 and DTL-H2700
+  B. Combination of Windows NT and DTL-H2700
+
+ * Installing Driver
+
+   A. Connect DTL-H2700 to Windows 95/98.  
+
+   A-1. Setting Hardware 
+
+    Connect the DTL-H2700 to the PC referring to the Instruction Manual or 
+    Start Up Manual of Development Board.
+
+   A-2. Setting I/O Address
+
+     Copy pa\psx95pa to the hard disk.
+     Double-click the copied pa\psx95pa\psx95pa.inf.
+
+     Search the line starting with IOConfig=.
+
+     Specify the I/O address here, e.g. IOConfig=124c-124f(3ff::).
+     Add 0x0c to the value set by the DIP switch.
+     (You only need change the first address listed after the equal sign.)
+
+     The initial I/O address is 1340.  (Default value is 134c.)
+
+   A-3. Installing Driver
+
+       Start Menu -> Setup -> Control Panel
+       Double-click "Add New Hardware".
+       Select "Next" in "Start Installation".    
+       Select "No" in "Automatic Detection", and then select "Next".
+       Select "Other Devices", and then select "Next".
+       Select "Have Disk".
+       Specify the directory, which includes the psx95pa.inf set in the 
+       above A-2, in "Copy manufacturer's file from".  Select "OK".
+       Select "Next" in "PlayStation Board PA (DTL-H2700)".
+       Confirm the board address has appeared, and then select "Next".
+       End driver installation by pressing "Finish".              	  
+
+    B. Applying DTL-H2700 to Windows NT. 
+
+    B-1. Setting Hardware 
+
+    Connect the DTL-H2700 to the PC referring to the Instruction Manual
+    of Development Board. 
+
+    B-2. Setting I/O Address
+
+     Copy pa\psxNTpa to the hard disk.  Double-click the copied
+     pa\psxNTpa\psxNTpa.inf.
+
+     Search the line starting with ISAAddress=.
+
+     Set the I/O address here, e.g. ISAAddress=0x124c.  Add 0x0c to
+     the value set by the DIP switch.
+
+     The initial I/O address is 1340.  (Default value is 134c.)
+
+    B-3. Installing Driver
+
+     Click the right button on the mouse at the psxNTpa.inf already set in 
+     the above B-2.  Then select "Install" from the menu to end driver
+     installation.
+
+ * Installing Executable File
+
+    Copy pa32.exe and libpa.dll from pa\bin. 
+
+--
+Copyright (C) 1998 by Sony Computer Entertainment Inc.
+		All Rights Reserved.
+

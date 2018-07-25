@@ -1,0 +1,25 @@
+$PSDocId: Document Release 1.0 for Run-time Library Release 4.4$
+
+------------------------------------------------------------------------------
+  メモリアロケーションについて                         Revision 1.1
+
+  File       : MALLOC_J.TXT
+  Date       : 95.10.17
+  Written By : Keiso Shimakawa
+------------------------------------------------------------------------------
+
+SUPER-X Library および TURTLE Graphics Library の為に、以下の関数を追加した。
+
+【書式】int	malloc_superx()
+【概要】SUPER-X Library が使用するメモリ領域を確保する。
+	領域確保に成功した場合は 0、失敗した場合は -1 を返す。
+
+【書式】void	free_superx()
+【概要】SUPER-X Library の為に確保したメモリ領域を開放する
+
+【書式】int	malloc_turtle()
+【概要】TURTLE Graphics Library が使用するメモリ領域を確保する。
+	領域確保に成功した場合は 0、失敗した場合は -1 を返す。
+
+【書式】void	free_turtle()
+【概要】TURTLE Graphics Library の為に確保したメモリ領域を開放する

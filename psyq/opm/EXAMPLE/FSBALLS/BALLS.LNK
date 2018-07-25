@@ -1,0 +1,23 @@
+
+	org	$80018000
+
+text	group				; main text group
+bss	group	bss			; main data group
+
+	section	.rdata,text	; main sections
+	section	.text,text
+	section	.data,text
+	section	.sdata,text
+	section	.sbss,bss
+	section	.bss,bss
+
+	include	fballs.obj
+   include ..\..\startup\startup.obj
+
+   inclib   "C:\psx\lib40\lib\libapi.lib"
+   inclib   "C:\psx\lib40\lib\libgpu.lib"
+   inclib   "C:\psx\lib40\lib\libetc.lib"
+   inclib   "C:\psx\lib40\lib\libc.lib"
+
+	regs	pc=__SN_ENTRY_POINT	; entry point
+

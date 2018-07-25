@@ -1,0 +1,14 @@
+INSTALLATION AND ENVIRONMENT VARIABLE SETUP
+-------------------------------------------
+
+When cloning this repo for the first time, you will need to update your system's environment variables to
+add the PSYQ related ones and also create the PSYQ.INI file in the \psyq\bin directory.
+
+1) Run EnvVarsSetup.bat
+2) Run PsyQSetup.bat
+
+You should now be ready to go!
+The currently supported IDE is VS2017, however you can also use any text editor to edit your sourcecode.
+
+
+NOTE: You might need to run the batch files with administration priviledges.

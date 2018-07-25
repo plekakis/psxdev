@@ -1,0 +1,244 @@
+****************** D I S C L A I M E R *********************
+This plugin is provided with the Net Yaroze development system
+to allow users to save out RSD files from 3D Studio Rel 4.
+The tool is unsupported and includes features which are used
+in the profession development environment.  The Animation 
+capabilities of the Plugin are active, but are not supported 
+by Net Yaroze.
+
+Name
+====
+  tod_i.kxp  ( 3D Studio TOD plug-in )
+
+
+VERSION
+=======
+  version 4.0f  (Dec 26, 1995)
+
+
+- Sony Computer Entertainment makes no expressed or implied warranty of
+  any kind with regard to these programs or to the supplemental documentation
+  in this manual. In no even shall Sony Computer Entertainment be liable
+  for incidental or consequential damages in connection with or arising out
+  of this program or documentation. This disclaimer includes, but is not
+  limited to, any loss of service, loss of business, or anticipatory profits,
+  or consequential damages resulting from the use or operation of the enclosed
+  software. 
+
+- This plug-in is unsupported. 
+
+- 3D Studio is a trade mark of Autodesk Inc.
+
+- PlayStation is a trade mark of Sony Computer Entertainment Inc.
+
+
+FUNCTION
+========
+This program is a plug-in program for the Autodesk 3D Studio (3DS).
+
+With this  plug-in, you can save 3DS object or animation data in PlayStation
+format (RST ,TOD) while using 3DS.
+
+
+REQUIREMENT
+===========
+This plug-in runs only on 3DS R4. 
+
+FILES
+=====
+This plug-in kit contains following files.
+
+    3dstod.txt    ... Document in English 
+    tod_i.kxp     ... Plug-in module.
+    tod.ini       ... Configuration file sample.
+
+INSTALLATION
+============
+1) Copy plug-in module "tod_i.kxp" to the "process" directory in the 3DS home
+directory.
+
+If you have installed your 3DS into "c:\3ds4", then you have to copy
+"tod_i.kxp" to "c:\3ds4\process" directory.
+
+
+2) Copy configuration file "tod.ini" into 3DS home directory.
+
+3) Make sure the directories specified in your TOD.ini exist.
+
+
+How to start
+============
+1) In the KeyFramer of 3DS, press "F12" key.
+
+2) Select "TOD" from KXP plug-in list.
+
+
+FUNCTIONS
+=========
+scale:
+------
+Scales size of object size and translation of object/camera. 
+
+For instance, if you set scale value to 10.0, then the object size and
+translation of object and camera is expanded 10 times.
+
+You can specify the scale value to control the object size. Also, you use
+this value to get rid of the near-clip, far-clip and z-sort problems, which
+will occur on PS.
+
+Load obj:
+---------
+Loads new 3DS file without exiting from TOD plug-in.
+
+
+Save RSD:
+---------
+Object data is saved as RSD file.
+Each object is saved as different RSD file.
+
+System will ask "Generate File name automatically?".
+
+If you choose "Yes", system asks you a base name which will be used to
+generate new file names. System adds hexadecimal 3 digit to the end of the
+base name. Therefore only first five letters are used as base name.
+
+For instance, if you give "c:\psxgraph\data\rsd\mydata.rsd" as the
+base name, following RSD files will be generated automatically.
+
+	c:\psx\3ds\mydat000.rsd
+		   mydat001.rsd
+		   mydat002.rsd
+	   		  ...
+		   mydat00e.rsd
+		   mydat00f.rsd
+		   mydat010.rsd
+			  ...                             
+		   mydatfff.rsd
+
+
+The object names used in 3DS cannot be used as RSD files, because it can
+be longer than 8 letters.
+
+TOD plug-in also generates PRJ file (in the case above,"mydata.prj").
+Correspondence between object name and RSD file is specified in the project
+file.
+
+
+If you choose "No", you have to give all the RSD file names.
+
+You had better choose "Yes", except when you have to specify the file
+names by yourself.
+
+[Material]
+- 3DS material should be set as follows in order to generate Gouraud polygon
+in RSD file.
+
+   1) polygon is either, Gouraud, Phong, or meta.
+   2) at lease one of it edge is smooth.
+      which means that, it has at least same smoothing group with at lease
+      one its adjacent polygons.
+
+- "Diffuse color" in 3DS is converted into polygon color in RSD.
+
+- "Non 0 transparency value" in 3DS is converted into semi-transparent
+polygon in RSD.
+
+- Texture maps
+
+   1) Only the "texture 1" is converted to RSD.
+
+   2) Texture more than 256x256 can not correctly converted to RSD.
+
+   3) Tiling information is ignored.
+
+   4) Face map can be converted to RSD.
+
+- Any other 3DS material information is ignored.
+
+
+[!]
+Each object is save as RSD format in local coordinate. The difference of each
+object from the origin of world coordinate is saved in TOD file. For
+instance, if you have created human body which consists of number of parts,
+and saved each parts as different RSD file, those RSD file objects does not
+represent the location of each part in the body. In order to take account in
+the location of each object, you can follow following method,
+
+ 1) On PlayStation, specify each object's coordinate referring the TOD data.
+
+ 2) On 3DS attach all the parts in one object.
+
+TOD previewer is using the first method. Second method is valid only when
+each part of the body does not change the location each other.
+
+LIMITATIONS
+===========
+1) Morphing data is not converted.
+
+2) Information on lights is not converted.
+
+3) Pivot:
+
+3DS's pivot is interpreted as translation and transformation in TOD data.
+Therefor as far as you play the TOD data on PS, the animation on 3DS is
+correctly reproduced on PS. But, the data of "pivot" itself is not converted
+to TOD data. So you cannot animate an object according to its pivot from
+your program. For instance, if you place a pivot of a robot's arm to its
+shoulder point, and if you try to rotate the arm around the shoulder point,
+the arm will rotate around its local axis, not around the shoulder point.
+
+You can use "dummy object" instead of pivot, to change the rotation axis.
+
+4) Link information:
+
+In 3DS, you can specify whether to propagate the rotation and scaling
+information from the parent object to the child object or not. On the other
+hand, PlayStation's library (libgs) always propagate those information from
+the parent to the child. Therefore, if you specify not to propagate any of
+those information on 3DS, the resultant TOD will not reproduce the same
+effect. To avoid those problems, you should not stop propagating the
+information from the parent to the child.
+
+5) Scaling:
+
+If the scale value exceed 8.0 on 3DS, it will not apply properly on
+PlayStation. It is because, PlayStation uses fix-point for the scale value.
+"8.0" is the maximum scaling value expressed in fix-point (4096 * 8).
+Notice that, in hierarchyly linked object, scale values are multiplied from
+all thorough it ancestors. So the scale value could exceed 8.0 even if its
+local scale is less than 8.0.
+
+
+GENERATED FILES
+===============
+TOD plug-in generates following files.
+
+1) Preview
+In temporally directory (c:\tmp),
+
+        RSD files
+	tmp.3ds
+	tmp.prj
+	tmp.tmd
+	tmp.tod
+
+2) Quick Preview
+In temporally directory (c:\tmp),
+
+	tmp.tod
+
+
+3) Save RSD
+In temporally directly (c:\tmp),
+
+	tmp.3ds
+
+In user specified directory.
+        
+        RSD files
+	PRJ file
+
+4) Save TOD
+In user specified directory.
+        
+        TOD file
