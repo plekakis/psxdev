@@ -18,3 +18,4 @@ psyq\bin\PSYQ.INI
 tools/BuildTool/.vs/
 tools/BuildTool/bin/
 tools/BuildTool/obj/
+projects/sandbox/bin/

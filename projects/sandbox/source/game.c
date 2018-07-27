@@ -1,5 +1,5 @@
-#include "../engine/system/system.h"
-#include "../engine/gfx/gfx.h"
+#include <system/system.h>
+#include <gfx/gfx.h>
 
 #define PLANE_ON_OV (0)
 #define FULL_GEOM (1)

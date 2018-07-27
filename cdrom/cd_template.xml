@@ -14,7 +14,7 @@
 					  (Optional, required if more than one track is specified, not needed
 					  if you don't use CD audio in your project).
 -->
-<iso_project image_name="..\demo.bin" cue_sheet="..\demo.cue">
+<iso_project image_name="cdrom/PROJECTNAME_PLACEHOLDER.bin" cue_sheet="cdrom/PROJECTNAME_PLACEHOLDER.cue">
 
 	<!-- <track>
 		Specifies a track to the ISO project. This example element creates a data
@@ -46,9 +46,9 @@
 		<identifiers
 			system			="PLAYSTATION"
 			application		="PLAYSTATION"
-			volume			="DEMO"
-			volume_set		="DEMO"
-			publisher		="CONVEX"
+			volume			="PROJECTNAME_PLACEHOLDER"
+			volume_set		="PROJECTNAME_PLACEHOLDER"
+			publisher		="PUBLISHERNAME_PLACEHOLDER"
 			data_preparer	="MKPSXISO"
 		/>
 		
@@ -63,7 +63,7 @@
 			Attributes:
 				file	- Specifies the license file to inject into the ISO image.
 		-->
-		<license file="..\..\..\..\psyq\cdgen\LCNSFILE\LICENSEE.dat"/>
+		<license file="LICENSE_PLACEHOLDER"/>
 
 		<!-- <directory_tree>
 			Specifies and contains the directory structure for the data track.
@@ -85,7 +85,7 @@
 					source	- File name of the source file (optional).
 			-->
 			<!-- Stores system.txt as system.cnf -->
-			<file name="system.cnf"	type="data"	source="system.txt"/>
+			<file name="system.cnf"	type="data"	source="cdrom/system.txt"/>
 			
 			<file name="main.exe"	type="data"	source="main.exe"/>
 			

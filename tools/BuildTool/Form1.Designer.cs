@@ -28,21 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.cmbConfiguration = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.cmbProjectName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.cmbConfiguration = new System.Windows.Forms.ComboBox();
-            this.btnClean = new System.Windows.Forms.Button();
-            this.btnBuild = new System.Windows.Forms.Button();
-            this.btnBuildAndRun = new System.Windows.Forms.Button();
+            this.grpBuildSettings = new System.Windows.Forms.GroupBox();
+            this.btnKillProcess = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnBuildAndRun = new System.Windows.Forms.Button();
+            this.btnBuild = new System.Windows.Forms.Button();
+            this.btnClean = new System.Windows.Forms.Button();
+            this.txtAdditionalLinker = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtAdditionalPreprocessor = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.timUpdateOutput = new System.Windows.Forms.Timer(this.components);
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtOutput = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cmbCDLicense = new System.Windows.Forms.ComboBox();
+            this.chkGenerateCD = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
+            this.grpBuildSettings.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.cmbConfiguration);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cmbProjectName);
@@ -54,14 +72,49 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Build Target";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(307, 25);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(58, 21);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "Refresh";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // cmbConfiguration
+            // 
+            this.cmbConfiguration.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbConfiguration.FormattingEnabled = true;
+            this.cmbConfiguration.Items.AddRange(new object[] {
+            "Debug EMU",
+            "Release EMU",
+            "Debug PSX",
+            "Release PSX"});
+            this.cmbConfiguration.Location = new System.Drawing.Point(455, 25);
+            this.cmbConfiguration.Name = "cmbConfiguration";
+            this.cmbConfiguration.Size = new System.Drawing.Size(181, 21);
+            this.cmbConfiguration.TabIndex = 5;
+            this.cmbConfiguration.SelectedIndexChanged += new System.EventHandler(this.cmbConfiguration_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(379, 28);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Configuration:";
+            // 
             // cmbProjectName
             // 
             this.cmbProjectName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbProjectName.FormattingEnabled = true;
             this.cmbProjectName.Location = new System.Drawing.Point(66, 25);
             this.cmbProjectName.Name = "cmbProjectName";
-            this.cmbProjectName.Size = new System.Drawing.Size(264, 21);
+            this.cmbProjectName.Size = new System.Drawing.Size(240, 21);
             this.cmbProjectName.TabIndex = 3;
+            this.cmbProjectName.SelectedIndexChanged += new System.EventHandler(this.cmbProjectName_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -72,85 +125,198 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Project:";
             // 
-            // label2
+            // grpBuildSettings
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(351, 28);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(72, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Configuration:";
+            this.grpBuildSettings.Controls.Add(this.btnKillProcess);
+            this.grpBuildSettings.Controls.Add(this.btnRun);
+            this.grpBuildSettings.Controls.Add(this.btnBuildAndRun);
+            this.grpBuildSettings.Controls.Add(this.btnBuild);
+            this.grpBuildSettings.Controls.Add(this.btnClean);
+            this.grpBuildSettings.Controls.Add(this.txtAdditionalLinker);
+            this.grpBuildSettings.Controls.Add(this.label4);
+            this.grpBuildSettings.Controls.Add(this.txtAdditionalPreprocessor);
+            this.grpBuildSettings.Controls.Add(this.label3);
+            this.grpBuildSettings.Location = new System.Drawing.Point(12, 84);
+            this.grpBuildSettings.Name = "grpBuildSettings";
+            this.grpBuildSettings.Size = new System.Drawing.Size(662, 116);
+            this.grpBuildSettings.TabIndex = 8;
+            this.grpBuildSettings.TabStop = false;
+            this.grpBuildSettings.Text = "Build Settings";
             // 
-            // cmbConfiguration
+            // btnKillProcess
             // 
-            this.cmbConfiguration.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbConfiguration.FormattingEnabled = true;
-            this.cmbConfiguration.Location = new System.Drawing.Point(429, 25);
-            this.cmbConfiguration.Name = "cmbConfiguration";
-            this.cmbConfiguration.Size = new System.Drawing.Size(207, 21);
-            this.cmbConfiguration.TabIndex = 5;
-            // 
-            // btnClean
-            // 
-            this.btnClean.Location = new System.Drawing.Point(73, 80);
-            this.btnClean.Name = "btnClean";
-            this.btnClean.Size = new System.Drawing.Size(103, 26);
-            this.btnClean.TabIndex = 3;
-            this.btnClean.Text = "&Clean";
-            this.btnClean.UseVisualStyleBackColor = true;
-            // 
-            // btnBuild
-            // 
-            this.btnBuild.Location = new System.Drawing.Point(182, 80);
-            this.btnBuild.Name = "btnBuild";
-            this.btnBuild.Size = new System.Drawing.Size(103, 26);
-            this.btnBuild.TabIndex = 4;
-            this.btnBuild.Text = "&Build";
-            this.btnBuild.UseVisualStyleBackColor = true;
-            // 
-            // btnBuildAndRun
-            // 
-            this.btnBuildAndRun.Location = new System.Drawing.Point(291, 80);
-            this.btnBuildAndRun.Name = "btnBuildAndRun";
-            this.btnBuildAndRun.Size = new System.Drawing.Size(103, 26);
-            this.btnBuildAndRun.TabIndex = 5;
-            this.btnBuildAndRun.Text = "Build and &run";
-            this.btnBuildAndRun.UseVisualStyleBackColor = true;
+            this.btnKillProcess.Location = new System.Drawing.Point(480, 79);
+            this.btnKillProcess.Name = "btnKillProcess";
+            this.btnKillProcess.Size = new System.Drawing.Size(103, 26);
+            this.btnKillProcess.TabIndex = 14;
+            this.btnKillProcess.Text = "&Kill Process";
+            this.btnKillProcess.UseVisualStyleBackColor = true;
+            this.btnKillProcess.Click += new System.EventHandler(this.btnKillProcess_Click);
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(400, 80);
+            this.btnRun.Location = new System.Drawing.Point(371, 79);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(103, 26);
-            this.btnRun.TabIndex = 6;
+            this.btnRun.TabIndex = 13;
             this.btnRun.Text = "Run";
             this.btnRun.UseVisualStyleBackColor = true;
+            this.btnRun.Click += new System.EventHandler(this.btnRun_Click_1);
             // 
-            // button1
+            // btnBuildAndRun
             // 
-            this.button1.Location = new System.Drawing.Point(509, 80);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 26);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "&Kill Process";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnBuildAndRun.Location = new System.Drawing.Point(262, 79);
+            this.btnBuildAndRun.Name = "btnBuildAndRun";
+            this.btnBuildAndRun.Size = new System.Drawing.Size(103, 26);
+            this.btnBuildAndRun.TabIndex = 12;
+            this.btnBuildAndRun.Text = "Build and &run";
+            this.btnBuildAndRun.UseVisualStyleBackColor = true;
+            this.btnBuildAndRun.Click += new System.EventHandler(this.btnBuildAndRun_Click_1);
+            // 
+            // btnBuild
+            // 
+            this.btnBuild.Location = new System.Drawing.Point(153, 79);
+            this.btnBuild.Name = "btnBuild";
+            this.btnBuild.Size = new System.Drawing.Size(103, 26);
+            this.btnBuild.TabIndex = 11;
+            this.btnBuild.Text = "&Build";
+            this.btnBuild.UseVisualStyleBackColor = true;
+            this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click_1);
+            // 
+            // btnClean
+            // 
+            this.btnClean.Location = new System.Drawing.Point(44, 79);
+            this.btnClean.Name = "btnClean";
+            this.btnClean.Size = new System.Drawing.Size(103, 26);
+            this.btnClean.TabIndex = 10;
+            this.btnClean.Text = "&Clean";
+            this.btnClean.UseVisualStyleBackColor = true;
+            this.btnClean.Click += new System.EventHandler(this.btnClean_Click_1);
+            // 
+            // txtAdditionalLinker
+            // 
+            this.txtAdditionalLinker.Location = new System.Drawing.Point(143, 53);
+            this.txtAdditionalLinker.Name = "txtAdditionalLinker";
+            this.txtAdditionalLinker.Size = new System.Drawing.Size(493, 20);
+            this.txtAdditionalLinker.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Additional linker:";
+            // 
+            // txtAdditionalPreprocessor
+            // 
+            this.txtAdditionalPreprocessor.Location = new System.Drawing.Point(143, 27);
+            this.txtAdditionalPreprocessor.Name = "txtAdditionalPreprocessor";
+            this.txtAdditionalPreprocessor.Size = new System.Drawing.Size(493, 20);
+            this.txtAdditionalPreprocessor.TabIndex = 7;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 30);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(120, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Additional preprocessor:";
+            // 
+            // timUpdateOutput
+            // 
+            this.timUpdateOutput.Enabled = true;
+            this.timUpdateOutput.Interval = 10;
+            this.timUpdateOutput.Tick += new System.EventHandler(this.timUpdateOutput_Tick);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txtOutput);
+            this.groupBox2.Location = new System.Drawing.Point(12, 278);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(661, 211);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Build Output";
+            // 
+            // txtOutput
+            // 
+            this.txtOutput.Location = new System.Drawing.Point(19, 19);
+            this.txtOutput.Multiline = true;
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
+            this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtOutput.Size = new System.Drawing.Size(616, 186);
+            this.txtOutput.TabIndex = 10;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.chkGenerateCD);
+            this.groupBox3.Controls.Add(this.cmbCDLicense);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Location = new System.Drawing.Point(12, 206);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(661, 66);
+            this.groupBox3.TabIndex = 11;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "CD Settings";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 31);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "License region:";
+            // 
+            // cmbCDLicense
+            // 
+            this.cmbCDLicense.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCDLicense.FormattingEnabled = true;
+            this.cmbCDLicense.Items.AddRange(new object[] {
+            "Europe",
+            "Americas",
+            "Japan"});
+            this.cmbCDLicense.Location = new System.Drawing.Point(92, 28);
+            this.cmbCDLicense.Name = "cmbCDLicense";
+            this.cmbCDLicense.Size = new System.Drawing.Size(133, 21);
+            this.cmbCDLicense.TabIndex = 1;
+            // 
+            // chkGenerateCD
+            // 
+            this.chkGenerateCD.AutoSize = true;
+            this.chkGenerateCD.Location = new System.Drawing.Point(262, 30);
+            this.chkGenerateCD.Name = "chkGenerateCD";
+            this.chkGenerateCD.Size = new System.Drawing.Size(244, 17);
+            this.chkGenerateCD.TabIndex = 2;
+            this.chkGenerateCD.Text = "Generate CD Image (Required for EMU builds)";
+            this.chkGenerateCD.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 120);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnRun);
-            this.Controls.Add(this.btnBuildAndRun);
-            this.Controls.Add(this.btnBuild);
-            this.Controls.Add(this.btnClean);
+            this.ClientSize = new System.Drawing.Size(690, 501);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.grpBuildSettings);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "BuildTool";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.grpBuildSettings.ResumeLayout(false);
+            this.grpBuildSettings.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -162,11 +328,24 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cmbProjectName;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnClean;
-        private System.Windows.Forms.Button btnBuild;
-        private System.Windows.Forms.Button btnBuildAndRun;
+        private System.Windows.Forms.GroupBox grpBuildSettings;
+        private System.Windows.Forms.TextBox txtAdditionalLinker;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtAdditionalPreprocessor;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnKillProcess;
         private System.Windows.Forms.Button btnRun;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnBuildAndRun;
+        private System.Windows.Forms.Button btnBuild;
+        private System.Windows.Forms.Button btnClean;
+        private System.Windows.Forms.Timer timUpdateOutput;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox txtOutput;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox cmbCDLicense;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chkGenerateCD;
     }
 }
 
