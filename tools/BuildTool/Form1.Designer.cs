@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.cmbConfiguration = new System.Windows.Forms.ComboBox();
@@ -52,10 +53,12 @@
             this.label5 = new System.Windows.Forms.Label();
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.chkGenerateCD = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -65,7 +68,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cmbProjectName);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 97);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(662, 62);
             this.groupBox1.TabIndex = 2;
@@ -136,7 +139,7 @@
             this.grpBuildSettings.Controls.Add(this.label4);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalPreprocessor);
             this.grpBuildSettings.Controls.Add(this.label3);
-            this.grpBuildSettings.Location = new System.Drawing.Point(12, 84);
+            this.grpBuildSettings.Location = new System.Drawing.Point(12, 169);
             this.grpBuildSettings.Name = "grpBuildSettings";
             this.grpBuildSettings.Size = new System.Drawing.Size(662, 116);
             this.grpBuildSettings.TabIndex = 8;
@@ -234,7 +237,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(12, 278);
+            this.groupBox2.Location = new System.Drawing.Point(12, 363);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(661, 211);
             this.groupBox2.TabIndex = 10;
@@ -256,7 +259,7 @@
             this.groupBox3.Controls.Add(this.chkGenerateCD);
             this.groupBox3.Controls.Add(this.cmbCDLicense);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 206);
+            this.groupBox3.Location = new System.Drawing.Point(12, 291);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(661, 66);
             this.groupBox3.TabIndex = 11;
@@ -295,11 +298,24 @@
             this.chkGenerateCD.Text = "Generate CD Image (Required for EMU builds)";
             this.chkGenerateCD.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(-3, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(697, 94);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 12;
+            this.pictureBox1.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 501);
+            this.ClientSize = new System.Drawing.Size(690, 578);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.grpBuildSettings);
@@ -317,6 +333,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -346,6 +363,7 @@
         private System.Windows.Forms.ComboBox cmbCDLicense;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkGenerateCD;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
