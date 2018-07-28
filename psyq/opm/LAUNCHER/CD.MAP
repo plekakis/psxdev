@@ -1,0 +1,41 @@
+= Generated Map File C:\SAMPLER\LAUNCHER\CD.MAP
+= Created by BuildCD Version 2.39.b
+===================================
+=
+===================================
+
+Country/Continent      Europe
+Jump-Sectors           3
+Scsi                   3         1       08-08-1997 15:17:28   4878848    ()
+
+===================================
+= Command              Fr Time   Len      LBN       Additional
+===================================
+
+LeadIn  0                                           XA      
+  Empty                00:00:00  1350               
+  PostGap              00:18:00  150                
+
+Track   1                                           XA      
+  Pause                00:20:00  150                
+  TrackDef                               
+    SystemArea         00:22:00  16       0         
+    PrimVol            00:22:16  1        16        
+    TermVol            00:22:17  1        17        
+
+    Lpath              00:22:18  1        18        
+    OptLpath           00:22:19  1        19        
+    Mpath              00:22:20  1        20        
+    OptMpath           00:22:21  1        21        
+    Dir()              00:22:22  1        22        
+    Dir(SHADOW)        00:22:23  1        23        
+    File(SHADOW.EXE)   00:22:24  28       24        00:22:23   08-08-1997 14:16:32   57344      Form1 C:\SAMPLER\EXAMPLE\SHADOW\SHADOW.EXE
+    Dir(FBALLS)        00:22:52  1        52        
+    File(FBALLS.EXE)   00:22:53  22       53        00:22:52   08-08-1997 14:16:14   45056      Form1 C:\SAMPLER\EXAMPLE\FSBALLS\FBALLS.EXE
+    Dir(MENU)          00:23:00  1        75        
+    File(MENU.EXE)     00:23:01  17       76        00:23:00   08-08-1997 14:14:46   34816      Form1 C:\SAMPLER\MENU\MENU.EXE
+    File(PSX.EXE)      00:23:18  12       93        00:22:22   08-08-1997 15:17:06   24576      Form1 C:\SAMPLER\LAUNCHER\LAUNCH.EXE
+  EndTrackDef                            
+
+LeadOut 2                                           XA      
+  Empty                00:23:30  150                

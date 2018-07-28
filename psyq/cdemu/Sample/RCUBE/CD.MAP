@@ -1,0 +1,35 @@
+===========================================================================================
+= Generated Map File C:\PSX\CD_DEMO\RCUBE\CD.MAP for Image File C:\PSX\CD_DEMO\RCUBE\CD.EMU
+=
+===========================================================================================
+
+Scsi                   4         1       03-22-1995 10:30:27   5919232    (CAT:0000000000000)
+
+===========================================================================================
+= Command              Fr Time   Len      LBN       Additional
+===========================================================================================
+
+LeadIn  0                                           Mode_1  
+  Empty                00:00:00  1000               
+  PostGap              00:13:25  150                
+
+Track   1                                           Mode_1  
+  Pause                00:15:25  150                
+  TrackDef                               
+    SystemArea         00:17:25  16       0         
+    PrimVol            00:17:41  1        16        
+    TermVol            00:17:42  1        17        
+
+    Lpath              00:17:43  1        18        
+    Mpath              00:17:44  1        19        
+    Dir()              00:17:45  1        20        
+    File(PSX.EXE)      00:17:46  2        21        00:17:45   01-14-1995 20:06:08   4096             C:\PSX\CD_DEMO\RCUBE\PSX.EXE
+    File(RCUBE.EXE)    00:17:48  36       23        00:17:45   01-14-1995 20:06:10   73728            C:\PSX\CD_DEMO\RCUBE\RCUBE.EXE
+    File(RCUBE.TIM)    00:18:09  2        59        00:17:45   01-14-1995 20:06:12   2112             C:\PSX\CD_DEMO\RCUBE\RCUBE.TIM
+    File(RCUBE.TMD)    00:18:11  1        61        00:17:45   01-14-1995 20:06:12   1644             C:\PSX\CD_DEMO\RCUBE\RCUBE.TMD
+  EndTrackDef                            
+  Empty                00:18:12  300                
+  PostGap              00:22:12  150                
+
+LeadOut 2                                           Mode_1  
+  Empty                00:24:12  500                

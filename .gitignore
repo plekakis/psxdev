@@ -1,15 +1,5 @@
-*.bin
-*.cue
-*.EXE
-*.cpe
-*.sym
 *.user
 *.suo
-vs2017/Debug EMU
-vs2017/Release PSX
-vs2017/Debug EMU
-vs2017/Release PSX
-*.map
 projects/sandbox/vs2017/.vs/PsxSandbox/v15/
 *.cache
 *.filters
