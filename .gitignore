@@ -4,6 +4,7 @@ projects/sandbox/vs2017/.vs/PsxSandbox/v15/
 *.cache
 *.filters
 *.log
+tools/BuildTool.ini
 psyq\bin\PSYQ.INI
 tools/BuildTool/.vs/
 tools/BuildTool/bin/
