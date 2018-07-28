@@ -8,7 +8,6 @@ add the PSYQ related ones and also create the PSYQ.INI file in the \psyq\bin dir
 2) Run PsyQSetup.bat
 
 You should now be ready to go!
-The currently supported IDE is VS2017, however you can also use any text editor to edit your sourcecode.
+For ease of sourcecode navigation, there is a VS2017 project, but of course you can use any text editor.
 
-
-NOTE: You might need to run the batch files with administration priviledges.
+Please refer to BUILDING.txt for instructions on building & deploying a project to either PSX or EMU.
