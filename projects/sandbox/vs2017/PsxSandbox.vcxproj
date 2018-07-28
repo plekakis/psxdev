@@ -19,33 +19,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\engine\core\core.c" />
-    <ClCompile Include="..\source\engine\core\core_scu.c" />
-    <ClCompile Include="..\source\engine\engine_scu.c" />
-    <ClCompile Include="..\source\engine\gfx\gfx.c" />
-    <ClCompile Include="..\source\engine\gfx\gfx_prim_callbacks.c" />
-    <ClCompile Include="..\source\engine\gfx\gfx_renderstate.c" />
-    <ClCompile Include="..\source\engine\gfx\gfx_scratch.c" />
-    <ClCompile Include="..\source\engine\gfx\gfx_scu.c" />
-    <ClCompile Include="..\source\engine\input\input.c" />
-    <ClCompile Include="..\source\engine\input\input_scu.c" />
-    <ClCompile Include="..\source\engine\system\debug_info.c" />
-    <ClCompile Include="..\source\engine\system\system.c" />
-    <ClCompile Include="..\source\engine\system\system_scu.c" />
-    <ClCompile Include="..\source\game\game.c" />
-    <ClCompile Include="..\source\game\game_scu.c" />
+    <ClCompile Include="..\..\..\engine\core\core.c" />
+    <ClCompile Include="..\..\..\engine\core\core_scu.c" />
+    <ClCompile Include="..\..\..\engine\engine_scu.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scu.c" />
+    <ClCompile Include="..\..\..\engine\input\input.c" />
+    <ClCompile Include="..\..\..\engine\input\input_scu.c" />
+    <ClCompile Include="..\..\..\engine\system\debug_info.c" />
+    <ClCompile Include="..\..\..\engine\system\system.c" />
+    <ClCompile Include="..\..\..\engine\system\system_scu.c" />
+    <ClCompile Include="..\source\game.c" />
+    <ClCompile Include="..\source\game_scu.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\source\engine\core\core.h" />
-    <ClInclude Include="..\source\engine\engine.h" />
-    <ClInclude Include="..\source\engine\gfx\gfx.h" />
-    <ClInclude Include="..\source\engine\gfx\gfx_scratch.h" />
-    <ClInclude Include="..\source\engine\input\input.h" />
-    <ClInclude Include="..\source\engine\system\debug_info.h" />
-    <ClInclude Include="..\source\engine\system\system.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="build.bat" />
+    <ClInclude Include="..\..\..\engine\core\core.h" />
+    <ClInclude Include="..\..\..\engine\engine.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h" />
+    <ClInclude Include="..\..\..\engine\input\input.h" />
+    <ClInclude Include="..\..\..\engine\system\debug_info.h" />
+    <ClInclude Include="..\..\..\engine\system\system.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}</ProjectGuid>
@@ -93,25 +90,34 @@
     <NMakeOutput>
     </NMakeOutput>
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat -O0</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat -O0</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'">
     <NMakeOutput />
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat -O0</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat -O0</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'">
     <NMakeOutput />
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <NMakeBuildCommandLine>call build.bat -O3</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat -O3</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
@@ -119,9 +125,12 @@
     </NMakeOutput>
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
     <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
-    <NMakeBuildCommandLine>call build.bat -O3</NMakeBuildCommandLine>
-    <NMakeReBuildCommandLine>call build.bat -O3</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>call clean.bat</NMakeCleanCommandLine>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup>
   </ItemDefinitionGroup>
