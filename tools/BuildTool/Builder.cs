@@ -84,8 +84,10 @@ namespace BuildTool
         /// <param name="config">The build configuration.</param>
         /// <param name="additionalPreprocessor">An array of preprocessor names.</param>
         /// <param name="additionalLinker">An array of linker settings.</param>
+        /// <param name="additionalLibDirs">An array of library directories.</param>
+        /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <returns>The arguments string.</returns>
-        string GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker)
+        string GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs)
         {
             string args = "-Xo$80010000 ";
 
@@ -97,28 +99,73 @@ namespace BuildTool
             string gameSources = Path.Combine(m_projectDirectory, "source", "game_scu.c");
             string optimisationLevel = Utilities.IsDebugConfig(config) ? "-O0" : "-O3";
             string[] libraries = { "libpad" };
-            string[] libraryDirectories = { };
-            string[] includeDirectories = { engineDirectory };
 
+            // Per-config, per-target preprocessor macros.
+            List<string> preprocessor = new List<string>();
+            if (Utilities.IsDebugConfig(config))
+            {
+                preprocessor.Add("CONFIG_DEBUG");
+            }
+            else
+            {
+                preprocessor.Add("CONFIG_RELEASE");
+            }
+
+            if (Utilities.IsPSXConfig(config))
+            {
+                preprocessor.Add("TARGET_PSX");
+            }
+            else
+            {
+                preprocessor.Add("TARGET_EMU");
+            }
+            preprocessor.AddRange(additionalPreprocessor);
+
+            // Linker options
+            List<string> linker = new List<string>();
+            linker.AddRange(libraries);
+            linker.AddRange(additionalLinker);
+
+            // Include directories
+            List<string> includeDirs = new List<string>();
+            includeDirs.Add(engineDirectory);
+            includeDirs.AddRange(additionalIncludeDirs);
+
+            // Library directories
+            List<string> libraryDirs = new List<string>();
+            libraryDirs.AddRange(additionalLibDirs);
+
+            // Input source files
             args += engineSources + " ";
             args += gameSources + " ";
-            args += optimisationLevel + " ";
 
-            foreach (string dir in includeDirectories)
+            // Optimisation level
+            args += optimisationLevel + " ";
+            
+            // Add the preprocessor macros
+            foreach (string pp in preprocessor)
+            {
+                args += "-D" + pp + " ";
+            }
+
+            // Add the linker options
+            foreach (string ll in linker)
+            {
+                args += "-l" + ll + " ";
+            }
+
+            // Add the include directories
+            foreach (string dir in includeDirs)
             {
                 args += "-I" + dir + " ";
             }
 
-            foreach (string dir in libraryDirectories)
+            // Add the library directories
+            foreach (string dir in libraryDirs)
             {
                 args += "-L" + dir + " ";
             }
-
-            foreach (string lib in libraries)
-            {
-                args += "-l" + lib + " ";
-            }
-            
+                        
             // Final arguments, output
             args += "-o";
             args += Path.Combine(Utilities.GetBuildOuputDirectory(config, m_projectDirectory), "main.cpe") + ",";
@@ -161,8 +208,10 @@ namespace BuildTool
         /// <param name="config">The build configuration.</param>
         /// <param name="additionalPreprocessor">An array of preprocessor names.</param>
         /// <param name="additionalLinker">An array of linker settings.</param>
+        /// <param name="additionalLibDirs">An array of library directories.</param>
+        /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <param name="output">The StringBuilder to write out the stdout and stderr streams.</param>
-        public void Build(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, StringBuilder output)
+        public void Build(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs, StringBuilder output)
         {
             output.Clear();
             output.AppendLine("Starting " + config.ToString() + " build...");
@@ -183,7 +232,7 @@ namespace BuildTool
                 // CCPSX
                 {
                     output.AppendLine("Launching CCPSX...");
-                    string args = GetCCPSXArgs(config, additionalPreprocessor, additionalLinker);
+                    string args = GetCCPSXArgs(config, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
                     Utilities.LaunchProcessAndWait("ccpsx", args, psxdevRoot, output);
                 }
 
@@ -259,10 +308,12 @@ namespace BuildTool
         /// <param name="config">The build configuration.</param>
         /// <param name="additionaPreprocessor">An array of preprocessor names.</param>
         /// <param name="additionalLinker">An array of linker settings.</param>
+        /// <param name="additionalLibDirs">An array of library directories.</param>
+        /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <param name="output">The StringBuilder to write out the stdout and stderr streams.</param>
-        public void BuildAndRun(BuildConfiguration config, string[] additionaPreprocessor, string[] additionalLinker, StringBuilder output)
+        public void BuildAndRun(BuildConfiguration config, string[] additionaPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs, StringBuilder output)
         {
-            Build(config, additionaPreprocessor, additionalLinker, output);
+            Build(config, additionaPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, output);
 
             m_preserveOutput = true;
             Run(config, output);

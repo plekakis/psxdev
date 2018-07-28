@@ -48,12 +48,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.timUpdateOutput = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cmbCDLicense = new System.Windows.Forms.ComboBox();
-            this.chkGenerateCD = new System.Windows.Forms.CheckBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtOutput = new System.Windows.Forms.RichTextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chkGenerateCD = new System.Windows.Forms.CheckBox();
+            this.cmbCDLicense = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txtAdditionalLibDirs = new System.Windows.Forms.TextBox();
+            this.txtAdditionalIncDirs = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -130,6 +134,10 @@
             // 
             // grpBuildSettings
             // 
+            this.grpBuildSettings.Controls.Add(this.txtAdditionalIncDirs);
+            this.grpBuildSettings.Controls.Add(this.txtAdditionalLibDirs);
+            this.grpBuildSettings.Controls.Add(this.label7);
+            this.grpBuildSettings.Controls.Add(this.label6);
             this.grpBuildSettings.Controls.Add(this.btnKillProcess);
             this.grpBuildSettings.Controls.Add(this.btnRun);
             this.grpBuildSettings.Controls.Add(this.btnBuildAndRun);
@@ -141,14 +149,14 @@
             this.grpBuildSettings.Controls.Add(this.label3);
             this.grpBuildSettings.Location = new System.Drawing.Point(12, 169);
             this.grpBuildSettings.Name = "grpBuildSettings";
-            this.grpBuildSettings.Size = new System.Drawing.Size(662, 116);
+            this.grpBuildSettings.Size = new System.Drawing.Size(662, 184);
             this.grpBuildSettings.TabIndex = 8;
             this.grpBuildSettings.TabStop = false;
             this.grpBuildSettings.Text = "Build Settings";
             // 
             // btnKillProcess
             // 
-            this.btnKillProcess.Location = new System.Drawing.Point(480, 79);
+            this.btnKillProcess.Location = new System.Drawing.Point(491, 152);
             this.btnKillProcess.Name = "btnKillProcess";
             this.btnKillProcess.Size = new System.Drawing.Size(103, 26);
             this.btnKillProcess.TabIndex = 14;
@@ -158,7 +166,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(371, 79);
+            this.btnRun.Location = new System.Drawing.Point(382, 152);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(103, 26);
             this.btnRun.TabIndex = 13;
@@ -168,7 +176,7 @@
             // 
             // btnBuildAndRun
             // 
-            this.btnBuildAndRun.Location = new System.Drawing.Point(262, 79);
+            this.btnBuildAndRun.Location = new System.Drawing.Point(273, 152);
             this.btnBuildAndRun.Name = "btnBuildAndRun";
             this.btnBuildAndRun.Size = new System.Drawing.Size(103, 26);
             this.btnBuildAndRun.TabIndex = 12;
@@ -178,7 +186,7 @@
             // 
             // btnBuild
             // 
-            this.btnBuild.Location = new System.Drawing.Point(153, 79);
+            this.btnBuild.Location = new System.Drawing.Point(164, 152);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(103, 26);
             this.btnBuild.TabIndex = 11;
@@ -188,7 +196,7 @@
             // 
             // btnClean
             // 
-            this.btnClean.Location = new System.Drawing.Point(44, 79);
+            this.btnClean.Location = new System.Drawing.Point(55, 152);
             this.btnClean.Name = "btnClean";
             this.btnClean.Size = new System.Drawing.Size(103, 26);
             this.btnClean.TabIndex = 10;
@@ -198,15 +206,15 @@
             // 
             // txtAdditionalLinker
             // 
-            this.txtAdditionalLinker.Location = new System.Drawing.Point(143, 53);
+            this.txtAdditionalLinker.Location = new System.Drawing.Point(164, 53);
             this.txtAdditionalLinker.Name = "txtAdditionalLinker";
-            this.txtAdditionalLinker.Size = new System.Drawing.Size(493, 20);
+            this.txtAdditionalLinker.Size = new System.Drawing.Size(472, 20);
             this.txtAdditionalLinker.TabIndex = 9;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 56);
+            this.label4.Location = new System.Drawing.Point(74, 56);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(84, 13);
             this.label4.TabIndex = 8;
@@ -214,15 +222,15 @@
             // 
             // txtAdditionalPreprocessor
             // 
-            this.txtAdditionalPreprocessor.Location = new System.Drawing.Point(143, 27);
+            this.txtAdditionalPreprocessor.Location = new System.Drawing.Point(164, 27);
             this.txtAdditionalPreprocessor.Name = "txtAdditionalPreprocessor";
-            this.txtAdditionalPreprocessor.Size = new System.Drawing.Size(493, 20);
+            this.txtAdditionalPreprocessor.Size = new System.Drawing.Size(472, 20);
             this.txtAdditionalPreprocessor.TabIndex = 7;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 30);
+            this.label3.Location = new System.Drawing.Point(38, 30);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 13);
             this.label3.TabIndex = 6;
@@ -237,33 +245,43 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(12, 363);
+            this.groupBox2.Location = new System.Drawing.Point(17, 431);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(661, 211);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Build Output";
             // 
+            // txtOutput
+            // 
+            this.txtOutput.Location = new System.Drawing.Point(20, 20);
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
+            this.txtOutput.Size = new System.Drawing.Size(616, 183);
+            this.txtOutput.TabIndex = 0;
+            this.txtOutput.Text = "";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.chkGenerateCD);
             this.groupBox3.Controls.Add(this.cmbCDLicense);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(12, 291);
+            this.groupBox3.Location = new System.Drawing.Point(17, 359);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(661, 66);
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "CD Settings";
             // 
-            // label5
+            // chkGenerateCD
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 31);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "License region:";
+            this.chkGenerateCD.AutoSize = true;
+            this.chkGenerateCD.Location = new System.Drawing.Point(262, 30);
+            this.chkGenerateCD.Name = "chkGenerateCD";
+            this.chkGenerateCD.Size = new System.Drawing.Size(244, 17);
+            this.chkGenerateCD.TabIndex = 2;
+            this.chkGenerateCD.Text = "Generate CD Image (Required for EMU builds)";
+            this.chkGenerateCD.UseVisualStyleBackColor = true;
             // 
             // cmbCDLicense
             // 
@@ -278,15 +296,14 @@
             this.cmbCDLicense.Size = new System.Drawing.Size(133, 21);
             this.cmbCDLicense.TabIndex = 1;
             // 
-            // chkGenerateCD
+            // label5
             // 
-            this.chkGenerateCD.AutoSize = true;
-            this.chkGenerateCD.Location = new System.Drawing.Point(262, 30);
-            this.chkGenerateCD.Name = "chkGenerateCD";
-            this.chkGenerateCD.Size = new System.Drawing.Size(244, 17);
-            this.chkGenerateCD.TabIndex = 2;
-            this.chkGenerateCD.Text = "Generate CD Image (Required for EMU builds)";
-            this.chkGenerateCD.UseVisualStyleBackColor = true;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 31);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(79, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "License region:";
             // 
             // pictureBox1
             // 
@@ -300,20 +317,43 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // txtOutput
+            // label6
             // 
-            this.txtOutput.Location = new System.Drawing.Point(20, 20);
-            this.txtOutput.Name = "txtOutput";
-            this.txtOutput.ReadOnly = true;
-            this.txtOutput.Size = new System.Drawing.Size(616, 183);
-            this.txtOutput.TabIndex = 0;
-            this.txtOutput.Text = "";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(38, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(120, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Additional lib directories:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(17, 126);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(144, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Additional include directories:";
+            // 
+            // txtAdditionalLibDirs
+            // 
+            this.txtAdditionalLibDirs.Location = new System.Drawing.Point(164, 97);
+            this.txtAdditionalLibDirs.Name = "txtAdditionalLibDirs";
+            this.txtAdditionalLibDirs.Size = new System.Drawing.Size(472, 20);
+            this.txtAdditionalLibDirs.TabIndex = 17;
+            // 
+            // txtAdditionalIncDirs
+            // 
+            this.txtAdditionalIncDirs.Location = new System.Drawing.Point(164, 123);
+            this.txtAdditionalIncDirs.Name = "txtAdditionalIncDirs";
+            this.txtAdditionalIncDirs.Size = new System.Drawing.Size(472, 20);
+            this.txtAdditionalIncDirs.TabIndex = 18;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 578);
+            this.ClientSize = new System.Drawing.Size(690, 642);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -362,6 +402,10 @@
         private System.Windows.Forms.CheckBox chkGenerateCD;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RichTextBox txtOutput;
+        private System.Windows.Forms.TextBox txtAdditionalIncDirs;
+        private System.Windows.Forms.TextBox txtAdditionalLibDirs;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }
 

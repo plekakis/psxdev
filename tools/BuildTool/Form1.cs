@@ -62,7 +62,7 @@ namespace BuildTool
 
                     m_outputAvailability[i] = File.Exists(Path.Combine(path, "main.exe"));
                     m_cdImageAvailability[i] = m_outputAvailability[i];
-
+                    
                     // On EMU, also check for generated .bin and .cue
                     if (Utilities.IsEMUConfig(config))
                     {
@@ -173,13 +173,49 @@ namespace BuildTool
             ScanProjects();
         }
 
-        private void PreBuild()
+        /// <summary>
+        /// Split the source on the specified delimiter, trim the individual tokens and update the output array.
+        /// </summary>
+        /// <param name="source">The input string to split.</param>
+        /// <param name="delimiter">The delimiter character/</param>
+        /// <param name="output">The output array, containing any non empty tokens.</param>
+        private void ParseAdditionalOptions(string source, char delimiter, ref string[] output)
         {
-            // Update license and cd image generation
+            List<string> temp = new List<string>();
+            output = source.Split(delimiter);
+            for (int i = 0; i < output.Length; ++i)
+            {
+                output[i] = output[i].Trim();
+                if (!string.IsNullOrEmpty(output[i]))
+                {
+                    temp.Add(output[i]);
+                }
+            }
+            output = temp.ToArray();
+        }
+
+        private void PreBuild(ref string[] additionalPreprocessor, ref string[] additionalLinker, ref string[] additionalLibDirs, ref string[] additionalIncludeDirs)
+        {            
             if (m_currentBuilder != null)
             {
+                // Update license and cd image generation
                 m_currentBuilder.CDLicenseRegion = (CDLicense)cmbCDLicense.SelectedIndex;
                 m_currentBuilder.GenerateCDImage = chkGenerateCD.Checked;
+
+                // Split the preprocessor definitions and add them to the output
+                // Valid preprocessor formats:
+                // 1) MACRO_NAME
+                // 2) MACRO_NAME=VALUE
+                ParseAdditionalOptions(txtAdditionalPreprocessor.Text, ';', ref additionalPreprocessor);
+
+                // Split the linker options and add them to the output
+                ParseAdditionalOptions(txtAdditionalLinker.Text, ';', ref additionalLinker);
+
+                // Split the library directories and add them to the output
+                ParseAdditionalOptions(txtAdditionalLibDirs.Text, ';', ref additionalLibDirs);
+
+                // Split the include directories and add them to the output
+                ParseAdditionalOptions(txtAdditionalIncDirs.Text, ';', ref additionalIncludeDirs);
             }
         }
 
@@ -187,18 +223,24 @@ namespace BuildTool
         {
             string[] additionalPreprocessor = null;
             string[] additionalLinker = null;
+            string[] additionalLibDirs = null;
+            string[] additionalIncludeDirs = null;
 
-            PreBuild();
-            m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
+            PreBuild(ref additionalPreprocessor, ref additionalLinker, ref additionalLibDirs, ref additionalIncludeDirs);
+
+            m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, m_outputStringBuilder);
         }
 
         private void btnBuildAndRun_Click_1(object sender, EventArgs e)
         {
             string[] additionalPreprocessor = null;
             string[] additionalLinker = null;
+            string[] additionalLibDirs = null;
+            string[] additionalIncludeDirs = null;
 
-            PreBuild();
-            m_currentBuilder.BuildAndRun(m_configuration, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
+            PreBuild(ref additionalPreprocessor, ref additionalLinker, ref additionalLibDirs, ref additionalIncludeDirs);
+
+            m_currentBuilder.BuildAndRun(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, m_outputStringBuilder);
         }
 
         private void btnRun_Click_1(object sender, EventArgs e)
