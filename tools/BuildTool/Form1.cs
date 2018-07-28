@@ -24,11 +24,46 @@ namespace BuildTool
         private bool[] m_cdImageAvailability = new bool[(int)BuildConfiguration.ConfigCount + 1];
 
         private BuildConfiguration m_configuration;
+        private Ini m_ini;
 
         private const string kNoProjectsStr = "<no projects found>";
+
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private bool IsProjectNameValid
+        {
+            get
+            {
+                return m_currentProjectName != null && m_currentProjectName != kNoProjectsStr;
+            }
+        }
+
+        /// <summary>
+        /// Returns a string like: PROJECTNAME_CONFIG
+        /// </summary>
+        /// <returns>The final section name.</returns>
+        private string GetIniSection()
+        {
+            return m_currentProjectName + "_" + m_configuration.ToString();
+        }
+        
+        /// <summary>
+        /// Update UI with values from INI for the selected project/config.
+        /// </summary>
+        private void LoadIniValues()
+        {
+            if (IsProjectNameValid)
+            {
+                txtAdditionalIncDirs.Text = m_ini.Read("incdir", GetIniSection());
+                txtAdditionalLibDirs.Text = m_ini.Read("libdir", GetIniSection());
+                txtAdditionalPreprocessor.Text = m_ini.Read("preprocessor", GetIniSection());
+                txtAdditionalLinker.Text = m_ini.Read("linker", GetIniSection());
+                cmbCDLicense.SelectedIndex = int.Parse(m_ini.Read("license", GetIniSection(), "0"));
+                chkGenerateCD.Checked = bool.Parse(m_ini.Read("cdgen", GetIniSection(), Utilities.IsEMUConfig(m_configuration) ? "True" : "False"));
+            }            
         }
 
         /// <summary>
@@ -53,7 +88,7 @@ namespace BuildTool
         /// </summary>
         private void UpdateOutputAvailability()
         {
-            if (m_currentProjectName != null && m_currentProjectName != kNoProjectsStr)
+            if (IsProjectNameValid)
             {
                 for (int i = 0; i < (int)BuildConfiguration.ConfigCount+1; ++i)
                 {
@@ -119,7 +154,7 @@ namespace BuildTool
             cmbProjectName.SelectedItem = m_currentProjectName;
 
             // Enable/disable build support
-            if (m_currentProjectName == kNoProjectsStr)
+            if (!IsProjectNameValid)
             {
                 DisableBuildPane();
             }
@@ -136,6 +171,8 @@ namespace BuildTool
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            m_ini = new Ini("BuildTool.ini");
+
             // Default to DebugEMU
             cmbConfiguration.SelectedIndex = (int)BuildConfiguration.DebugEMU;
 
@@ -155,7 +192,9 @@ namespace BuildTool
                 m_watcher.Deleted += new FileSystemEventHandler(FileWatcher_OnChanged);
                 m_watcher.EnableRaisingEvents = true;
             }
+
             UpdateOutputAvailability();
+            LoadIniValues();
         }
 
         private void cmbProjectName_SelectedIndexChanged(object sender, EventArgs e)
@@ -300,9 +339,57 @@ namespace BuildTool
         private void cmbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
         {
             m_configuration = (BuildConfiguration)cmbConfiguration.SelectedIndex;
-            chkGenerateCD.Checked = Utilities.IsEMUConfig(m_configuration);
-
+            
             UpdateOutputAvailability();
+            LoadIniValues();
+        }
+
+        private void txtAdditionalPreprocessor_TextChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("preprocessor", txtAdditionalPreprocessor.Text, GetIniSection());
+            }
+        }
+
+        private void txtAdditionalLinker_TextChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("linker", txtAdditionalLinker.Text, GetIniSection());
+            }
+        }
+
+        private void txtAdditionalLibDirs_TextChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("libdir", txtAdditionalLibDirs.Text, GetIniSection());
+            }
+        }
+
+        private void txtAdditionalIncDirs_TextChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("incdir", txtAdditionalIncDirs.Text, GetIniSection());
+            }
+        }
+
+        private void cmbCDLicense_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("license", cmbCDLicense.SelectedIndex.ToString(), GetIniSection());
+            }
+        }
+
+        private void chkGenerateCD_CheckedChanged(object sender, EventArgs e)
+        {
+            if (IsProjectNameValid)
+            {
+                m_ini.Write("cdgen", chkGenerateCD.Checked.ToString(), GetIniSection());
+            }
         }
     }
 }

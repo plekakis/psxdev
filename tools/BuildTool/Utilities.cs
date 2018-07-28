@@ -10,6 +10,8 @@ namespace BuildTool
 {
     static class Utilities
     {
+
+
         /// <summary>
         /// Polls the system for LPT availability. This does not actually check if the PSX is actually connected
         /// to an LPT port

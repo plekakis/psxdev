@@ -37,6 +37,10 @@
             this.cmbProjectName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.grpBuildSettings = new System.Windows.Forms.GroupBox();
+            this.txtAdditionalIncDirs = new System.Windows.Forms.TextBox();
+            this.txtAdditionalLibDirs = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.btnKillProcess = new System.Windows.Forms.Button();
             this.btnRun = new System.Windows.Forms.Button();
             this.btnBuildAndRun = new System.Windows.Forms.Button();
@@ -54,10 +58,6 @@
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtAdditionalLibDirs = new System.Windows.Forms.TextBox();
-            this.txtAdditionalIncDirs = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -154,6 +154,40 @@
             this.grpBuildSettings.TabStop = false;
             this.grpBuildSettings.Text = "Build Settings";
             // 
+            // txtAdditionalIncDirs
+            // 
+            this.txtAdditionalIncDirs.Location = new System.Drawing.Point(164, 123);
+            this.txtAdditionalIncDirs.Name = "txtAdditionalIncDirs";
+            this.txtAdditionalIncDirs.Size = new System.Drawing.Size(472, 20);
+            this.txtAdditionalIncDirs.TabIndex = 18;
+            this.txtAdditionalIncDirs.TextChanged += new System.EventHandler(this.txtAdditionalIncDirs_TextChanged);
+            // 
+            // txtAdditionalLibDirs
+            // 
+            this.txtAdditionalLibDirs.Location = new System.Drawing.Point(164, 97);
+            this.txtAdditionalLibDirs.Name = "txtAdditionalLibDirs";
+            this.txtAdditionalLibDirs.Size = new System.Drawing.Size(472, 20);
+            this.txtAdditionalLibDirs.TabIndex = 17;
+            this.txtAdditionalLibDirs.TextChanged += new System.EventHandler(this.txtAdditionalLibDirs_TextChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(17, 126);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(144, 13);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "Additional include directories:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(38, 100);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(120, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Additional lib directories:";
+            // 
             // btnKillProcess
             // 
             this.btnKillProcess.Location = new System.Drawing.Point(491, 152);
@@ -210,6 +244,7 @@
             this.txtAdditionalLinker.Name = "txtAdditionalLinker";
             this.txtAdditionalLinker.Size = new System.Drawing.Size(472, 20);
             this.txtAdditionalLinker.TabIndex = 9;
+            this.txtAdditionalLinker.TextChanged += new System.EventHandler(this.txtAdditionalLinker_TextChanged);
             // 
             // label4
             // 
@@ -226,6 +261,7 @@
             this.txtAdditionalPreprocessor.Name = "txtAdditionalPreprocessor";
             this.txtAdditionalPreprocessor.Size = new System.Drawing.Size(472, 20);
             this.txtAdditionalPreprocessor.TabIndex = 7;
+            this.txtAdditionalPreprocessor.TextChanged += new System.EventHandler(this.txtAdditionalPreprocessor_TextChanged);
             // 
             // label3
             // 
@@ -282,6 +318,7 @@
             this.chkGenerateCD.TabIndex = 2;
             this.chkGenerateCD.Text = "Generate CD Image (Required for EMU builds)";
             this.chkGenerateCD.UseVisualStyleBackColor = true;
+            this.chkGenerateCD.CheckedChanged += new System.EventHandler(this.chkGenerateCD_CheckedChanged);
             // 
             // cmbCDLicense
             // 
@@ -295,6 +332,7 @@
             this.cmbCDLicense.Name = "cmbCDLicense";
             this.cmbCDLicense.Size = new System.Drawing.Size(133, 21);
             this.cmbCDLicense.TabIndex = 1;
+            this.cmbCDLicense.SelectedIndexChanged += new System.EventHandler(this.cmbCDLicense_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -317,38 +355,6 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(38, 100);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(120, 13);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "Additional lib directories:";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 126);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(144, 13);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "Additional include directories:";
-            // 
-            // txtAdditionalLibDirs
-            // 
-            this.txtAdditionalLibDirs.Location = new System.Drawing.Point(164, 97);
-            this.txtAdditionalLibDirs.Name = "txtAdditionalLibDirs";
-            this.txtAdditionalLibDirs.Size = new System.Drawing.Size(472, 20);
-            this.txtAdditionalLibDirs.TabIndex = 17;
-            // 
-            // txtAdditionalIncDirs
-            // 
-            this.txtAdditionalIncDirs.Location = new System.Drawing.Point(164, 123);
-            this.txtAdditionalIncDirs.Name = "txtAdditionalIncDirs";
-            this.txtAdditionalIncDirs.Size = new System.Drawing.Size(472, 20);
-            this.txtAdditionalIncDirs.TabIndex = 18;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -360,6 +366,7 @@
             this.Controls.Add(this.grpBuildSettings);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "BuildTool";
