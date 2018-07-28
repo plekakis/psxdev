@@ -17,7 +17,8 @@ namespace BuildTool
         DebugEMU,
         ReleaseEMU,
         DebugPSX,
-        ReleasePSX
+        ReleasePSX,
+        ConfigCount = ReleasePSX
     }
 
     /// <summary>
@@ -125,13 +126,18 @@ namespace BuildTool
             string psxdevRoot = Utilities.GetPsxDevRoot();
             string dir = Path.Combine(psxdevRoot, Utilities.GetBuildOuputDirectory(config, m_projectDirectory));
             if (Directory.Exists(dir))
-            {
+            {                
                 output.AppendLine("Deleting directory " + dir + "...");
-                Directory.Delete(dir, true);
-                output.AppendLine("Success!");
-            }
-
-            output.AppendLine("Output cleaned");
+                try
+                {
+                    Directory.Delete(dir, true);
+                    output.AppendLine("Success!");
+                }
+                catch (IOException exc)
+                {
+                    output.AppendLine("Output being used by another process!");
+                }                
+            }                        
         }
 
         /// <summary>

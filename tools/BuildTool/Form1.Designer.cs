@@ -48,12 +48,12 @@
             this.label3 = new System.Windows.Forms.Label();
             this.timUpdateOutput = new System.Windows.Forms.Timer(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txtOutput = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.chkGenerateCD = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.txtOutput = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -244,16 +244,6 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Build Output";
             // 
-            // txtOutput
-            // 
-            this.txtOutput.Location = new System.Drawing.Point(19, 19);
-            this.txtOutput.Multiline = true;
-            this.txtOutput.Name = "txtOutput";
-            this.txtOutput.ReadOnly = true;
-            this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtOutput.Size = new System.Drawing.Size(616, 186);
-            this.txtOutput.TabIndex = 10;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.chkGenerateCD);
@@ -310,6 +300,15 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
+            // txtOutput
+            // 
+            this.txtOutput.Location = new System.Drawing.Point(20, 20);
+            this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
+            this.txtOutput.Size = new System.Drawing.Size(616, 183);
+            this.txtOutput.TabIndex = 0;
+            this.txtOutput.Text = "";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -330,7 +329,6 @@
             this.grpBuildSettings.ResumeLayout(false);
             this.grpBuildSettings.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -358,12 +356,12 @@
         private System.Windows.Forms.Button btnClean;
         private System.Windows.Forms.Timer timUpdateOutput;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txtOutput;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox cmbCDLicense;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chkGenerateCD;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.RichTextBox txtOutput;
     }
 }
 

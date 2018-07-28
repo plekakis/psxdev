@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace BuildTool
 {
@@ -17,6 +18,10 @@ namespace BuildTool
         private List<string> m_projectDirectoryNames;
         private string m_currentProjectName;
         private StringBuilder m_outputStringBuilder = new StringBuilder();
+        private FileSystemWatcher m_watcher = new FileSystemWatcher();
+
+        private bool[] m_outputAvailability = new bool[(int)BuildConfiguration.ConfigCount + 1];
+        private BuildConfiguration m_configuration;
 
         private const string kNoProjectsStr = "<no projects found>";
         public Form1()
@@ -41,18 +46,41 @@ namespace BuildTool
         }
 
         /// <summary>
+        /// Go through the configs for the current project and see which outputs are built.
+        /// Expected is at least to find the main.exe in the output directory.
+        /// </summary>
+        private void UpdateOutputAvailability()
+        {
+            if (m_currentProjectName != null && m_currentProjectName != kNoProjectsStr)
+            {
+                for (int i = 0; i < (int)BuildConfiguration.ConfigCount+1; ++i)
+                {
+                    string path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", Utilities.GetBuildOuputDirectory((BuildConfiguration)i, m_currentProjectName), "main.exe");
+                    m_outputAvailability[i] = File.Exists(path);
+                }
+            }
+        }
+
+        /// <summary>
         /// Scan the project directory.
         /// </summary>
         private void ScanProjects()
         {
             // Retrieve the PSXDEV_PATH, this is our development root directory.
             string psxdevPath = Utilities.GetPsxDevRoot();
-            m_projectDirectoryNames = new List<string>(System.IO.Directory.EnumerateDirectories(Path.Combine(psxdevPath, "projects")));
+            string projectsPath = Path.Combine(psxdevPath, "projects");
 
-            // Go through the found project paths and extract only the directory name. This is our project directory.
-            for (int i=0; i<m_projectDirectoryNames.Count; ++i)
+            m_projectDirectoryNames = new List<string>();
+
+            if (Directory.Exists(projectsPath))
             {
-                m_projectDirectoryNames[i] = Path.GetFileName(m_projectDirectoryNames[i]);
+                m_projectDirectoryNames.AddRange (System.IO.Directory.EnumerateDirectories(projectsPath));
+
+                // Go through the found project paths and extract only the directory name. This is our project directory.
+                for (int i = 0; i < m_projectDirectoryNames.Count; ++i)
+                {
+                    m_projectDirectoryNames[i] = Path.GetFileName(m_projectDirectoryNames[i]);
+                }
             }
 
             // If the current project name is invalid, get the first available one.
@@ -86,6 +114,11 @@ namespace BuildTool
             }
         }
 
+        private void FileWatcher_OnChanged(object sender, FileSystemEventArgs e)
+        {
+            UpdateOutputAvailability();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             // Default to DebugEMU
@@ -96,6 +129,18 @@ namespace BuildTool
 
             ScanProjects();
             Utilities.PollLPTAvailability();
+
+            // Setup the watcher to check for directory changes
+            if (Directory.Exists(m_watcher.Path))
+            {
+                m_watcher.NotifyFilter = NotifyFilters.DirectoryName;
+                m_watcher.IncludeSubdirectories = true;
+
+                m_watcher.Created += new FileSystemEventHandler(FileWatcher_OnChanged);
+                m_watcher.Deleted += new FileSystemEventHandler(FileWatcher_OnChanged);
+                m_watcher.EnableRaisingEvents = true;
+            }
+            UpdateOutputAvailability();
         }
 
         private void cmbProjectName_SelectedIndexChanged(object sender, EventArgs e)
@@ -104,6 +149,7 @@ namespace BuildTool
             if (m_currentProjectName != kNoProjectsStr)
             {
                 m_currentBuilder = new Builder(Path.Combine("projects", m_currentProjectName), (CDLicense)cmbCDLicense.SelectedIndex, chkGenerateCD.Checked);
+                m_watcher.Path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", m_currentProjectName);
             }
         }
 
@@ -117,7 +163,7 @@ namespace BuildTool
             string[] additionalPreprocessor = null;
             string[] additionalLinker = null;
 
-            m_currentBuilder.Build((BuildConfiguration)cmbConfiguration.SelectedIndex, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
+            m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
         }
 
         private void btnBuildAndRun_Click_1(object sender, EventArgs e)
@@ -127,27 +173,65 @@ namespace BuildTool
 
         private void btnRun_Click_1(object sender, EventArgs e)
         {
-            m_currentBuilder.Run((BuildConfiguration)cmbConfiguration.SelectedIndex, m_outputStringBuilder);
+            m_currentBuilder.Run(m_configuration, m_outputStringBuilder);
         }
 
         private void btnKillProcess_Click(object sender, EventArgs e)
         {
-            
+            Process[] processes = null;
+
+            // For EMU, find NO$PSX and kill it
+            if (Utilities.IsEMUConfig(m_configuration))
+            {
+                processes = Process.GetProcessesByName("no$psx");
+                 
+                foreach (var process in processes)
+                {
+                    process.Kill();
+                }
+            }
+            // For PSX, find catflap, send the restart command and then kill catflap
+            else
+            {
+                // Kill any existing catflap processes:
+                processes = Process.GetProcessesByName("catflap");
+                foreach (var process in processes)
+                {
+                    process.Kill();
+                }
+
+                // Run a new catflap process, reset the PSX:
+                Utilities.LaunchProcessAndWait("catflap", "reset", Utilities.GetPsxDevRoot(), m_outputStringBuilder);
+            }
+
+            if ((processes == null) || (processes.Length == 0))
+            {
+                MessageBox.Show("Didn't find any processes to kill!", "BuildTool", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
         }
 
         private void btnClean_Click_1(object sender, EventArgs e)
         {
-            m_currentBuilder.Clean((BuildConfiguration)cmbConfiguration.SelectedIndex, m_outputStringBuilder);
+            m_currentBuilder.Clean(m_configuration, m_outputStringBuilder);
         }
 
         private void timUpdateOutput_Tick(object sender, EventArgs e)
         {
+            // Update build output
             txtOutput.Text = m_outputStringBuilder.ToString();
+
+            // Update button state
+            bool avail = m_outputAvailability[(int)m_configuration];
+            btnClean.Enabled = avail;
+            btnRun.Enabled = avail;
         }
 
         private void cmbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chkGenerateCD.Checked = Utilities.IsEMUConfig((BuildConfiguration)cmbConfiguration.SelectedIndex);
+            m_configuration = (BuildConfiguration)cmbConfiguration.SelectedIndex;
+            chkGenerateCD.Checked = Utilities.IsEMUConfig(m_configuration);
+
+            UpdateOutputAvailability();
         }
     }
 }
