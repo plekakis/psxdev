@@ -37,19 +37,34 @@ namespace BuildTool
     /// </summary>
     class Builder
     {
-        private string      m_projectDirectory;
-        private CDLicense   m_cdLicense;
-        private bool        m_generateCD;
+        private string      m_projectDirectory;        
+        private bool        m_preserveOutput;
 
         /// <summary>
         /// Create a new builder which will work on the specified directory.
         /// </summary>
         /// <param name="projectDirectory">The project's root directory.</param>
-        public Builder(string projectDirectory, CDLicense license, bool generateCD)
+        public Builder(string projectDirectory)
         {
             m_projectDirectory = projectDirectory;
-            m_cdLicense = license;
-            m_generateCD = generateCD;
+        }
+
+        /// <summary>
+        /// Set/get the CDLicense.
+        /// </summary>
+        public CDLicense CDLicenseRegion
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
+        /// Set/get whether cd image can be generated.
+        /// </summary>
+        public bool GenerateCDImage
+        {
+            set;
+            get;
         }
 
         /// <summary>
@@ -183,7 +198,7 @@ namespace BuildTool
             // This is useful for NO$PSX, as it seems that's the only way it can load PSX executable at the moment (unless of course we want to burn the image to a CD).
             // First, read the templates (system & cd) and make a copy of them in the output directory. 
             // Modify their placeholder values and add any files to the tracks.
-            if (m_generateCD)
+            if (GenerateCDImage)
             {
                 string cdOutputDir = Path.Combine(outputDir, "cdrom");
                 Directory.CreateDirectory(cdOutputDir);
@@ -196,7 +211,7 @@ namespace BuildTool
 
                     // Pick license from region
                     string licenseFile = "";
-                    switch (m_cdLicense)
+                    switch (CDLicenseRegion)
                     {
                         case CDLicense.Europe:
                             licenseFile = "LICENSEE.DAT";
@@ -248,7 +263,10 @@ namespace BuildTool
         public void BuildAndRun(BuildConfiguration config, string[] additionaPreprocessor, string[] additionalLinker, StringBuilder output)
         {
             Build(config, additionaPreprocessor, additionalLinker, output);
+
+            m_preserveOutput = true;
             Run(config, output);
+            m_preserveOutput = false;
         }
 
         /// <summary>
@@ -259,7 +277,10 @@ namespace BuildTool
         /// <param name="output">The StringBuilder to write out the stdout and stderr streams.</param>
         public void Run(BuildConfiguration config, StringBuilder output)
         {
-            output.Clear();
+            if (!m_preserveOutput)
+            {
+                output.Clear();
+            }
 
             string psxdevRoot = Utilities.GetPsxDevRoot();
 

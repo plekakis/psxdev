@@ -21,6 +21,8 @@ namespace BuildTool
         private FileSystemWatcher m_watcher = new FileSystemWatcher();
 
         private bool[] m_outputAvailability = new bool[(int)BuildConfiguration.ConfigCount + 1];
+        private bool[] m_cdImageAvailability = new bool[(int)BuildConfiguration.ConfigCount + 1];
+
         private BuildConfiguration m_configuration;
 
         private const string kNoProjectsStr = "<no projects found>";
@@ -55,8 +57,21 @@ namespace BuildTool
             {
                 for (int i = 0; i < (int)BuildConfiguration.ConfigCount+1; ++i)
                 {
-                    string path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", Utilities.GetBuildOuputDirectory((BuildConfiguration)i, m_currentProjectName), "main.exe");
-                    m_outputAvailability[i] = File.Exists(path);
+                    BuildConfiguration config = (BuildConfiguration)i;
+                    string path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", Utilities.GetBuildOuputDirectory((BuildConfiguration)i, m_currentProjectName));
+
+                    m_outputAvailability[i] = File.Exists(Path.Combine(path, "main.exe"));
+                    m_cdImageAvailability[i] = m_outputAvailability[i];
+
+                    // On EMU, also check for generated .bin and .cue
+                    if (Utilities.IsEMUConfig(config))
+                    {
+                        string cdBin = Path.Combine(path, "cdrom", m_currentProjectName + ".bin");
+                        string cdCue = Path.Combine(path, "cdrom", m_currentProjectName + ".cue");
+
+                        m_cdImageAvailability[i] &= File.Exists(cdBin);
+                        m_cdImageAvailability[i] &= File.Exists(cdCue);
+                    }
                 }
             }
         }
@@ -133,7 +148,7 @@ namespace BuildTool
             // Setup the watcher to check for directory changes
             if (Directory.Exists(m_watcher.Path))
             {
-                m_watcher.NotifyFilter = NotifyFilters.DirectoryName;
+                m_watcher.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName;
                 m_watcher.IncludeSubdirectories = true;
 
                 m_watcher.Created += new FileSystemEventHandler(FileWatcher_OnChanged);
@@ -148,7 +163,7 @@ namespace BuildTool
             // Update the current builder
             if (m_currentProjectName != kNoProjectsStr)
             {
-                m_currentBuilder = new Builder(Path.Combine("projects", m_currentProjectName), (CDLicense)cmbCDLicense.SelectedIndex, chkGenerateCD.Checked);
+                m_currentBuilder = new Builder(Path.Combine("projects", m_currentProjectName));
                 m_watcher.Path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", m_currentProjectName);
             }
         }
@@ -158,17 +173,32 @@ namespace BuildTool
             ScanProjects();
         }
 
+        private void PreBuild()
+        {
+            // Update license and cd image generation
+            if (m_currentBuilder != null)
+            {
+                m_currentBuilder.CDLicenseRegion = (CDLicense)cmbCDLicense.SelectedIndex;
+                m_currentBuilder.GenerateCDImage = chkGenerateCD.Checked;
+            }
+        }
+
         private void btnBuild_Click_1(object sender, EventArgs e)
         {
             string[] additionalPreprocessor = null;
             string[] additionalLinker = null;
 
+            PreBuild();
             m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
         }
 
         private void btnBuildAndRun_Click_1(object sender, EventArgs e)
         {
+            string[] additionalPreprocessor = null;
+            string[] additionalLinker = null;
 
+            PreBuild();
+            m_currentBuilder.BuildAndRun(m_configuration, additionalPreprocessor, additionalLinker, m_outputStringBuilder);
         }
 
         private void btnRun_Click_1(object sender, EventArgs e)
@@ -221,9 +251,8 @@ namespace BuildTool
             txtOutput.Text = m_outputStringBuilder.ToString();
 
             // Update button state
-            bool avail = m_outputAvailability[(int)m_configuration];
-            btnClean.Enabled = avail;
-            btnRun.Enabled = avail;
+            btnClean.Enabled = m_outputAvailability[(int)m_configuration];
+            btnRun.Enabled = m_cdImageAvailability[(int)m_configuration]; ;
         }
 
         private void cmbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
