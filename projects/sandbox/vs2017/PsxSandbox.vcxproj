@@ -96,7 +96,7 @@
     </NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
-    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'">
     <NMakeOutput />
@@ -107,7 +107,7 @@
     </NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
-    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'">
     <NMakeOutput />
@@ -118,13 +118,13 @@
     </NMakeReBuildCommandLine>
     <NMakeCleanCommandLine>
     </NMakeCleanCommandLine>
-    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
     <NMakeOutput>
     </NMakeOutput>
     <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
-    <IncludePath>$(SolutionDir)..\..\..\psyq\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
     <NMakeBuildCommandLine>
     </NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>

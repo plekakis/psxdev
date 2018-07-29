@@ -161,7 +161,7 @@ void AddCube_POLY_F3(void* i_data, uint32 i_size)
 		{ {i_size, i_size, i_size}, {-i_size, i_size, i_size}, {-i_size, i_size, -i_size},		{0,-1,0},	i_color[5] }
 	};
 
-	Gfx_AddPrims(PRIM_TYPE_POLY_F3, primitives, ARRAY_SIZE(primitives));
+	Gfx_AddPrims(PRIM_TYPE_POLY_F3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
@@ -196,7 +196,7 @@ void AddCube_POLY_G3(void* i_data, uint32 i_size)
 		{ {i_size, i_size, i_size}, {-i_size, i_size, i_size}, {-i_size, i_size, -i_size},			i_color[6], i_color[7], i_color[3] }
 	};
 
-	Gfx_AddPrims(PRIM_TYPE_POLY_G3, primitives, ARRAY_SIZE(primitives));
+	Gfx_AddPrims(PRIM_TYPE_POLY_G3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
@@ -228,7 +228,7 @@ void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height)
 		{ {halfWidth, 0, halfHeight}, {halfWidth, 0, -halfHeight}, {-halfWidth, 0, -halfHeight},	{0,1,0},	i_color[0] }
 	};
 
-	Gfx_AddPrims(PRIM_TYPE_POLY_F3, primitives, ARRAY_SIZE(primitives));
+	Gfx_AddPrims(PRIM_TYPE_POLY_F3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
@@ -251,7 +251,7 @@ void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height)
 		{ {halfWidth, 0, halfHeight}, {halfWidth, 0, -halfHeight}, {-halfWidth, 0, -halfHeight},	i_color[2], i_color[3], i_color[0] }
 	};
 
-	Gfx_AddPrims(PRIM_TYPE_POLY_G3, primitives, ARRAY_SIZE(primitives));
+	Gfx_AddPrims(PRIM_TYPE_POLY_G3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////

@@ -106,10 +106,10 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 int16 Gfx_BeginSubmission(uint8 i_layer);
 
 // Sets the model matrix to be currently used for rendering. This is a translation & rotation matrix
-int16 Gfx_SetModelMatrix(MATRIX* i_matrix);
+int16 Gfx_SetModelMatrix(MATRIX* const i_matrix);
 
 // Sets the camera matrix to be currently used for rendering. This is a translation & rotation matrix
-int16 Gfx_SetCameraMatrix(MATRIX* i_matrix);
+int16 Gfx_SetCameraMatrix(MATRIX* const i_matrix);
 
 // Gets the renderstate flags
 uint32 Gfx_GetRenderState();
@@ -133,19 +133,19 @@ void Gfx_SetFogColor(uint32 i_red, uint32 i_green, uint32 i_blue);
 void Gfx_GetFogColor(uint32* o_red, uint32* o_green, uint32* o_blue);
 
 // Add a primitive to the current OT
-int16 Gfx_AddPrim(uint8 i_type, void* i_prim);
+int16 Gfx_AddPrim(uint8 i_type, void* const i_prim);
 
 // Add a primitive list to the current OT
-int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count);
+int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count);
 
 // Add a billboarded point with NxM size
-int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* i_pointArray, uint32 i_count);
+int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32 i_count);
 
 // Add a size x size x size cube to the current OT
-int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray);
+int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray);
 
 // Add a NxM plane to the current OT
-int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_colorArray);
+int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray);
 
 // Ends primitive submission
 int16 Gfx_EndSubmission();
@@ -154,6 +154,6 @@ int16 Gfx_EndSubmission();
 int16 Gfx_Shutdown();
 
 // Updates clear color
-void Gfx_SetClearColor(CVECTOR* i_color);
+void Gfx_SetClearColor(CVECTOR* const i_color);
 
 #endif // GFX_H_INC

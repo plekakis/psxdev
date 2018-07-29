@@ -201,7 +201,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 	FntLoad(960, 256);
 	SetDumpFnt(FntOpen(8, g_isHighResolution ? 16 : 8, g_displayWidth, 64, 0, 512));
 
-	SetRCnt(RCntCNT1, 512000, RCntIntr);
+	SetRCnt(RCntCNT1, 2048, RCntIntr); // TODO: revisit docs about the timers
 	StartRCnt(RCntCNT1);
     return E_OK;
 }
@@ -306,7 +306,7 @@ int16 Gfx_Shutdown()
 }
 
 ///////////////////////////////////////////////////
-void Gfx_SetClearColor(CVECTOR* i_color)
+void Gfx_SetClearColor(CVECTOR* const i_color)
 {
     g_clearColor.r = i_color->r;
     g_clearColor.g = i_color->g;
@@ -346,7 +346,7 @@ void PrepareMatrices()
 		// Apply the camera rotation to the camera vector
 		{
 			VECTOR transformedCameraPosition;
-			const VECTOR cameraPosition = {finalMat.t[0], finalMat.t[1], finalMat.t[2]};
+			VECTOR cameraPosition = {finalMat.t[0], finalMat.t[1], finalMat.t[2]};
 
 			TransposeMatrix(&finalMat, &finalMat);
 			ApplyMatrixLV(&finalMat, &cameraPosition, &transformedCameraPosition);
@@ -381,7 +381,7 @@ void PrepareMatrices()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
+int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 {
 	int32 otz = 0;
 	void* primmem = NULL;
@@ -398,42 +398,42 @@ int16 Gfx_AddPrim(uint8 i_type, void* i_prim)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* i_colorArray)
+int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray)
 {	
 	fncAddCube[i_type](i_colorArray, i_size);
 	return E_OK;
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* i_colorArray)
+int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray)
 {	
 	fncAddPlane[i_type](i_colorArray, i_width, i_height);
 	return E_OK;
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_SetModelMatrix(MATRIX* i_matrix)
+int16 Gfx_SetModelMatrix(MATRIX* const i_matrix)
 {
 	g_modelMatrix = i_matrix;
 	DF_SET(DF_MATRICES);
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_SetCameraMatrix(MATRIX* i_matrix)
+int16 Gfx_SetCameraMatrix(MATRIX* const i_matrix)
 {
 	g_cameraMatrix = i_matrix;
 	DF_SET(DF_MATRICES);
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
+int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count)
 {
 	uint32 i = 0;
 	uint32 stride = g_primStrides[i_type];
 
 	for (i=0; i<i_count; ++i)
 	{			
-		void* prim = i_primArray + stride * i;
+		void* const prim = i_primArray + stride * i;
 		Gfx_AddPrim(i_type, prim);
 	}
 	
@@ -441,7 +441,7 @@ int16 Gfx_AddPrims(uint8 i_type, void* i_primArray, uint32 i_count)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* i_pointArray, uint32 i_count)
+int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32 i_count)
 {
 	uint32 i = 0;
 
@@ -450,7 +450,7 @@ int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* i_pointArray, uint32 i_cou
 	for (i = 0; i < i_count; ++i)
 	{
 		int32	p, flg, otz, valid;		
-		POINT_SPRITE* point = i_pointArray + sizeof(POINT_SPRITE) * i;
+		POINT_SPRITE* const point = i_pointArray + sizeof(POINT_SPRITE) * i;
 				
 		int16 halfWidth = point->width / 2;
 		int16 halfHeight = point->height / 2;

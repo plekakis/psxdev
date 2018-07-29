@@ -31,8 +31,8 @@ void render()
 #if FULL_GEOM
 		// Update and set the camera matrix
 		{
-			const SVECTOR camRotation = { 0, 0, 0 };
-			const VECTOR camPosition = { 0, 0, -600 };
+			SVECTOR camRotation = { 0, 0, 0 };
+			VECTOR camPosition = { 0, 0, -600 };
 
 			RotMatrix(&camRotation, &world2Camera);
 			TransMatrix(&world2Camera, &camPosition);
@@ -41,7 +41,7 @@ void render()
 
 		// First cube
 		{
-			const VECTOR	v = { -128, 0, 256 };
+			VECTOR	v = { -128, 0, 256 };
 			RotMatrix(&cubeRotation, &model2World);
 			TransMatrix(&model2World, &v);
 
@@ -51,7 +51,7 @@ void render()
 
 		// Second cube
 		{
-			const VECTOR	v = { 128, 0, 256 };
+			VECTOR	v = { 128, 0, 256 };
 			RotMatrix(&cubeRotation2, &model2World);
 			TransMatrix(&model2World, &v);
 
@@ -61,7 +61,7 @@ void render()
 #endif // FULL_GEOM
 		// Point sprites
 		{
-			const VECTOR	v = { 0, 0, 256 };
+			VECTOR	v = { 0, 0, 256 };
 			RotMatrix(&angZero, &model2World);
 			TransMatrix(&model2World, &v);
 
@@ -77,12 +77,12 @@ void render()
 	{
 		// And the floor
 		{
-			const VECTOR	v  = {0, 100, 256};
+			VECTOR	v  = {0, 100, 256};
 			RotMatrix(&angZero, &model2World);
 			TransMatrix(&model2World, &v);
 					
 			Gfx_SetModelMatrix(&model2World);
-			Gfx_AddPlane(PRIM_TYPE_POLY_G3, 1024, 1024, &planeColors);
+			Gfx_AddPlane(PRIM_TYPE_POLY_G3, 1024, 1024, planeColors);
 		}
 	}
 	Gfx_EndSubmission();
