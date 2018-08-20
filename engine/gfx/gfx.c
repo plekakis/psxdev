@@ -179,6 +179,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 
 	// Initialize the callbacks for primitive submission
 	InitAddPrimCallbacks();
+	InitAddPointSprCallbacks();
 	InitAddCubeCallbacks();
 	InitAddPlaneCallbacks();
 
@@ -330,52 +331,48 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
-void PrepareMatrices()
+///////////////////////////////////////////////////
+void PrepareMatrices(bool i_billboard)
 {
-	if (DF_CHK(DF_MATRICES))
+	if (DF_CHK(DF_MATRICES) || i_billboard)
 	{
 		MATRIX  finalMat = *g_cameraMatrix;
-
-		//
-		// TODO:
-		// The following doesn't seem to be a perspective correct transformation.
-		// It probably needs the RotTransPersp and applied before vertex transformation
-		// Investigate if we can do it here instead, as it's convenient.
-		//
-
-		// Apply the camera rotation to the camera vector
-		{
-			VECTOR transformedCameraPosition;
-			VECTOR cameraPosition = {finalMat.t[0], finalMat.t[1], finalMat.t[2]};
-
-			TransposeMatrix(&finalMat, &finalMat);
-			ApplyMatrixLV(&finalMat, &cameraPosition, &transformedCameraPosition);
-			TransMatrix(&finalMat, &transformedCameraPosition);
-		}
-
-		// Invert the transformation
-		{
-			finalMat.t[0] *= -1;
-			finalMat.t[1] *= -1;
-			finalMat.t[2] *= -1;
 		
-			// Translate by the model parallel transfer vector
-			finalMat.t[0] += g_modelMatrix->t[0];
-			finalMat.t[1] += g_modelMatrix->t[1];
-			finalMat.t[2] += g_modelMatrix->t[2];
-		}
-
+		// Apply the camera rotation to the camera vector		
+		VECTOR transformedCameraPosition;
+		VECTOR cameraPosition = {-finalMat.t[0], -finalMat.t[1], -finalMat.t[2]};
+		
+		TransposeMatrix(&finalMat, &finalMat);
+		ApplyMatrixLV(&finalMat, &cameraPosition, &transformedCameraPosition);
+		TransMatrix(&finalMat, &transformedCameraPosition);
+		
 		// Multiply current camera rotation matrix with the model rotation matrix
-		{
-			MulMatrix0(g_modelMatrix, &finalMat, &finalMat);
-		}
+		MulMatrix0(g_modelMatrix, &finalMat, &finalMat);
 		
-		// Update current rotation and translation matrices
+		// Translate by the model parallel transfer vector
+		finalMat.t[0] += g_modelMatrix->t[0];
+		finalMat.t[1] += g_modelMatrix->t[1];
+		finalMat.t[2] += g_modelMatrix->t[2];
+		
+		if (i_billboard)
 		{
-			SetRotMatrix(&finalMat);
-			SetTransMatrix(&finalMat);
+			finalMat.m[0][0] = ONE;
+			finalMat.m[0][1] = 0;
+			finalMat.m[0][2] = 0;
+
+			finalMat.m[1][0] = 0;
+			finalMat.m[1][1] = ONE;
+			finalMat.m[1][2] = 0;
+
+			finalMat.m[2][0] = 0;
+			finalMat.m[2][1] = 0;
+			finalMat.m[2][2] = ONE;
 		}
 
+		// Update current rotation and translation matrices
+		SetTransMatrix(&finalMat);
+		SetRotMatrix(&finalMat);
+		
 		DF_INV(DF_MATRICES);
 	}
 }
@@ -386,7 +383,7 @@ int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 	int32 otz = 0;
 	void* primmem = NULL;
 	
-	PrepareMatrices();
+	PrepareMatrices(FALSE);
 
 	primmem = fncAddPrim[i_type](i_prim, &otz);
 	if (primmem)
@@ -445,38 +442,16 @@ int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32
 {
 	uint32 i = 0;
 
-	PrepareMatrices();
+	PrepareMatrices(TRUE);
 
 	for (i = 0; i < i_count; ++i)
 	{
-		int32	p, flg, otz, valid;		
-		POINT_SPRITE* const point = i_pointArray + sizeof(POINT_SPRITE) * i;
-				
-		int16 halfWidth = point->width / 2;
-		int16 halfHeight = point->height / 2;
-
-		SVECTOR v0 = { point->p.vx - halfWidth, point->p.vy - halfHeight, point->p.vz };
-		SVECTOR v1 = { point->p.vx + halfWidth, point->p.vy - halfHeight, point->p.vz };
-		SVECTOR v2 = { point->p.vx - halfWidth, point->p.vy + halfHeight, point->p.vz };
-		SVECTOR v3 = { point->p.vx + halfWidth, point->p.vy + halfHeight, point->p.vz };
-
-		POLY_F4* poly = (POLY_F4*)Gfx_Alloc(sizeof(POLY_F4), 4);
-		SetPolyF4(poly);
-
-		valid = RotAverageNclip4
-		(	
-			&v0, &v1, &v2, &v3,
-			(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2, (int32*)&poly->x3,
-			&p,
-			&otz,
-			&flg
-		);
+		int32 otz;
+		void* primmem = fncAddPointSpr[i_type](i_pointArray + i, &otz);
 		
-		if ((otz > 0 && otz < MAX_OT_LENGTH) && (valid > 0))
+		if (primmem)
 		{
-			setRGB0(poly, point->c.r, point->c.g, point->c.b);
-
-			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, poly);
+			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
 		}
 	}
 

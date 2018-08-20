@@ -5,7 +5,54 @@
 #define FULL_GEOM (1)
 
 uint32 yaw = 0, pitch = 0, roll = 0;
-float elapsed = 0.0f;
+
+int elapsed = 0;
+
+int32 xx = 0, yy = 0, zz = -800;
+int32 rx = 0, ry = 0, rz = 0;
+
+const uint32 g_speed = 4;
+
+void input()
+{
+	uint32 pad = Input_GetPad(0);
+	if (pad & PADLright)
+	{
+		ry += g_speed;
+	}
+	if (pad & PADLleft)
+	{
+		ry -= g_speed;
+	}
+	if (pad & PADLup)
+	{
+		rx += g_speed;
+	}
+	if (pad & PADLdown)
+	{
+		rx -= g_speed;
+	}
+
+	if (pad & PADRdown)
+	{
+		zz += g_speed;
+	}
+
+	if (pad & PADRleft)
+	{
+		zz -= g_speed;
+	}
+
+	if (pad & PADR1)
+	{
+		yy += g_speed;
+	}
+
+	if (pad & PADL1)
+	{
+		yy -= g_speed;
+	}
+}
 
 void render()
 {	
@@ -17,25 +64,32 @@ void render()
 	CVECTOR cubeColors[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
 	CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
 
-	POINT_SPRITE pointSprites[1];
+	POINT_SPRITE pointSprites[2];
 	setVector(&pointSprites[0].p, 0, 0, 0);
 	setColor(&pointSprites[0].c, 255, 127, 0);
 	
-	pointSprites[0].width = 8;
-	pointSprites[0].height = 8;
+	pointSprites[0].width = 32;
+	pointSprites[0].height = 32;
+	
+	input();
 
 	Gfx_SetRenderState(RS_PERSP);
+	//Gfx_SetRenderState(RS_FOG);
+	//Gfx_SetFogNearFar(500, 1500);
+	//Gfx_SetFogColor(128, 128, 128);
 
 	Gfx_BeginSubmission(OT_LAYER_BG);
+	
 	{
 #if FULL_GEOM
 		// Update and set the camera matrix
 		{
-			SVECTOR camRotation = { 0, 0, 0 };
-			VECTOR camPosition = { 0, 0, -600 };
-
+			SVECTOR camRotation = { rx, ry, rz };
+			VECTOR camPosition = { xx, yy, zz };
+			
 			RotMatrix(&camRotation, &world2Camera);
 			TransMatrix(&world2Camera, &camPosition);
+			
 			Gfx_SetCameraMatrix(&world2Camera);
 		}
 
@@ -61,7 +115,7 @@ void render()
 #endif // FULL_GEOM
 		// Point sprites
 		{
-			VECTOR	v = { 0, 0, 256 };
+			VECTOR	v = { 0, 0, 200 };
 			RotMatrix(&angZero, &model2World);
 			TransMatrix(&model2World, &v);
 

@@ -18,4 +18,7 @@ uint32 Input_GetConnectionMask();
 // Returns the controller's name string
 char* Input_GetControllerId(uint32 i_index);
 
+// Returns the pad button mask
+uint32 Input_GetPad(uint32 i_index);
+
 #endif //INPUT_H_INC

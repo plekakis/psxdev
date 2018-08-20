@@ -38,8 +38,8 @@ void Debug_DrawInputOverlay()
 	{
 		for (index = 0; index < numControllers; ++index)
 		{
-			sprintf2(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
-			FntPrint (dbgText);
+			//sprintf(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
+			//FntPrint (dbgText);
 		}
 	}
 	else

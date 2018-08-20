@@ -9,6 +9,8 @@ static uint8 g_padBuffer[NUM_CONTROLLERS][34];
 // Current input mask
 static uint32 g_padMask[NUM_CONTROLLERS];
 
+static uint32 g_pad[NUM_CONTROLLERS];
+
 // Controller connection mask (eg. controllers that state is Stable)
 static uint32 g_controllerConnectionMask;
 
@@ -62,19 +64,23 @@ int16 Input_Update()
 	for (index=0; index<NUM_CONTROLLERS; ++index)
 	{
 		const uint32 port = ports[index];
-		const uint8* padi = g_padBuffer[0];
+		const uint8* padi = g_padBuffer[index];
 		const uint32 padd = ~((padi[2]<<8) | (padi[3]));
 		const int32 state = PadGetState(port);
     
+		g_pad[index] = padd;
+		
 		// TODO: Revisit for correct DualShock support
 		if (state != PadStateDiscon)
 		{
-			switch((ids[index]=PadInfoMode(port,InfoModeCurID,0)))
+			ids[index] = PadInfoMode(port, InfoModeCurID, 0);
+			
+			switch(ids[index])
 			{
 			case 7:
 				if (PadInfoMode(port,InfoModeCurExID,0))
 				{
-				
+					
 				}
 				break;
 			default:
@@ -83,7 +89,7 @@ int16 Input_Update()
 				break;
 			}
 		}
-
+		
 		if (state == PadStateFindPad) {
 			hist.Send = 0;
 		}
@@ -100,14 +106,14 @@ int16 Input_Update()
 				}
 			}
 		}
-
+		
 		// At this point, we may have a connected controller
 		// Record it
 		// - CTP1 is standard controllers
 		// - State stable is for DualShock
 		// ... why is it different?
 		//
-		if ( (state == PadStateFindCTP1) || (state == PadStateStable) )
+		if ((state == PadStateFindCTP1) || (state == PadStateStable))
 		{
 			g_controllerConnectionMask |= (1 << index);
 		}
@@ -126,4 +132,10 @@ uint32 Input_GetConnectionMask()
 char* Input_GetControllerId(uint32 i_index)
 {
 	return padstr[ids[i_index]];
+}	
+
+///////////////////////////////////////////////////
+uint32 Input_GetPad(uint32 i_index)
+{
+	return g_pad[i_index];
 }
