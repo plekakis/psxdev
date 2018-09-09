@@ -5,8 +5,8 @@
 #include "../input/input.h"
 #include "../core/core.h"
 
-static SystemInitInfo* g_initInfo = NULL;
-static uint8 g_systemRunning = 1;
+SystemInitInfo* g_initInfo = NULL;
+uint8 g_systemRunning = 1;
 
 ///////////////////////////////////////////////////
 void vsync()

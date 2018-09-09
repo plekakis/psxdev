@@ -7,8 +7,8 @@ typedef struct
 	uint8 *m_next;
 }ScratchBuffer;
 
-static ScratchBuffer* g_scratchBuffers = NULL;
-static uint8 g_scratchBufferCount = 0;
+ScratchBuffer* g_scratchBuffers = NULL;
+uint8 g_scratchBufferCount = 0;
 
 #define SCRATCH_SIZE (32 * 1024)
 

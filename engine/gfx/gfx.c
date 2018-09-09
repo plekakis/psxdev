@@ -4,6 +4,18 @@
 
 #define PACKET_SIZE (1024)
 
+// Dirty flags
+typedef enum
+{
+	DF_MATRICES = 1 << 0,
+	DF_LIGHTS = 1 << 1,
+	DF_ALL = ~0
+}DIRTYFLAGS;
+uint32 g_dirtyFlags = DF_ALL;
+#define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
+#define DF_SET(x) g_dirtyFlags |= (x)
+#define DF_INV(x) g_dirtyFlags &= ~(x)
+
 #include "gfx_prim_callbacks.c"
 #include "gfx_renderstate.c"
 
@@ -21,38 +33,27 @@ typedef struct
 }FrameBuffer;
 
 // Framebuffer resources
-static FrameBuffer* g_frameBuffers;
-static FrameBuffer* g_currentFrameBuffer = NULL;
+FrameBuffer* g_frameBuffers;
+FrameBuffer* g_currentFrameBuffer = NULL;
 
-static uint32 g_frameIndex = 0ul;
+int32 g_frameIndex = 0ul;
 	
 // when high-resolution is selected, we switch to interlaced mode
-static uint8  g_bufferCount;
-static uint16 g_displayWidth;
-static uint16 g_displayHeight;
-static uint16 g_tvMode;
-static bool   g_isHighResolution;
+uint8  g_bufferCount;
+uint16 g_displayWidth;
+uint16 g_displayHeight;
+uint16 g_tvMode;
+bool   g_isHighResolution;
 
 // Other
-static CVECTOR g_clearColor;
+CVECTOR g_clearColor;
 
 // Current matrices
-static MATRIX g_defaultModelMatrix;
-static MATRIX g_defaultCameraMatrix;
+MATRIX g_defaultModelMatrix;
+MATRIX g_defaultCameraMatrix;
 
-static MATRIX* g_modelMatrix;
-static MATRIX* g_cameraMatrix;
-
-// Dirty flags
-typedef enum
-{
-	DF_MATRICES = 1 << 0,
-	DF_ALL		= ~0
-}DIRTYFLAGS;
-static uint32 g_dirtyFlags = DF_ALL;
-#define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
-#define DF_SET(x) g_dirtyFlags |= (x)
-#define DF_INV(x) g_dirtyFlags &= ~(x)
+MATRIX* g_modelMatrix;
+MATRIX* g_cameraMatrix;
 
 void SetDefaultMatrices()
 {
@@ -194,6 +195,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 
 	// Default renderstate & matrices
 	Gfx_SetRenderState(RS_PERSP);
+	Gfx_SetBackColor(32, 32, 32);
 
 	SetDefaultMatrices();
 	//
@@ -331,9 +333,24 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_SUBMISSION_ERROR;
 }
 
+
 ///////////////////////////////////////////////////
 void PrepareMatrices(bool i_billboard)
 {
+	if ((DF_CHK(DF_LIGHTS)) && (Gfx_GetRenderState() & RS_LIGHTING))
+	{
+		MATRIX lightRotMatrix;
+
+		// Update the local color matrix
+		SetColorMatrix(&g_rs.m_lightColors);
+
+		// Update the light vector matrix
+		MulMatrix0(&g_rs.m_lightVectors, g_modelMatrix, &lightRotMatrix);
+		SetLightMatrix(&lightRotMatrix);
+
+		DF_INV(DF_LIGHTS);
+	}
+
 	if (DF_CHK(DF_MATRICES) || i_billboard)
 	{
 		MATRIX  finalMat = *g_cameraMatrix;

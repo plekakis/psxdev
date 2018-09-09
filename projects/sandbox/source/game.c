@@ -55,7 +55,7 @@ void input()
 }
 
 void render()
-{	
+{
 	SVECTOR angZero = { 0,0,0 };
 	SVECTOR	cubeRotation = { pitch, yaw, roll };
 	SVECTOR	cubeRotation2 = { pitch * 2, yaw * 2, roll * 2 };
@@ -71,12 +71,18 @@ void render()
 	pointSprites[0].width = 32;
 	pointSprites[0].height = 32;
 	
+	Gfx_SetBackColor(16, 16, 16);
+	
+	Gfx_SetLightColor(0, 255, 255, 255);
+	Gfx_SetLightVector(0, ONE, 0, 0);
+
 	input();
 
 	Gfx_SetRenderState(RS_PERSP);
+	Gfx_SetRenderState(RS_LIGHTING);
 	//Gfx_SetRenderState(RS_FOG);
-	//Gfx_SetFogNearFar(500, 1500);
-	//Gfx_SetFogColor(128, 128, 128);
+	Gfx_SetFogNearFar(500, 1500);
+	Gfx_SetFogColor(128, 128, 128);
 
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	
@@ -141,9 +147,9 @@ void render()
 	}
 	Gfx_EndSubmission();
 
-	yaw += 10;
-	pitch += 7;
-	roll += 5;
+	yaw += 4;
+	//pitch += 7;
+	//roll += 5;
 }
 
 int main()

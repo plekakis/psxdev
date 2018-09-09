@@ -4,21 +4,21 @@
 #define NUM_CONTROLLERS ( 2u )
 
 // 2 Controllers
-static uint8 g_padBuffer[NUM_CONTROLLERS][34];
+uint8 g_padBuffer[NUM_CONTROLLERS][34];
 
 // Current input mask
-static uint32 g_padMask[NUM_CONTROLLERS];
+uint32 g_padMask[NUM_CONTROLLERS];
 
-static uint32 g_pad[NUM_CONTROLLERS];
+uint32 g_pad[NUM_CONTROLLERS];
 
 // Controller connection mask (eg. controllers that state is Stable)
-static uint32 g_controllerConnectionMask;
+uint32 g_controllerConnectionMask;
 
 // Controller ids (eg. which type of controller this index is. Standard, DualShock, mouse, etc)
-static int32 ids[NUM_CONTROLLERS];
+int32 ids[NUM_CONTROLLERS];
 
-static unsigned char align[6]={0,1,0xFF,0xFF,0xFF,0xFF};
-static struct {
+unsigned char align[6]={0,1,0xFF,0xFF,0xFF,0xFF};
+struct {
 	unsigned char Button;
 	unsigned char Lock;
 	unsigned char Motor0,Motor1;
@@ -26,7 +26,7 @@ static struct {
 } hist;
 
 /* Connected Controller Type */
-static char* padstr[] = {
+char* padstr[] = {
 	"NO CONTROLLER", "MOUSE", "NEGI-CON", "KONAMI-GUN", "STANDARD CONTROLLER",
 	"ANALOG STICK",	"NAMCO-GUN", "ANALOG CONTROLLER"
 };

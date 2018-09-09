@@ -4,9 +4,12 @@ typedef struct
 	uint32		m_flags;		// corresponds to a bitmask of RENDERSTATE
 	uint32		m_fog;			// packed near, far
 	uint32		m_fogColor;		// packed rgb color
+	uint32		m_backColor;	// packed rgb back color
+	MATRIX		m_lightColors;	// #0, #1 and #2 light colors
+	MATRIX		m_lightVectors;	// #0, #1 and #2 light vectors
 }RenderState;
 
-static RenderState g_rs;
+RenderState g_rs;
 
 ///////////////////////////////////////////////////
 uint32 Gfx_GetRenderState()
@@ -26,6 +29,30 @@ uint32 Gfx_SetRenderState(uint32 i_state)
 {
 	g_rs.m_flags |= i_state;
 	return g_rs.m_flags;
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetLightVector(uint8 i_index, uint16 i_x, uint16 i_y, uint16 i_z)
+{
+	g_rs.m_lightVectors.m[i_index][0] = i_x;
+	g_rs.m_lightVectors.m[i_index][1] = i_y;
+	g_rs.m_lightVectors.m[i_index][2] = i_z;
+
+	DF_SET(DF_LIGHTS);
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetLightColor(uint8 i_index, uint32 i_red, uint32 i_green, uint32 i_blue)
+{
+	float r = (float)i_red / 255.0f;
+	float g = (float)i_green / 255.0f;
+	float b = (float)i_blue / 255.0f;
+
+	g_rs.m_lightColors.m[0][i_index] = (int16)(r * ONE);
+	g_rs.m_lightColors.m[1][i_index] = (int16)(g * ONE);
+	g_rs.m_lightColors.m[2][i_index] = (int16)(b * ONE);
+
+	DF_SET(DF_LIGHTS);
 }
 
 ///////////////////////////////////////////////////
@@ -53,4 +80,17 @@ void Gfx_SetFogColor(uint32 i_red, uint32 i_green, uint32 i_blue)
 void Gfx_GetFogColor(uint32* o_red, uint32* o_green, uint32* o_blue)
 {
 	UNPACK_RGB(g_rs.m_fogColor, o_red, o_green, o_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetBackColor(uint32 i_red, uint32 i_green, uint32 i_blue)
+{
+	g_rs.m_backColor = PACK_RGB(i_red, i_green, i_blue);
+	SetBackColor(i_red, i_green, i_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetBackColor(uint32* o_red, uint32* o_green, uint32* o_blue)
+{
+	UNPACK_RGB(g_rs.m_backColor, o_red, o_green, o_blue);
 }

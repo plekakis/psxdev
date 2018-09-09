@@ -33,7 +33,7 @@ typedef struct
 typedef struct
 {
 	SVECTOR v0, v1, v2;
-	//SVECTOR n0, n1, n2;
+	SVECTOR n0, n1, n2;
 	CVECTOR c0, c1, c2;
 }PRIM_G3;
 
@@ -47,7 +47,7 @@ typedef struct
 typedef struct
 {
 	SVECTOR v0, v1, v2;
-	//SVECTOR n0, n1, n2;
+	SVECTOR n0, n1, n2;
 	CVECTOR c0, c1, c2;
 }PRIM_GT3;
 
@@ -131,6 +131,18 @@ void Gfx_SetFogColor(uint32 i_red, uint32 i_green, uint32 i_blue);
 
 // Gets fog color
 void Gfx_GetFogColor(uint32* o_red, uint32* o_green, uint32* o_blue);
+
+// Sets the back color
+void Gfx_SetBackColor(uint32 i_red, uint32 i_green, uint32 i_blue);
+
+// Gets the back color
+void Gfx_GetBackColor(uint32* o_red, uint32* o_green, uint32* o_blue);
+
+// Sets the light vector for the specified light index
+void Gfx_SetLightVector(uint8 i_index, uint16 i_x, uint16 i_y, uint16 i_z);
+
+// Sets the light color for the specified light index
+void Gfx_SetLightColor(uint8 i_index, uint32 i_red, uint32 i_green, uint32 i_blue);
 
 // Add a primitive to the current OT
 int16 Gfx_AddPrim(uint8 i_type, void* const i_prim);

@@ -8,8 +8,8 @@ typedef enum
 	DEBUG_OVERLAY_TYPE_INPUT	= 1
 }DEBUG_OVERLAY_TYPE;
 
-static uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_INPUT;
-static char dbgText[128];
+uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_INPUT;
+char dbgText[128];
 
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay()
