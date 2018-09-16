@@ -119,19 +119,18 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 		poly->b2 = c2->b;
 
 		// Lighting first
-		// There is something wrong with this...
-		// Currently havingt he depth queue override the lighting results. As a result, gouraud triangles won't get lit :(
 		if (Gfx_GetRenderState() & RS_LIGHTING)
 		{
-			NormalColorCol3(&prim->n0, &prim->n1, &prim->n2, c0, (CVECTOR*)&poly->r0, (CVECTOR*)&poly->r1, (CVECTOR*)&poly->r2);
+			NormalColorCol(&prim->n0, c0, (CVECTOR*)&poly->r0);
+			NormalColorCol(&prim->n1, c1, (CVECTOR*)&poly->r1);
+			NormalColorCol(&prim->n2, c2, (CVECTOR*)&poly->r2);
 		}
 
 		// Then depth queue
 		p = (Gfx_GetRenderState() & RS_FOG) ? p : 0;
-		//DpqColor3((CVECTOR*)&poly->r0, (CVECTOR*)&poly->r1, (CVECTOR*)&poly->r2,
-		DpqColor3(c0, c1, c2,
-				p,
-				 (CVECTOR*)&poly->r0, (CVECTOR*)&poly->r1, (CVECTOR*)&poly->r2);
+		DpqColor((CVECTOR*)&poly->r0, p, (CVECTOR*)&poly->r0);
+		DpqColor((CVECTOR*)&poly->r1, p, (CVECTOR*)&poly->r1);
+		DpqColor((CVECTOR*)&poly->r2, p, (CVECTOR*)&poly->r2);
 
 		*o_otz = otz;
 		return poly;
@@ -230,17 +229,17 @@ void AddCube_POLY_F3(void* i_data, uint32 i_size)
 	const PRIM_F3 primitives[12] = 
 	{
 		// Front
-		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,-ONE},	i_color[0] },	
-		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,-ONE},	i_color[0] },
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,ONE},	i_color[0] },	
+		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,ONE},	i_color[0] },
 		// Right
-		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{ONE,0,0},	i_color[1] },
-		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{ONE,0,0},	i_color[1] },
+		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{-ONE,0,0},	i_color[1] },
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{-ONE,0,0},	i_color[1] },
 		// Back
-		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,ONE},	i_color[2] },
-		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,ONE},	i_color[2] },
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,-ONE},	i_color[2] },
+		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,-ONE},	i_color[2] },
 		// Left
-		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{-ONE,0,0},	i_color[3] },
-		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{-ONE,0,0},	i_color[3] },
+		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{ONE,0,0},	i_color[3] },
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{ONE,0,0},	i_color[3] },
 		// Top
 		{ {-i_size, -i_size, -i_size}, {-i_size, -i_size, i_size}, {i_size, -i_size, i_size},	{0,ONE,0},	i_color[4] },
 		{ {i_size, -i_size, i_size}, {i_size, -i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,ONE,0},	i_color[4] },
@@ -265,17 +264,17 @@ void AddCube_POLY_G3(void* i_data, uint32 i_size)
 	const PRIM_G3 primitives[12] = 
 	{
 		// Front
-		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[0], i_color[1], i_color[2] },
-		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[2], i_color[3], i_color[0] },
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,ONE},	{0,0,ONE}, {0,0,ONE}, i_color[0], i_color[1], i_color[2] },
+		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,ONE},	{0,0,ONE}, {0,0,ONE}, i_color[2], i_color[3], i_color[0] },
 		// Right																									    
-		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[1], i_color[5], i_color[6] },
-		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[6], i_color[2], i_color[1] },
+		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{-ONE,0,0},	{-ONE,0,0},	{-ONE,0,0},	i_color[1], i_color[5], i_color[6] },
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{-ONE,0,0},	{-ONE,0,0},	{-ONE,0,0},	i_color[6], i_color[2], i_color[1] },
 		// Back																										    
-		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[5], i_color[4], i_color[7] },
-		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[7], i_color[6], i_color[5] },
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,-ONE},	{0,0,-ONE},	{0,0,-ONE},	i_color[5], i_color[4], i_color[7] },
+		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,-ONE},	{0,0,-ONE},	{0,0,-ONE},	i_color[7], i_color[6], i_color[5] },
 		// Left																										    
-		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[4], i_color[0], i_color[3] },
-		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[3], i_color[7], i_color[4] },
+		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{ONE,0,0},	{ONE,0,0}, {ONE,0,0}, i_color[4], i_color[0], i_color[3] },
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{ONE,0,0},	{ONE,0,0}, {ONE,0,0}, i_color[3], i_color[7], i_color[4] },
 		// Top																										    
 		{ {-i_size, -i_size, -i_size}, {-i_size, -i_size, i_size}, {i_size, -i_size, i_size},	{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[0], i_color[4], i_color[5] },
 		{ {i_size, -i_size, i_size}, {i_size, -i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[5], i_color[1], i_color[0] },

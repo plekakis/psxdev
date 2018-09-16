@@ -4,21 +4,7 @@
 
 #define PACKET_SIZE (1024)
 
-// Dirty flags
-typedef enum
-{
-	DF_MATRICES = 1 << 0,
-	DF_LIGHTS = 1 << 1,
-	DF_ALL = ~0
-}DIRTYFLAGS;
 uint32 g_dirtyFlags = DF_ALL;
-#define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
-#define DF_SET(x) g_dirtyFlags |= (x)
-#define DF_INV(x) g_dirtyFlags &= ~(x)
-
-#include "gfx_prim_callbacks.c"
-#include "gfx_renderstate.c"
-
 uint32 g_primStrides[PRIM_TYPE_MAX];
 
 // Defines a frame's buffer resource
@@ -337,17 +323,17 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 ///////////////////////////////////////////////////
 void PrepareMatrices(bool i_billboard)
 {
-	if ((DF_CHK(DF_LIGHTS)) && (Gfx_GetRenderState() & RS_LIGHTING))
+	if (DF_CHK(DF_LIGHTS | DF_MATRICES) && (Gfx_GetRenderState() & RS_LIGHTING))
 	{
 		MATRIX lightRotMatrix;
-
+		
 		// Update the local color matrix
 		SetColorMatrix(&g_rs.m_lightColors);
-
+		
 		// Update the light vector matrix
 		MulMatrix0(&g_rs.m_lightVectors, g_modelMatrix, &lightRotMatrix);
 		SetLightMatrix(&lightRotMatrix);
-
+		
 		DF_INV(DF_LIGHTS);
 	}
 

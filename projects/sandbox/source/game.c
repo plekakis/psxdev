@@ -13,6 +13,13 @@ int32 rx = 0, ry = 0, rz = 0;
 
 const uint32 g_speed = 4;
 
+CVECTOR cubeColors[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
+CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
+
+SVECTOR angZero = { 0,0,0 };
+SVECTOR	cubeRotation;
+MATRIX model2World, world2Camera;
+
 void input()
 {
 	uint32 pad = Input_GetPad(0);
@@ -54,40 +61,60 @@ void input()
 	}
 }
 
-void render()
+void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z)
 {
-	SVECTOR angZero = { 0,0,0 };
-	SVECTOR	cubeRotation = { pitch, yaw, roll };
-	SVECTOR	cubeRotation2 = { pitch * 2, yaw * 2, roll * 2 };
-	MATRIX model2World, world2Camera;
+	VECTOR v = { x, y, z };
+	RotMatrix(&cubeRotation, &model2World);
+	TransMatrix(&model2World, &v);
 
-	CVECTOR cubeColors[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
-	CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
+	Gfx_SetModelMatrix(&model2World);
+	Gfx_AddCube(type, 64, cubeColors);
+}
 
+void renderParticles()
+{
+	VECTOR	v = { 0, 0, 200 };
 	POINT_SPRITE pointSprites[2];
 	setVector(&pointSprites[0].p, 0, 0, 0);
 	setColor(&pointSprites[0].c, 255, 127, 0);
-	
+
 	pointSprites[0].width = 32;
 	pointSprites[0].height = 32;
-	
+		
+	RotMatrix(&angZero, &model2World);
+	TransMatrix(&model2World, &v);
+
+	Gfx_SetModelMatrix(&model2World);
+	Gfx_AddPointSprites(PRIM_TYPE_POLY_F3, pointSprites, 1);
+}
+
+void render()
+{	
 	Gfx_SetBackColor(16, 16, 16);
 	
 	Gfx_SetLightColor(0, 255, 255, 255);
-	Gfx_SetLightVector(0, ONE, 0, 0);
+	Gfx_SetLightVector(0, -ONE / 2, ONE / 4, ONE);
+
+	// Uncomment to enable a 2nd light pointing to the right, colour dark blue
+	//Gfx_SetLightColor(1, 0, 0, 100);
+	//Gfx_SetLightVector(1, ONE, 0, 0);
 
 	input();
 
-	Gfx_SetRenderState(RS_PERSP);
-	Gfx_SetRenderState(RS_LIGHTING);
-	//Gfx_SetRenderState(RS_FOG);
-	Gfx_SetFogNearFar(500, 1500);
-	Gfx_SetFogColor(128, 128, 128);
+	// Fog settings
+	{
+		//Gfx_SetRenderState(RS_FOG);
+		Gfx_SetFogNearFar(500, 1500);
+		Gfx_SetFogColor(128, 128, 128);
+	}	
 
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	
+	cubeRotation.vx = pitch;
+	cubeRotation.vy = yaw;
+	cubeRotation.vz = roll;
+
 	{
-#if FULL_GEOM
 		// Update and set the camera matrix
 		{
 			SVECTOR camRotation = { rx, ry, rz };
@@ -98,35 +125,25 @@ void render()
 			
 			Gfx_SetCameraMatrix(&world2Camera);
 		}
-
-		// First cube
+				
+		// Non-lit group
+		Gfx_InvalidateRenderState(RS_LIGHTING);
 		{
-			VECTOR	v = { -128, 0, 256 };
-			RotMatrix(&cubeRotation, &model2World);
-			TransMatrix(&model2World, &v);
-
-			Gfx_SetModelMatrix(&model2World);
-			Gfx_AddCube(PRIM_TYPE_POLY_F3, 64, cubeColors);
+			renderCube(PRIM_TYPE_POLY_F3 , -512, 0, 256);
+			renderCube(PRIM_TYPE_POLY_G3, -256, 0, 256);
 		}
 
-		// Second cube
+		// Lit group
+		Gfx_SetRenderState(RS_LIGHTING);
 		{
-			VECTOR	v = { 128, 0, 256 };
-			RotMatrix(&cubeRotation2, &model2World);
-			TransMatrix(&model2World, &v);
-
-			Gfx_SetModelMatrix(&model2World);
-			Gfx_AddCube(PRIM_TYPE_POLY_G3, 64, cubeColors);
+			renderCube(PRIM_TYPE_POLY_F3, 256, 0, 256);
+			renderCube(PRIM_TYPE_POLY_G3, 512, 0, 256);
 		}
-#endif // FULL_GEOM
+
 		// Point sprites
+		Gfx_InvalidateRenderState(RS_LIGHTING);
 		{
-			VECTOR	v = { 0, 0, 200 };
-			RotMatrix(&angZero, &model2World);
-			TransMatrix(&model2World, &v);
-
-			Gfx_SetModelMatrix(&model2World);
-			Gfx_AddPointSprites(PRIM_TYPE_POLY_F3, pointSprites, 1);
+			renderParticles();
 		}
 	}
 #if PLANE_ON_OV
@@ -147,9 +164,9 @@ void render()
 	}
 	Gfx_EndSubmission();
 
-	yaw += 4;
-	//pitch += 7;
-	//roll += 5;
+	yaw += 12;
+	pitch += 12;
+	roll += 12;		
 }
 
 int main()

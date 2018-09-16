@@ -13,6 +13,18 @@
 #define setColor(c, _r, _g, _b) \
 	(c)->r = _r, (c)->g = _g, (c)->b = _b	
 
+// Dirty flags
+typedef enum
+{
+	DF_MATRICES = 1 << 0,
+	DF_LIGHTS = 1 << 1,
+	DF_ALL = ~0
+}DIRTYFLAGS;
+extern uint32 g_dirtyFlags;
+#define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
+#define DF_SET(x) g_dirtyFlags |= (x)
+#define DF_INV(x) g_dirtyFlags &= ~(x)
+
 // Polies
 typedef enum
 {
