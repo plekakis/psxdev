@@ -39,7 +39,7 @@ typedef struct
 {
 	SVECTOR v0, v1, v2;
 	SVECTOR n0;
-	CVECTOR c;
+	CVECTOR c0;
 }PRIM_F3;
 
 typedef struct
@@ -53,7 +53,7 @@ typedef struct
 {
 	SVECTOR v0, v1, v2;
 	SVECTOR n0;
-	CVECTOR c;
+	CVECTOR c0;
 }PRIM_FT3;
 
 typedef struct
@@ -85,9 +85,10 @@ typedef enum
 // Renderstate flags
 typedef enum
 {
-	RS_PERSP	= 1 << 0,
-	RS_FOG		= 1 << 1,
-	RS_LIGHTING = 1 << 2
+	RS_PERSP		= 1 << 0,
+	RS_FOG			= 1 << 1,
+	RS_LIGHTING		= 1 << 2,
+	RS_TEXTURING	= 1 << 3
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)

@@ -11,61 +11,82 @@ void InitAddPointSprCallbacks();
 
 #define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
 
+#define DECL_PRIM_DATA(type) \
+	int32	p, flg, otz, valid; \
+	PRIM_## type* prim = (PRIM_## type*)i_prim; \
+	POLY_## type* poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type), 4); \
+	SetPoly## type(poly);
+
+#define TRANSFORM_PRIM \
+	if (Gfx_GetRenderState() & RS_PERSP) \
+	{ \
+		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2, \
+			(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2, \
+			&p, \
+			&otz, \
+			&flg); \
+	} \
+	else \
+	{ \
+		setXY3(poly, prim->v0.vx, prim->v0.vy, \
+			prim->v1.vx, prim->v1.vy, \
+			prim->v2.vx, prim->v2.vy \
+		); \
+	}
+
+#define DECL_PRIM_COL(index) CVECTOR* c## index = &prim->c## index
+
+#define INIT_POLY_COL(index) \
+	(c## index)->cd = poly->code; \
+	poly->r## index = (c## index)->r; \
+	poly->g## index = (c## index)->g; \
+	poly->b## index = (c## index)->b;
+
+#define BEGIN_LIGHTING if (Gfx_GetRenderState() & RS_LIGHTING) {
+#define DO_LIGHTING(index) NormalColorCol(&prim->n## index, c## index, (CVECTOR*)&poly->r## index)
+#define END_LIGHTING }
+
+#define BEGIN_DQ if (Gfx_GetRenderState() & RS_FOG) {
+#define DO_DQ(index) DpqColor((CVECTOR*)&poly->r## index, p, (CVECTOR*)&poly->r## index)
+#define END_DQ }
+
+#define BEGIN_PRIM_PREP \
+	if (PRIMVALID(otz, valid)) \
+	{
+
+#define END_PRIM_PREP \
+		*o_otz = otz; \
+		return poly; \
+	} \
+	return NULL;
+
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 {
-	int32	p, flg, otz, valid=0;
-	PRIM_F3* prim = (PRIM_F3*)i_prim;
-	POLY_F3* poly = (POLY_F3*)Gfx_Alloc(sizeof(POLY_F3), 4);
+	DECL_PRIM_DATA(F3);
+
+	TRANSFORM_PRIM;
+
+	BEGIN_PRIM_PREP
 	
-	SetPolyF3(poly);
+		DECL_PRIM_COL(0);
+		INIT_POLY_COL(0);
+		
+		BEGIN_LIGHTING;
+			DO_LIGHTING(0);
+		END_LIGHTING;
 
-	if (Gfx_GetRenderState() & RS_PERSP)
-	{
-		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
-				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
-				&p, 
-				&otz,
-				&flg);		
-	}
-	else
-	{
-		setXY3(poly, prim->v0.vx, prim->v0.vy,
-				prim->v1.vx, prim->v1.vy,
-				prim->v2.vx, prim->v2.vy
-				);
-	}
+		BEGIN_DQ;
+			DO_DQ(0);
+		END_DQ;
 
-	if (PRIMVALID(otz, valid))
-	{	
-		CVECTOR* c = &prim->c;
-		c->cd = poly->code;
-
-		poly->r0 = c->r;
-		poly->g0 = c->g;
-		poly->b0 = c->b;
-
-		// Lighting first
-		if (Gfx_GetRenderState() & RS_LIGHTING)
-		{			
-			NormalColorCol(&prim->n0, c, (CVECTOR*)&poly->r0);
-		}
-
-		// Then depth queue
-		p = (Gfx_GetRenderState() & RS_FOG) ? p : 0;
-		DpqColor((CVECTOR*)&poly->r0, p, (CVECTOR*)&poly->r0);
-
-		*o_otz = otz;
-		return poly;
-	}
-    return NULL;
+	END_PRIM_PREP 
 }
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 {
-	POLY_FT3* poly = (POLY_FT3*)i_prim;
-	SetPolyFT3(poly);
+	DECL_PRIM_DATA(FT3);
 
 	*o_otz = 0;
 	return poly;
@@ -74,74 +95,42 @@ void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 {
-	int32	p, flg, otz, valid;
-	PRIM_G3* prim = (PRIM_G3*)i_prim;
-	POLY_G3* poly = (POLY_G3*)Gfx_Alloc(sizeof(POLY_G3), 4);
-			
-	SetPolyG3(poly);
+	DECL_PRIM_DATA(G3);
 	
-	if (Gfx_GetRenderState() & RS_PERSP)
-	{
-		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2,
-				(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2,
-				&p,
-				&otz,
-				&flg);
-	}
-	else
-	{
-		setXY3(poly, prim->v0.vx, prim->v0.vy,
-				prim->v1.vx, prim->v1.vy,
-				prim->v2.vx, prim->v2.vy
-				);
-	}
+	TRANSFORM_PRIM;
 
-	if (PRIMVALID(otz, valid))
-	{
-		CVECTOR* c0 = &prim->c0;
-		CVECTOR* c1 = &prim->c1;
-		CVECTOR* c2 = &prim->c2;
+	BEGIN_PRIM_PREP
 
-		c0->cd = poly->code;
-		c1->cd = poly->code;
-		c2->cd = poly->code;
+		DECL_PRIM_COL(0);
+		DECL_PRIM_COL(1);
+		DECL_PRIM_COL(2);
 
-		poly->r0 = c0->r;
-		poly->g0 = c0->g;
-		poly->b0 = c0->b;
-		
-		poly->r1 = c1->r;
-		poly->g1 = c1->g;
-		poly->b1 = c1->b;
-		
-		poly->r2 = c2->r;
-		poly->g2 = c2->g;
-		poly->b2 = c2->b;
+		INIT_POLY_COL(0);
+		INIT_POLY_COL(1);
+		INIT_POLY_COL(2);
 
 		// Lighting first
-		if (Gfx_GetRenderState() & RS_LIGHTING)
-		{
-			NormalColorCol(&prim->n0, c0, (CVECTOR*)&poly->r0);
-			NormalColorCol(&prim->n1, c1, (CVECTOR*)&poly->r1);
-			NormalColorCol(&prim->n2, c2, (CVECTOR*)&poly->r2);
-		}
+		BEGIN_LIGHTING;
+			DO_LIGHTING(0);
+			DO_LIGHTING(1);
+			DO_LIGHTING(2);
+		END_LIGHTING;
 
 		// Then depth queue
-		p = (Gfx_GetRenderState() & RS_FOG) ? p : 0;
-		DpqColor((CVECTOR*)&poly->r0, p, (CVECTOR*)&poly->r0);
-		DpqColor((CVECTOR*)&poly->r1, p, (CVECTOR*)&poly->r1);
-		DpqColor((CVECTOR*)&poly->r2, p, (CVECTOR*)&poly->r2);
+		BEGIN_DQ;
+			DO_DQ(0);
+			DO_DQ(1);
+			DO_DQ(2);
+		END_DQ;	
 
-		*o_otz = otz;
-		return poly;
-	}
-    return NULL;
+	END_PRIM_PREP
 }
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz)
 {
-	
+	DECL_PRIM_DATA(GT3);
+
 	return NULL;
 }
 
@@ -301,12 +290,15 @@ void InitAddCubeCallbacks()
 	fncAddCube[PRIM_TYPE_POLY_GT3] = &AddCube_POLY_GT3;
 }
 
+#define DECL_PLANE_DATA \
+	const CVECTOR *i_color = (CVECTOR*)i_data; \
+	const uint32 halfWidth = i_width >> 1; \
+	const uint32 halfHeight = i_height >> 1
+
 ///////////////////////////////////////////////////
 void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height)
 {
-	const CVECTOR *i_color = (CVECTOR*)i_data;
-	const uint32 halfWidth = i_width >> 1;
-	const uint32 halfHeight = i_height >> 1;
+	DECL_PLANE_DATA;
 
 	const PRIM_F3 primitives[2] = 
 	{
@@ -327,9 +319,7 @@ void AddPlane_POLY_FT3(void* i_data, uint32 i_width, uint32 i_height)
 ///////////////////////////////////////////////////
 void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height)
 {
-	const CVECTOR *i_color = (CVECTOR*)i_data;
-	const uint32 halfWidth = i_width >> 1;
-	const uint32 halfHeight = i_height >> 1;
+	DECL_PLANE_DATA;
 
 	const PRIM_G3 primitives[2] = 
 	{
