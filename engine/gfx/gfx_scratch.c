@@ -80,7 +80,7 @@ int16 Gfx_FreeScratch(uint8 i_frameBufferIndex)
 void* Gfx_Alloc(uint32 i_bytes, uint32 i_alignment)
 {	
 	ScratchBuffer* buffer = &g_scratchBuffers[Gfx_GetFrameBufferIndex()];
-	buffer->m_next = AlignPtr(buffer->m_next, i_alignment);
+	buffer->m_next = ALIGN_PTR(buffer->m_next, i_alignment);
 
 	{
 		uint8 *mem = buffer->m_next;

@@ -7,8 +7,7 @@
 uint8 g_padBuffer[NUM_CONTROLLERS][34];
 
 // Current input mask
-uint32 g_padMask[NUM_CONTROLLERS];
-
+uint32 g_prevPad[NUM_CONTROLLERS];
 uint32 g_pad[NUM_CONTROLLERS];
 
 // Controller connection mask (eg. controllers that state is Stable)
@@ -40,6 +39,8 @@ int16 Input_Initialize()
 	g_controllerConnectionMask = 0u;
 
 	memset(&hist, 0, sizeof(hist));
+	memset(g_pad, 0, sizeof(uint32) * NUM_CONTROLLERS);
+	memset(g_prevPad, 0, sizeof(uint32) * NUM_CONTROLLERS);
 	
 	return E_OK;
 }
@@ -68,6 +69,7 @@ int16 Input_Update()
 		const uint32 padd = ~((padi[2]<<8) | (padi[3]));
 		const int32 state = PadGetState(port);
     
+		g_prevPad[index] = g_pad[index];
 		g_pad[index] = padd;
 		
 		// TODO: Revisit for correct DualShock support
@@ -138,4 +140,26 @@ char* Input_GetControllerId(uint32 i_index)
 uint32 Input_GetPad(uint32 i_index)
 {
 	return g_pad[i_index];
+}
+
+///////////////////////////////////////////////////
+bool Input_IsClicked(uint32 i_index, uint32 i_mask)
+{
+	return ( (g_prevPad[i_index] & i_mask) == i_mask) && ((g_pad[i_index] & i_mask) != i_mask);
+}
+
+///////////////////////////////////////////////////
+bool Input_IsClickedEx(uint32 i_index, uint32 i_prevMask, uint32 i_mask)
+{
+	const uint32 pad = g_pad[i_index];
+	const uint32 prevPad = g_prevPad[i_index];
+
+	// TODO: implement
+	return FALSE;
+}
+
+///////////////////////////////////////////////////
+bool Input_IsPressed(uint32 i_index, uint32 i_mask)
+{
+	return (g_pad[i_index] & i_mask) == i_mask;
 }

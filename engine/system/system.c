@@ -6,7 +6,7 @@
 #include "../core/core.h"
 
 SystemInitInfo* g_initInfo = NULL;
-uint8 g_systemRunning = 1;
+bool g_systemRunning = TRUE;
 
 ///////////////////////////////////////////////////
 void vsync()
@@ -61,9 +61,9 @@ int16 System_MainLoop()
 			g_initInfo->AppRenderFncPtr();
 		}
 
-#if G_DEBUG
+#if CONFIG_DEBUG
 		Debug_DrawAll();
-#endif // G_DEBUG				
+#endif // CONFIG_DEBUG				
 
         Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);								
     }

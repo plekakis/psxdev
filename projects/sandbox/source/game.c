@@ -1,5 +1,6 @@
 #include <system/system.h>
 #include <gfx/gfx.h>
+#include <util/util.h>
 
 #define PLANE_ON_OV (0)
 #define FULL_GEOM (1)
@@ -22,40 +23,39 @@ MATRIX model2World, world2Camera;
 
 void input()
 {
-	uint32 pad = Input_GetPad(0);
-	if (pad & PADLright)
+	if (Input_IsPressed(0, PADLright))
 	{
 		ry += g_speed;
 	}
-	if (pad & PADLleft)
+	if (Input_IsPressed(0, PADLleft))
 	{
 		ry -= g_speed;
 	}
-	if (pad & PADLup)
+	if (Input_IsPressed(0, PADLup))
 	{
 		rx += g_speed;
 	}
-	if (pad & PADLdown)
+	if (Input_IsPressed(0, PADLdown))
 	{
 		rx -= g_speed;
 	}
 
-	if (pad & PADRdown)
+	if (Input_IsPressed(0, PADRdown))
 	{
 		zz += g_speed;
 	}
 
-	if (pad & PADRleft)
+	if (Input_IsPressed(0, PADRleft))
 	{
 		zz -= g_speed;
 	}
 
-	if (pad & PADR1)
+	if (Input_IsPressed(0, PADR1))
 	{
 		yy += g_speed;
 	}
 
-	if (pad & PADL1)
+	if (Input_IsPressed(0, PADLright))
 	{
 		yy -= g_speed;
 	}
@@ -174,7 +174,7 @@ int main()
     SystemInitInfo sysInitInfo;
     memset(&sysInitInfo, 0, sizeof(SystemInitInfo));
 
-    sysInitInfo.m_isHighResolution  = TRUE;
+    sysInitInfo.m_isHighResolution  = FALSE;
     sysInitInfo.m_tvMode            = MODE_NTSC; // <-- TODO: Pick from BIOS
 	
 	sysInitInfo.AppRenderFncPtr = &render;

@@ -13,8 +13,6 @@
 
 #include <limits.h>
 
-#define G_DEBUG (1)
-
 // Data types
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
@@ -60,17 +58,5 @@ typedef long long				int64;
 
 #define SUCCESS(x)	((x) == E_OK)
 #define FAILURE(x)	((x) != E_OK)
-
-// Utility functions
-// memory & pointers
-void* AlignPtr(void* i_ptr, uint32 i_alignment);
-
-// Misc
-#define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x)[0] )
-#define PACK_RGB(r, g, b) ( ( (r) << 16) | ( (g) << 8) | (b) )
-#define UNPACK_RGB(v, r, g, b) { *(r) = ( (v) >> 16) & 0xff; *(g) = ( (v) >> 8) & 0xff; *(b) = (v) & 0xff; }
-
-// Counts how many bits are set
-uint32 CountBits(uint32 i_bitmask);
 
 #endif // ENGINE_H_INC

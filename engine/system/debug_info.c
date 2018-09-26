@@ -5,10 +5,11 @@
 typedef enum
 {
 	DEBUG_OVERLAY_TYPE_GFX		= 0,
-	DEBUG_OVERLAY_TYPE_INPUT	= 1
+	DEBUG_OVERLAY_TYPE_INPUT	= 1,
+	DEBUG_OVERLAY_TYPE_COUNT	= DEBUG_OVERLAY_TYPE_INPUT + 1
 }DEBUG_OVERLAY_TYPE;
 
-uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_INPUT;
+uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
 char dbgText[128];
 
 ///////////////////////////////////////////////////
@@ -22,8 +23,8 @@ void Debug_DrawGfxOverlay()
 		float scratchFree = (float)Gfx_GetFreeScratch(framebufferIndex) / 1024.0f;
 		float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
 
-		sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
-		FntPrint(dbgText);
+		//sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		FntPrint("GFX");
 	}
 }
 
@@ -31,7 +32,7 @@ void Debug_DrawGfxOverlay()
 void Debug_DrawInputOverlay()
 {
 	const uint32 inputMask = Input_GetConnectionMask();
-	const uint32 numControllers = CountBits(inputMask);
+	const uint8 numControllers = Util_CountBits32(inputMask);
 	uint32 index = 0u;
 
 	if (numControllers > 0)
@@ -39,7 +40,7 @@ void Debug_DrawInputOverlay()
 		for (index = 0; index < numControllers; ++index)
 		{
 			//sprintf(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
-			//FntPrint (dbgText);
+			FntPrint ("INPUT");
 		}
 	}
 	else
@@ -68,5 +69,17 @@ void Debug_DrawOverlay()
 ///////////////////////////////////////////////////
 void Debug_DrawAll()
 {
+	// Cycle between them
+	const uint32 baseMask = PADL1 | PADL2 | PADR1 | PADR2;
+
+	if (Input_IsClickedEx(0, baseMask | PADLright, baseMask))
+	{
+		g_debugOverlayIndex = (g_debugOverlayIndex + 1) % DEBUG_OVERLAY_TYPE_COUNT;
+	}
+	else if (Input_IsClickedEx(0, baseMask | PADLleft, baseMask))
+	{
+		g_debugOverlayIndex = (g_debugOverlayIndex == 0u) ? (DEBUG_OVERLAY_TYPE_COUNT - 1) : (g_debugOverlayIndex - 1);
+	}
+
 	Debug_DrawOverlay();	
 }
