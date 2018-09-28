@@ -70,8 +70,6 @@ void SetDefaultMatrices()
 // Timing
 #define RCntIntr      0x1000            /*Interrupt mode*/
 
-
-
 ///////////////////////////////////////////////////
 uint16 Gfx_GetDisplayWidth()
 {
@@ -161,7 +159,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
     SetDispMask(1);
 	PutDrawEnv(&g_frameBuffers[0].m_drawEnv);
 	PutDispEnv(&g_frameBuffers[0].m_dispEnv);
-	
+
 	Gfx_InitScratch(g_bufferCount);
 
 	// Initialize the callbacks for primitive submission
@@ -246,12 +244,13 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		// procedure at the timing of VSync by calling ResetGraph(1)
 		// instead of DrawSync(0)
 		ResetGraph(1);
-		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+		g_currentFrameBuffer->m_drawEnv.dfe = 0;
 	}
 	else
 	{
 		DrawSync(0);
-		
+
 		PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
 		PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
 

@@ -174,7 +174,7 @@ int main()
     SystemInitInfo sysInitInfo;
     memset(&sysInitInfo, 0, sizeof(SystemInitInfo));
 
-    sysInitInfo.m_isHighResolution  = FALSE;
+    sysInitInfo.m_isHighResolution  = TRUE;
     sysInitInfo.m_tvMode            = MODE_NTSC; // <-- TODO: Pick from BIOS
 	
 	sysInitInfo.AppRenderFncPtr = &render;

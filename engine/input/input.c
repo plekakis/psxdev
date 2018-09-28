@@ -154,8 +154,13 @@ bool Input_IsClickedEx(uint32 i_index, uint32 i_prevMask, uint32 i_mask)
 	const uint32 pad = g_pad[i_index];
 	const uint32 prevPad = g_prevPad[i_index];
 
-	// TODO: implement
-	return FALSE;
+	const uint32 common = i_prevMask & i_mask;
+	const uint32 diff = i_prevMask ^ i_mask;
+
+	bool const commonDown = ((prevPad & common) == common) && ((pad & common) == common);
+	bool const clickCondition = ((prevPad & diff) == diff) && ((pad & diff) == 0);
+
+	return commonDown && clickCondition;
 }
 
 ///////////////////////////////////////////////////

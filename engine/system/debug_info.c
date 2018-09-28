@@ -19,10 +19,11 @@ void Debug_DrawGfxOverlay()
 
 	// Scratch allocations
 	{
-		float scratchTotal = (float)Gfx_GetTotalScratch(framebufferIndex) / 1024.0f;
-		float scratchFree = (float)Gfx_GetFreeScratch(framebufferIndex) / 1024.0f;
-		float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
-
+		const float scratchTotal = (float)Gfx_GetTotalScratch(framebufferIndex) / 1024.0f;
+		const float scratchFree = (float)Gfx_GetFreeScratch(framebufferIndex) / 1024.0f;
+		const float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
+		
+		// This seems to be corrupting the stack. The normal sprintf does not. Why?
 		//sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
 		FntPrint("GFX");
 	}
@@ -70,7 +71,7 @@ void Debug_DrawOverlay()
 void Debug_DrawAll()
 {
 	// Cycle between them
-	const uint32 baseMask = PADL1 | PADL2 | PADR1 | PADR2;
+	const uint32 baseMask = PADL1 | PADR1 | PADL2 | PADR2;
 
 	if (Input_IsClickedEx(0, baseMask | PADLright, baseMask))
 	{
