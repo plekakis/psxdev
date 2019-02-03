@@ -1,15 +1,14 @@
 #include "core.h"
 
-uint32 __ramsize    = 0x00200000; // force 2MB of RAM
-uint32 __stacksize  = 0x00004000; // force 16KB of stack
-
-uint32 g_ram_start	= 0x8001d800;
-uint32 g_ram_end	= 0x801f8000;
+uint32 g_ram_start	= 0x80100000;
+uint32 g_ram_size = 2 * 1024 * 1024;
 
 ///////////////////////////////////////////////////
 int16 Core_Initialize()
 {
-	InitHeap3((void*)g_ram_start, (g_ram_end - g_ram_start));
+	EnterCriticalSection();
+	InitHeap3((void*)g_ram_start, g_ram_size);
+	ExitCriticalSection();
 
 	return E_OK;
 }

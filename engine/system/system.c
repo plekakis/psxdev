@@ -27,7 +27,7 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	Core_Initialize();
 
     // Initialize graphics
-    Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode);
+    Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode, i_info->m_gfxScratchSizeInBytes);
 
 	// Initialize input
 	Input_Initialize();

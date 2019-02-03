@@ -11,12 +11,17 @@
 #define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x)[0] )
 
 // Pointer macros & functions
-#define ALIGN_PTR(ptr, alignment) ((void*)( ((uint32)(ptr) + ((alignment) - 1)) & ~((alignment) - 1)));
+uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
 
 // Bit macros & functions
 uint8 Util_CountBits8(uint8 i_bitmask);
 uint8 Util_CountBits16(uint16 i_bitmask);
 uint8 Util_CountBits32(uint32 i_bitmask);
+
+// Random number functions
+#define RAND_MAX (0x7fff)
+
+#define RAND_RANGE(type, min, max) (rand() % ((max) + 1 - (min)) + (min))
 
 // Some macros & functions potentially missing from GTE lib
 #define setColor(c, _r, _g, _b) \

@@ -11,6 +11,7 @@ typedef struct
     void (*AppShutdownFncPtr)();
 
     bool    m_isHighResolution;
+	uint32  m_gfxScratchSizeInBytes;
     uint8   m_tvMode;
 }SystemInitInfo;
 

@@ -10,13 +10,11 @@ typedef struct
 ScratchBuffer* g_scratchBuffers = NULL;
 uint8 g_scratchBufferCount = 0;
 
-#define SCRATCH_SIZE (32 * 1024)
-
 ///////////////////////////////////////////////////
-int16 Gfx_InitScratch(uint8 i_frameBufferCount)
+int16 Gfx_InitScratch(uint8 i_frameBufferCount, uint32 i_gfxScratchSizeInBytes)
 {
 	uint8	index;
-	uint32	scratchSize = SCRATCH_SIZE;
+	uint32	scratchSize = i_gfxScratchSizeInBytes;
 	g_scratchBufferCount = i_frameBufferCount;
 
 	g_scratchBuffers = (ScratchBuffer*)malloc3(sizeof(ScratchBuffer) * g_scratchBufferCount);
@@ -32,6 +30,8 @@ int16 Gfx_InitScratch(uint8 i_frameBufferCount)
 		buffer->m_start = (uint8*)malloc3(scratchSize);
 		buffer->m_end = ((uint8*)buffer->m_start) + scratchSize;
 		buffer->m_next = buffer->m_start;
+
+		memset(buffer->m_start, 0xbabababa, scratchSize);
 	}
 
 	return E_OK;
@@ -80,8 +80,7 @@ int16 Gfx_FreeScratch(uint8 i_frameBufferIndex)
 void* Gfx_Alloc(uint32 i_bytes, uint32 i_alignment)
 {	
 	ScratchBuffer* buffer = &g_scratchBuffers[Gfx_GetFrameBufferIndex()];
-	buffer->m_next = ALIGN_PTR(buffer->m_next, i_alignment);
-
+	buffer->m_next = Util_AlignPtr(buffer->m_next, i_alignment);
 	{
 		uint8 *mem = buffer->m_next;
 		uint8* next = mem + i_bytes;

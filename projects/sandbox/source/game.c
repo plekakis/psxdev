@@ -14,7 +14,8 @@ int32 rx = 0, ry = 0, rz = 0;
 
 const uint32 g_speed = 4;
 
-CVECTOR cubeColors[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
+CVECTOR cubeColors1[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
+CVECTOR cubeColors2[8] = { { 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 0 },{ 255, 255, 0 },{ 255, 0, 255 },{ 255, 0, 255 },{ 0, 128, 128 },{ 64, 0, 128 } };
 CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
 
 SVECTOR angZero = { 0,0,0 };
@@ -61,14 +62,14 @@ void input()
 	}
 }
 
-void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z)
+void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, CVECTOR* colors)
 {
 	VECTOR v = { x, y, z };
 	RotMatrix(&cubeRotation, &model2World);
 	TransMatrix(&model2World, &v);
 
 	Gfx_SetModelMatrix(&model2World);
-	Gfx_AddCube(type, 64, cubeColors);
+	Gfx_AddCube(type, 64, colors);
 }
 
 void renderParticles()
@@ -129,21 +130,27 @@ void render()
 		// Non-lit group
 		Gfx_InvalidateRenderState(RS_LIGHTING);
 		{
-			renderCube(PRIM_TYPE_POLY_F3 , -512, 0, 256);
-			renderCube(PRIM_TYPE_POLY_G3, -256, 0, 256);
+			renderCube(PRIM_TYPE_POLY_F3, -512, 0, 256, cubeColors1);
+			renderCube(PRIM_TYPE_POLY_G3, -256, 0, 256, cubeColors1);
+						
+			renderCube(PRIM_TYPE_POLY_F3, -512, -256, 256, cubeColors2);
+			renderCube(PRIM_TYPE_POLY_G3, -256, -256, 256, cubeColors2);
 		}
 
 		// Lit group
 		Gfx_SetRenderState(RS_LIGHTING);
 		{
-			renderCube(PRIM_TYPE_POLY_F3, 256, 0, 256);
-			renderCube(PRIM_TYPE_POLY_G3, 512, 0, 256);
+			renderCube(PRIM_TYPE_POLY_F3, 256, 0, 256, cubeColors1);
+			renderCube(PRIM_TYPE_POLY_G3, 512, 0, 256, cubeColors1);
+
+			renderCube(PRIM_TYPE_POLY_F3, 256, -256, 256, cubeColors2);
+			renderCube(PRIM_TYPE_POLY_G3, 512, -256, 256, cubeColors2);
 		}
 
 		// Point sprites
 		Gfx_InvalidateRenderState(RS_LIGHTING);
 		{
-			renderParticles();
+			//renderParticles();
 		}
 	}
 #if PLANE_ON_OV
@@ -175,7 +182,8 @@ int main()
     memset(&sysInitInfo, 0, sizeof(SystemInitInfo));
 
     sysInitInfo.m_isHighResolution  = TRUE;
-    sysInitInfo.m_tvMode            = MODE_NTSC; // <-- TODO: Pick from BIOS
+	sysInitInfo.m_gfxScratchSizeInBytes = 128 * 1024;
+    sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC; // <-- TODO: Pick from BIOS
 	
 	sysInitInfo.AppRenderFncPtr = &render;
 

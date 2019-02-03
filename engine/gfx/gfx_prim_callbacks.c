@@ -2,6 +2,8 @@
 // BASIC PRIMITIVE TYPES
 ///////////////////////////////////////////////////
 
+DIVPOLYGON3 divp;
+
 // Callbacks for primitive submission, one per type
 void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, int32*);
 void InitAddPrimCallbacks();
@@ -12,9 +14,9 @@ void InitAddPointSprCallbacks();
 #define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
 
 #define DECL_PRIM_DATA(type) \
-	int32	p, flg, otz, valid; \
+	int32	p, flg, otz, valid, hasprim=FALSE, submit=FALSE; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \
-	POLY_## type* poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type), 4); \
+	POLY_## type* poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * ((1 << divp.ndiv) << divp.ndiv), 4); \
 	SetPoly## type(poly);
 
 #define TRANSFORM_PRIM \
@@ -51,36 +53,64 @@ void InitAddPointSprCallbacks();
 #define END_DQ }
 
 #define BEGIN_PRIM_PREP \
-	if (PRIMVALID(otz, valid)) \
-	{
+	if (divp.ndiv == 0) \
+	{ \
+		if (PRIMVALID(otz, valid)) \
+		{ \
+			*o_otz = otz; \
+			hasprim = TRUE; \
+			submit = TRUE; \
+		} \
+	} \
+	else \
+	{ \
+		hasprim = TRUE; \
+	}
+
+#define PRIMDIV_G3 \
+	if (divp.ndiv != 0) \
+	{ \
+		poly = (POLY_G3*)DivideG3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, &poly->r1, &poly->r2, poly, Gfx_GetCurrentOT() + otz, &divp); \
+	}
+
+#define PRIMDIV_F3 \
+	if (divp.ndiv != 0) \
+	{ \
+		poly = (POLY_F3*)DivideF3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, &divp); \
+	}
 
 #define END_PRIM_PREP \
-		*o_otz = otz; \
-		return poly; \
-	} \
-	return NULL;
+	return submit ? poly : NULL;
+
+#define BEGIN_PRIM_WORK \
+	if (hasprim) \
+	{
+
+#define END_PRIM_WORK \
+	}
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 {
 	DECL_PRIM_DATA(F3);
-
-	TRANSFORM_PRIM;
-
-	BEGIN_PRIM_PREP
 	
-		DECL_PRIM_COL(0);
-		INIT_POLY_COL(0);
+	TRANSFORM_PRIM;
+	
+	BEGIN_PRIM_PREP	
+		BEGIN_PRIM_WORK
+			DECL_PRIM_COL(0);
+			INIT_POLY_COL(0);
 		
-		BEGIN_LIGHTING;
-			DO_LIGHTING(0);
-		END_LIGHTING;
-
-		BEGIN_DQ;
-			DO_DQ(0);
-		END_DQ;
-
-	END_PRIM_PREP 
+			BEGIN_LIGHTING;
+				DO_LIGHTING(0);
+			END_LIGHTING;
+	
+			BEGIN_DQ;
+				DO_DQ(0);
+			END_DQ;
+		END_PRIM_WORK
+	PRIMDIV_F3
+	END_PRIM_PREP
 }
 
 ///////////////////////////////////////////////////
@@ -99,37 +129,38 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 	
 	TRANSFORM_PRIM;
 
-	BEGIN_PRIM_PREP
+	BEGIN_PRIM_PREP	
+		BEGIN_PRIM_WORK
+			DECL_PRIM_COL(0);
+			DECL_PRIM_COL(1);
+			DECL_PRIM_COL(2);
 
-		DECL_PRIM_COL(0);
-		DECL_PRIM_COL(1);
-		DECL_PRIM_COL(2);
+			INIT_POLY_COL(0);
+			INIT_POLY_COL(1);
+			INIT_POLY_COL(2);
 
-		INIT_POLY_COL(0);
-		INIT_POLY_COL(1);
-		INIT_POLY_COL(2);
+			// Lighting first
+			BEGIN_LIGHTING;
+				DO_LIGHTING(0);
+				DO_LIGHTING(1);
+				DO_LIGHTING(2);
+			END_LIGHTING;
 
-		// Lighting first
-		BEGIN_LIGHTING;
-			DO_LIGHTING(0);
-			DO_LIGHTING(1);
-			DO_LIGHTING(2);
-		END_LIGHTING;
-
-		// Then depth queue
-		BEGIN_DQ;
-			DO_DQ(0);
-			DO_DQ(1);
-			DO_DQ(2);
-		END_DQ;	
-
+			// Then depth queue
+			BEGIN_DQ;
+				DO_DQ(0);
+				DO_DQ(1);
+				DO_DQ(2);
+			END_DQ;
+		END_PRIM_WORK
+	PRIMDIV_G3
 	END_PRIM_PREP
 }
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_DATA(GT3);
+	//DECL_PRIM_DATA(GT3);
 
 	return NULL;
 }
@@ -344,4 +375,17 @@ void InitAddPlaneCallbacks()
 	fncAddPlane[PRIM_TYPE_POLY_FT3] = &AddPlane_POLY_FT3;
 	fncAddPlane[PRIM_TYPE_POLY_G3] = &AddPlane_POLY_G3;
 	fncAddPlane[PRIM_TYPE_POLY_GT3] = &AddPlane_POLY_GT3;
+}
+
+///////////////////////////////////////////////////
+void InitPrimCallbacks()
+{
+	InitAddPrimCallbacks();
+	InitAddPointSprCallbacks();
+	InitAddCubeCallbacks();
+	InitAddPlaneCallbacks();
+
+	divp.ndiv = 2;			/* divide depth */
+	divp.pih = Gfx_GetDisplayWidth();			/* horizontal resolution */
+	divp.piv = Gfx_GetDisplayHeight();			/* vertical resolution */
 }

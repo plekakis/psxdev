@@ -1,5 +1,13 @@
 #include "util.h"
 
+///////////////////////////////////////////////////
+uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment)
+{
+	uint32 alignmentMinus1 = i_alignment - 1;
+	return (uint8*)( ((uint32)i_ptr + alignmentMinus1) & ~alignmentMinus1);
+}
+
+///////////////////////////////////////////////////
 #define COUNT_BITS(type, length, bitmask) \
 	type pos = 0u;\
 	uint8 count = 0u;\

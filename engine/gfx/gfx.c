@@ -22,6 +22,8 @@ typedef struct
 FrameBuffer* g_frameBuffers;
 FrameBuffer* g_currentFrameBuffer = NULL;
 
+uint8	g_currentSubmissionOTIndex = ~0;
+
 int32 g_frameIndex = 0ul;
 	
 // when high-resolution is selected, we switch to interlaced mode
@@ -41,6 +43,7 @@ MATRIX g_defaultCameraMatrix;
 MATRIX* g_modelMatrix;
 MATRIX* g_cameraMatrix;
 
+///////////////////////////////////////////////////
 void SetDefaultMatrices()
 {
 	// Model
@@ -71,6 +74,12 @@ void SetDefaultMatrices()
 #define RCntIntr      0x1000            /*Interrupt mode*/
 
 ///////////////////////////////////////////////////
+uint32* Gfx_GetCurrentOT()
+{
+	return g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex];
+}
+
+///////////////////////////////////////////////////
 uint16 Gfx_GetDisplayWidth()
 {
 	return g_displayWidth;
@@ -95,7 +104,7 @@ uint8 Gfx_GetTvMode()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratchSizeInBytes)
 {
     uint16 index = 0;
 
@@ -160,13 +169,10 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode)
 	PutDrawEnv(&g_frameBuffers[0].m_drawEnv);
 	PutDispEnv(&g_frameBuffers[0].m_dispEnv);
 
-	Gfx_InitScratch(g_bufferCount);
+	Gfx_InitScratch(g_bufferCount, i_gfxScratchSizeInBytes);
 
 	// Initialize the callbacks for primitive submission
-	InitAddPrimCallbacks();
-	InitAddPointSprCallbacks();
-	InitAddCubeCallbacks();
-	InitAddPlaneCallbacks();
+	InitPrimCallbacks();
 
 	//
 	// Populate the strides for the primitive types
@@ -304,7 +310,6 @@ void Gfx_SetClearColor(CVECTOR* const i_color)
 ///////////////////////////////////////////////////
 // PRIMITIVE SUBMISSION
 ///////////////////////////////////////////////////
-uint8	g_currentSubmissionOTIndex = ~0;
 
 ///////////////////////////////////////////////////
 int16 Gfx_BeginSubmission(uint8 i_layer)
@@ -390,7 +395,7 @@ int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 	primmem = fncAddPrim[i_type](i_prim, &otz);
 	if (primmem)
 	{
-		AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);		
+		AddPrim(Gfx_GetCurrentOT() + otz, primmem);
 	}
 	
 	return E_OK;
@@ -453,7 +458,7 @@ int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32
 		
 		if (primmem)
 		{
-			AddPrim(g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex] + otz, primmem);
+			AddPrim(Gfx_GetCurrentOT() + otz, primmem);
 		}
 	}
 

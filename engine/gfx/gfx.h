@@ -9,6 +9,16 @@
 #define FG_OT_LENGTH (MAX_OT_LENGTH)
 #define OV_OT_LENGTH (1 << 2)
 
+// POLY sizes as u_longs
+#define	POLY_F3_size	(sizeof(POLY_F3)+3)/4
+#define	POLY_F4_size	(sizeof(POLY_F4)+3)/4
+#define	POLY_FT3_size	(sizeof(POLY_FT3)+3)/4
+#define POLY_FT4_size	(sizeof(POLY_FT4)+3)/4
+#define	POLY_G3_size	(sizeof(POLY_G3)+3)/4
+#define	POLY_G4_size	(sizeof(POLY_G4)+3)/4
+#define	POLY_GT3_size	(sizeof(POLY_GT3)+3)/4
+#define POLY_GT4_size	(sizeof(POLY_GT4)+3)/4
+
 // Dirty flags
 typedef enum
 {
@@ -88,7 +98,7 @@ typedef enum
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode);
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratchSizeInBytes);
 
 // Gets the diplay width
 uint16 Gfx_GetDisplayWidth();
@@ -110,6 +120,9 @@ int16 Gfx_BeginFrame(uint32* o_cputime);
 
 // Submits all the OTs and finishes the frame's rendering to the current buffer
 int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime);
+
+// Gets the current OT (based on the current OT layer)
+uint32* Gfx_GetCurrentOT();
 
 // Begins primitive submission to the specified OT layer
 int16 Gfx_BeginSubmission(uint8 i_layer);

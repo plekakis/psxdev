@@ -10,7 +10,7 @@ typedef enum
 }DEBUG_OVERLAY_TYPE;
 
 uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
-char dbgText[128];
+char dbgText[256];
 
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay()
@@ -24,8 +24,8 @@ void Debug_DrawGfxOverlay()
 		const float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
 		
 		// This seems to be corrupting the stack. The normal sprintf does not. Why?
-		//sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
-		FntPrint("GFX");
+		sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		FntPrint(dbgText);
 	}
 }
 
@@ -40,8 +40,8 @@ void Debug_DrawInputOverlay()
 	{
 		for (index = 0; index < numControllers; ++index)
 		{
-			//sprintf(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
-			FntPrint ("INPUT");
+			sprintf(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
+			FntPrint (dbgText);
 		}
 	}
 	else

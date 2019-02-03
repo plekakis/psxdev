@@ -2,7 +2,7 @@
 #define GFX_SCRATCH_H_INC
 
 // Initialise a scratch buffer per framebuffer
-int16 Gfx_InitScratch(uint8 i_framebufferIndex);
+int16 Gfx_InitScratch(uint8 i_framebufferIndex, uint32 i_gfxScratchSizeInBytes);
 
 // Free the scratch buffers
 int16 Gfx_FreeScratch(uint8 i_frameBufferIndex);
