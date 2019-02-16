@@ -12,3 +12,4 @@ $oldPath = [Environment]::GetEnvironmentVariable('path', 'User');
 [Environment]::SetEnvironmentVariable('C_LIBRARY_PATH', "$($currentLoc)\psyq\lib",'User');
 [Environment]::SetEnvironmentVariable('PSYQ_PATH', "$($currentLoc)\psyq\bin",'User');
 [Environment]::SetEnvironmentVariable('PSX_PATH', "$($currentLoc)\psyq\bin",'User');
+[Environment]::SetEnvironmentVariable('PSXDEV_PATH', "$($currentLoc)",'User');
