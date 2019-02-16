@@ -13,6 +13,8 @@
 // Pointer macros & functions
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
 
+void Util_MemZero(void* i_ptr, uint32 i_size);
+
 // Bit macros & functions
 uint8 Util_CountBits8(uint8 i_bitmask);
 uint8 Util_CountBits16(uint16 i_bitmask);

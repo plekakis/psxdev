@@ -64,9 +64,9 @@ int16 System_MainLoop()
 			g_initInfo->AppRenderFncPtr();
 		}
 
-#if CONFIG_DEBUG
+#if !CONFIG_FINAL
 		Debug_DrawAll();
-#endif // CONFIG_DEBUG				
+#endif // !CONFIG_FINAL
 
         Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);								
     }

@@ -58,6 +58,7 @@
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.txtAllArgs = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -96,8 +97,10 @@
             this.cmbConfiguration.Items.AddRange(new object[] {
             "Debug EMU",
             "Release EMU",
+            "Final EMU",
             "Debug PSX",
-            "Release PSX"});
+            "Release PSX",
+            "Final PSX"});
             this.cmbConfiguration.Location = new System.Drawing.Point(455, 25);
             this.cmbConfiguration.Name = "cmbConfiguration";
             this.cmbConfiguration.Size = new System.Drawing.Size(181, 21);
@@ -134,6 +137,7 @@
             // 
             // grpBuildSettings
             // 
+            this.grpBuildSettings.Controls.Add(this.txtAllArgs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalIncDirs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalLibDirs);
             this.grpBuildSettings.Controls.Add(this.label7);
@@ -149,7 +153,7 @@
             this.grpBuildSettings.Controls.Add(this.label3);
             this.grpBuildSettings.Location = new System.Drawing.Point(12, 169);
             this.grpBuildSettings.Name = "grpBuildSettings";
-            this.grpBuildSettings.Size = new System.Drawing.Size(662, 184);
+            this.grpBuildSettings.Size = new System.Drawing.Size(662, 297);
             this.grpBuildSettings.TabIndex = 8;
             this.grpBuildSettings.TabStop = false;
             this.grpBuildSettings.Text = "Build Settings";
@@ -190,7 +194,7 @@
             // 
             // btnKillProcess
             // 
-            this.btnKillProcess.Location = new System.Drawing.Point(491, 152);
+            this.btnKillProcess.Location = new System.Drawing.Point(494, 255);
             this.btnKillProcess.Name = "btnKillProcess";
             this.btnKillProcess.Size = new System.Drawing.Size(103, 26);
             this.btnKillProcess.TabIndex = 14;
@@ -200,7 +204,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(382, 152);
+            this.btnRun.Location = new System.Drawing.Point(385, 255);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(103, 26);
             this.btnRun.TabIndex = 13;
@@ -210,7 +214,7 @@
             // 
             // btnBuildAndRun
             // 
-            this.btnBuildAndRun.Location = new System.Drawing.Point(273, 152);
+            this.btnBuildAndRun.Location = new System.Drawing.Point(276, 255);
             this.btnBuildAndRun.Name = "btnBuildAndRun";
             this.btnBuildAndRun.Size = new System.Drawing.Size(103, 26);
             this.btnBuildAndRun.TabIndex = 12;
@@ -220,7 +224,7 @@
             // 
             // btnBuild
             // 
-            this.btnBuild.Location = new System.Drawing.Point(164, 152);
+            this.btnBuild.Location = new System.Drawing.Point(167, 255);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(103, 26);
             this.btnBuild.TabIndex = 11;
@@ -230,7 +234,7 @@
             // 
             // btnClean
             // 
-            this.btnClean.Location = new System.Drawing.Point(55, 152);
+            this.btnClean.Location = new System.Drawing.Point(58, 255);
             this.btnClean.Name = "btnClean";
             this.btnClean.Size = new System.Drawing.Size(103, 26);
             this.btnClean.TabIndex = 10;
@@ -281,7 +285,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.txtOutput);
-            this.groupBox2.Location = new System.Drawing.Point(17, 431);
+            this.groupBox2.Location = new System.Drawing.Point(17, 544);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(661, 211);
             this.groupBox2.TabIndex = 10;
@@ -302,7 +306,7 @@
             this.groupBox3.Controls.Add(this.chkGenerateCD);
             this.groupBox3.Controls.Add(this.cmbCDLicense);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(17, 359);
+            this.groupBox3.Location = new System.Drawing.Point(17, 472);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(661, 66);
             this.groupBox3.TabIndex = 11;
@@ -355,11 +359,20 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
+            // txtAllArgs
+            // 
+            this.txtAllArgs.Location = new System.Drawing.Point(25, 155);
+            this.txtAllArgs.Multiline = true;
+            this.txtAllArgs.Name = "txtAllArgs";
+            this.txtAllArgs.ReadOnly = true;
+            this.txtAllArgs.Size = new System.Drawing.Size(611, 94);
+            this.txtAllArgs.TabIndex = 19;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 642);
+            this.ClientSize = new System.Drawing.Size(690, 767);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -413,6 +426,7 @@
         private System.Windows.Forms.TextBox txtAdditionalLibDirs;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtAllArgs;
     }
 }
 

@@ -33,9 +33,6 @@ uint16 g_displayHeight;
 uint16 g_tvMode;
 bool   g_isHighResolution;
 
-// Other
-CVECTOR g_clearColor;
-
 // Current matrices
 MATRIX g_defaultModelMatrix;
 MATRIX g_defaultCameraMatrix;
@@ -144,15 +141,9 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	// distance to viewing-screen
 	SetGeomScreen(g_displayWidth / 2);
 
-	// Default clear color to light blue
-	{
-		CVECTOR clearColor;
-		clearColor.r = 0;
-		clearColor.g = 64;
-		clearColor.b = 127;
-		Gfx_SetClearColor(&clearColor);
-	}
-
+	// Default clear color to black
+	Gfx_SetClearColor(0, 0, 0);
+	
 	// Setup all the buffer page resources
 	for (index=0; index<g_bufferCount; ++index)
     {
@@ -236,8 +227,10 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 ///////////////////////////////////////////////////
 int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 {
-	*o_cputime = GetRCnt(RCntCNT1);
+	CVECTOR clearColor;
+	Gfx_GetClearColor(&clearColor.r, &clearColor.g, &clearColor.b);
 
+	*o_cputime = GetRCnt(RCntCNT1);
 	*o_cputimeVsync = GetRCnt(RCntCNT1);
 
 	// VSync and update the drawing environment
@@ -250,7 +243,7 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		// procedure at the timing of VSync by calling ResetGraph(1)
 		// instead of DrawSync(0)
 		ResetGraph(1);
-		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+		ClearImage2(&g_currentFrameBuffer->m_drawEnv.clip, clearColor.r, clearColor.g, clearColor.b);
 		g_currentFrameBuffer->m_drawEnv.dfe = 0;
 	}
 	else
@@ -260,7 +253,7 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		PutDrawEnv(&g_currentFrameBuffer->m_drawEnv);
 		PutDispEnv(&g_currentFrameBuffer->m_dispEnv);
 
-		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, g_clearColor.r, g_clearColor.g, g_clearColor.b);
+		ClearImage(&g_currentFrameBuffer->m_drawEnv.clip, clearColor.r, clearColor.g, clearColor.b);
 	}
 
 	// Draw all the OT
@@ -297,14 +290,6 @@ int16 Gfx_Shutdown()
 	free3(g_frameBuffers);
 	g_frameBuffers = NULL;
     return E_OK;
-}
-
-///////////////////////////////////////////////////
-void Gfx_SetClearColor(CVECTOR* const i_color)
-{
-    g_clearColor.r = i_color->r;
-    g_clearColor.g = i_color->g;
-    g_clearColor.b = i_color->b;
 }
 
 ///////////////////////////////////////////////////

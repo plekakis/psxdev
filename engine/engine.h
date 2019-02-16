@@ -23,6 +23,26 @@ typedef short					int16;
 typedef long					int32;
 typedef long long				int64;
 
+#ifndef CONFIG_DEBUG
+#define CONFIG_DEBUG (0)
+#endif // CONFIG_DEBUG
+
+#ifndef CONFIG_RELEASE
+#define CONFIG_RELEASE (0)
+#endif // CONFIG_RELEASE
+
+#ifndef CONFIG_PROFILE
+#define CONFIG_PROFILE (0)
+#endif // CONFIG_PROFILE
+
+#ifndef TARGET_PSX
+#define TARGET_PSX (0)
+#endif // TARGET_PSX
+
+#ifndef TARGET_EMU
+#define TARGET_EMU (0)
+#endif // TARGET_EMU
+
 #ifndef NULL
 #define NULL (0)
 #endif // NULL

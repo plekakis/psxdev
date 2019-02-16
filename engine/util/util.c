@@ -8,6 +8,12 @@ uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment)
 }
 
 ///////////////////////////////////////////////////
+void Util_MemZero(void* i_ptr, uint32 i_size)
+{
+	memset(i_ptr, 0, i_size);
+}
+
+///////////////////////////////////////////////////
 #define COUNT_BITS(type, length, bitmask) \
 	type pos = 0u;\
 	uint8 count = 0u;\

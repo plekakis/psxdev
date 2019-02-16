@@ -4,7 +4,7 @@
 #include "../engine.h"
 #include "gfx_scratch.h"
 
-#define MAX_OT_LENGTH (1 << 12)
+#define MAX_OT_LENGTH (1 << 14)
 #define BG_OT_LENGTH (1 << 4)
 #define FG_OT_LENGTH (MAX_OT_LENGTH)
 #define OV_OT_LENGTH (1 << 2)
@@ -142,6 +142,12 @@ uint32 Gfx_InvalidateRenderState(uint32 i_state);
 // Sets the renderstate bit and returns the modified state
 uint32 Gfx_SetRenderState(uint32 i_state);
 
+// Updates clear color
+void Gfx_SetClearColor(uint8 i_red, uint8 i_green, uint8 i_blue);
+
+// Gets clear color
+void Gfx_GetClearColor(uint8* o_red, uint8* o_green, uint8* o_blue);
+
 // Sets fog near/far distances
 void Gfx_SetFogNearFar(uint32 i_near, uint32 i_far);
 
@@ -149,16 +155,16 @@ void Gfx_SetFogNearFar(uint32 i_near, uint32 i_far);
 void Gfx_GetFogNearFar(uint32* o_near, uint32* o_far);
 
 // Sets fog color
-void Gfx_SetFogColor(uint32 i_red, uint32 i_green, uint32 i_blue);
+void Gfx_SetFogColor(uint8 i_red, uint8 i_green, uint8 i_blue);
 
 // Gets fog color
-void Gfx_GetFogColor(uint32* o_red, uint32* o_green, uint32* o_blue);
+void Gfx_GetFogColor(uint8* o_red, uint8* o_green, uint8* o_blue);
 
 // Sets the back color
-void Gfx_SetBackColor(uint32 i_red, uint32 i_green, uint32 i_blue);
+void Gfx_SetBackColor(uint8 i_red, uint8 i_green, uint8 i_blue);
 
 // Gets the back color
-void Gfx_GetBackColor(uint32* o_red, uint32* o_green, uint32* o_blue);
+void Gfx_GetBackColor(uint8* o_red, uint8* o_green, uint8* o_blue);
 
 // Sets the light vector for the specified light index
 void Gfx_SetLightVector(uint8 i_index, uint16 i_x, uint16 i_y, uint16 i_z);
@@ -186,8 +192,5 @@ int16 Gfx_EndSubmission();
 
 // Shutdown the gfx subsystem
 int16 Gfx_Shutdown();
-
-// Updates clear color
-void Gfx_SetClearColor(CVECTOR* const i_color);
 
 #endif // GFX_H_INC

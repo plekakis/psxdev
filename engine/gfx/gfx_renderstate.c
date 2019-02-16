@@ -5,6 +5,7 @@ typedef struct
 	uint32		m_fog;			// packed near, far
 	uint32		m_fogColor;		// packed rgb color
 	uint32		m_backColor;	// packed rgb back color
+	uint32		m_clearColor;	// packed rgb clear color
 	MATRIX		m_lightColors;	// #0, #1 and #2 light colors
 	MATRIX		m_lightVectors;	// #0, #1 and #2 light vectors
 }RenderState;
@@ -70,27 +71,39 @@ void Gfx_GetFogNearFar(uint32* o_near, uint32* o_far)
 }
 
 ///////////////////////////////////////////////////
-void Gfx_SetFogColor(uint32 i_red, uint32 i_green, uint32 i_blue)
+void Gfx_SetFogColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 {
 	g_rs.m_fogColor = PACK_RGB(i_red, i_green, i_blue);
 	SetFarColor(i_red, i_green, i_blue);
 }
 
 ///////////////////////////////////////////////////
-void Gfx_GetFogColor(uint32* o_red, uint32* o_green, uint32* o_blue)
+void Gfx_GetFogColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 {
 	UNPACK_RGB(g_rs.m_fogColor, o_red, o_green, o_blue);
 }
 
 ///////////////////////////////////////////////////
-void Gfx_SetBackColor(uint32 i_red, uint32 i_green, uint32 i_blue)
+void Gfx_SetBackColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 {
 	g_rs.m_backColor = PACK_RGB(i_red, i_green, i_blue);
 	SetBackColor(i_red, i_green, i_blue);
 }
 
 ///////////////////////////////////////////////////
-void Gfx_GetBackColor(uint32* o_red, uint32* o_green, uint32* o_blue)
+void Gfx_GetBackColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 {
 	UNPACK_RGB(g_rs.m_backColor, o_red, o_green, o_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetClearColor(uint8 i_red, uint8 i_green, uint8 i_blue)
+{
+	g_rs.m_clearColor = PACK_RGB(i_red, i_green, i_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetClearColor(uint8* o_red, uint8* o_green, uint8* o_blue)
+{
+	UNPACK_RGB(g_rs.m_clearColor, o_red, o_green, o_blue);
 }

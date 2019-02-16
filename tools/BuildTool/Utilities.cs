@@ -10,8 +10,6 @@ namespace BuildTool
 {
     static class Utilities
     {
-
-
         /// <summary>
         /// Polls the system for LPT availability. This does not actually check if the PSX is actually connected
         /// to an LPT port
@@ -130,13 +128,23 @@ namespace BuildTool
         }
 
         /// <summary>
+        /// Checks if the specified build configuration is a release config or not.
+        /// </summary>
+        /// <param name="config">The build configuration.</param>
+        /// <returns>True if it's release, false otherwise.</returns>
+        static public bool IsReleaseConfig(BuildConfiguration config)
+        {
+            return (config == BuildConfiguration.ReleaseEMU) || (config == BuildConfiguration.ReleasePSX);
+        }
+
+        /// <summary>
         /// Checks if the specified build configuration is a PSX config or not.
         /// </summary>
         /// <param name="config">The build configuration.</param>
         /// <returns>True if it's PSX, false otherwise.</returns>
         static public bool IsPSXConfig(BuildConfiguration config)
         {
-            return (config == BuildConfiguration.DebugPSX) || (config == BuildConfiguration.ReleasePSX);
+            return !IsEMUConfig(config);
         }
 
         /// <summary>
@@ -146,7 +154,7 @@ namespace BuildTool
         /// <returns>True if it's EMU, false otherwise.</returns>
         static public bool IsEMUConfig(BuildConfiguration config)
         {
-            return (config == BuildConfiguration.DebugEMU) || (config == BuildConfiguration.ReleaseEMU);
+            return (config == BuildConfiguration.DebugEMU) || (config == BuildConfiguration.ReleaseEMU) || (config == BuildConfiguration.FinalEMU);
         }
     }
 }

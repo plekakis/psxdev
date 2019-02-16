@@ -16,7 +16,13 @@ const uint32 g_speed = 4;
 
 CVECTOR cubeColors1[8] = { { 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 0, 255, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
 CVECTOR cubeColors2[8] = { { 0, 255, 0 },{ 0, 0, 255 },{ 255, 0, 0 },{ 255, 255, 0 },{ 255, 0, 255 },{ 255, 0, 255 },{ 0, 128, 128 },{ 64, 0, 128 } };
+CVECTOR cubeColors3[8] = { { 0, 0, 255 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0, 0, 255 }, { 255, 255, 0 },{ 255, 0, 255 },{ 128, 128, 0 },{ 128, 64, 0 } };
+CVECTOR cubeColors4[8] = { { 0, 255, 255 },{ 255, 0, 255 },{ 255, 255, 0 },{ 255, 0, 255 },{ 255, 0, 255 },{ 0, 0, 255 },{ 128, 0, 128 },{ 0, 64, 128 } };
+
 CVECTOR planeColors[4] = { { 128, 128, 128 },{ 255, 0, 0 },{ 0, 255, 0 },{ 0,0,255 } };
+
+CVECTOR* cubeColors = cubeColors1;
+
 
 SVECTOR angZero = { 0,0,0 };
 SVECTOR	cubeRotation;
@@ -62,14 +68,14 @@ void input()
 	}
 }
 
-void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, CVECTOR* colors)
+void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, uint32 size, CVECTOR* colors)
 {
 	VECTOR v = { x, y, z };
 	RotMatrix(&cubeRotation, &model2World);
 	TransMatrix(&model2World, &v);
 
 	Gfx_SetModelMatrix(&model2World);
-	Gfx_AddCube(type, 64, colors);
+	Gfx_AddCube(type, size, colors);
 }
 
 void renderParticles()
@@ -91,6 +97,7 @@ void renderParticles()
 
 void render()
 {	
+	Gfx_SetClearColor(32, 32, 32);
 	Gfx_SetBackColor(16, 16, 16);
 	
 	Gfx_SetLightColor(0, 255, 255, 255);
@@ -116,6 +123,12 @@ void render()
 	cubeRotation.vz = roll;
 
 	{
+		uint32 const c_numCubes = 6;
+		uint32 const c_cubeSize = 32;
+		uint32 const c_cubeZ = 256;
+		uint32 const c_cubePad = 64;
+		uint32 cubeX = 0;
+
 		// Update and set the camera matrix
 		{
 			SVECTOR camRotation = { rx, ry, rz };
@@ -130,21 +143,31 @@ void render()
 		// Non-lit group
 		Gfx_InvalidateRenderState(RS_LIGHTING);
 		{
-			renderCube(PRIM_TYPE_POLY_F3, -512, 0, 256, cubeColors1);
-			renderCube(PRIM_TYPE_POLY_G3, -256, 0, 256, cubeColors1);
-						
-			renderCube(PRIM_TYPE_POLY_F3, -512, -256, 256, cubeColors2);
-			renderCube(PRIM_TYPE_POLY_G3, -256, -256, 256, cubeColors2);
+			uint32 cubeColorIndex = 0;
+			for (cubeX = 0; cubeX < c_numCubes; cubeX++)
+			{
+				CVECTOR* colors = cubeColors + cubeColorIndex;
+				renderCube(PRIM_TYPE_POLY_F3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, -c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, -c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
+
+				cubeColorIndex = (cubeColorIndex + 1) % 4;
+			}			
 		}
 
 		// Lit group
 		Gfx_SetRenderState(RS_LIGHTING);
 		{
-			renderCube(PRIM_TYPE_POLY_F3, 256, 0, 256, cubeColors1);
-			renderCube(PRIM_TYPE_POLY_G3, 512, 0, 256, cubeColors1);
+			uint32 cubeColorIndex = 0;
+			for (cubeX = 0; cubeX < c_numCubes; cubeX++)
+			{
+				CVECTOR* colors = cubeColors + cubeColorIndex;
+				renderCube(PRIM_TYPE_POLY_F3, c_cubePad + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, -c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, -c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
 
-			renderCube(PRIM_TYPE_POLY_F3, 256, -256, 256, cubeColors2);
-			renderCube(PRIM_TYPE_POLY_G3, 512, -256, 256, cubeColors2);
+				cubeColorIndex = (cubeColorIndex + 1) % 4;
+			}
 		}
 
 		// Point sprites
@@ -179,11 +202,11 @@ void render()
 int main()
 {
     SystemInitInfo sysInitInfo;
-    memset(&sysInitInfo, 0, sizeof(SystemInitInfo));
+    Util_MemZero(&sysInitInfo, sizeof(SystemInitInfo));
 
     sysInitInfo.m_isHighResolution  = TRUE;
 	sysInitInfo.m_gfxScratchSizeInBytes = 128 * 1024;
-    sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC; // <-- TODO: Pick from BIOS
+    sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;
 	
 	sysInitInfo.AppRenderFncPtr = &render;
 

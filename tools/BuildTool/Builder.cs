@@ -16,9 +16,11 @@ namespace BuildTool
     {
         DebugEMU,
         ReleaseEMU,
+        FinalEMU,
         DebugPSX,
         ReleasePSX,
-        ConfigCount = ReleasePSX
+        FinalPSX,
+        ConfigCount = FinalPSX
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ namespace BuildTool
         /// <param name="additionalLibDirs">An array of library directories.</param>
         /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <returns>The arguments string.</returns>
-        string GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs)
+        public string GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs)
         {
             string args = "-Xo$80010000 ";
 
@@ -106,9 +108,13 @@ namespace BuildTool
             {
                 preprocessor.Add("CONFIG_DEBUG");
             }
-            else
+            else if (Utilities.IsReleaseConfig(config))
             {
                 preprocessor.Add("CONFIG_RELEASE");
+            }
+            else
+            {
+                preprocessor.Add("CONFIG_FINAL");
             }
 
             if (Utilities.IsPSXConfig(config))

@@ -11,62 +11,94 @@ void InitAddPrimCallbacks();
 void* (*fncAddPointSpr[PRIM_TYPE_MAX])(POINT_SPRITE* const, int32*);
 void InitAddPointSprCallbacks();
 
+/*
+This is a heavily macro'ed implementation for pushing primitives to the OT. Supports:
+ - Transformation, backface culling & clipping
+ - Lighting
+ - Depth cueing
+ - Polygon division
+
+ Primitives are allocated off the Gfx scratch allocator (exception is the transform & backface cull step, this can early out and uses a POLY_XX member on the stack).
+*/
+
 #define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
 
-#define DECL_PRIM_DATA(type) \
+#define DECL_PRIM_AND_TRANSFORM(type) \
 	int32	p, flg, otz, valid, hasprim=FALSE, submit=FALSE; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \
-	POLY_## type* poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * ((1 << divp.ndiv) << divp.ndiv), 4); \
-	SetPoly## type(poly);
-
-#define TRANSFORM_PRIM \
+	POLY_## type* poly; \
+	POLY_## type temp; \
 	if (Gfx_GetRenderState() & RS_PERSP) \
 	{ \
+		/* Do a pre-transformation to do backface culling and clipped triangle checking */ \
+		/* This is important to save allocations and further processing */ \
+		int32 sxy0, sxy1, sxy2; \
+		SetPoly## type(&temp); \
 		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2, \
-			(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2, \
-			&p, \
-			&otz, \
-			&flg); \
+		(int32*)&temp.x0, (int32*)&temp.x1, (int32*)&temp.x2, \
+		&p, \
+		&otz, \
+		&flg); \
+		ReadSXSYfifo(&sxy0, &sxy1, &sxy2); \
+		if ( !PRIMVALID(otz, valid) || (NormalClip(sxy0, sxy1, sxy2) < 0)) return NULL; \
+		/* We can allocate memory for enough POLY_XX structures now. */ \
+		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * ((1 << divp.ndiv) << divp.ndiv), 4); \
+		memcpy(poly, &temp, sizeof(temp)); \
 	} \
 	else \
 	{ \
+		/* it's a screenspace primitive, we do not support division for them. Allocate one POLY_XX and fill it. */ \
+		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type), 4); \
+		SetPoly## type(poly); \
 		setXY3(poly, prim->v0.vx, prim->v0.vy, \
 			prim->v1.vx, prim->v1.vy, \
 			prim->v2.vx, prim->v2.vy \
 		); \
-	}
+	}	
 
-#define DECL_PRIM_COL(index) CVECTOR* c## index = &prim->c## index
+/* Primitive color declaration. */
+#define DECL_PRIM_COL(index) CVECTOR* c## index = &prim->c## index;
 
+/* Initialise the primitive color. This will be used in subsequent macros to handle fog & lighting. */
 #define INIT_POLY_COL(index) \
 	(c## index)->cd = poly->code; \
 	poly->r## index = (c## index)->r; \
 	poly->g## index = (c## index)->g; \
 	poly->b## index = (c## index)->b;
 
+/* Lighting: If lighting is enabled in the renderstate, interpolate the color towards the diffuse color. This expects a valid normal vector to be present on the primitive */
 #define BEGIN_LIGHTING if (Gfx_GetRenderState() & RS_LIGHTING) {
-#define DO_LIGHTING(index) NormalColorCol(&prim->n## index, c## index, (CVECTOR*)&poly->r## index)
+#define DO_LIGHTING(index) NormalColorCol(&prim->n## index, c## index, (CVECTOR*)&poly->r## index);
 #define END_LIGHTING }
 
+/* Depth cueing: If fog is enabled in the renderstate, interpolate the color towards the fog color based on the depth cue returned by the transformation. */
 #define BEGIN_DQ if (Gfx_GetRenderState() & RS_FOG) {
-#define DO_DQ(index) DpqColor((CVECTOR*)&poly->r## index, p, (CVECTOR*)&poly->r## index)
+#define DO_DQ(index) DpqColor((CVECTOR*)&poly->r## index, p, (CVECTOR*)&poly->r## index);
 #define END_DQ }
 
+/*
+Begin division:
+- If it's needed, passthrough the primitive. 
+- Otherwise, submission will be required to the OT. By this point, the primitive's otz will be valid (has been checked during transformation)
+*/
 #define BEGIN_PRIM_PREP \
-	if (divp.ndiv == 0) \
 	{ \
-		if (PRIMVALID(otz, valid)) \
+		if (divp.ndiv == 0) \
 		{ \
 			*o_otz = otz; \
 			hasprim = TRUE; \
 			submit = TRUE; \
 		} \
-	} \
-	else \
-	{ \
-		hasprim = TRUE; \
+		else \
+		{ \
+			hasprim = TRUE; \
+		} \
 	}
 
+/*
+Division macros: Assuming poly is pointing to a memory location with a large enough allocation for the divison (check above), do the division on the GTE.
+This operation submits the primitive to the OT.
+*/
 #define PRIMDIV_G3 \
 	if (divp.ndiv != 0) \
 	{ \
@@ -79,6 +111,7 @@ void InitAddPointSprCallbacks();
 		poly = (POLY_F3*)DivideF3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, &divp); \
 	}
 
+/* Primitive submission is finished by returning either the poly address or NULL (if the primitive didn't pass various checks or it was divided). */
 #define END_PRIM_PREP \
 	return submit ? poly : NULL;
 
@@ -92,22 +125,20 @@ void InitAddPointSprCallbacks();
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_DATA(F3);
-	
-	TRANSFORM_PRIM;
+	DECL_PRIM_AND_TRANSFORM(F3)
 	
 	BEGIN_PRIM_PREP	
 		BEGIN_PRIM_WORK
-			DECL_PRIM_COL(0);
-			INIT_POLY_COL(0);
+			DECL_PRIM_COL(0)
+			INIT_POLY_COL(0)
 		
-			BEGIN_LIGHTING;
-				DO_LIGHTING(0);
-			END_LIGHTING;
+			BEGIN_LIGHTING
+				DO_LIGHTING(0)
+			END_LIGHTING
 	
-			BEGIN_DQ;
-				DO_DQ(0);
-			END_DQ;
+			BEGIN_DQ
+				DO_DQ(0)
+			END_DQ
 		END_PRIM_WORK
 	PRIMDIV_F3
 	END_PRIM_PREP
@@ -116,7 +147,7 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_DATA(FT3);
+	DECL_PRIM_AND_TRANSFORM(FT3)
 
 	*o_otz = 0;
 	return poly;
@@ -125,33 +156,31 @@ void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_DATA(G3);
+	DECL_PRIM_AND_TRANSFORM(G3)
 	
-	TRANSFORM_PRIM;
-
 	BEGIN_PRIM_PREP	
 		BEGIN_PRIM_WORK
-			DECL_PRIM_COL(0);
-			DECL_PRIM_COL(1);
-			DECL_PRIM_COL(2);
+			DECL_PRIM_COL(0)
+			DECL_PRIM_COL(1)
+			DECL_PRIM_COL(2)
 
-			INIT_POLY_COL(0);
-			INIT_POLY_COL(1);
-			INIT_POLY_COL(2);
+			INIT_POLY_COL(0)
+			INIT_POLY_COL(1)
+			INIT_POLY_COL(2)
 
 			// Lighting first
-			BEGIN_LIGHTING;
-				DO_LIGHTING(0);
-				DO_LIGHTING(1);
-				DO_LIGHTING(2);
-			END_LIGHTING;
+			BEGIN_LIGHTING
+				DO_LIGHTING(0)
+				DO_LIGHTING(1)
+				DO_LIGHTING(2)
+			END_LIGHTING
 
 			// Then depth queue
-			BEGIN_DQ;
-				DO_DQ(0);
-				DO_DQ(1);
-				DO_DQ(2);
-			END_DQ;
+			BEGIN_DQ
+				DO_DQ(0)
+				DO_DQ(1)
+				DO_DQ(2)
+			END_DQ
 		END_PRIM_WORK
 	PRIMDIV_G3
 	END_PRIM_PREP
@@ -171,8 +200,8 @@ void* AddPointSpr_POLY_F(POINT_SPRITE* const i_prim, int32* o_otz)
 	int32	p, flg, otz, valid;
 	
 	// Expand the point sprite from the centre outwards across width and height
-	int16 const halfWidth = i_prim->width / 2;
-	int16 const halfHeight = i_prim->height / 2;
+	int16 const halfWidth = i_prim->width >> 1;
+	int16 const halfHeight = i_prim->height >> 1;
 
 	SVECTOR v0 = { i_prim->p.vx - halfWidth, i_prim->p.vy - halfHeight, i_prim->p.vz };
 	SVECTOR v1 = { i_prim->p.vx + halfWidth, i_prim->p.vy - halfHeight, i_prim->p.vz };
@@ -385,7 +414,7 @@ void InitPrimCallbacks()
 	InitAddCubeCallbacks();
 	InitAddPlaneCallbacks();
 
-	divp.ndiv = 2;			/* divide depth */
+	divp.ndiv = 1;			/* divide depth */
 	divp.pih = Gfx_GetDisplayWidth();			/* horizontal resolution */
 	divp.piv = Gfx_GetDisplayHeight();			/* vertical resolution */
 }

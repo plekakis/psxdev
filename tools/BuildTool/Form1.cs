@@ -267,7 +267,7 @@ namespace BuildTool
 
             PreBuild(ref additionalPreprocessor, ref additionalLinker, ref additionalLibDirs, ref additionalIncludeDirs);
 
-            m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, m_outputStringBuilder);
+            m_currentBuilder.Build(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, m_outputStringBuilder);            
         }
 
         private void btnBuildAndRun_Click_1(object sender, EventArgs e)
@@ -334,6 +334,16 @@ namespace BuildTool
             // Update button state
             btnClean.Enabled = m_outputAvailability[(int)m_configuration];
             btnRun.Enabled = m_cdImageAvailability[(int)m_configuration]; ;
+
+            // Update the compiler arguments readonly box
+            string[] additionalPreprocessor = null;
+            string[] additionalLinker = null;
+            string[] additionalLibDirs = null;
+            string[] additionalIncludeDirs = null;
+
+            PreBuild(ref additionalPreprocessor, ref additionalLinker, ref additionalLibDirs, ref additionalIncludeDirs);
+            string args = m_currentBuilder.GetCCPSXArgs(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
+            txtAllArgs.Text = args;
         }
 
         private void cmbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
