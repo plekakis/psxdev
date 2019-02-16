@@ -4,6 +4,7 @@
 #include "../gfx/gfx_scratch.h"
 #include "../input/input.h"
 #include "../core/core.h"
+#include "../util//util.h"
 
 SystemInitInfo* g_initInfo = NULL;
 bool g_systemRunning = TRUE;
@@ -46,10 +47,9 @@ int16 System_Initialize(SystemInitInfo* i_info)
 ///////////////////////////////////////////////////
 int16 System_MainLoop()
 {
+	uint16 timeStart=0, timeEnd=0, timeEndVsync=0, gpuTime=0;
 	while (g_systemRunning)
-    {	
-		uint32 timeStart, timeEnd, timeEndVsync, gpuTime;
-		
+    {
 		Gfx_BeginFrame(&timeStart);
 		
 		Input_Update();
@@ -65,7 +65,20 @@ int16 System_MainLoop()
 		}
 
 #if !CONFIG_FINAL
-		Debug_DrawAll();
+		{
+			DebugPanelInfo debugInfo;
+			Util_MemZero(&debugInfo, sizeof(debugInfo));
+
+			debugInfo.m_timings.m_cpuStartTime = timeStart;
+			debugInfo.m_timings.m_cpuEndTime = timeEnd;
+			debugInfo.m_timings.m_cpuEndTimeVSync = timeEndVsync;
+			debugInfo.m_timings.m_gpuStartTime = 0;
+			debugInfo.m_timings.m_gpuEndTime = gpuTime;
+
+			Gfx_Debug_GetPrimCounts(&debugInfo.m_gfxPrimCounts);
+
+			Debug_DrawAll(&debugInfo);
+		}
 #endif // !CONFIG_FINAL
 
         Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);								

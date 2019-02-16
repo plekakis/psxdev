@@ -116,10 +116,10 @@ uint8 Gfx_IsHighResolution();
 uint8 Gfx_GetFrameBufferIndex();
 
 // Starts a new gfx frame
-int16 Gfx_BeginFrame(uint32* o_cputime);
+int16 Gfx_BeginFrame(uint16* o_cputime);
 
 // Submits all the OTs and finishes the frame's rendering to the current buffer
-int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime);
+int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime);
 
 // Gets the current OT (based on the current OT layer)
 uint32* Gfx_GetCurrentOT();
@@ -192,5 +192,38 @@ int16 Gfx_EndSubmission();
 
 // Shutdown the gfx subsystem
 int16 Gfx_Shutdown();
+
+#if !CONFIG_FINAL
+typedef struct
+{
+	// F3
+	uint16 m_primF3;
+	uint16 m_primDivF3;
+	uint16 m_primLitF3;
+	uint16 m_primFogF3;
+
+	// FT3
+	uint16 m_primFT3;
+	uint16 m_primDivFT3;
+	uint16 m_primLitFT3;
+	uint16 m_primFogFT3;
+
+	// G3
+	uint16 m_primG3;
+	uint16 m_primDivG3;
+	uint16 m_primLitG3;
+	uint16 m_primFogG3;
+
+	// GT3
+	uint16 m_primGT3;
+	uint16 m_primDivGT3;
+	uint16 m_primLitGT3;
+	uint16 m_primFogGT3;
+}GfxPrimCounts;
+
+// Get primitive counts that have been submitted to the OT
+void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts);
+
+#endif // !CONFIG_FINAL
 
 #endif // GFX_H_INC

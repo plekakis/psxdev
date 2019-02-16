@@ -29,4 +29,7 @@ uint8 Util_CountBits32(uint32 i_bitmask);
 #define setColor(c, _r, _g, _b) \
 	(c)->r = (_r), (c)->g = (_g), (c)->b = (_b)
 
+// Other macros
+#define OFFSET_OF(s,m) (uint32)&(((s *)0)->m)
+
 #endif // UTIL_H_DEF

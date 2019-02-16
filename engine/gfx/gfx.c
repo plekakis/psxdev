@@ -67,9 +67,6 @@ void SetDefaultMatrices()
 	DF_SET(DF_MATRICES);
 }
 
-// Timing
-#define RCntIntr      0x1000            /*Interrupt mode*/
-
 ///////////////////////////////////////////////////
 uint32* Gfx_GetCurrentOT()
 {
@@ -185,7 +182,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	FntLoad(960, 256);
 	SetDumpFnt(FntOpen(8, g_isHighResolution ? 16 : 8, g_displayWidth, 64, 0, 512));
 
-	SetRCnt(RCntCNT1, 2048, RCntIntr); // TODO: revisit docs about the timers
+	SetRCnt(RCntCNT1, 2048, RCntMdINTR);
 	StartRCnt(RCntCNT1);
     return E_OK;
 }
@@ -197,17 +194,20 @@ uint8 Gfx_GetFrameBufferIndex()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_BeginFrame(uint32* o_cputime)
+int16 Gfx_BeginFrame(uint16* o_cputime)
 {
 	// Pick the next framebuffer
 	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
 	g_currentFrameBuffer = &g_frameBuffers[frameBufferIndex];
  
 	ResetRCnt(RCntCNT1);
-	*o_cputime = GetRCnt(RCntCNT1);
+	*o_cputime = (uint16)GetRCnt(RCntCNT1);
 
 	// Reset scratch
 	Gfx_ResetScratch(frameBufferIndex);
+
+	// Clear any data used by the primitive submission system
+	BeginPrimSubmission();
 
 	// ClearOTagR() clears OT in reversed order. This is natural
 	// for 3D type applications, because the OT pointer to be linked
@@ -225,17 +225,18 @@ int16 Gfx_BeginFrame(uint32* o_cputime)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
+int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 {
 	CVECTOR clearColor;
 	Gfx_GetClearColor(&clearColor.r, &clearColor.g, &clearColor.b);
 
-	*o_cputime = GetRCnt(RCntCNT1);
-	*o_cputimeVsync = GetRCnt(RCntCNT1);
-
+	*o_cputime = (uint16)GetRCnt(RCntCNT1);
+	
 	// VSync and update the drawing environment
 	VSync(0);
 
+	*o_cputimeVsync = (uint16)GetRCnt(RCntCNT1);
+	
 	if (g_isHighResolution)
 	{
 		// When using interlaced single buffer, all drawing have to be
@@ -268,6 +269,7 @@ int16 Gfx_EndFrame(uint32* o_cputime, uint32* o_cputimeVsync, uint32* o_gputime)
 		}
 	}
 	
+	*o_gputime = (uint16)GetRCnt(RCntCNT1) - *o_cputimeVsync;
 	++g_frameIndex;
 
 	FntFlush(-1);

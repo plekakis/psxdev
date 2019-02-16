@@ -1,3 +1,26 @@
+#if !CONFIG_FINAL
+GfxPrimCounts g_primCounts;
+///////////////////////////////////////////////////
+void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts)
+{
+	memcpy(o_counts, &g_primCounts, sizeof(g_primCounts));
+}
+
+// Writes count data to the GfxPrimCounts structure
+#define REGISTER_PRIM(type) \
+	{ \
+		uint32 offset = OFFSET_OF(GfxPrimCounts, m_prim## type)/sizeof(uint16); \
+		uint16* counts = (uint16*)&g_primCounts; \
+		*(counts + offset++) += primCount; \
+		*(counts + offset++) += primDivCount; \
+		*(counts + offset++) += litBit ? primCount : 0; \
+		*(counts + offset++) += fogBit ? primCount : 0; \
+	}
+
+#else
+#define REGISTER_PRIM(type)
+#endif // !CONFIG_FINAL
+
 ///////////////////////////////////////////////////
 // BASIC PRIMITIVE TYPES
 ///////////////////////////////////////////////////
@@ -25,10 +48,15 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 
 #define DECL_PRIM_AND_TRANSFORM(type) \
 	int32	p, flg, otz, valid, hasprim=FALSE, submit=FALSE; \
+	bool transformBit = (Gfx_GetRenderState() & RS_PERSP) != 0; \
+	bool litBit = (Gfx_GetRenderState() & RS_LIGHTING) != 0; \
+	bool fogBit = (Gfx_GetRenderState() & RS_FOG) != 0; \
+	uint16 primCount = transformBit ? ((1 << divp.ndiv) << divp.ndiv) : 1; \
+	uint16 primDivCount = (divp.ndiv > 0) ? primCount : 0u; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \
 	POLY_## type* poly; \
 	POLY_## type temp; \
-	if (Gfx_GetRenderState() & RS_PERSP) \
+	if (transformBit) \
 	{ \
 		/* Do a pre-transformation to do backface culling and clipped triangle checking */ \
 		/* This is important to save allocations and further processing */ \
@@ -39,10 +67,11 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		&p, \
 		&otz, \
 		&flg); \
+		/* For some reason using the generated &x0, &x1 and &x2 doesn't work; sx, sy need to be fetched as such: */ \
 		ReadSXSYfifo(&sxy0, &sxy1, &sxy2); \
 		if ( !PRIMVALID(otz, valid) || (NormalClip(sxy0, sxy1, sxy2) < 0)) return NULL; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
-		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * ((1 << divp.ndiv) << divp.ndiv), 4); \
+		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * primCount, 4); \
 		memcpy(poly, &temp, sizeof(temp)); \
 	} \
 	else \
@@ -67,12 +96,12 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	poly->b## index = (c## index)->b;
 
 /* Lighting: If lighting is enabled in the renderstate, interpolate the color towards the diffuse color. This expects a valid normal vector to be present on the primitive */
-#define BEGIN_LIGHTING if (Gfx_GetRenderState() & RS_LIGHTING) {
+#define BEGIN_LIGHTING if (litBit) {
 #define DO_LIGHTING(index) NormalColorCol(&prim->n## index, c## index, (CVECTOR*)&poly->r## index);
 #define END_LIGHTING }
 
 /* Depth cueing: If fog is enabled in the renderstate, interpolate the color towards the fog color based on the depth cue returned by the transformation. */
-#define BEGIN_DQ if (Gfx_GetRenderState() & RS_FOG) {
+#define BEGIN_DQ if (fogBit) {
 #define DO_DQ(index) DpqColor((CVECTOR*)&poly->r## index, p, (CVECTOR*)&poly->r## index);
 #define END_DQ }
 
@@ -141,6 +170,7 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 			END_DQ
 		END_PRIM_WORK
 	PRIMDIV_F3
+	REGISTER_PRIM(F3)
 	END_PRIM_PREP
 }
 
@@ -183,6 +213,7 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 			END_DQ
 		END_PRIM_WORK
 	PRIMDIV_G3
+	REGISTER_PRIM(G3)
 	END_PRIM_PREP
 }
 
@@ -417,4 +448,12 @@ void InitPrimCallbacks()
 	divp.ndiv = 1;			/* divide depth */
 	divp.pih = Gfx_GetDisplayWidth();			/* horizontal resolution */
 	divp.piv = Gfx_GetDisplayHeight();			/* vertical resolution */
+}
+
+///////////////////////////////////////////////////
+void BeginPrimSubmission()
+{
+#if !CONFIG_FINAL
+	Util_MemZero(&g_primCounts, sizeof(g_primCounts));
+#endif // !CONFIG_FINAL
 }

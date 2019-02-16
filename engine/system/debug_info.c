@@ -13,9 +13,21 @@ uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
 char dbgText[256];
 
 ///////////////////////////////////////////////////
-void Debug_DrawGfxOverlay()
+void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 {
 	uint32 framebufferIndex = Gfx_GetFrameBufferIndex();
+
+	// CPU, GPU timings
+	{
+		sprintf2
+		(
+			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u\n", 
+			i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime, 
+			i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime,
+			0//i_info->m_timings.m_gpuEndTime - i_info->m_timings.m_gpuStartTime
+		);
+		FntPrint(dbgText);
+	}
 
 	// Scratch allocations
 	{
@@ -23,14 +35,26 @@ void Debug_DrawGfxOverlay()
 		const float scratchFree = (float)Gfx_GetFreeScratch(framebufferIndex) / 1024.0f;
 		const float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
 		
-		// This seems to be corrupting the stack. The normal sprintf does not. Why?
-		sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n\n", scratchTotal, scratchUsed, scratchFree);
+		FntPrint(dbgText);
+	}
+
+	// Primitive counts
+	{
+		sprintf2
+		(
+			dbgText, "PRIMS\nF3: %u (div: %u, lit: %u, fog: %u)\nFT3: %u (div: %u, lit: %u, fog: %u)\nG3: %u (div: %u, lit: %u, fog: %u)\nGT3: %u (div: %u, lit: %u, fog: %u)",
+			i_info->m_gfxPrimCounts.m_primF3, i_info->m_gfxPrimCounts.m_primDivF3, i_info->m_gfxPrimCounts.m_primLitF3, i_info->m_gfxPrimCounts.m_primFogF3,
+			i_info->m_gfxPrimCounts.m_primFT3, i_info->m_gfxPrimCounts.m_primDivFT3, i_info->m_gfxPrimCounts.m_primLitFT3, i_info->m_gfxPrimCounts.m_primFogFT3,
+			i_info->m_gfxPrimCounts.m_primG3, i_info->m_gfxPrimCounts.m_primDivG3, i_info->m_gfxPrimCounts.m_primLitG3, i_info->m_gfxPrimCounts.m_primFogG3,
+			i_info->m_gfxPrimCounts.m_primGT3, i_info->m_gfxPrimCounts.m_primDivGT3, i_info->m_gfxPrimCounts.m_primLitGT3, i_info->m_gfxPrimCounts.m_primFogGT3
+		);
 		FntPrint(dbgText);
 	}
 }
 
 ///////////////////////////////////////////////////
-void Debug_DrawInputOverlay()
+void Debug_DrawInputOverlay(DebugPanelInfo* i_info)
 {
 	const uint32 inputMask = Input_GetConnectionMask();
 	const uint8 numControllers = Util_CountBits32(inputMask);
@@ -51,15 +75,15 @@ void Debug_DrawInputOverlay()
 }
 
 ///////////////////////////////////////////////////
-void Debug_DrawOverlay()
+void Debug_DrawOverlay(DebugPanelInfo* i_info)
 {
 	switch (g_debugOverlayIndex)
 	{
 	case DEBUG_OVERLAY_TYPE_GFX:
-		Debug_DrawGfxOverlay();
+		Debug_DrawGfxOverlay(i_info);
 		break;
 	case DEBUG_OVERLAY_TYPE_INPUT:
-		Debug_DrawInputOverlay();
+		Debug_DrawInputOverlay(i_info);
 		break;
 
 	default:
@@ -68,7 +92,7 @@ void Debug_DrawOverlay()
 }
 
 ///////////////////////////////////////////////////
-void Debug_DrawAll()
+void Debug_DrawAll(DebugPanelInfo* i_info)
 {
 	// Cycle between them
 	const uint32 baseMask = PADL1 | PADR1 | PADL2 | PADR2;
@@ -82,5 +106,5 @@ void Debug_DrawAll()
 		g_debugOverlayIndex = (g_debugOverlayIndex == 0u) ? (DEBUG_OVERLAY_TYPE_COUNT - 1) : (g_debugOverlayIndex - 1);
 	}
 
-	Debug_DrawOverlay();	
+	Debug_DrawOverlay(i_info);
 }
