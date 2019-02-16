@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="game">
+      <UniqueIdentifier>{0e3f3046-e47f-42a1-ae26-76ce502d9efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{2a3c6c9d-c2bb-46a1-b1b8-97bfab4218b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\core">
+      <UniqueIdentifier>{b0c3552a-573f-4de8-896b-ddb8017630eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx">
+      <UniqueIdentifier>{9f72f904-ff6c-4bf2-990f-ddaabf0c9e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{a07b7212-4c19-4737-a436-a22879e0fe28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\system">
+      <UniqueIdentifier>{bb6d1756-164d-4db9-8ea9-65baa3ee046c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\util">
+      <UniqueIdentifier>{a26e40d3-b485-4699-a538-ade4ebd3db57}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\source\game.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\game_scu.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\engine_scu.c">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\system.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\system_scu.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\debug_info.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\input\input_scu.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scu.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_scu.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\util\util.c">
+      <Filter>engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\util\util_scu.c">
+      <Filter>engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\input\input.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\engine\engine.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\system\debug_info.h">
+      <Filter>engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\system\system.h">
+      <Filter>engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\input\input.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h">
+      <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx.h">
+      <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\core\core.h">
+      <Filter>engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\util\util.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
