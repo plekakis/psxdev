@@ -61,11 +61,6 @@ void input()
 	{
 		yy += g_speed;
 	}
-
-	if (Input_IsPressed(0, PADLright))
-	{
-		yy -= g_speed;
-	}
 }
 
 void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, uint32 size, CVECTOR* colors)

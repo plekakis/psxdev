@@ -39,6 +39,7 @@ MATRIX g_defaultCameraMatrix;
 
 MATRIX* g_modelMatrix;
 MATRIX* g_cameraMatrix;
+MATRIX  g_currentCameraMatrix;
 
 ///////////////////////////////////////////////////
 void SetDefaultMatrices()
@@ -64,7 +65,7 @@ void SetDefaultMatrices()
 		g_cameraMatrix = &g_defaultCameraMatrix;
 	}
 
-	DF_SET(DF_MATRICES);
+	DF_SET(DF_CAMERA_MATRIX | DF_MODEL_MATRIX);
 }
 
 ///////////////////////////////////////////////////
@@ -314,7 +315,7 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 ///////////////////////////////////////////////////
 void PrepareMatrices(bool i_billboard)
 {
-	if (DF_CHK(DF_LIGHTS | DF_MATRICES) && (Gfx_GetRenderState() & RS_LIGHTING))
+	if (DF_CHK(DF_LIGHTS | DF_MODEL_MATRIX) && (Gfx_GetRenderState() & RS_LIGHTING))
 	{
 		MATRIX lightRotMatrix;
 		
@@ -328,26 +329,35 @@ void PrepareMatrices(bool i_billboard)
 		DF_INV(DF_LIGHTS);
 	}
 
-	if (DF_CHK(DF_MATRICES) || i_billboard)
+	if (DF_CHK(DF_CAMERA_MATRIX))
 	{
-		MATRIX  finalMat = *g_cameraMatrix;
-		
+		g_currentCameraMatrix = *g_cameraMatrix;
+
 		// Apply the camera rotation to the camera vector		
-		VECTOR transformedCameraPosition;
-		VECTOR cameraPosition = {-finalMat.t[0], -finalMat.t[1], -finalMat.t[2]};
-		
-		TransposeMatrix(&finalMat, &finalMat);
-		ApplyMatrixLV(&finalMat, &cameraPosition, &transformedCameraPosition);
-		TransMatrix(&finalMat, &transformedCameraPosition);
-		
-		// Multiply current camera rotation matrix with the model rotation matrix
-		MulMatrix0(g_modelMatrix, &finalMat, &finalMat);
-		
-		// Translate by the model parallel transfer vector
-		finalMat.t[0] += g_modelMatrix->t[0];
-		finalMat.t[1] += g_modelMatrix->t[1];
-		finalMat.t[2] += g_modelMatrix->t[2];
-		
+		{
+			VECTOR transformedCameraPosition;
+
+			// Invert the translation and transpose the 3x3 rotation matrix
+			VECTOR cameraPosition = { -g_currentCameraMatrix.t[0], -g_currentCameraMatrix.t[1], -g_currentCameraMatrix.t[2] };			
+			TransposeMatrix(&g_currentCameraMatrix, &g_currentCameraMatrix);
+
+			// Multiply the cameraPosition by the rotation matrix so we get the correct transformed camera position
+			ApplyMatrixLV(&g_currentCameraMatrix, &cameraPosition, &transformedCameraPosition);
+
+			// Apply this translation to the camera matrix
+			TransMatrix(&g_currentCameraMatrix, &transformedCameraPosition);
+		}
+
+		DF_SET(DF_MODEL_MATRIX); // camera  matrix changed, we must re-compose the modelview matrix.
+		DF_INV(DF_CAMERA_MATRIX);
+	}
+
+	if (DF_CHK(DF_MODEL_MATRIX) || i_billboard)
+	{
+		MATRIX finalMat;
+		// Compose camera matrix with model
+		CompMatrixLV(&g_currentCameraMatrix, g_modelMatrix, &finalMat);
+
 		if (i_billboard)
 		{
 			finalMat.m[0][0] = ONE;
@@ -366,8 +376,8 @@ void PrepareMatrices(bool i_billboard)
 		// Update current rotation and translation matrices
 		SetTransMatrix(&finalMat);
 		SetRotMatrix(&finalMat);
-		
-		DF_INV(DF_MATRICES);
+
+		DF_INV(DF_MODEL_MATRIX);
 	}
 }
 
@@ -406,14 +416,14 @@ int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const
 int16 Gfx_SetModelMatrix(MATRIX* const i_matrix)
 {
 	g_modelMatrix = i_matrix;
-	DF_SET(DF_MATRICES);
+	DF_SET(DF_MODEL_MATRIX);
 }
 
 ///////////////////////////////////////////////////
 int16 Gfx_SetCameraMatrix(MATRIX* const i_matrix)
 {
 	g_cameraMatrix = i_matrix;
-	DF_SET(DF_MATRICES);
+	DF_SET(DF_CAMERA_MATRIX);
 }
 
 ///////////////////////////////////////////////////

@@ -22,8 +22,9 @@
 // Dirty flags
 typedef enum
 {
-	DF_MATRICES = 1 << 0,
-	DF_LIGHTS = 1 << 1,
+	DF_CAMERA_MATRIX = 1 << 0,
+	DF_MODEL_MATRIX = 1 << 1,
+	DF_LIGHTS = 1 << 2,
 	DF_ALL = ~0
 }DIRTYFLAGS;
 extern uint32 g_dirtyFlags;
