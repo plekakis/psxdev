@@ -1,11 +1,9 @@
 #include "gfx.h"
 
-#define MAX_BUFFERS (2)
-
 #define PACKET_SIZE (1024)
 
-uint32 g_dirtyFlags = DF_ALL;
-uint32 g_primStrides[PRIM_TYPE_MAX];
+uint16 g_dirtyFlags = DF_ALL;
+uint8 g_primStrides[PRIM_TYPE_MAX];
 
 // Defines a frame's buffer resource
 typedef struct
@@ -24,14 +22,18 @@ FrameBuffer* g_currentFrameBuffer = NULL;
 
 uint8	g_currentSubmissionOTIndex = ~0;
 
-int32 g_frameIndex = 0ul;
-	
 // when high-resolution is selected, we switch to interlaced mode
-uint8  g_bufferCount;
-uint16 g_displayWidth;
-uint16 g_displayHeight;
-uint16 g_tvMode;
-bool   g_isHighResolution;
+typedef struct
+{
+	uint32 m_displayWidth : 10;
+	uint32 m_displayHeight : 10;
+	uint32  m_bufferCount : 2;
+	uint32  m_frameIndex : 2;
+	uint32  m_tvMode : 1;
+	uint32  m_isHighResolution : 1;
+}FrameData;
+
+FrameData g_dispProps;
 
 // Current matrices
 MATRIX g_defaultModelMatrix;
@@ -77,25 +79,25 @@ uint32* Gfx_GetCurrentOT()
 ///////////////////////////////////////////////////
 uint16 Gfx_GetDisplayWidth()
 {
-	return g_displayWidth;
+	return g_dispProps.m_displayWidth;
 }
 
 ///////////////////////////////////////////////////
 uint16 Gfx_GetDisplayHeight()
 {
-	return g_displayHeight;
+	return g_dispProps.m_displayHeight;
 }
 
 ///////////////////////////////////////////////////
 uint8 Gfx_IsHighResolution()
 {
-	return g_isHighResolution;
+	return g_dispProps.m_isHighResolution;
 }
 
 ///////////////////////////////////////////////////
 uint8 Gfx_GetTvMode()
 {
-	return g_tvMode;
+	return g_dispProps.m_tvMode;
 }
 
 ///////////////////////////////////////////////////
@@ -104,27 +106,27 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
     uint16 index = 0;
 
     // setup resolution based on tv mode and high resolution flag
-    g_displayWidth = i_isHighResolution ? 640 : 320;
-    g_displayHeight = i_isHighResolution ?
+    g_dispProps.m_displayWidth = i_isHighResolution ? 640 : 320;
+	g_dispProps.m_displayHeight = i_isHighResolution ?
                                  ( (i_mode == MODE_PAL) ? 512 : 480) :
                                  ( (i_mode == MODE_PAL) ? 256 : 240) ;
-	g_tvMode = i_mode;
-	g_isHighResolution = i_isHighResolution;
+	g_dispProps.m_tvMode = i_mode;
+	g_dispProps.m_isHighResolution = i_isHighResolution;
 	
 	// Buffer count & allocate framebuffers
-	g_bufferCount = 2;
-	g_frameBuffers = (FrameBuffer*)malloc3(sizeof(FrameBuffer) * g_bufferCount);
+	g_dispProps.m_bufferCount = 2;
+	g_frameBuffers = (FrameBuffer*)malloc3(sizeof(FrameBuffer) * g_dispProps.m_bufferCount);
 
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
 	{
 		uint16 int1 = 0;
 
 		// mask in the interlaced bit
-		if (g_isHighResolution)
+		if (Gfx_IsHighResolution())
 			int1 |= (1 << 0);
 
-		GsInitGraph(g_displayWidth, g_displayHeight, int1, 1, 0);
-		SetVideoMode(g_tvMode);
+		GsInitGraph(Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), int1, 1, 0);
+		SetVideoMode(Gfx_GetTvMode());
 	}
 
 	// Set debug mode (0:off, 1:monitor, 2:dump)
@@ -134,31 +136,31 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	InitGeom();
 
 	// set geometry origin as (width/2, height/2)
-	SetGeomOffset(g_displayWidth / 2, g_displayHeight / 2);
+	SetGeomOffset(Gfx_GetDisplayWidth() / 2, Gfx_GetDisplayHeight() / 2);
 
 	// distance to viewing-screen
-	SetGeomScreen(g_displayWidth / 2);
+	SetGeomScreen(Gfx_GetDisplayWidth() / 2);
 
 	// Default clear color to black
 	Gfx_SetClearColor(0, 0, 0);
 	
 	// Setup all the buffer page resources
-	for (index=0; index<g_bufferCount; ++index)
+	for (index=0; index<g_dispProps.m_bufferCount; ++index)
     {
         // Always in interlaced mode
-        g_frameBuffers[index].m_dispEnv.isinter = g_isHighResolution;
+        g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsHighResolution();
         // And default to 16bit
         g_frameBuffers[index].m_dispEnv.isrgb24 = FALSE;
 		
-        SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (!i_isHighResolution) * (index * g_displayHeight), g_displayWidth, g_displayHeight);
-        SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * g_displayHeight), g_displayWidth, g_displayHeight);
+        SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (!i_isHighResolution) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+        SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
     }
 
     SetDispMask(1);
 	PutDrawEnv(&g_frameBuffers[0].m_drawEnv);
 	PutDispEnv(&g_frameBuffers[0].m_dispEnv);
 
-	Gfx_InitScratch(g_bufferCount, i_gfxScratchSizeInBytes);
+	Gfx_InitScratch(g_dispProps.m_bufferCount, i_gfxScratchSizeInBytes);
 
 	// Initialize the callbacks for primitive submission
 	InitPrimCallbacks();
@@ -179,9 +181,11 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	SetDefaultMatrices();
 	//
 
+	g_dispProps.m_frameIndex = 0;
+
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(8, g_isHighResolution ? 16 : 8, g_displayWidth, 64, 0, 512));
+	SetDumpFnt(FntOpen(8, Gfx_IsHighResolution() ? 16 : 8, Gfx_GetDisplayWidth(), 64, 0, 512));
 
 	SetRCnt(RCntCNT1, 2048, RCntMdINTR);
 	StartRCnt(RCntCNT1);
@@ -191,7 +195,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 ///////////////////////////////////////////////////
 uint8 Gfx_GetFrameBufferIndex()
 {
-	return g_frameIndex & 1;
+	return g_dispProps.m_frameIndex & 1;
 }
 
 ///////////////////////////////////////////////////
@@ -238,7 +242,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 
 	*o_cputimeVsync = (uint16)GetRCnt(RCntCNT1);
 	
-	if (g_isHighResolution)
+	if (Gfx_IsHighResolution())
 	{
 		// When using interlaced single buffer, all drawing have to be
 		// finished in 1/60 sec. Therefore we have to reset the drawing
@@ -271,7 +275,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 	}
 	
 	*o_gputime = (uint16)GetRCnt(RCntCNT1) - *o_cputimeVsync;
-	++g_frameIndex;
+	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % g_dispProps.m_bufferCount;
 
 	FntFlush(-1);
     return E_OK;
@@ -284,7 +288,7 @@ int16 Gfx_Shutdown()
 
 	{
 		uint8 index;
-		for (index=0; index<g_bufferCount; ++index)
+		for (index=0; index<g_dispProps.m_bufferCount; ++index)
 		{
 			Gfx_FreeScratch(index);
 		}
@@ -338,7 +342,7 @@ void PrepareMatrices(bool i_billboard)
 			VECTOR transformedCameraPosition;
 
 			// Invert the translation and transpose the 3x3 rotation matrix
-			VECTOR cameraPosition = { -g_currentCameraMatrix.t[0], -g_currentCameraMatrix.t[1], -g_currentCameraMatrix.t[2] };			
+			VECTOR cameraPosition = { -g_currentCameraMatrix.t[0], -g_currentCameraMatrix.t[1], -g_currentCameraMatrix.t[2] };
 			TransposeMatrix(&g_currentCameraMatrix, &g_currentCameraMatrix);
 
 			// Multiply the cameraPosition by the rotation matrix so we get the correct transformed camera position
@@ -356,6 +360,8 @@ void PrepareMatrices(bool i_billboard)
 	{
 		MATRIX finalMat;
 		// Compose camera matrix with model
+		/* Reversing, but why does it have to be done? */
+		g_modelMatrix->t[1] *= -1;
 		CompMatrixLV(&g_currentCameraMatrix, g_modelMatrix, &finalMat);
 
 		if (i_billboard)

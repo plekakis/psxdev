@@ -2,6 +2,8 @@
 #include "../gfx/gfx.h"
 #include "../input/input.h"
 
+#if !CONFIG_FINAL
+
 typedef enum
 {
 	DEBUG_OVERLAY_TYPE_GFX		= 0,
@@ -10,7 +12,7 @@ typedef enum
 }DEBUG_OVERLAY_TYPE;
 
 uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
-char dbgText[256];
+char dbgText[128];
 
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
@@ -108,3 +110,5 @@ void Debug_DrawAll(DebugPanelInfo* i_info)
 
 	Debug_DrawOverlay(i_info);
 }
+
+#endif // !CONFIG_FINAL

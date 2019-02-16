@@ -143,8 +143,8 @@ void render()
 			{
 				CVECTOR* colors = cubeColors + cubeColorIndex;
 				renderCube(PRIM_TYPE_POLY_F3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
-				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, -c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
-				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, -c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
 
 				cubeColorIndex = (cubeColorIndex + 1) % 4;
 			}			
@@ -158,8 +158,8 @@ void render()
 			{
 				CVECTOR* colors = cubeColors + cubeColorIndex;
 				renderCube(PRIM_TYPE_POLY_F3, c_cubePad + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
-				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, -c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
-				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, -c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
+				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
 
 				cubeColorIndex = (cubeColorIndex + 1) % 4;
 			}
@@ -179,7 +179,7 @@ void render()
 	{
 		// And the floor
 		{
-			VECTOR	v  = {0, 100, 256};
+			VECTOR	v  = {0, -100, 256};
 			RotMatrix(&angZero, &model2World);
 			TransMatrix(&model2World, &v);
 					

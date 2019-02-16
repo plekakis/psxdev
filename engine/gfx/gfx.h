@@ -27,7 +27,7 @@ typedef enum
 	DF_LIGHTS = 1 << 2,
 	DF_ALL = ~0
 }DIRTYFLAGS;
-extern uint32 g_dirtyFlags;
+extern uint16 g_dirtyFlags;
 #define DF_CHK(x) ((g_dirtyFlags & (x)) != 0)
 #define DF_SET(x) g_dirtyFlags |= (x)
 #define DF_INV(x) g_dirtyFlags &= ~(x)
