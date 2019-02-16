@@ -12,7 +12,7 @@ bool g_systemRunning = TRUE;
 ///////////////////////////////////////////////////
 void vsync()
 {
-	//Input_Update();
+	Input_Update();
 }
 
 ///////////////////////////////////////////////////
@@ -52,8 +52,6 @@ int16 System_MainLoop()
     {
 		Gfx_BeginFrame(&timeStart);
 		
-		Input_Update();
-
         if (g_initInfo && g_initInfo->AppUpdateFncPtr)
         {
             g_initInfo->AppUpdateFncPtr();

@@ -47,7 +47,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 #define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
 
 #define DECL_PRIM_AND_TRANSFORM(type) \
-	int32	p, flg, otz, valid, hasprim=FALSE, submit=FALSE; \
+	int32	p, flg, otz, valid=1, hasprim=FALSE, submit=FALSE; \
 	bool transformBit = (Gfx_GetRenderState() & RS_PERSP) != 0; \
 	bool litBit = (Gfx_GetRenderState() & RS_LIGHTING) != 0; \
 	bool fogBit = (Gfx_GetRenderState() & RS_FOG) != 0; \
@@ -61,12 +61,18 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		/* Do a pre-transformation to do backface culling and clipped triangle checking */ \
 		/* This is important to save allocations and further processing */ \
 		int32 sxy0, sxy1, sxy2; \
+		uint16 displayWidth = Gfx_GetDisplayWidth(); \
+		uint16 displayHeight = Gfx_GetDisplayHeight(); \
 		SetPoly## type(&temp); \
-		valid = RotAverageNclip3(&prim->v0, &prim->v1, &prim->v2, \
+		otz = RotTransPers3(&prim->v0, &prim->v1, &prim->v2, \
 		(int32*)&temp.x0, (int32*)&temp.x1, (int32*)&temp.x2, \
 		&p, \
-		&otz, \
 		&flg); \
+		/* Clip to viewing area. There has to be a way to do this in a better way... */ \
+		if ( (temp.x0 < 0) && (temp.x1 < 0) && (temp.x2 < 0) ) return NULL; \
+		if ( (temp.x0 > displayWidth) && (temp.x1 > displayWidth) && (temp.x2 > displayWidth) ) return NULL; \
+		if ( (temp.y0 < 0) && (temp.y1 < 0) && (temp.y2 < 0) ) return NULL; \
+		if ( (temp.y0 > displayHeight) && (temp.y1 > displayHeight) && (temp.y2 > displayHeight) ) return NULL; \
 		/* For some reason using the generated &x0, &x1 and &x2 doesn't work; sx, sy need to be fetched as such: */ \
 		ReadSXSYfifo(&sxy0, &sxy1, &sxy2); \
 		if ( !PRIMVALID(otz, valid) || (NormalClip(sxy0, sxy1, sxy2) < 0)) return NULL; \
