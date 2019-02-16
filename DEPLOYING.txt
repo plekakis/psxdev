@@ -2,23 +2,35 @@ BUILDING & DEPLOYING
 --------------------
 
 The BuildTool is the way to build a project and deploy it to one of the supported targets (either a real PSX through LPT, or on NO$PSX emulator).
-When running the BuildTool, it will enumerate all directories under PSXDEV_ROOT/projects. Each directory will be expected to be a valid project, which will include
+When running the BuildTool, it will enumerate all directories under PSXDEV_PATH/projects. Each directory will be expected to be a valid project, which will include
 at least a game_scu.c file (refer to the sandbox as an example).
 
-Building is quite straightforward; there are 4 build configurations:
+Building is quite straightforward; there are 6 build configurations:
 - Debug PSX
 - Debug EMU
 - Release PSX
 - Release EMU
+- Final PSX
+- Final EMU
+
+Preprocessor definitions:
+-------------------------
+- Debug builds have CONFIG_DEBUG defined.
+- Release builds have CONFIG_RELEASE defined.
+- Final builds have CONFIG_FINAL defined.
+- EMU builds have TARGET_EMU defined.
+- PSX builds have TARGET_PSX defined.
+
+Use those to strip out unwanted codepaths. For instance, the engine's debug panel is not available in Final builds.
 
 NOTE: The [EMU] ones also *require* that a CD image is built, so that it can be deployed to the NO$PSX emulator. This is also done automatically, patching the template
-cd.xml in PSXDEV_ROOT/cdrom with the specified license and selected project name.
+cd.xml in PSXDEV_PATH/cdrom with the specified license and selected project name.
 
 Additional options to the CCPSX compiler can be specified in the fields following the "Build Target" group. Preprocessor, linker options, library & include directories
 can be specified, separated by ';'.
 Those settings will be saved per-project, per-config. The next time the BuildTool is launched, it'll update its values accordingly.
 
-Built binaries are outputted in PSXDEV_ROOT/projects/PROJECT_NAME/bin/BUILD_CONFIG
+Built binaries are outputted in PSXDEV_PATH/projects/PROJECT_NAME/bin/BUILD_CONFIG
 The "Run" functionality will expect a valid main.exe in the output build directory for the selected configuration. If there is no main.exe found (and also no CD image
 in the case of an EMU build), then "Run" and "Clean" will be disabled.
 
