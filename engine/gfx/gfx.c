@@ -1,4 +1,5 @@
 #include "gfx.h"
+#include "../util/util.h"
 
 #define PACKET_SIZE (1024)
 
@@ -17,7 +18,7 @@ typedef struct
 }FrameBuffer;
 
 // Framebuffer resources
-FrameBuffer* g_frameBuffers;
+FrameBuffer g_frameBuffers[GFX_NUM_BUFFERS];
 FrameBuffer* g_currentFrameBuffer = NULL;
 
 uint8	g_currentSubmissionOTIndex = ~0;
@@ -27,7 +28,6 @@ typedef struct
 {
 	uint32 m_displayWidth : 10;
 	uint32 m_displayHeight : 10;
-	uint32  m_bufferCount : 2;
 	uint32  m_frameIndex : 2;
 	uint32  m_tvMode : 1;
 	uint32  m_isHighResolution : 1;
@@ -113,10 +113,6 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	g_dispProps.m_tvMode = i_mode;
 	g_dispProps.m_isHighResolution = i_isHighResolution;
 	
-	// Buffer count & allocate framebuffers
-	g_dispProps.m_bufferCount = 2;
-	g_frameBuffers = (FrameBuffer*)malloc3(sizeof(FrameBuffer) * g_dispProps.m_bufferCount);
-
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
 	{
 		uint16 int1 = 0;
@@ -143,9 +139,10 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 
 	// Default clear color to black
 	Gfx_SetClearColor(0, 0, 0);
-	
+		
+	Util_MemZero(g_frameBuffers, sizeof(g_frameBuffers));
 	// Setup all the buffer page resources
-	for (index=0; index<g_dispProps.m_bufferCount; ++index)
+	for (index=0; index<GFX_NUM_BUFFERS; ++index)
     {
         // Always in interlaced mode
         g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsHighResolution();
@@ -160,7 +157,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	PutDrawEnv(&g_frameBuffers[0].m_drawEnv);
 	PutDispEnv(&g_frameBuffers[0].m_dispEnv);
 
-	Gfx_InitScratch(g_dispProps.m_bufferCount, i_gfxScratchSizeInBytes);
+	Gfx_InitScratch(i_gfxScratchSizeInBytes);
 
 	// Initialize the callbacks for primitive submission
 	InitPrimCallbacks();
@@ -209,7 +206,7 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 	*o_cputime = (uint16)GetRCnt(RCntCNT1);
 
 	// Reset scratch
-	Gfx_ResetScratch(frameBufferIndex);
+	Gfx_ResetScratch();
 
 	// Clear any data used by the primitive submission system
 	BeginPrimSubmission();
@@ -275,7 +272,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 	}
 	
 	*o_gputime = (uint16)GetRCnt(RCntCNT1) - *o_cputimeVsync;
-	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % g_dispProps.m_bufferCount;
+	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % GFX_NUM_BUFFERS;
 
 	FntFlush(-1);
     return E_OK;
@@ -285,17 +282,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 int16 Gfx_Shutdown()
 {
     DrawSync(0);
-
-	{
-		uint8 index;
-		for (index=0; index<g_dispProps.m_bufferCount; ++index)
-		{
-			Gfx_FreeScratch(index);
-		}
-	}
-
-	free3(g_frameBuffers);
-	g_frameBuffers = NULL;
+	Gfx_FreeScratch();	
     return E_OK;
 }
 

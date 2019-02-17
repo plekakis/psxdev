@@ -1,7 +1,7 @@
 #ifndef CORE_H_INC
 #define CORE_H_INC
 
-#include "../engine.h"
+#include "core_allocators.h"
 
 int16 Core_Initialize();
 

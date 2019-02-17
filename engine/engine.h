@@ -75,6 +75,7 @@ typedef long long				int64;
 #define E_FAILURE				(1)
 #define E_OUT_OF_MEMORY			(2)
 #define E_SUBMISSION_ERROR		(3)
+#define E_INVALIDARGS			(5)
 
 #define SUCCESS(x)	((x) == E_OK)
 #define FAILURE(x)	((x) != E_OK)

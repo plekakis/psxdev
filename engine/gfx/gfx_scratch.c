@@ -1,95 +1,57 @@
 #include "gfx.h"
+#include "../util/util.h"
+#include "../core/core_allocators.h"
 
-typedef struct
-{
-	uint8 *m_start;
-	uint8 *m_end;
-	uint8 *m_next;
-}ScratchBuffer;
-
-ScratchBuffer* g_scratchBuffers = NULL;
-uint8 g_scratchBufferCount = 0;
+ScratchBuffer g_scratchBuffers[GFX_NUM_BUFFERS];
 
 ///////////////////////////////////////////////////
-int16 Gfx_InitScratch(uint8 i_frameBufferCount, uint32 i_gfxScratchSizeInBytes)
+int16 Gfx_InitScratch(uint32 i_gfxScratchSizeInBytes)
 {
-	uint8	index;
-	uint32	scratchSize = i_gfxScratchSizeInBytes;
-	g_scratchBufferCount = i_frameBufferCount;
-
-	g_scratchBuffers = (ScratchBuffer*)malloc3(sizeof(ScratchBuffer) * g_scratchBufferCount);
-	if (!g_scratchBuffers)
+	uint8 index;
+	
+	Util_MemZero(g_scratchBuffers, sizeof(g_scratchBuffers));
+	for (index=0; index<ARRAY_SIZE(g_scratchBuffers); ++index)
 	{
-		return E_OUT_OF_MEMORY;
-	}
-
-	for (index=0; index<g_scratchBufferCount; ++index)
-	{
-		ScratchBuffer* buffer = &g_scratchBuffers[index];
-
-		buffer->m_start = (uint8*)malloc3(scratchSize);
-		buffer->m_end = ((uint8*)buffer->m_start) + scratchSize;
-		buffer->m_next = buffer->m_start;
-
-		memset(buffer->m_start, 0xbabababa, scratchSize);
+		uint16 err = Core_InitScratch(&g_scratchBuffers[index], i_gfxScratchSizeInBytes, 4);
+		if (err != E_OK)
+			return err;
 	}
 
 	return E_OK;
 }
 
 ///////////////////////////////////////////////////
-uint32 Gfx_GetTotalScratch(uint8 i_frameBufferIndex)
+uint32 Gfx_GetTotalScratch()
 {
-	ScratchBuffer* buffer = &g_scratchBuffers[i_frameBufferIndex];
-	return (uint32)buffer->m_end - (uint32)buffer->m_start;
+	return Core_GetTotalScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()]);
 }
 
 ///////////////////////////////////////////////////
-uint32 Gfx_GetFreeScratch(uint8 i_frameBufferIndex)
+uint32 Gfx_GetFreeScratch()
 {
-	ScratchBuffer* buffer = &g_scratchBuffers[i_frameBufferIndex];
-	return (uint32)buffer->m_end - (uint32)buffer->m_next;
+	return Core_GetFreeScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()]);
 }
 
 ///////////////////////////////////////////////////
-uint32 Gfx_GetUsedScratch(uint8 i_frameBufferIndex)
+uint32 Gfx_GetUsedScratch()
 {
-	ScratchBuffer* buffer = &g_scratchBuffers[i_frameBufferIndex];
-	return (uint32)buffer->m_next - (uint32)buffer->m_start;
+	return Core_GetUsedScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()]);
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_ResetScratch(uint8 i_frameBufferIndex)
+int16 Gfx_ResetScratch()
 {
-	ScratchBuffer* buffer = &g_scratchBuffers[i_frameBufferIndex];
-	buffer->m_next = buffer->m_start;
-	return E_OK;
+	return Core_ResetScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()]);
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_FreeScratch(uint8 i_frameBufferIndex)
+int16 Gfx_FreeScratch()
 {
-	if (g_scratchBuffers)
-		free3(g_scratchBuffers);
-	g_scratchBuffers = NULL;
-
-	return E_OK;
+	return Core_FreeScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()]);
 }
 
 ///////////////////////////////////////////////////
 void* Gfx_Alloc(uint32 i_bytes, uint32 i_alignment)
 {	
-	ScratchBuffer* buffer = &g_scratchBuffers[Gfx_GetFrameBufferIndex()];
-	buffer->m_next = Util_AlignPtr(buffer->m_next, i_alignment);
-	{
-		uint8 *mem = buffer->m_next;
-		uint8* next = mem + i_bytes;
-
-		if (next <= buffer->m_end)
-		{
-			buffer->m_next = next;
-			return mem;
-		}
-	}
-	return NULL;
+	return Core_AllocScratch(&g_scratchBuffers[Gfx_GetFrameBufferIndex()], i_bytes, i_alignment);
 }

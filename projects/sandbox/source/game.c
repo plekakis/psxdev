@@ -111,6 +111,9 @@ void render()
 		Gfx_SetFogColor(128, 128, 128);
 	}	
 
+	// Enable backface culling
+	Gfx_SetRenderState(RS_BACKFACE_CULL);
+
 	Gfx_BeginSubmission(OT_LAYER_BG);
 	
 	cubeRotation.vx = pitch;

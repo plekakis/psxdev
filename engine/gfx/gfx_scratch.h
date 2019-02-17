@@ -2,22 +2,22 @@
 #define GFX_SCRATCH_H_INC
 
 // Initialise a scratch buffer per framebuffer
-int16 Gfx_InitScratch(uint8 i_framebufferIndex, uint32 i_gfxScratchSizeInBytes);
+int16 Gfx_InitScratch(uint32 i_gfxScratchSizeInBytes);
 
 // Free the scratch buffers
-int16 Gfx_FreeScratch(uint8 i_frameBufferIndex);
+int16 Gfx_FreeScratch();
 
 // Reset the scratch buffer
-int16 Gfx_ResetScratch(uint8 i_frameBufferIndex);
+int16 Gfx_ResetScratch();
 
 // Get the total scratch memory
-uint32 Gfx_GetTotalScratch(uint8 i_frameBufferIndex);
+uint32 Gfx_GetTotalScratch();
 
 // Returns the free memory
-uint32 Gfx_GetFreeScratch(uint8 i_frameBufferIndex);
+uint32 Gfx_GetFreeScratch();
 
 // Returns the used memory
-uint32 Gfx_GetUsedScratch(uint8 i_frameBufferIndex);
+uint32 Gfx_GetUsedScratch();
 
 // Allocates memory from the per-framebuffer scratch buffer
 // Returns NULL if out of memory

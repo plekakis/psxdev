@@ -51,6 +51,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	bool transformBit = (Gfx_GetRenderState() & RS_PERSP) != 0; \
 	bool litBit = (Gfx_GetRenderState() & RS_LIGHTING) != 0; \
 	bool fogBit = (Gfx_GetRenderState() & RS_FOG) != 0; \
+	bool backfaceCullBit = (Gfx_GetRenderState() & RS_BACKFACE_CULL) != 0; \
 	uint16 primCount = transformBit ? ((1 << divp.ndiv) << divp.ndiv) : 1; \
 	uint16 primDivCount = (divp.ndiv > 0) ? primCount : 0u; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \
@@ -73,9 +74,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		if ( (temp.x0 > displayWidth) && (temp.x1 > displayWidth) && (temp.x2 > displayWidth) ) return NULL; \
 		if ( (temp.y0 < 0) && (temp.y1 < 0) && (temp.y2 < 0) ) return NULL; \
 		if ( (temp.y0 > displayHeight) && (temp.y1 > displayHeight) && (temp.y2 > displayHeight) ) return NULL; \
-		/* For some reason using the generated &x0, &x1 and &x2 doesn't work; sx, sy need to be fetched as such: */ \
-		ReadSXSYfifo(&sxy0, &sxy1, &sxy2); \
-		if ( !PRIMVALID(otz, valid) || (NormalClip(sxy0, sxy1, sxy2) < 0)) return NULL; \
+		if ( !PRIMVALID(otz, valid) || (backfaceCullBit && (NormalClip(*((int32*)&temp.x0), *((int32*)&temp.x1), *((int32*)&temp.x2)) <= 0))) return NULL; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
 		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * primCount, 4); \
 		memcpy(poly, &temp, sizeof(temp)); \

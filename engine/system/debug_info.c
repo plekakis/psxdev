@@ -17,8 +17,6 @@ char dbgText[128];
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 {
-	uint32 framebufferIndex = Gfx_GetFrameBufferIndex();
-
 	// CPU, GPU timings
 	{
 		sprintf2
@@ -33,11 +31,11 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 
 	// Scratch allocations
 	{
-		const float scratchTotal = (float)Gfx_GetTotalScratch(framebufferIndex) / 1024.0f;
-		const float scratchFree = (float)Gfx_GetFreeScratch(framebufferIndex) / 1024.0f;
-		const float scratchUsed = (float)Gfx_GetUsedScratch(framebufferIndex) / 1024.0f;
+		const float scratchTotal = (float)Gfx_GetTotalScratch() / 1024.0f;
+		const float scratchFree = (float)Gfx_GetFreeScratch() / 1024.0f;
+		const float scratchUsed = (float)Gfx_GetUsedScratch() / 1024.0f;
 		
-		sprintf2(dbgText, "Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n\n", scratchTotal, scratchUsed, scratchFree);
+		sprintf2(dbgText, "Gfx Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n\n", scratchTotal, scratchUsed, scratchFree);
 		FntPrint(dbgText);
 	}
 

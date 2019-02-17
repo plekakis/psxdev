@@ -4,6 +4,8 @@
 #include "../engine.h"
 #include "gfx_scratch.h"
 
+#define GFX_NUM_BUFFERS (2)
+
 #define MAX_OT_LENGTH (1 << 14)
 #define BG_OT_LENGTH (1 << 4)
 #define FG_OT_LENGTH (MAX_OT_LENGTH)
@@ -92,10 +94,11 @@ typedef enum
 // Renderstate flags
 typedef enum
 {
-	RS_PERSP		= 1 << 0,
-	RS_FOG			= 1 << 1,
-	RS_LIGHTING		= 1 << 2,
-	RS_TEXTURING	= 1 << 3
+	RS_PERSP		 = 1 << 0,
+	RS_FOG			 = 1 << 1,
+	RS_LIGHTING		 = 1 << 2,
+	RS_TEXTURING	 = 1 << 3,
+	RS_BACKFACE_CULL = 1 << 4
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
