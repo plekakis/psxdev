@@ -13,6 +13,11 @@ bool g_systemRunning = TRUE;
 void vsync()
 {
 	Input_Update();
+
+	if (g_initInfo && g_initInfo->AppUpdateFncPtr)
+	{
+		g_initInfo->AppUpdateFncPtr();
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -33,13 +38,13 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	// Initialize input
 	Input_Initialize();
 	
-	// TODO: There are missing events during vysnc. Do this in the update instead for now (look in System_MainLoop)
-	// Register input update to happen at VSync callback
-	// Perhaps game logic should be moved here as well
+	// Input update and application update callback is done here
 	VSyncCallback(vsync);
 
-    if (g_initInfo && g_initInfo->AppStartFncPtr)
-        g_initInfo->AppStartFncPtr();
+	if (g_initInfo && g_initInfo->AppStartFncPtr)
+	{
+		g_initInfo->AppStartFncPtr();
+	}
 
     return errcode;
 }
@@ -52,11 +57,6 @@ int16 System_MainLoop()
     {
 		Gfx_BeginFrame(&timeStart);
 		
-        if (g_initInfo && g_initInfo->AppUpdateFncPtr)
-        {
-            g_initInfo->AppUpdateFncPtr();
-        }
-	
 		if (g_initInfo && g_initInfo->AppRenderFncPtr)
 		{
 			g_initInfo->AppRenderFncPtr();

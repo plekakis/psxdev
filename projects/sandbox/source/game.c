@@ -7,8 +7,6 @@
 
 uint32 yaw = 0, pitch = 0, roll = 0;
 
-int elapsed = 0;
-
 int32 xx = 0, yy = 0, zz = -800;
 int32 rx = 0, ry = 0, rz = 0;
 
@@ -28,7 +26,7 @@ SVECTOR angZero = { 0,0,0 };
 SVECTOR	cubeRotation;
 MATRIX model2World, world2Camera;
 
-void input()
+void update()
 {
 	if (Input_IsPressed(0, PADLright))
 	{
@@ -61,6 +59,10 @@ void input()
 	{
 		yy += g_speed;
 	}
+
+	yaw += 12;
+	pitch += 12;
+	roll += 12;
 }
 
 void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, uint32 size, CVECTOR* colors)
@@ -101,8 +103,6 @@ void render()
 	// Uncomment to enable a 2nd light pointing to the right, colour dark blue
 	//Gfx_SetLightColor(1, 0, 0, 100);
 	//Gfx_SetLightVector(1, ONE, 0, 0);
-
-	input();
 
 	// Fog settings
 	{
@@ -191,10 +191,6 @@ void render()
 		}
 	}
 	Gfx_EndSubmission();
-
-	yaw += 12;
-	pitch += 12;
-	roll += 12;		
 }
 
 int main()
@@ -206,6 +202,7 @@ int main()
 	sysInitInfo.m_gfxScratchSizeInBytes = 128 * 1024;
     sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;
 	
+	sysInitInfo.AppUpdateFncPtr = &update;
 	sysInitInfo.AppRenderFncPtr = &render;
 
     System_Initialize(&sysInitInfo);
