@@ -12,6 +12,7 @@
 
 // Pointer macros & functions
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
+uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment);
 
 void Util_MemZero(void* i_ptr, uint32 i_size);
 

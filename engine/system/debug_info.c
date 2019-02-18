@@ -1,4 +1,5 @@
 #include "debug_info.h"
+#include "../core/core.h"
 #include "../gfx/gfx.h"
 #include "../input/input.h"
 
@@ -21,7 +22,7 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 	{
 		sprintf2
 		(
-			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u\n", 
+			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u\n\n", 
 			i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime, 
 			i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime,
 			0//i_info->m_timings.m_gpuEndTime - i_info->m_timings.m_gpuStartTime
@@ -29,13 +30,33 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 		FntPrint(dbgText);
 	}
 
-	// Scratch allocations
+	// GFX Scratch allocations
 	{
 		const float scratchTotal = (float)Gfx_GetTotalScratch() / 1024.0f;
 		const float scratchFree = (float)Gfx_GetFreeScratch() / 1024.0f;
 		const float scratchUsed = (float)Gfx_GetUsedScratch() / 1024.0f;
 		
-		sprintf2(dbgText, "Gfx Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n\n", scratchTotal, scratchUsed, scratchFree);
+		sprintf2(dbgText, "Gfx Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		FntPrint(dbgText);
+	}
+
+	// Core Scratch allocations
+	{
+		const float scratchTotal = (float)Core_GetTotalScratch(&g_coreScratchAlloc) / 1024.0f;
+		const float scratchFree = (float)Core_GetFreeScratch(&g_coreScratchAlloc) / 1024.0f;
+		const float scratchUsed = (float)Core_GetUsedScratch(&g_coreScratchAlloc) / 1024.0f;
+
+		sprintf2(dbgText, "Core Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		FntPrint(dbgText);
+	}
+
+	// Core Stack allocations
+	{
+		const float stackTotal = (float)Core_GetTotalStack(&g_coreStackAlloc) / 1024.0f;
+		const float stackFree = (float)Core_GetFreeStack(&g_coreStackAlloc) / 1024.0f;
+		const float stackUsed = (float)Core_GetUsedStack(&g_coreStackAlloc) / 1024.0f;
+
+		sprintf2(dbgText, "Core stack kb: %.2f (total), %.2f (used), %.2f (free)\n\n", stackTotal, stackUsed, stackFree);
 		FntPrint(dbgText);
 	}
 

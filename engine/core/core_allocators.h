@@ -41,5 +41,39 @@ bool Core_IsFromScratch(ScratchBuffer* i_buffer, void* i_address);
 ///////////////////////////////////////////////////
 // STACK ALLOCATOR
 ///////////////////////////////////////////////////
+typedef struct
+{
+	uint8* m_start;
+	uint8* m_head;
+	uint8* m_end;
+	uint8  m_alignment;
+}StackBuffer;
+
+// Initialise a stack buffer
+int16 Core_InitStack(StackBuffer* o_buffer, uint32 i_stackSizeInBytes, uint8 i_alignment);
+
+// Free the stack buffer allocation
+int16 Core_FreeStack(StackBuffer* i_buffer);
+
+// Reset the stack head pointer
+int16 Core_ResetStack(StackBuffer* i_buffer);
+
+// Returns total stack memory
+uint32 Core_GetTotalStack(StackBuffer* i_buffer);
+
+// Returns free stack memory
+uint32 Core_GetFreeStack(StackBuffer* i_buffer);
+
+// Returns used stack memory
+uint32 Core_GetUsedStack(StackBuffer* i_buffer);
+
+// Allocates memory, returns NULL if out of memory
+void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment);
+
+// Frees memory, expects LIFO order.
+uint16 Core_PopStack(StackBuffer* i_buffer);
+
+// Checks if specified address is within scratch allocation buffer
+bool Core_IsFromStack(StackBuffer* i_buffer, void* i_address);
 
 #endif // CORE_ALLOCATORS_H_INC

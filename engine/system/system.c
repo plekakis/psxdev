@@ -4,7 +4,7 @@
 #include "../gfx/gfx_scratch.h"
 #include "../input/input.h"
 #include "../core/core.h"
-#include "../util//util.h"
+#include "../util/util.h"
 
 SystemInitInfo* g_initInfo = NULL;
 bool g_systemRunning = TRUE;
@@ -12,6 +12,10 @@ bool g_systemRunning = TRUE;
 ///////////////////////////////////////////////////
 void vsync()
 {
+	// Reset core allocators
+	Core_ResetScratch(CORE_SCRATCHALLOC);
+	Core_ResetStack(CORE_STACKALLOC);
+
 	Input_Update();
 
 	if (g_initInfo && g_initInfo->AppUpdateFncPtr)
@@ -30,7 +34,7 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	ResetCallback();
 
 	// Initialize core
-	Core_Initialize();
+	Core_Initialize(i_info->m_coreStackSizeInBytes, i_info->m_coreScratchSizeInBytes);
 
     // Initialize graphics
     Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode, i_info->m_gfxScratchSizeInBytes);
