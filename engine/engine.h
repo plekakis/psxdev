@@ -13,6 +13,8 @@
 
 #include <limits.h>
 
+#define CRASHPSX { uint8* ptr = NULL; *ptr = (*ptr / 0); }
+
 // Data types
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
@@ -31,9 +33,9 @@ typedef long long				int64;
 #define CONFIG_RELEASE (0)
 #endif // CONFIG_RELEASE
 
-#ifndef CONFIG_PROFILE
-#define CONFIG_PROFILE (0)
-#endif // CONFIG_PROFILE
+#ifndef CONFIG_FINAL
+#define CONFIG_FINAL (0)
+#endif // CONFIG_FINAL
 
 #ifndef TARGET_PSX
 #define TARGET_PSX (0)
@@ -58,6 +60,19 @@ typedef long long				int64;
 #ifndef bool
 #define bool uint8
 #endif // bool
+
+#define ASSERT_ENABLED (CONFIG_DEBUG | CONFIG_RELEASE)
+
+#if ASSERT_ENABLED
+#define TTY_OUT(msg) printf("%s\n", msg)
+static void verify_assert_impl(char* const i_msg) { TTY_OUT(i_msg); CRASHPSX; }
+#define VERIFY_ASSERT(x, msg) (x) ? 0 : verify_assert_impl(msg);
+#define STATIC_ASSERT(x, msg) static int static_assertion_##msg[(x)?1:-1];
+#else
+#define TTY_OUT(msg)
+#define STATIC_ASSERT(x, msg)
+#define VERIFY_ASSERT(x, msg)
+#endif // ASSERT_ENABLED
 
 // Math macros & constants
 #define PI 3.14159265359f

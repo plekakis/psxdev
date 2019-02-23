@@ -13,65 +13,70 @@ typedef enum
 }DEBUG_OVERLAY_TYPE;
 
 uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
-char dbgText[128];
+char dbgText[1024];
 
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 {
 	// CPU, GPU timings
 	{
-		sprintf2
+		sprintf
 		(
-			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u\n\n", 
+			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u, FPS: %u\n\n", 
 			i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime, 
 			i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime,
-			0//i_info->m_timings.m_gpuEndTime - i_info->m_timings.m_gpuStartTime
+			0,//i_info->m_timings.m_gpuEndTime - i_info->m_timings.m_gpuStartTime
+			i_info->m_timings.m_framesPerSecond
 		);
-		FntPrint(dbgText);
 	}
 
 	// GFX Scratch allocations
 	{
+		char t[64];
 		const float scratchTotal = (float)Gfx_GetTotalScratch() / 1024.0f;
 		const float scratchFree = (float)Gfx_GetFreeScratch() / 1024.0f;
 		const float scratchUsed = (float)Gfx_GetUsedScratch() / 1024.0f;
 		
-		sprintf2(dbgText, "Gfx Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
-		FntPrint(dbgText);
+		sprintf2(t, "Gfx Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		strcat(dbgText, t);
 	}
 
 	// Core Scratch allocations
 	{
+		char t[64];
 		const float scratchTotal = (float)Core_GetTotalScratch(&g_coreScratchAlloc) / 1024.0f;
 		const float scratchFree = (float)Core_GetFreeScratch(&g_coreScratchAlloc) / 1024.0f;
 		const float scratchUsed = (float)Core_GetUsedScratch(&g_coreScratchAlloc) / 1024.0f;
 
-		sprintf2(dbgText, "Core Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
-		FntPrint(dbgText);
+		sprintf2(t, "Core Scratch kb: %.2f (total), %.2f (used), %.2f (free)\n", scratchTotal, scratchUsed, scratchFree);
+		strcat(dbgText, t);
 	}
 
 	// Core Stack allocations
 	{
+		char t[32];
 		const float stackTotal = (float)Core_GetTotalStack(&g_coreStackAlloc) / 1024.0f;
 		const float stackFree = (float)Core_GetFreeStack(&g_coreStackAlloc) / 1024.0f;
 		const float stackUsed = (float)Core_GetUsedStack(&g_coreStackAlloc) / 1024.0f;
 
-		sprintf2(dbgText, "Core stack kb: %.2f (total), %.2f (used), %.2f (free)\n\n", stackTotal, stackUsed, stackFree);
-		FntPrint(dbgText);
+		sprintf2(t, "Core stack kb: %.2f (total), %.2f (used), %.2f (free)\n\n", stackTotal, stackUsed, stackFree);
+		strcat(dbgText, t);
 	}
 
 	// Primitive counts
 	{
-		sprintf2
+		char t[128];
+		sprintf
 		(
-			dbgText, "PRIMS\nF3: %u (div: %u, lit: %u, fog: %u)\nFT3: %u (div: %u, lit: %u, fog: %u)\nG3: %u (div: %u, lit: %u, fog: %u)\nGT3: %u (div: %u, lit: %u, fog: %u)",
+			t, "PRIMS\nF3: %u (div: %u, lit: %u, fog: %u)\nFT3: %u (div: %u, lit: %u, fog: %u)\nG3: %u (div: %u, lit: %u, fog: %u)\nGT3: %u (div: %u, lit: %u, fog: %u)",
 			i_info->m_gfxPrimCounts.m_primF3, i_info->m_gfxPrimCounts.m_primDivF3, i_info->m_gfxPrimCounts.m_primLitF3, i_info->m_gfxPrimCounts.m_primFogF3,
 			i_info->m_gfxPrimCounts.m_primFT3, i_info->m_gfxPrimCounts.m_primDivFT3, i_info->m_gfxPrimCounts.m_primLitFT3, i_info->m_gfxPrimCounts.m_primFogFT3,
 			i_info->m_gfxPrimCounts.m_primG3, i_info->m_gfxPrimCounts.m_primDivG3, i_info->m_gfxPrimCounts.m_primLitG3, i_info->m_gfxPrimCounts.m_primFogG3,
 			i_info->m_gfxPrimCounts.m_primGT3, i_info->m_gfxPrimCounts.m_primDivGT3, i_info->m_gfxPrimCounts.m_primLitGT3, i_info->m_gfxPrimCounts.m_primFogGT3
 		);
-		FntPrint(dbgText);
+		strcat(dbgText, t);
 	}
+	FntPrint(dbgText);
 }
 
 ///////////////////////////////////////////////////

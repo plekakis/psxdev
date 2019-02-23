@@ -1,4 +1,5 @@
 #include <system/system.h>
+#include <core/core.h>
 #include <gfx/gfx.h>
 #include <util/util.h>
 
@@ -63,6 +64,57 @@ void update()
 	yaw += 12;
 	pitch += 12;
 	roll += 12;
+}
+
+typedef struct
+{
+	DR_MODE		mode1;
+	TILE		tiles[4096];
+	LINE_F2		line0;
+	LINE_G2		line1;
+}TestTile;
+
+void TestTiles()
+{
+	const uint32 c_count = 4096;
+	uint32 i = 0;
+
+	Gfx_BeginSubmission(OT_LAYER_OV);
+
+	{
+		Batch2D batch;
+		Gfx_BeginBatch2D(&batch, sizeof(TestTile));
+
+		Gfx_Batch2D_AddMode(&batch, BLEND_RATE_AVG);
+
+		{
+			DVECTOR basePos = { 0, Gfx_GetDisplayHeight() - (2048 / 64) * 4 };
+
+			for (i = 0; i < c_count; ++i)
+			{
+				DVECTOR pos = { basePos.vx + 4 * (i % 128), basePos.vy + 4 * (i / 128) };
+				DVECTOR size = { 4, 4 };
+				CVECTOR color = { rand() % 255, rand() % 255, rand() % 255 };
+
+				Gfx_Batch2D_AddTile(&batch, &pos, &size, &color, i & 1 ? PRIM_FLAG_SEMI_TRANS : PRIM_FLAG_NONE);
+			}
+		}
+		
+		{
+			DVECTOR lineStart0 = { 10, 10 };
+			DVECTOR lineEnd0 = { 100, 100 };
+			DVECTOR lineStart1 = { 150, 150 };
+			CVECTOR lineColor0 = { rand() % 255, rand() % 255, rand() % 255 };
+			CVECTOR lineColor1 = { rand() % 255, rand() % 255, rand() % 255 };
+
+			Gfx_Batch2D_AddLineF(&batch, &lineStart0, &lineEnd0, &lineColor0, PRIM_FLAG_NONE);
+			Gfx_Batch2D_AddLineG(&batch, &lineStart1, &lineEnd0, &lineColor0, &lineColor1, PRIM_FLAG_SEMI_TRANS);
+		}
+
+		Gfx_EndBatch2D(&batch);
+	}
+	
+	Gfx_EndSubmission();
 }
 
 void renderCube(PRIM_TYPE type, uint32 x, uint32 y, uint32 z, uint32 size, CVECTOR* colors)
@@ -131,7 +183,8 @@ void render()
 		{
 			SVECTOR camRotation = { rx, ry, rz };
 			VECTOR camPosition = { xx, yy, zz };
-			
+			VECTOR transformedCamPosition;
+						
 			RotMatrix(&camRotation, &world2Camera);
 			TransMatrix(&world2Camera, &camPosition);
 			
@@ -187,10 +240,14 @@ void render()
 			TransMatrix(&model2World, &v);
 					
 			Gfx_SetModelMatrix(&model2World);
+
 			Gfx_AddPlane(PRIM_TYPE_POLY_G3, 1024, 1024, planeColors);
 		}
 	}
+		
 	Gfx_EndSubmission();
+
+	TestTiles();
 }
 
 int main()
@@ -200,6 +257,8 @@ int main()
 
     sysInitInfo.m_isHighResolution  = TRUE;
 	sysInitInfo.m_gfxScratchSizeInBytes = 128 * 1024;
+	sysInitInfo.m_coreStackSizeInBytes = 2 * 1024;
+	sysInitInfo.m_coreScratchSizeInBytes = 2 * 1024;
     sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;
 	
 	sysInitInfo.AppUpdateFncPtr = &update;

@@ -55,8 +55,15 @@ int16 System_Initialize(SystemInitInfo* i_info)
 
 ///////////////////////////////////////////////////
 int16 System_MainLoop()
-{
-	uint16 timeStart=0, timeEnd=0, timeEndVsync=0, gpuTime=0;
+{	
+	uint16 timeStart = 0, timeEnd = 0, timeEndVsync = 0, gpuTime = 0;
+
+#if !CONFIG_FINAL
+	uint32 timeElapsed = 0u;
+	uint16 frameCount = 0u;
+	uint8  framesPerSecond = 0u;
+#endif // !CONFIG_FINAL
+
 	while (g_systemRunning)
     {
 		Gfx_BeginFrame(&timeStart);
@@ -76,6 +83,7 @@ int16 System_MainLoop()
 			debugInfo.m_timings.m_cpuEndTimeVSync = timeEndVsync;
 			debugInfo.m_timings.m_gpuStartTime = 0;
 			debugInfo.m_timings.m_gpuEndTime = gpuTime;
+			debugInfo.m_timings.m_framesPerSecond = framesPerSecond;
 
 			Gfx_Debug_GetPrimCounts(&debugInfo.m_gfxPrimCounts);
 
@@ -83,7 +91,29 @@ int16 System_MainLoop()
 		}
 #endif // !CONFIG_FINAL
 
-        Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);								
+        Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);
+
+#if !CONFIG_FINAL
+		{
+			// TODO: make a better, reusable timer for this
+			// Convert HSYNC counter to seconds
+			// A second is after 15625 HSYNCs for NTSC and after 15733 HSYNCs for PAL
+			//
+			// Update the counter every quarter of a second
+			float durationSeconds = (float)(timeElapsed - timeStart) / (float)( (Gfx_GetTvMode() == MODE_PAL) ? 15733 : 15625);
+			if (durationSeconds > 0.25f)
+			{
+				framesPerSecond = frameCount / durationSeconds;
+				timeElapsed = 0u;
+				frameCount = 0;
+			}
+			else
+			{
+				++frameCount;
+				timeElapsed += timeEnd;
+			}
+		}
+#endif // !CONFIG_FINAL
     }
 
     return E_OK;

@@ -34,6 +34,35 @@ extern uint16 g_dirtyFlags;
 #define DF_SET(x) g_dirtyFlags |= (x)
 #define DF_INV(x) g_dirtyFlags &= ~(x)
 
+// Primitive flags, used in various occasions
+typedef enum
+{
+	PRIM_FLAG_NONE			= 1 << 0,
+	PRIM_FLAG_SEMI_TRANS	= 1 << 1
+}PrimFlags;
+
+// Blend rate
+// BLEND_RATE_AVG			: 0.5 x Back + 0.5 x Forward
+// BLEND_RATE_ADD			: 1.0 x Back + 1.0 x Forward
+// BLEND_RATE_SUB			: 1.0 x Back - 1.0 x Forward
+// BLEND_RATE_ADD_QUARTER   : 1.0 x Back + 0.25 x Forward
+typedef enum
+{
+	BLEND_RATE_AVG = 0,
+	BLEND_RATE_ADD = 1,
+	BLEND_RATE_SUB = 2,
+	BLEND_RATE_ADD_QUARTER = 3
+}BlendRate;
+
+// 2D batches
+typedef struct
+{
+	void*	m_baseAddress;
+	void*	m_currentAddress;
+	uint32	m_sizeInBytes;
+	uint8	m_prevPrimSize;
+}Batch2D;
+
 // Polies
 typedef enum
 {
@@ -191,6 +220,24 @@ int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray);
 // Add a NxM plane to the current OT
 int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray);
 
+// Begin a batched 2D primitive submission
+int16 Gfx_BeginBatch2D(Batch2D* o_batch, uint32 i_batchSizeInBytes);
+
+// Add a TILE to the specified 2D batch
+static int16 Gfx_Batch2D_AddTile(Batch2D* io_batch, DVECTOR* const i_position, DVECTOR* const i_size, CVECTOR* const i_color, PrimFlags i_flags);
+
+// Add a LINE_F2 to the specified 2D batch
+static int16 Gfx_Batch2D_AddLineF(Batch2D* io_batch, DVECTOR* const i_start, DVECTOR* const i_end, CVECTOR* const i_color, PrimFlags i_flags);
+
+// Add a LINE_G2 to the specified 2D batch
+static int16 Gfx_Batch2D_AddLineG(Batch2D* io_batch, DVECTOR* const i_start, DVECTOR* const i_end, CVECTOR* const i_startColor, CVECTOR* const i_endColor, PrimFlags i_flags);
+
+// Add a DR_MODE to the specified 2D batch
+static int16 Gfx_Batch2D_AddMode(Batch2D* io_batch, BlendRate i_blendRate);
+
+// End a batched 2D primitive submission
+int16 Gfx_EndBatch2D(Batch2D* i_batch);
+
 // Ends primitive submission
 int16 Gfx_EndSubmission();
 
@@ -230,4 +277,6 @@ void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts);
 
 #endif // !CONFIG_FINAL
 
+
+#include "gfx_batch2d.h"
 #endif // GFX_H_INC

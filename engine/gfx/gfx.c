@@ -28,17 +28,14 @@ typedef struct
 {
 	uint32 m_displayWidth : 10;
 	uint32 m_displayHeight : 10;
-	uint32  m_frameIndex : 2;
-	uint32  m_tvMode : 1;
-	uint32  m_isHighResolution : 1;
+	uint32 m_frameIndex : 2;
+	uint32 m_tvMode : 1;
+	uint32 m_isHighResolution : 1;
 }FrameData;
 
 FrameData g_dispProps;
 
 // Current matrices
-MATRIX g_defaultModelMatrix;
-MATRIX g_defaultCameraMatrix;
-
 MATRIX* g_modelMatrix;
 MATRIX* g_cameraMatrix;
 MATRIX  g_currentCameraMatrix;
@@ -51,20 +48,16 @@ void SetDefaultMatrices()
 		SVECTOR rotation = {0,0,0};
 		VECTOR	position = {0,0,0};
 
-		RotMatrix(&rotation, &g_defaultModelMatrix);
-		TransMatrix(&g_defaultModelMatrix, &position);
-
-		g_modelMatrix = &g_defaultModelMatrix;
+		RotMatrix(&rotation, g_modelMatrix);
+		TransMatrix(g_modelMatrix, &position);
 	}
 	// Camera
 	{
 		SVECTOR rotation = {0,0,0};
 		VECTOR	position = {0,0,0};
 
-		RotMatrix(&rotation, &g_defaultCameraMatrix);
-		TransMatrix(&g_defaultCameraMatrix, &position);
-
-		g_cameraMatrix = &g_defaultCameraMatrix;
+		RotMatrix(&rotation, g_cameraMatrix);
+		TransMatrix(g_cameraMatrix, &position);
 	}
 
 	DF_SET(DF_CAMERA_MATRIX | DF_MODEL_MATRIX);
@@ -119,14 +112,17 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 
 		// mask in the interlaced bit
 		if (Gfx_IsHighResolution())
-			int1 |= (1 << 0);
+			int1 |= 1;
 
 		GsInitGraph(Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), int1, 1, 0);
-		SetVideoMode(Gfx_GetTvMode());
 	}
 
 	// Set debug mode (0:off, 1:monitor, 2:dump)
+#if CONFIG_DEBUG
+	SetGraphDebug(1);
+#else
 	SetGraphDebug(0);
+#endif // CONFIG_DEBUG
 
     // Initialize geometry subsystem*/
 	InitGeom();
@@ -182,9 +178,9 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(8, Gfx_IsHighResolution() ? 16 : 8, Gfx_GetDisplayWidth(), 64, 0, 512));
+	SetDumpFnt(FntOpen(8, Gfx_IsHighResolution() ? 16 : 8, Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), 0, 1024));
 
-	SetRCnt(RCntCNT1, 2048, RCntMdINTR);
+	SetRCnt(RCntCNT1, 4096, RCntMdINTR);
 	StartRCnt(RCntCNT1);
     return E_OK;
 }
@@ -202,6 +198,9 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
 	g_currentFrameBuffer = &g_frameBuffers[frameBufferIndex];
  
+	// Reset camera and model matrices
+	SetDefaultMatrices();
+
 	ResetRCnt(RCntCNT1);
 	*o_cputime = (uint16)GetRCnt(RCntCNT1);
 
@@ -430,7 +429,6 @@ int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count)
 		void* const prim = i_primArray + stride * i;
 		Gfx_AddPrim(i_type, prim);
 	}
-	
 	return E_OK;
 }
 

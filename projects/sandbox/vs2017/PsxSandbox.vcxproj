@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\engine\core\core.c" />
+    <ClCompile Include="..\..\..\engine\core\core_allocators.c" />
     <ClCompile Include="..\..\..\engine\core\core_scu.c" />
     <ClCompile Include="..\..\..\engine\engine_scu.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx.c" />
@@ -39,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\core\core.h" />
+    <ClInclude Include="..\..\..\engine\core\core_allocators.h" />
     <ClInclude Include="..\..\..\engine\engine.h" />
     <ClInclude Include="..\..\..\engine\gfx\gfx.h" />
     <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h" />
