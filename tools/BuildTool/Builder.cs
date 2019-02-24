@@ -39,6 +39,15 @@ namespace BuildTool
     /// </summary>
     class Builder
     {
+        public struct CompilationStages
+        {
+            public string m_ccpsxEngine; // The compilation step for the engine.c, this generates object file to be used in dmpsx engine step
+            public string m_dmpsxEngine; // The dmpsx engine step; takes engine.obj and processes it to generate inline gte compatible code
+            public string m_ccpsxGame;   // The compilation step for the game.c, this generates object file to be used in dmpsx game step  
+            public string m_dmpsxGame;   // The dmpsx game step; takes game.obj and processes it to generate inline gte compatible code
+            public string m_ccpsxFinal;  // Final compilation step  
+        };
+
         private string      m_projectDirectory;        
         private bool        m_preserveOutput;
 
@@ -89,16 +98,16 @@ namespace BuildTool
         /// <param name="additionalLibDirs">An array of library directories.</param>
         /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <returns>The arguments string.</returns>
-        public string GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs)
+        public CompilationStages GetCCPSXArgs(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs)
         {
-            string args = "-Xo$80010000 ";
+            CompilationStages stages = new CompilationStages();
 
             string psxdevRoot = Utilities.GetPsxDevRoot();
 
             // assemble the arguments
             string engineDirectory = "engine";
-            string engineSources = Path.Combine(engineDirectory, "engine_scu.c");
-            string gameSources = Path.Combine(m_projectDirectory, "source", "game_scu.c");
+            string engineSources = Path.Combine(engineDirectory, "engine_scu");
+            string gameSources = Path.Combine(m_projectDirectory, "source", "game_scu");
             string optimisationLevel = Utilities.IsDebugConfig(config) ? "-O0" : "-O3";
             string[] libraries = { "libpad" };
 
@@ -141,44 +150,68 @@ namespace BuildTool
             List<string> libraryDirs = new List<string>();
             libraryDirs.AddRange(additionalLibDirs);
 
-            // Input source files
-            args += engineSources + " ";
-            args += gameSources + " ";
+            string compilationArgs = "";
+            string linkerArgs = "";
 
             // Optimisation level
-            args += optimisationLevel + " ";
+            compilationArgs += optimisationLevel + " ";
             
             // Add the preprocessor macros
             foreach (string pp in preprocessor)
             {
-                args += "-D" + pp + " ";
-            }
-
-            // Add the linker options
-            foreach (string ll in linker)
-            {
-                args += "-l" + ll + " ";
+                compilationArgs += "-D" + pp + " ";
             }
 
             // Add the include directories
             foreach (string dir in includeDirs)
             {
-                args += "-I" + dir + " ";
+                compilationArgs += "-I" + dir + " ";
+            }
+
+            // Add the linker options
+            foreach (string ll in linker)
+            {
+                linkerArgs += "-l" + ll + " ";
             }
 
             // Add the library directories
             foreach (string dir in libraryDirs)
             {
-                args += "-L" + dir + " ";
+                linkerArgs += "-L" + dir + " ";
             }
-                        
-            // Final arguments, output
-            args += "-o";
-            args += Path.Combine(Utilities.GetBuildOuputDirectory(config, m_projectDirectory), "main.cpe") + ",";
-            args += Path.Combine(Utilities.GetBuildOuputDirectory(config, m_projectDirectory), "main.sym") + ",";
-            args += Path.Combine(Utilities.GetBuildOuputDirectory(config, m_projectDirectory), "mem.map");
 
-            return args;
+            string buildDir = Utilities.GetBuildOuputDirectory(config, m_projectDirectory);
+
+            // CCPSX engine generation
+            stages.m_ccpsxEngine += "-c -O " + engineSources + ".c" + " -o" + Path.Combine(buildDir, "engine.obj") + " ";
+            stages.m_ccpsxEngine += compilationArgs;
+
+            // CCPSX game generation
+            stages.m_dmpsxEngine += Path.Combine(buildDir, "engine.obj");
+
+            // DMPSX engine generation
+            stages.m_ccpsxGame += "-c -O " + gameSources + ".c" + " -o" + Path.Combine(buildDir, "game.obj") + " ";
+            stages.m_ccpsxGame += compilationArgs;
+
+            // DMPSX game generation
+            stages.m_dmpsxGame += Path.Combine(buildDir, "game.obj");
+
+            // Final compilation step generation
+            // Final arguments, output
+            stages.m_ccpsxFinal = "-Xo$80010000 ";
+            stages.m_ccpsxFinal += compilationArgs;
+            stages.m_ccpsxFinal += linkerArgs;
+
+            // Input source files
+            stages.m_ccpsxFinal += Path.Combine(buildDir, "engine.obj") + " ";
+            stages.m_ccpsxFinal += Path.Combine(buildDir, "game.obj") + " ";
+
+            stages.m_ccpsxFinal += "-o";
+            stages.m_ccpsxFinal += Path.Combine(buildDir, "main.cpe") + ",";
+            stages.m_ccpsxFinal += Path.Combine(buildDir, "main.sym") + ",";
+            stages.m_ccpsxFinal += Path.Combine(buildDir, "mem.map");
+
+            return stages;
         }
 
         /// <summary>
@@ -217,7 +250,7 @@ namespace BuildTool
         /// <param name="additionalLibDirs">An array of library directories.</param>
         /// <param name="additionalIncludeDirs">An array of include directories.</param>
         /// <param name="output">The StringBuilder to write out the stdout and stderr streams.</param>
-        public void Build(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs, StringBuilder output)
+        public bool Build(BuildConfiguration config, string[] additionalPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs, StringBuilder output)
         {
             output.Clear();
             output.AppendLine("Starting " + config.ToString() + " build...");
@@ -234,18 +267,28 @@ namespace BuildTool
             }
 
             // First, the build process.
-            {
+            bool success = true;
+            {                
                 // CCPSX
-                {
-                    output.AppendLine("Launching CCPSX...");
-                    string args = GetCCPSXArgs(config, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
-                    Utilities.LaunchProcessAndWait("ccpsx", args, psxdevRoot, output);
+                {                    
+                    CompilationStages stages = GetCCPSXArgs(config, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
+
+                    output.AppendLine("Launching CCPSX (engine)...");
+                    success &= Utilities.LaunchProcessAndWait("ccpsx", stages.m_ccpsxEngine, psxdevRoot, output);
+                    output.AppendLine("Launching DMPSX (engine)...");
+                    success &= Utilities.LaunchProcessAndWait("dmpsx", stages.m_dmpsxEngine, psxdevRoot, output);
+                    output.AppendLine("Launching CCPSX (game)...");
+                    success &= Utilities.LaunchProcessAndWait("ccpsx", stages.m_ccpsxGame, psxdevRoot, output);
+                    output.AppendLine("Launching DMPSX (game)...");
+                    success &= Utilities.LaunchProcessAndWait("dmpsx", stages.m_dmpsxGame, psxdevRoot, output);
+                    output.AppendLine("Launching CCPSX (final compilation & linking)...");
+                    success &= Utilities.LaunchProcessAndWait("ccpsx", stages.m_ccpsxFinal, psxdevRoot, output);
                 }
 
                 // CPE2X
                 {
                     output.AppendLine("Launching CPE2X...");
-                    Utilities.LaunchProcessAndWait("cpe2x", "main.cpe", outputDir, output);
+                    success &= Utilities.LaunchProcessAndWait("cpe2x", "main.cpe", outputDir, output);
                 }
             }
 
@@ -253,7 +296,7 @@ namespace BuildTool
             // This is useful for NO$PSX, as it seems that's the only way it can load PSX executable at the moment (unless of course we want to burn the image to a CD).
             // First, read the templates (system & cd) and make a copy of them in the output directory. 
             // Modify their placeholder values and add any files to the tracks.
-            if (GenerateCDImage)
+            if (GenerateCDImage && success)
             {
                 string cdOutputDir = Path.Combine(outputDir, "cdrom");
                 Directory.CreateDirectory(cdOutputDir);
@@ -304,6 +347,12 @@ namespace BuildTool
                     Utilities.LaunchProcessAndWait("mkpsxiso", args, outputDir, output);
                 }
             }
+            if (!success)
+            {
+                MessageBox.Show("Unsuccessful compilation, has compile/linker errors! Execution (if requested) has been skipped.", "BuildTool", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return success;
         }
 
         /// <summary>
@@ -319,11 +368,14 @@ namespace BuildTool
         /// <param name="output">The StringBuilder to write out the stdout and stderr streams.</param>
         public void BuildAndRun(BuildConfiguration config, string[] additionaPreprocessor, string[] additionalLinker, string[] additionalLibDirs, string[] additionalIncludeDirs, StringBuilder output)
         {
-            Build(config, additionaPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, output);
+            bool success = Build(config, additionaPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs, output);
 
-            m_preserveOutput = true;
-            Run(config, output);
-            m_preserveOutput = false;
+            if (success)
+            {
+                m_preserveOutput = true;
+                Run(config, output);
+                m_preserveOutput = false;
+            }
         }
 
         /// <summary>

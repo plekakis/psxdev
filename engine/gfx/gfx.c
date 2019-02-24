@@ -310,11 +310,11 @@ void PrepareMatrices(bool i_billboard)
 		MATRIX lightRotMatrix;
 		
 		// Update the local color matrix
-		SetColorMatrix(&g_rs.m_lightColors);
+		gte_SetColorMatrix(&g_rs.m_lightColors);
 		
 		// Update the light vector matrix
-		MulMatrix0(&g_rs.m_lightVectors, g_modelMatrix, &lightRotMatrix);
-		SetLightMatrix(&lightRotMatrix);
+		gte_MulMatrix0(&g_rs.m_lightVectors, g_modelMatrix, &lightRotMatrix);
+		gte_SetLightMatrix(&lightRotMatrix);
 		
 		DF_INV(DF_LIGHTS);
 	}
@@ -348,7 +348,7 @@ void PrepareMatrices(bool i_billboard)
 		// Compose camera matrix with model
 		/* Reversing, but why does it have to be done? */
 		g_modelMatrix->t[1] *= -1;
-		CompMatrixLV(&g_currentCameraMatrix, g_modelMatrix, &finalMat);
+		gte_CompMatrix(&g_currentCameraMatrix, g_modelMatrix, &finalMat);
 
 		if (i_billboard)
 		{
@@ -366,8 +366,8 @@ void PrepareMatrices(bool i_billboard)
 		}
 
 		// Update current rotation and translation matrices
-		SetTransMatrix(&finalMat);
-		SetRotMatrix(&finalMat);
+		gte_SetTransMatrix(&finalMat);
+		gte_SetRotMatrix(&finalMat);
 
 		DF_INV(DF_MODEL_MATRIX);
 	}
@@ -384,7 +384,7 @@ int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 	primmem = fncAddPrim[i_type](i_prim, &otz);
 	if (primmem)
 	{
-		AddPrim(Gfx_GetCurrentOT() + otz, primmem);
+		addPrim(Gfx_GetCurrentOT() + otz, primmem);
 	}
 	
 	return E_OK;
@@ -446,7 +446,7 @@ int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32
 		
 		if (primmem)
 		{
-			AddPrim(Gfx_GetCurrentOT() + otz, primmem);
+			addPrim(Gfx_GetCurrentOT() + otz, primmem);
 		}
 	}
 

@@ -47,7 +47,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 #define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
 
 #define DECL_PRIM_AND_TRANSFORM(type) \
-	int32	p, flg, otz, valid=1, hasprim=FALSE, submit=FALSE; \
+	int32	p, flg, otz, valid=1, hasprim=FALSE, submit=FALSE, nclip; \
 	bool transformBit = (Gfx_GetRenderState() & RS_PERSP) != 0; \
 	bool litBit = (Gfx_GetRenderState() & RS_LIGHTING) != 0; \
 	bool fogBit = (Gfx_GetRenderState() & RS_FOG) != 0; \
@@ -61,20 +61,34 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	{ \
 		/* Do a pre-transformation to do backface culling and clipped triangle checking */ \
 		/* This is important to save allocations and further processing */ \
-		int32 sxy0, sxy1, sxy2; \
 		uint16 displayWidth = Gfx_GetDisplayWidth(); \
 		uint16 displayHeight = Gfx_GetDisplayHeight(); \
 		SetPoly## type(&temp); \
-		otz = RotTransPers3(&prim->v0, &prim->v1, &prim->v2, \
-		(int32*)&temp.x0, (int32*)&temp.x1, (int32*)&temp.x2, \
-		&p, \
-		&flg); \
+		/* Load the vertex into GTE registers and do a perspective transformation */ \
+		gte_ldv3(&prim->v0, &prim->v1, &prim->v2); \
+		gte_rtpt(); \
+		/* Calculate the normal clip factor, used for backface culling */ \
+		gte_nclip(); \
+		/*
+		// Clipping will not work with subdivided primitives; what to do?		
+		gte_stflg(&flg); \
+		if (flg < 0) return NULL; \
+		*/ \
+		/* Store the screenspace coordinates into the POLY structure */ \
+		gte_stsxy3((int32*)&temp.x0, (int32*)&temp.x1, (int32*)&temp.x2); \
 		/* Clip to viewing area. There has to be a way to do this in a better way... */ \
 		if ( (temp.x0 < 0) && (temp.x1 < 0) && (temp.x2 < 0) ) return NULL; \
 		if ( (temp.x0 > displayWidth) && (temp.x1 > displayWidth) && (temp.x2 > displayWidth) ) return NULL; \
 		if ( (temp.y0 < 0) && (temp.y1 < 0) && (temp.y2 < 0) ) return NULL; \
 		if ( (temp.y0 > displayHeight) && (temp.y1 > displayHeight) && (temp.y2 > displayHeight) ) return NULL; \
-		if ( !PRIMVALID(otz, valid) || (backfaceCullBit && (NormalClip(*((int32*)&temp.x0), *((int32*)&temp.x1), *((int32*)&temp.x2)) <= 0))) return NULL; \
+		/* Retrieve the normal clip factor and test for backfaces */ \
+		gte_stopz(&nclip); \
+		if ((nclip <= 0) && backfaceCullBit) return NULL; \
+		/* Average the z values and retrieve the otz */ \
+		gte_avsz3(); \
+		gte_stotz(&otz); \
+		/* At this stage, if the otz is within OT bounds and the primitive is valid, carry on. */ \
+		if ( !PRIMVALID(otz, valid)) return NULL; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
 		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * primCount, 4); \
 		memcpy(poly, &temp, sizeof(temp)); \
@@ -88,27 +102,20 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 			prim->v1.vx, prim->v1.vy, \
 			prim->v2.vx, prim->v2.vy \
 		); \
-	}	
+	}
 
-/* Primitive color declaration. */
-#define DECL_PRIM_COL(index) CVECTOR* c## index = &prim->c## index;
-
-/* Initialise the primitive color. This will be used in subsequent macros to handle fog & lighting. */
-#define INIT_POLY_COL(index) \
-	(c## index)->cd = poly->code; \
-	poly->r## index = (c## index)->r; \
-	poly->g## index = (c## index)->g; \
-	poly->b## index = (c## index)->b;
-
-/* Lighting: If lighting is enabled in the renderstate, interpolate the color towards the diffuse color. This expects a valid normal vector to be present on the primitive */
-#define BEGIN_LIGHTING if (litBit) {
-#define DO_LIGHTING(index) NormalColorCol(&prim->n## index, c## index, (CVECTOR*)&poly->r## index);
-#define END_LIGHTING }
-
-/* Depth cueing: If fog is enabled in the renderstate, interpolate the color towards the fog color based on the depth cue returned by the transformation. */
-#define BEGIN_DQ if (fogBit) {
-#define DO_DQ(index) DpqColor((CVECTOR*)&poly->r## index, p, (CVECTOR*)&poly->r## index);
-#define END_DQ }
+#define DO_FINAL_COLOR(index) \
+	(prim->c## index).cd = poly->code; \
+	poly->r## index = (prim->c## index).r; \
+	poly->g## index = (prim->c## index).g; \
+	poly->b## index = (prim->c## index).b; \
+	gte_ldrgb(&poly->r## index); \
+	if (litBit & transformBit) { \
+		gte_ldv0(&(prim->n## index).vx); gte_nccs(); gte_strgb(&poly->r## index); \
+	} \
+	if (fogBit & transformBit) { \
+		gte_stdp(&p); gte_dpcs(); gte_strgb(&poly->r## index); \
+	}
 
 /*
 Begin division:
@@ -159,30 +166,21 @@ This operation submits the primitive to the OT.
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_AND_TRANSFORM(F3)
+	DECL_PRIM_AND_TRANSFORM(F3);
 	
-	BEGIN_PRIM_PREP	
-		BEGIN_PRIM_WORK
-			DECL_PRIM_COL(0)
-			INIT_POLY_COL(0)
-		
-			BEGIN_LIGHTING
-				DO_LIGHTING(0)
-			END_LIGHTING
-	
-			BEGIN_DQ
-				DO_DQ(0)
-			END_DQ
-		END_PRIM_WORK
-	PRIMDIV_F3
-	REGISTER_PRIM(F3)
-	END_PRIM_PREP
+	BEGIN_PRIM_PREP;
+		BEGIN_PRIM_WORK;
+			DO_FINAL_COLOR(0);
+		END_PRIM_WORK;
+	PRIMDIV_F3;
+	REGISTER_PRIM(F3);
+	END_PRIM_PREP;
 }
 
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_AND_TRANSFORM(FT3)
+	DECL_PRIM_AND_TRANSFORM(FT3);
 
 	*o_otz = 0;
 	return poly;
@@ -191,35 +189,17 @@ void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 {
-	DECL_PRIM_AND_TRANSFORM(G3)
+	DECL_PRIM_AND_TRANSFORM(G3);
 	
-	BEGIN_PRIM_PREP	
-		BEGIN_PRIM_WORK
-			DECL_PRIM_COL(0)
-			DECL_PRIM_COL(1)
-			DECL_PRIM_COL(2)
-
-			INIT_POLY_COL(0)
-			INIT_POLY_COL(1)
-			INIT_POLY_COL(2)
-
-			// Lighting first
-			BEGIN_LIGHTING
-				DO_LIGHTING(0)
-				DO_LIGHTING(1)
-				DO_LIGHTING(2)
-			END_LIGHTING
-
-			// Then depth queue
-			BEGIN_DQ
-				DO_DQ(0)
-				DO_DQ(1)
-				DO_DQ(2)
-			END_DQ
-		END_PRIM_WORK
-	PRIMDIV_G3
-	REGISTER_PRIM(G3)
-	END_PRIM_PREP
+	BEGIN_PRIM_PREP;
+		BEGIN_PRIM_WORK;
+			DO_FINAL_COLOR(0);
+			DO_FINAL_COLOR(1);
+			DO_FINAL_COLOR(2);
+		END_PRIM_WORK;
+	PRIMDIV_G3;
+	REGISTER_PRIM(G3);
+	END_PRIM_PREP;
 }
 
 ///////////////////////////////////////////////////

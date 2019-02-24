@@ -88,7 +88,14 @@ namespace BuildTool
                     p.WaitForExit();
                 }
 
-                return true;
+                try
+                {
+                    return p.ExitCode == 0;
+                }
+                catch
+                {
+                    return true;
+                }
             }
             return false;
         }

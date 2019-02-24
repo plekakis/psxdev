@@ -10,7 +10,8 @@
 #include <libapi.h>
 #include <libpress.h>
 #include <libcd.h>
-
+#include <GTEMAC.H>
+#include <INLINE_C.H>
 #include <limits.h>
 
 #define CRASHPSX { uint8* ptr = NULL; *ptr = (*ptr / 0); }

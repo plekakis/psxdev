@@ -74,7 +74,7 @@ void Gfx_GetFogNearFar(uint32* o_near, uint32* o_far)
 void Gfx_SetFogColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 {
 	g_rs.m_fogColor = PACK_RGB(i_red, i_green, i_blue);
-	SetFarColor(i_red, i_green, i_blue);
+	gte_SetFarColor(i_red, i_green, i_blue);
 }
 
 ///////////////////////////////////////////////////
@@ -87,7 +87,7 @@ void Gfx_GetFogColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 void Gfx_SetBackColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 {
 	g_rs.m_backColor = PACK_RGB(i_red, i_green, i_blue);
-	SetBackColor(i_red, i_green, i_blue);
+	gte_SetBackColor(i_red, i_green, i_blue);
 }
 
 ///////////////////////////////////////////////////

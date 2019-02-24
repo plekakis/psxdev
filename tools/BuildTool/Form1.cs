@@ -342,8 +342,8 @@ namespace BuildTool
             string[] additionalIncludeDirs = null;
 
             PreBuild(ref additionalPreprocessor, ref additionalLinker, ref additionalLibDirs, ref additionalIncludeDirs);
-            string args = m_currentBuilder.GetCCPSXArgs(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
-            txtAllArgs.Text = args;
+            Builder.CompilationStages stages = m_currentBuilder.GetCCPSXArgs(m_configuration, additionalPreprocessor, additionalLinker, additionalLibDirs, additionalIncludeDirs);
+            txtAllArgs.Text = stages.m_ccpsxFinal;
         }
 
         private void cmbConfiguration_SelectedIndexChanged(object sender, EventArgs e)
