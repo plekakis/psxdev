@@ -14,14 +14,14 @@ typedef struct
 
 	// 3 Root OTs
 	// Background, Foreground and Overlay
-	uint32		m_OT[OT_LAYER_MAX][MAX_OT_LENGTH];
+	uint32		m_OT[OT_LAYER_MAX][OT_ENTRIES];
 }FrameBuffer;
 
 // Framebuffer resources
 FrameBuffer g_frameBuffers[GFX_NUM_BUFFERS];
 FrameBuffer* g_currentFrameBuffer = NULL;
 
-uint8	g_currentSubmissionOTIndex = ~0;
+uint8	g_currentSubmissionOTIndex = 0xf;
 
 // when high-resolution is selected, we switch to interlaced mode
 typedef struct
@@ -29,6 +29,7 @@ typedef struct
 	uint32 m_displayWidth : 10;
 	uint32 m_displayHeight : 10;
 	uint32 m_frameIndex : 2;
+	uint32 m_refreshMode : 3;
 	uint32 m_tvMode : 1;
 	uint32 m_isHighResolution : 1;
 }FrameData;
@@ -66,6 +67,7 @@ void SetDefaultMatrices()
 ///////////////////////////////////////////////////
 uint32* Gfx_GetCurrentOT()
 {
+	VERIFY_ASSERT( (g_currentSubmissionOTIndex != 0xf), "Gfx_GetCurrentOT: Submission OT index hasn't been set, has BeginSubmission been called (Index: %u)?", g_currentSubmissionOTIndex);
 	return g_currentFrameBuffer->m_OT[g_currentSubmissionOTIndex];
 }
 
@@ -94,7 +96,7 @@ uint8 Gfx_GetTvMode()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratchSizeInBytes)
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes)
 {
     uint16 index = 0;
 
@@ -105,7 +107,8 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
                                  ( (i_mode == MODE_PAL) ? 256 : 240) ;
 	g_dispProps.m_tvMode = i_mode;
 	g_dispProps.m_isHighResolution = i_isHighResolution;
-	
+	g_dispProps.m_refreshMode = i_refreshMode;
+
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
 	{
 		uint16 int1 = 0;
@@ -136,14 +139,13 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 
 	// distance to viewing-screen
 	SetGeomScreen(Gfx_GetDisplayWidth() / 2);
-
-	// Default clear color to black
-	Gfx_SetClearColor(0, 0, 0);
-		
+			
 	Util_MemZero(g_frameBuffers, sizeof(g_frameBuffers));
 	// Setup all the buffer page resources
 	for (index=0; index<GFX_NUM_BUFFERS; ++index)
     {
+		uint32 xoffset = 0;
+
         // Always in interlaced mode
         g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsHighResolution();
         // And default to 16bit
@@ -155,14 +157,20 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 		// Screen starting position must be modified for PAL.
 		// Y must be moved down by 16 lines.
 		if (g_dispProps.m_tvMode == MODE_PAL)
-		{			
+		{
 #if TARGET_EMU
 			// NO$PSX requires this to align correctly
-			uint32 xoffset = i_isHighResolution ? -8 : -2;
-#else
-			uint32 xoffset = 0;
+			xoffset = i_isHighResolution ? -8 : -2;
 #endif // TARGET_EMU
 			setRECT(&g_frameBuffers[index].m_dispEnv.screen, xoffset, 16, 256, 256);
+		}
+		else
+		{
+#if TARGET_EMU
+			// NO$PSX requires this to align correctly
+			xoffset = i_isHighResolution ? -3 : 1;
+#endif // TARGET_EMU
+			setRECT(&g_frameBuffers[index].m_dispEnv.screen, xoffset, 8, 256, 256);
 		}
     }
 
@@ -185,9 +193,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	//
 
 	// Default renderstate & matrices
-	Gfx_SetRenderState(RS_PERSP);
-	Gfx_SetBackColor(32, 32, 32);
-
+	Gfx_InitState();	
 	SetDefaultMatrices();
 	//
 
@@ -216,6 +222,7 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 	g_currentFrameBuffer = &g_frameBuffers[frameBufferIndex];
  
 	// Reset camera and model matrices
+	Gfx_InitState();
 	SetDefaultMatrices();
 
 	ResetRCnt(RCntCNT1);
@@ -235,7 +242,7 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
 		{
-			ClearOTagR(g_currentFrameBuffer->m_OT[index], MAX_OT_LENGTH);
+			ClearOTagR(g_currentFrameBuffer->m_OT[index], OT_ENTRIES);
 		}
 	}
 
@@ -251,7 +258,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 	*o_cputime = (uint16)GetRCnt(RCntCNT1);
 	
 	// VSync and update the drawing environment
-	VSync(0);
+	VSync(g_dispProps.m_refreshMode);
 
 	*o_cputimeVsync = (uint16)GetRCnt(RCntCNT1);
 	
@@ -283,7 +290,7 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 		uint8 index;
 		for (index=0; index<OT_LAYER_MAX; ++index)
 		{
-			DrawOTag(g_currentFrameBuffer->m_OT[index] + MAX_OT_LENGTH-1);
+			DrawOTag(g_currentFrameBuffer->m_OT[index] + OT_ENTRIES-1);
 		}
 	}
 	
@@ -311,11 +318,9 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 {
 	if (g_currentSubmissionOTIndex != i_layer)
 	{
-		g_currentSubmissionOTIndex = i_layer;
-		return E_OK;
+		g_currentSubmissionOTIndex = i_layer;		
 	}
-
-	return E_SUBMISSION_ERROR;
+	return E_OK;
 }
 
 
@@ -441,6 +446,8 @@ int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count)
 	uint32 i = 0;
 	uint32 stride = g_primStrides[i_type];
 
+	VERIFY_ASSERT(i_primArray, "Gfx_AddPrims: Input primitive array cannot be null!");
+
 	for (i=0; i<i_count; ++i)
 	{			
 		void* const prim = i_primArray + stride * i;
@@ -473,6 +480,6 @@ int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32
 ///////////////////////////////////////////////////
 int16 Gfx_EndSubmission()
 {
-	g_currentSubmissionOTIndex = ~0;
+	g_currentSubmissionOTIndex = 0xf;
 	return E_OK;
 }

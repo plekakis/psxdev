@@ -9,7 +9,7 @@ ScratchBuffer g_coreScratchAlloc;
 #define CORE_STACKALLOC (&g_coreStackAlloc)
 #define CORE_SCRATCHALLOC (&g_coreScratchAlloc)
 
-// Initialise core memory and internal allocators
+// Initialize core memory and internal allocators
 int16 Core_Initialize(uint32 i_stackSizeInBytes, uint32 i_scratchSizeInBytes);
 
 // Shutdown

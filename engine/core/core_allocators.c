@@ -72,6 +72,7 @@ void* Core_AllocScratch(ScratchBuffer* i_buffer, uint32 i_bytes, uint8 i_alignme
 			return mem;
 		}
 	}
+	VERIFY_ASSERT(FALSE, "Core_AllocScratch: Core scratch allocator is out of memory!");
 	return NULL;
 }
 
@@ -172,6 +173,7 @@ void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 			}
 		}
 	}
+	VERIFY_ASSERT(FALSE, "Core_PushStack: Core stack allocator is out of memory!");
 	return NULL;
 }
 

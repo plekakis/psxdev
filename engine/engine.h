@@ -66,25 +66,16 @@ typedef long long				int64;
 
 #if ASSERT_ENABLED
 #define TTY_OUT(msg) printf("%s\n", msg)
-static void verify_assert_impl(char* const i_msg) { TTY_OUT(i_msg); CRASHPSX; }
-#define VERIFY_ASSERT(x, msg) (x) ? 0 : verify_assert_impl(msg);
+#define VERIFY_ASSERT(x, ...) if (!x) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); CRASHPSX; }
 #define STATIC_ASSERT(x, msg) static int static_assertion_##msg[(x)?1:-1];
 #else
 #define TTY_OUT(msg)
-#define STATIC_ASSERT(x, msg)
+#define STATIC_ASSERT(x, ...)
 #define VERIFY_ASSERT(x, msg)
 #endif // ASSERT_ENABLED
 
 // Math macros & constants
 #define PI 3.14159265359f
-
-#ifndef MIN
-#define MIN(a,b) (((a)<(b))?(a):(b))
-#endif // MIN
-
-#ifndef MAX
-#define MAX(a,b) (((a)>(b))?(a):(b))
-#endif // MAX
 
 // Error code returned by most functions
 #define E_OK					(0)

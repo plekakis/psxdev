@@ -1,7 +1,7 @@
 #ifndef GFX_SCRATCH_H_INC
 #define GFX_SCRATCH_H_INC
 
-// Initialise a scratch buffer per framebuffer
+// Initialize a scratch buffer per framebuffer
 int16 Gfx_InitScratch(uint32 i_gfxScratchSizeInBytes);
 
 // Free the scratch buffers

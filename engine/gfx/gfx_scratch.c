@@ -8,16 +8,15 @@ ScratchBuffer g_scratchBuffers[GFX_NUM_BUFFERS];
 int16 Gfx_InitScratch(uint32 i_gfxScratchSizeInBytes)
 {
 	uint8 index;
-	
+	int16 result;
 	Util_MemZero(g_scratchBuffers, sizeof(g_scratchBuffers));
 	for (index=0; index<ARRAY_SIZE(g_scratchBuffers); ++index)
 	{
-		uint16 err = Core_InitScratch(&g_scratchBuffers[index], i_gfxScratchSizeInBytes, 4);
-		if (err != E_OK)
-			return err;
+		result = Core_InitScratch(&g_scratchBuffers[index], i_gfxScratchSizeInBytes, 4);
+		VERIFY_ASSERT(SUCCESS(result), "Unable to allocate memory for gfx scratch allocator (requested: %u bytes)", i_gfxScratchSizeInBytes);		
 	}
 
-	return E_OK;
+	return result;
 }
 
 ///////////////////////////////////////////////////

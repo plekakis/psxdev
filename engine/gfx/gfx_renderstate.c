@@ -1,16 +1,26 @@
 // The render state
 typedef struct
 {
-	uint32		m_flags;		// corresponds to a bitmask of RENDERSTATE
-	uint32		m_fog;			// packed near, far
-	uint32		m_fogColor;		// packed rgb color
-	uint32		m_backColor;	// packed rgb back color
-	uint32		m_clearColor;	// packed rgb clear color
-	MATRIX		m_lightColors;	// #0, #1 and #2 light colors
-	MATRIX		m_lightVectors;	// #0, #1 and #2 light vectors
+	uint32			m_flags;			// corresponds to a bitmask of RENDERSTATE
+	uint32			m_fog;				// packed near, far
+	uint32			m_fogColor;			// packed rgb color
+	uint32			m_backColor;		// packed rgb back color
+	uint32			m_clearColor;		// packed rgb clear color
+	MATRIX			m_lightColors;		// #0, #1 and #2 light colors
+	MATRIX			m_lightVectors;		// #0, #1 and #2 light vectors
+	DivisionParams*	m_divisionParams;	// A pointer to the current division parameters
 }RenderState;
 
 RenderState g_rs;
+
+///////////////////////////////////////////////////
+void Gfx_InitState()
+{
+	Util_MemZero(&g_rs, sizeof(g_rs));
+
+	Gfx_SetBackColor(32, 32, 32);
+	Gfx_SetRenderState(RS_PERSP);
+}
 
 ///////////////////////////////////////////////////
 uint32 Gfx_GetRenderState()
@@ -66,6 +76,7 @@ void Gfx_SetFogNearFar(uint32 i_near, uint32 i_far)
 ///////////////////////////////////////////////////
 void Gfx_GetFogNearFar(uint32* o_near, uint32* o_far)
 {
+	VERIFY_ASSERT(o_near && o_far, "Gfx_GetFogNearFar: Null output pointers");
 	*o_near = g_rs.m_fog & 0xffff;
 	*o_far = g_rs.m_fog >> 16;
 }
@@ -80,6 +91,7 @@ void Gfx_SetFogColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 ///////////////////////////////////////////////////
 void Gfx_GetFogColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 {
+	VERIFY_ASSERT(o_red && o_green && o_blue, "Gfx_GetFogColor: Null output pointers");
 	UNPACK_RGB(g_rs.m_fogColor, o_red, o_green, o_blue);
 }
 
@@ -93,6 +105,7 @@ void Gfx_SetBackColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 ///////////////////////////////////////////////////
 void Gfx_GetBackColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 {
+	VERIFY_ASSERT(o_red && o_green && o_blue, "Gfx_GetBackColor: Null output pointers");
 	UNPACK_RGB(g_rs.m_backColor, o_red, o_green, o_blue);
 }
 
@@ -105,5 +118,19 @@ void Gfx_SetClearColor(uint8 i_red, uint8 i_green, uint8 i_blue)
 ///////////////////////////////////////////////////
 void Gfx_GetClearColor(uint8* o_red, uint8* o_green, uint8* o_blue)
 {
+	VERIFY_ASSERT(o_red && o_green && o_blue, "Gfx_GetClearColor: Null output pointers");
 	UNPACK_RGB(g_rs.m_clearColor, o_red, o_green, o_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetDivisionParams(DivisionParams* i_params)
+{
+	g_rs.m_divisionParams = i_params;
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetDivisionParams(DivisionParams** o_params)
+{
+	VERIFY_ASSERT(o_params, "Gfx_GetDivisionParams: Null output pointers");
+	*o_params = g_rs.m_divisionParams;
 }

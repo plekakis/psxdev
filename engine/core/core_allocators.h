@@ -14,7 +14,7 @@ typedef struct
 	uint8  m_alignment;
 }ScratchBuffer;
 
-// Initialise a scratch buffer
+// Initialize a scratch buffer
 int16 Core_InitScratch(ScratchBuffer* o_buffer, uint32 i_scratchSizeInBytes, uint8 i_alignment);
 
 // Free the scratch buffer allocation
@@ -49,7 +49,7 @@ typedef struct
 	uint8  m_alignment;
 }StackBuffer;
 
-// Initialise a stack buffer
+// Initialize a stack buffer
 int16 Core_InitStack(StackBuffer* o_buffer, uint32 i_stackSizeInBytes, uint8 i_alignment);
 
 // Free the stack buffer allocation

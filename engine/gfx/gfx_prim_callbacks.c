@@ -12,7 +12,7 @@ void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts)
 		uint32 offset = OFFSET_OF(GfxPrimCounts, m_prim## type)/sizeof(uint16); \
 		uint16* counts = (uint16*)&g_primCounts; \
 		*(counts + offset++) += primCount; \
-		*(counts + offset++) += primDivCount; \
+		*(counts + offset++) += primDivCount-1; \
 		*(counts + offset++) += litBit ? primCount : 0; \
 		*(counts + offset++) += fogBit ? primCount : 0; \
 	}
@@ -25,14 +25,14 @@ void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts)
 // BASIC PRIMITIVE TYPES
 ///////////////////////////////////////////////////
 
-DIVPOLYGON3 divp;
-
 // Callbacks for primitive submission, one per type
 void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, int32*);
 void InitAddPrimCallbacks();
 
 void* (*fncAddPointSpr[PRIM_TYPE_MAX])(POINT_SPRITE* const, int32*);
 void InitAddPointSprCallbacks();
+
+DIVPOLYGON3 dd;
 
 /*
 This is a heavily macro'ed implementation for pushing primitives to the OT. Supports:
@@ -44,7 +44,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
  Primitives are allocated off the Gfx scratch allocator (exception is the transform & backface cull step, this can early out and uses a POLY_XX member on the stack).
 */
 
-#define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < MAX_OT_LENGTH) && ((v) > 0)
+#define PRIMVALID(otz, v) ( (otz) > 0 && (otz) < OT_ENTRIES) && ((v) > 0)
 
 #define DECL_PRIM_AND_TRANSFORM(type) \
 	int32	p, flg, otz, valid=1, hasprim=FALSE, submit=FALSE, nclip; \
@@ -53,11 +53,14 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	bool litBit = (state & RS_LIGHTING) != 0; \
 	bool fogBit = (state & RS_FOG) != 0; \
 	bool backfaceCullBit = (state & RS_BACKFACE_CULL) != 0; \
-	uint16 primCount = transformBit ? ((1 << divp.ndiv) << divp.ndiv) : 1; \
-	uint16 primDivCount = (divp.ndiv > 0) ? primCount : 0u; \
+	DivisionParams* divparams; \
+	uint16 primCount = 1; \
+	uint16 primDivCount = 0; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \
+	DIVPOLYGON3* divp = &dd; \
 	POLY_## type* poly; \
 	POLY_## type temp; \
+	Gfx_GetDivisionParams(&divparams); \
 	if (transformBit) \
 	{ \
 		/* Do a pre-transformation to do backface culling and clipped triangle checking */ \
@@ -90,8 +93,40 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		gte_stotz(&otz); \
 		/* At this stage, if the otz is within OT bounds and the primitive is valid, carry on. */ \
 		if ( !PRIMVALID(otz, valid)) return NULL; \
+		/* Configure the primitive division */ \
+		if ((state & RS_DIVISION) && divparams) \
+		{ \
+			int8 idx; \
+			int32 otc = otz >> (14 - OT_LENGTH); \
+			int32 otcTest = otc; \
+			divp->ndiv = 0; \
+			/* Find where in the distance array the otc value is. The index is our division count. */ \
+			for (idx = 0; idx < DIVMODE_COUNT-1; ++idx) \
+			{ \
+				uint8 next = divparams->m_distances[idx + 1]; \
+				uint8 curr = divparams->m_distances[idx]; \
+				if (otcTest < curr) \
+				{ \
+					otcTest += (next - curr); \
+					continue; \
+				} \
+ 				if ( ((otc < next) && (otc >= curr))) \
+				{ \
+					divp->ndiv = DIVMODE_COUNT-idx; \
+					break; \
+				} \
+			} \
+			divp->pih = displayWidth; \
+			divp->piv = displayHeight; \
+		} \
+		else \
+		{ \
+			divp->ndiv = 0; \
+		} \
+		primCount = ((1 << divp->ndiv) << divp->ndiv); \
+		primDivCount = primCount; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
-		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * primCount, 4); \
+		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * MAX(primDivCount, primCount), 4); \
 		memcpy(poly, &temp, sizeof(temp)); \
 	} \
 	else \
@@ -103,6 +138,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 			prim->v1.vx, prim->v1.vy, \
 			prim->v2.vx, prim->v2.vy \
 		); \
+		divp->ndiv = 0; \
 	}
 
 #define DO_FINAL_COLOR(index) \
@@ -125,7 +161,7 @@ Begin division:
 */
 #define BEGIN_PRIM_PREP \
 	{ \
-		if (divp.ndiv == 0) \
+		if (divp->ndiv == 0) \
 		{ \
 			*o_otz = otz; \
 			hasprim = TRUE; \
@@ -142,15 +178,15 @@ Division macros: Assuming poly is pointing to a memory location with a large eno
 This operation submits the primitive to the OT.
 */
 #define PRIMDIV_G3 \
-	if (divp.ndiv != 0) \
+	if (divp->ndiv != 0) \
 	{ \
-		poly = (POLY_G3*)DivideG3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, &poly->r1, &poly->r2, poly, Gfx_GetCurrentOT() + otz, &divp); \
+		poly = (POLY_G3*)DivideG3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, &poly->r1, &poly->r2, poly, Gfx_GetCurrentOT() + otz, divp); \
 	}
 
 #define PRIMDIV_F3 \
-	if (divp.ndiv != 0) \
+	if (divp->ndiv != 0) \
 	{ \
-		poly = (POLY_F3*)DivideF3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, &divp); \
+		poly = (POLY_F3*)DivideF3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, divp); \
 	}
 
 /* Primitive submission is finished by returning either the poly address or NULL (if the primitive didn't pass various checks or it was divided). */
@@ -430,10 +466,6 @@ void InitPrimCallbacks()
 	InitAddPointSprCallbacks();
 	InitAddCubeCallbacks();
 	InitAddPlaneCallbacks();
-
-	divp.ndiv = 1;			/* divide depth */
-	divp.pih = Gfx_GetDisplayWidth();			/* horizontal resolution */
-	divp.piv = Gfx_GetDisplayHeight();			/* vertical resolution */
 }
 
 ///////////////////////////////////////////////////

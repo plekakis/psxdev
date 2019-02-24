@@ -6,10 +6,8 @@
 
 #define GFX_NUM_BUFFERS (2)
 
-#define MAX_OT_LENGTH (1 << 14)
-#define BG_OT_LENGTH (1 << 4)
-#define FG_OT_LENGTH (MAX_OT_LENGTH)
-#define OV_OT_LENGTH (1 << 2)
+#define OT_LENGTH (10)
+#define OT_ENTRIES (1 << OT_LENGTH)
 
 // POLY sizes as u_longs
 #define	POLY_F3_size	(sizeof(POLY_F3)+3)/4
@@ -53,6 +51,48 @@ typedef enum
 	BLEND_RATE_SUB = 2,
 	BLEND_RATE_ADD_QUARTER = 3
 }BlendRate;
+
+// Refresh rate (NTSC values)
+typedef enum
+{
+	REFRESH_60_HZ = 0,
+	REFRESH_30_HZ = 2,
+	REFRESH_20_HZ = 3,
+	REFRESH_15_HZ = 4
+}RefreshMode;
+
+// Division count, maps to DivisionParams distance array
+typedef enum
+{
+	DIVMODE_2x2		 = 4,
+	DIVMODE_4x4		 = 3,
+	DIVMODE_8x8		 = 2,
+	DIVMODE_16x16	 = 1,
+	DIVMODE_32x32	 = 0,
+	DIVMODE_COUNT	 = (DIVMODE_2x2+1)
+}DivisionMode;
+
+// Polygon division parameters, such as lod distance and division count
+// Distances must be in consecutive and incremental order (no per primitive distance sorting is performed) and higher lods (like 32x32, for example)
+// must have lower distances than lower lods (like 2x2).
+// Example distances:
+// distances[DIVMODE_32x32] = 10;
+// distances[DIVMODE_16x16] = 20;
+// distances[DIVMODE_8x8] = 30;
+// distances[DIVMODE_4x4] = 40;
+// distances[DIVMODE_2x2] = 50;
+//
+// Gaps cannot exist, although not all division lods need to be used. Highest lod values can be ignored (left 0) and the next compatible range will be picked.
+// Thus, the following is also valid:
+//
+// distances[DIVMODE_8x8] = 30;
+// distances[DIVMODE_4x4] = 40;
+// distances[DIVMODE_2x2] = 50;
+//
+typedef struct
+{
+	uint8 m_distances[DIVMODE_COUNT];	// Corresponds to the 5 levels of GTE polygon division in reverse order.
+}DivisionParams;
 
 // 2D batches
 typedef struct
@@ -127,11 +167,12 @@ typedef enum
 	RS_FOG			 = 1 << 1,
 	RS_LIGHTING		 = 1 << 2,
 	RS_TEXTURING	 = 1 << 3,
-	RS_BACKFACE_CULL = 1 << 4
+	RS_BACKFACE_CULL = 1 << 4,
+	RS_DIVISION		 = 1 << 5
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratchSizeInBytes);
+int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes);
 
 // Gets the diplay width
 uint16 Gfx_GetDisplayWidth();
@@ -204,6 +245,15 @@ void Gfx_SetLightVector(uint8 i_index, uint16 i_x, uint16 i_y, uint16 i_z);
 
 // Sets the light color for the specified light index
 void Gfx_SetLightColor(uint8 i_index, uint32 i_red, uint32 i_green, uint32 i_blue);
+
+// Sets the polygon divison parameters
+void Gfx_SetDivisionParams(DivisionParams* i_params);
+
+// Gets the current polygon division parameters
+void Gfx_GetDivisionParams(DivisionParams** o_params);
+
+// Initialize the renderstate to sensible defaults
+void Gfx_InitState();
 
 // Add a primitive to the current OT
 int16 Gfx_AddPrim(uint8 i_type, void* const i_prim);

@@ -27,6 +27,8 @@ SVECTOR angZero = { 0,0,0 };
 SVECTOR	cubeRotation;
 MATRIX model2World, world2Camera;
 
+DivisionParams g_planeDivP;
+
 void update()
 {
 	if (Input_IsPressed(0, PADLright))
@@ -234,20 +236,29 @@ void render()
 #endif // PLANE_ON_OV
 	{
 		// And the floor
+		Gfx_SetRenderState(RS_DIVISION);
+
+		// Setup division parameters for the plane.
+		Util_MemZero(&g_planeDivP, sizeof(g_planeDivP));
+		g_planeDivP.m_distances[DIVMODE_8x8] = 10;
+		g_planeDivP.m_distances[DIVMODE_4x4] = 15;
+		g_planeDivP.m_distances[DIVMODE_2x2] = 25;
+		Gfx_SetDivisionParams(&g_planeDivP);
 		{
-			VECTOR	v  = {0, -100, 256};
+			VECTOR	v = { 0, -100, 256 };
 			RotMatrix(&angZero, &model2World);
 			TransMatrix(&model2World, &v);
-					
+
 			Gfx_SetModelMatrix(&model2World);
 
 			Gfx_AddPlane(PRIM_TYPE_POLY_G3, 1024, 1024, planeColors);
 		}
+		Gfx_InvalidateRenderState(RS_DIVISION);
 	}
 		
 	Gfx_EndSubmission();
 
-	TestTiles();
+	//TestTiles();
 }
 
 int main()
@@ -255,11 +266,12 @@ int main()
     SystemInitInfo sysInitInfo;
     Util_MemZero(&sysInitInfo, sizeof(SystemInitInfo));
 
-    sysInitInfo.m_isHighResolution  = TRUE;
-	sysInitInfo.m_gfxScratchSizeInBytes = 128 * 1024;
-	sysInitInfo.m_coreStackSizeInBytes = 2 * 1024;
-	sysInitInfo.m_coreScratchSizeInBytes = 2 * 1024;
-    sysInitInfo.m_tvMode            = (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;
+    sysInitInfo.m_isHighResolution			= TRUE;
+	sysInitInfo.m_gfxScratchSizeInBytes		= 128 * 1024;
+	sysInitInfo.m_coreStackSizeInBytes		= 2 * 1024;
+	sysInitInfo.m_coreScratchSizeInBytes	= 2 * 1024;
+	sysInitInfo.m_refreshMode				= REFRESH_30_HZ;
+    sysInitInfo.m_tvMode					= (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;
 	
 	sysInitInfo.AppUpdateFncPtr = &update;
 	sysInitInfo.AppRenderFncPtr = &render;

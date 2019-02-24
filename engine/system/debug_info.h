@@ -10,6 +10,7 @@ typedef struct
 	uint16 m_gpuStartTime;
 	uint16 m_gpuEndTime;
 	uint16 m_framesPerSecond;
+	uint16 m_framesPerSecondVSync;
 }DebugPanelTimings;
 
 typedef struct

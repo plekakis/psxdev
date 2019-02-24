@@ -4,6 +4,7 @@
 uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment)
 {
 	uint32 alignmentMinus1 = i_alignment - 1;
+	VERIFY_ASSERT(IS_POW2(i_alignment), "Util_AlignUp: Alignment must be a power of 2! Specified: %u", i_alignment);
 	return (i_value + alignmentMinus1) & ~alignmentMinus1;
 }
 
@@ -16,6 +17,9 @@ uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment)
 ///////////////////////////////////////////////////
 void Util_MemZero(void* i_ptr, uint32 i_size)
 {
+	VERIFY_ASSERT(i_ptr, "Util_MemZero: Address cannot be null!");
+	VERIFY_ASSERT(i_size, "util_MemZero: Size cannot be 0!");
+
 	memset(i_ptr, 0, i_size);
 }
 

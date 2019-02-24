@@ -22,11 +22,12 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 	{
 		sprintf
 		(
-			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u, FPS: %u\n\n", 
+			dbgText, "CPU HSync: %u (%u for VSync), GPU: %u, FPS: %u (%u)\n\n", 
 			i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime, 
 			i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime,
 			0,//i_info->m_timings.m_gpuEndTime - i_info->m_timings.m_gpuStartTime
-			i_info->m_timings.m_framesPerSecond
+			i_info->m_timings.m_framesPerSecond,
+			i_info->m_timings.m_framesPerSecondVSync
 		);
 	}
 

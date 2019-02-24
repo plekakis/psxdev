@@ -3,12 +3,19 @@
 
 #include "../engine.h"
 
+// Math macros
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define CLAMP(a, b, v) (MAX((a), MIN((v), (b))) )
+
 // Color macros & functions
 #define PACK_RGB(r, g, b) ( ( (r) << 16) | ( (g) << 8) | (b) )
 #define UNPACK_RGB(v, r, g, b) { *(r) = ( (v) >> 16) & 0xff; *(g) = ( (v) >> 8) & 0xff; *(b) = (v) & 0xff; }
 
 // Array macros & functions
 #define ARRAY_SIZE(x) sizeof( (x) ) / sizeof( (x)[0] )
+
+#define IS_POW2(x) ( (((x) & ~((x)-1))==(x))? (x) : 0)
 
 // Pointer macros & functions
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
