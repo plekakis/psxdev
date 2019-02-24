@@ -48,10 +48,11 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 
 #define DECL_PRIM_AND_TRANSFORM(type) \
 	int32	p, flg, otz, valid=1, hasprim=FALSE, submit=FALSE, nclip; \
-	bool transformBit = (Gfx_GetRenderState() & RS_PERSP) != 0; \
-	bool litBit = (Gfx_GetRenderState() & RS_LIGHTING) != 0; \
-	bool fogBit = (Gfx_GetRenderState() & RS_FOG) != 0; \
-	bool backfaceCullBit = (Gfx_GetRenderState() & RS_BACKFACE_CULL) != 0; \
+	uint32 state = Gfx_GetRenderState(); \
+	bool transformBit = (state & RS_PERSP) != 0; \
+	bool litBit = (state & RS_LIGHTING) != 0; \
+	bool fogBit = (state & RS_FOG) != 0; \
+	bool backfaceCullBit = (state & RS_BACKFACE_CULL) != 0; \
 	uint16 primCount = transformBit ? ((1 << divp.ndiv) << divp.ndiv) : 1; \
 	uint16 primDivCount = (divp.ndiv > 0) ? primCount : 0u; \
 	PRIM_## type* prim = (PRIM_## type*)i_prim; \

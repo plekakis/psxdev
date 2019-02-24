@@ -75,6 +75,12 @@
     <ClCompile Include="..\..\..\engine\input\input.c">
       <Filter>engine\input</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_allocators.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
@@ -100,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\util\util.h">
       <Filter>engine\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\core\core_allocators.h">
+      <Filter>engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h">
+      <Filter>engine\gfx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

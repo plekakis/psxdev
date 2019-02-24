@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\..\engine\core\core_scu.c" />
     <ClCompile Include="..\..\..\engine\engine_scu.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c" />
@@ -43,6 +44,7 @@
     <ClInclude Include="..\..\..\engine\core\core_allocators.h" />
     <ClInclude Include="..\..\..\engine\engine.h" />
     <ClInclude Include="..\..\..\engine\gfx\gfx.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h" />
     <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h" />
     <ClInclude Include="..\..\..\engine\input\input.h" />
     <ClInclude Include="..\..\..\engine\system\debug_info.h" />

@@ -124,8 +124,12 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 	SetGraphDebug(0);
 #endif // CONFIG_DEBUG
 
-    // Initialize geometry subsystem*/
+    // Initialize geometry subsystem
 	InitGeom();
+
+	// Set video mode PAL / NTSC
+	SetVideoMode(g_dispProps.m_tvMode);
+	TTY_OUT((g_dispProps.m_tvMode == MODE_PAL) ? "Setting PAL" : "Setting NTSC");
 
 	// set geometry origin as (width/2, height/2)
 	SetGeomOffset(Gfx_GetDisplayWidth() / 2, Gfx_GetDisplayHeight() / 2);
@@ -147,6 +151,19 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 		
         SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (!i_isHighResolution) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
         SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+
+		// Screen starting position must be modified for PAL.
+		// Y must be moved down by 16 lines.
+		if (g_dispProps.m_tvMode == MODE_PAL)
+		{			
+#if TARGET_EMU
+			// NO$PSX requires this to align correctly
+			uint32 xoffset = i_isHighResolution ? -8 : -2;
+#else
+			uint32 xoffset = 0;
+#endif // TARGET_EMU
+			setRECT(&g_frameBuffers[index].m_dispEnv.screen, xoffset, 16, 256, 256);
+		}
     }
 
     SetDispMask(1);
@@ -178,7 +195,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint32 i_gfxScratch
 
 	// Load the debug font and set it to render text at almost the origin, top-left
 	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(8, Gfx_IsHighResolution() ? 16 : 8, Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), 0, 1024));
+	SetDumpFnt(FntOpen(4, 4, Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), 0, 1024));
 
 	SetRCnt(RCntCNT1, 4096, RCntMdINTR);
 	StartRCnt(RCntCNT1);
