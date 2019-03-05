@@ -12,10 +12,10 @@ int16 Core_Initialize(uint32 i_stackSizeInBytes, uint32 i_scratchSizeInBytes)
 	InitHeap3((void*)g_ram_start, g_ram_size);
 	ExitCriticalSection();
 	
-	result = Core_InitStack(&g_coreStackAlloc, i_stackSizeInBytes, 4);
+	result = Core_InitStack(CORE_STACKALLOC, i_stackSizeInBytes, 4);
 	VERIFY_ASSERT(SUCCESS(result), "Core_Initialize: Unable to allocate memory for core stack allocator (requested: %u bytes)", i_stackSizeInBytes);
 
-	result = Core_InitScratch(&g_coreScratchAlloc, i_scratchSizeInBytes, 4);
+	result = Core_InitScratch(CORE_SCRATCHALLOC, i_scratchSizeInBytes, 4);
 	VERIFY_ASSERT(SUCCESS(result), "Core_Initialize: Unable to allocate memory for core scratch allocator (requested: %u bytes)", i_scratchSizeInBytes);
 
 	return E_OK;

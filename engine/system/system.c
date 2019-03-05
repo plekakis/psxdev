@@ -97,6 +97,11 @@ int16 System_MainLoop()
     {
 		Gfx_BeginFrame(&timeStart);
 		
+		if (g_initInfo && g_initInfo->AppPreRenderFncPtr)
+		{
+			g_initInfo->AppPreRenderFncPtr();
+		}
+
 		if (g_initInfo && g_initInfo->AppRenderFncPtr)
 		{
 			g_initInfo->AppRenderFncPtr();

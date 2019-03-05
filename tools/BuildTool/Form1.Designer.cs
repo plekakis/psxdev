@@ -37,6 +37,7 @@
             this.cmbProjectName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.grpBuildSettings = new System.Windows.Forms.GroupBox();
+            this.txtAllArgs = new System.Windows.Forms.TextBox();
             this.txtAdditionalIncDirs = new System.Windows.Forms.TextBox();
             this.txtAdditionalLibDirs = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.txtAllArgs = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -97,9 +97,11 @@
             this.cmbConfiguration.Items.AddRange(new object[] {
             "Debug EMU",
             "Release EMU",
+            "Profile EMU",
             "Final EMU",
             "Debug PSX",
             "Release PSX",
+            "Profile PSX",
             "Final PSX"});
             this.cmbConfiguration.Location = new System.Drawing.Point(455, 25);
             this.cmbConfiguration.Name = "cmbConfiguration";
@@ -157,6 +159,16 @@
             this.grpBuildSettings.TabIndex = 8;
             this.grpBuildSettings.TabStop = false;
             this.grpBuildSettings.Text = "Build Settings";
+            this.grpBuildSettings.Enter += new System.EventHandler(this.grpBuildSettings_Enter);
+            // 
+            // txtAllArgs
+            // 
+            this.txtAllArgs.Location = new System.Drawing.Point(25, 155);
+            this.txtAllArgs.Multiline = true;
+            this.txtAllArgs.Name = "txtAllArgs";
+            this.txtAllArgs.ReadOnly = true;
+            this.txtAllArgs.Size = new System.Drawing.Size(611, 94);
+            this.txtAllArgs.TabIndex = 19;
             // 
             // txtAdditionalIncDirs
             // 
@@ -358,15 +370,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
-            // 
-            // txtAllArgs
-            // 
-            this.txtAllArgs.Location = new System.Drawing.Point(25, 155);
-            this.txtAllArgs.Multiline = true;
-            this.txtAllArgs.Name = "txtAllArgs";
-            this.txtAllArgs.ReadOnly = true;
-            this.txtAllArgs.Size = new System.Drawing.Size(611, 94);
-            this.txtAllArgs.TabIndex = 19;
             // 
             // Form1
             // 

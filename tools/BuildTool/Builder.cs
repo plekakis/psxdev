@@ -16,9 +16,11 @@ namespace BuildTool
     {
         DebugEMU,
         ReleaseEMU,
+        ProfileEMU,
         FinalEMU,
         DebugPSX,
         ReleasePSX,
+        ProfilePSX,
         FinalPSX,
         ConfigCount = FinalPSX
     }
@@ -120,6 +122,10 @@ namespace BuildTool
             else if (Utilities.IsReleaseConfig(config))
             {
                 preprocessor.Add("CONFIG_RELEASE");
+            }
+            else if (Utilities.IsProfileConfig(config))
+            {
+                preprocessor.Add("CONFIG_PROFILE");
             }
             else
             {

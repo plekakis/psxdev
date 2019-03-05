@@ -9,3 +9,5 @@ tools/BuildTool/.vs/
 tools/BuildTool/bin/
 tools/BuildTool/obj/
 projects/sandbox/bin/
+projects/roller_splat/vs2017/.vs/
+projects/roller_splat/bin/

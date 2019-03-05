@@ -20,11 +20,9 @@
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
 typedef unsigned long			uint32;
-typedef unsigned long long		uint64;
 typedef char					int8;
 typedef short					int16;
 typedef long					int32;
-typedef long long				int64;
 
 #ifndef CONFIG_DEBUG
 #define CONFIG_DEBUG (0)
@@ -33,6 +31,10 @@ typedef long long				int64;
 #ifndef CONFIG_RELEASE
 #define CONFIG_RELEASE (0)
 #endif // CONFIG_RELEASE
+
+#ifndef CONFIG_PROFILE
+#define CONFIG_PROFILE (0)
+#endif // CONFIG_PROFILE
 
 #ifndef CONFIG_FINAL
 #define CONFIG_FINAL (0)
@@ -45,6 +47,16 @@ typedef long long				int64;
 #ifndef TARGET_EMU
 #define TARGET_EMU (0)
 #endif // TARGET_EMU
+
+#define INT8_MAX    SCHAR_MAX
+#define INT8_MIN    SCHAR_MIN
+#define UINT8_MAX   UCHAR_MAX
+#define INT16_MAX	SHRT_MAX
+#define INT16_MIN   SHRT_MIN
+#define UINT16_MAX  USHRT_MAX
+#define INT32_MAX   INT_MAX
+#define INT32_MIN   INT_MIN
+#define UINT32_MAX  UINT_MAX
 
 #ifndef NULL
 #define NULL (0)
@@ -66,12 +78,12 @@ typedef long long				int64;
 
 #if ASSERT_ENABLED
 #define TTY_OUT(msg) printf("%s\n", msg)
-#define VERIFY_ASSERT(x, ...) if (!x) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); CRASHPSX; }
+#define VERIFY_ASSERT(x, ...) if (!(x)) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); CRASHPSX; }
 #define STATIC_ASSERT(x, msg) static int static_assertion_##msg[(x)?1:-1];
 #else
 #define TTY_OUT(msg)
-#define STATIC_ASSERT(x, ...)
-#define VERIFY_ASSERT(x, msg)
+#define VERIFY_ASSERT(x, msg, ...)
+#define STATIC_ASSERT(x, msg)
 #endif // ASSERT_ENABLED
 
 // Math macros & constants

@@ -22,6 +22,15 @@
     <Filter Include="engine\util">
       <UniqueIdentifier>{a26e40d3-b485-4699-a538-ade4ebd3db57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game\embedded">
+      <UniqueIdentifier>{1446f973-050c-490c-8de1-d63c3bc001d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx\embedded">
+      <UniqueIdentifier>{68e98c80-ec24-4cd7-8c65-df0fb09141b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx\embedded\debug">
+      <UniqueIdentifier>{3d2ceb2c-dabd-46ab-b465-46f381e13bcb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\game.c">
@@ -81,6 +90,21 @@
     <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c">
       <Filter>engine\gfx</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\scene_batch2d_test.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\scene_prim_test.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\embedded\BGTEX.C">
+      <Filter>game\embedded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\embedded\FNT.C">
+      <Filter>game\embedded</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c">
+      <Filter>engine\gfx\embedded\debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
@@ -112,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h">
       <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\game.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

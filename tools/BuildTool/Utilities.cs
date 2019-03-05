@@ -145,6 +145,16 @@ namespace BuildTool
         }
 
         /// <summary>
+        /// Checks if the specified build configuration is a profile config or not.
+        /// </summary>
+        /// <param name="config">The build configuration.</param>
+        /// <returns>True if it's profile, false otherwise.</returns>
+        static public bool IsProfileConfig(BuildConfiguration config)
+        {
+            return (config == BuildConfiguration.ProfileEMU) || (config == BuildConfiguration.ProfilePSX);
+        }
+
+        /// <summary>
         /// Checks if the specified build configuration is a PSX config or not.
         /// </summary>
         /// <param name="config">The build configuration.</param>
@@ -161,7 +171,7 @@ namespace BuildTool
         /// <returns>True if it's EMU, false otherwise.</returns>
         static public bool IsEMUConfig(BuildConfiguration config)
         {
-            return (config == BuildConfiguration.DebugEMU) || (config == BuildConfiguration.ReleaseEMU) || (config == BuildConfiguration.FinalEMU);
+            return (config == BuildConfiguration.DebugEMU) || (config == BuildConfiguration.ReleaseEMU) || (config == BuildConfiguration.ProfileEMU) || (config == BuildConfiguration.FinalEMU);
         }
     }
 }

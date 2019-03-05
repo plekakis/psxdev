@@ -7,6 +7,7 @@ typedef struct
 {
     void (*AppStartFncPtr)();
     void (*AppUpdateFncPtr)();
+	void (*AppPreRenderFncPtr)();
 	void (*AppRenderFncPtr)();
     void (*AppShutdownFncPtr)();
 

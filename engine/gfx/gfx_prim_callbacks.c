@@ -141,17 +141,45 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		divp->ndiv = 0; \
 	}
 
-#define DO_FINAL_COLOR(index) \
-	(prim->c## index).cd = poly->code; \
-	poly->r## index = (prim->c## index).r; \
-	poly->g## index = (prim->c## index).g; \
-	poly->b## index = (prim->c## index).b; \
+#define DO_FINAL_COLOR_IMPL(index) \
 	gte_ldrgb(&poly->r## index); \
 	if (litBit & transformBit) { \
 		gte_ldv0(&(prim->n## index).vx); gte_nccs(); gte_strgb(&poly->r## index); \
 	} \
 	if (fogBit & transformBit) { \
 		gte_stdp(&p); gte_dpcs(); gte_strgb(&poly->r## index); \
+	}
+
+#define DO_FINAL_COLOR(index) \
+	(prim->c## index).cd = poly->code; \
+	poly->r## index = (prim->c## index).r; \
+	poly->g## index = (prim->c## index).g; \
+	poly->b## index = (prim->c## index).b; \
+	DO_FINAL_COLOR_IMPL(index)
+
+#define DO_FINAL_COLOR_TEX(index) \
+	(prim->c## index).cd = poly->code; \
+	poly->r## index = ((prim->c## index).r >> 1); \
+	poly->g## index = ((prim->c## index).g >> 1); \
+	poly->b## index = ((prim->c## index).b >> 1); \
+	DO_FINAL_COLOR_IMPL(index)
+
+#define UPDATE_TEXTURE \
+	{ \
+		/* Set the uv on the poly and update its texture page and clut */ \
+		uint8 tscaleU, tscaleV, toffsetU, toffsetV; \
+		Gfx_GetTextureScaleOffset(&tscaleU, &tscaleV, &toffsetU, &toffsetV); \
+		setUV3 \
+		( \
+			poly, \
+			prim->uv0.u * tscaleU + toffsetU, prim->uv0.v * tscaleV + toffsetV, \
+			prim->uv1.u * tscaleU + toffsetU, prim->uv1.v * tscaleV + toffsetV, \
+			prim->uv2.u * tscaleU + toffsetU, prim->uv2.v * tscaleV + toffsetV \
+		); \
+		VERIFY_ASSERT( (prim->uv0.u < 256) && (prim->uv0.v < 256), "UV0 greater than 255! Passed in: %u, %u", prim->uv0.u, prim->uv0.v); \
+		VERIFY_ASSERT((prim->uv1.u < 256) && (prim->uv1.v < 256), "UV1 greater than 255! Passed in: %u, %u", prim->uv1.u, prim->uv1.v); \
+		VERIFY_ASSERT((prim->uv2.u < 256) && (prim->uv2.v < 256), "UV2 greater than 255! Passed in: %u, %u", prim->uv2.u, prim->uv2.v); \
+		Gfx_GetTexture(&poly->tpage, &poly->clut); \
 	}
 
 /*
@@ -183,10 +211,22 @@ This operation submits the primitive to the OT.
 		poly = (POLY_G3*)DivideG3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, &poly->r1, &poly->r2, poly, Gfx_GetCurrentOT() + otz, divp); \
 	}
 
+#define PRIMDIV_GT3 \
+	if (divp->ndiv != 0) \
+	{ \
+		poly = (POLY_GT3*)DivideGT3(&prim->v0, &prim->v1, &prim->v2, &poly->u0, &poly->u1, &poly->u2, &poly->r0, &poly->r1, &poly->r2, poly, Gfx_GetCurrentOT() + otz, divp); \
+	}
+
 #define PRIMDIV_F3 \
 	if (divp->ndiv != 0) \
 	{ \
 		poly = (POLY_F3*)DivideF3(&prim->v0, &prim->v1, &prim->v2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, divp); \
+	}
+
+#define PRIMDIV_FT3 \
+	if (divp->ndiv != 0) \
+	{ \
+		poly = (POLY_FT3*)DivideFT3(&prim->v0, &prim->v1, &prim->v2, &poly->u0, &poly->u1, &poly->u2, &poly->r0, poly, Gfx_GetCurrentOT() + otz, divp); \
 	}
 
 /* Primitive submission is finished by returning either the poly address or NULL (if the primitive didn't pass various checks or it was divided). */
@@ -218,9 +258,15 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 {
 	DECL_PRIM_AND_TRANSFORM(FT3);
-
-	*o_otz = 0;
-	return poly;
+	
+	BEGIN_PRIM_PREP;
+		BEGIN_PRIM_WORK;
+			UPDATE_TEXTURE;
+			DO_FINAL_COLOR_TEX(0);
+		END_PRIM_WORK;
+	PRIMDIV_FT3;
+	REGISTER_PRIM(FT3);
+	END_PRIM_PREP;
 }
 
 ///////////////////////////////////////////////////
@@ -242,9 +288,18 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 ///////////////////////////////////////////////////
 void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz)
 {
-	//DECL_PRIM_DATA(GT3);
+	DECL_PRIM_AND_TRANSFORM(GT3);
 
-	return NULL;
+	BEGIN_PRIM_PREP;
+		BEGIN_PRIM_WORK;
+			UPDATE_TEXTURE;
+			DO_FINAL_COLOR_TEX(0);
+			DO_FINAL_COLOR_TEX(1);
+			DO_FINAL_COLOR_TEX(2);
+		END_PRIM_WORK;
+	PRIMDIV_GT3;
+	REGISTER_PRIM(GT3);
+	END_PRIM_PREP;
 }
 
 ///////////////////////////////////////////////////
@@ -318,80 +373,126 @@ void InitAddPrimCallbacks()
 ///////////////////////////////////////////////////
 
 // Callbacks for higher level primitive submission, one per type
-void (*fncAddCube[PRIM_TYPE_MAX])(void*, uint32);
+void (*fncAddCube[PRIM_TYPE_MAX])(void*, uint32, uint8);
 void InitAddCubeCallbacks();
 
-void (*fncAddPlane[PRIM_TYPE_MAX])(void*, uint32, uint32);
+void (*fncAddPlane[PRIM_TYPE_MAX])(void*, uint32, uint32, uint8);
 void InitAddPlaneCallbacks();
 
 ///////////////////////////////////////////////////
-void AddCube_POLY_F3(void* i_data, uint32 i_size)
+void AddCube_POLY_F3(void* i_data, uint32 i_size, uint8 i_uvSize)
 {
 	const CVECTOR *i_color = (CVECTOR*)i_data;
 	const PRIM_F3 primitives[12] = 
 	{
 		// Front
-		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,ONE},	i_color[0] },	
-		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,ONE},	i_color[0] },
+		{ {-i_size, -i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},	{0,0,-ONE},	i_color[0] },
+		{ {i_size, i_size, -i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{0,0,-ONE},	i_color[0] },
 		// Right
-		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{-ONE,0,0},	i_color[1] },
-		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{-ONE,0,0},	i_color[1] },
+		{ {i_size, -i_size, -i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{ONE,0,0},	i_color[1] },
+		{ {i_size, i_size, i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},		{ONE,0,0},	i_color[1] },
 		// Back
-		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,-ONE},	i_color[2] },
-		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,-ONE},	i_color[2] },
+		{ {i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-i_size, -i_size, i_size},		{0,0,ONE},	i_color[2] },
+		{ {-i_size, i_size, i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{0,0,ONE},	i_color[2] },
 		// Left
-		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{ONE,0,0},	i_color[3] },
-		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{ONE,0,0},	i_color[3] },
+		{ {-i_size, -i_size, i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{-ONE,0,0},	i_color[3] },
+		{ {-i_size, i_size, -i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-ONE,0,0},	i_color[3] },
 		// Top
-		{ {-i_size, -i_size, -i_size}, {-i_size, -i_size, i_size}, {i_size, -i_size, i_size},	{0,ONE,0},	i_color[4] },
-		{ {i_size, -i_size, i_size}, {i_size, -i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,ONE,0},	i_color[4] },
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {i_size, i_size, i_size},		{0,ONE,0},	i_color[4] },
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {-i_size, i_size, -i_size},		{0,ONE,0},	i_color[4] },
 		// Bottom
-		{ {-i_size, i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, i_size, i_size},		{0,-ONE,0},	i_color[5] },
-		{ {i_size, i_size, i_size}, {-i_size, i_size, i_size}, {-i_size, i_size, -i_size},		{0,-ONE,0},	i_color[5] }
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, -i_size, i_size},	{0,-ONE,0},	i_color[5] },
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size},	{0,-ONE,0},	i_color[5] }
 	};
 
 	Gfx_AddPrims(PRIM_TYPE_POLY_F3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
-void AddCube_POLY_FT3(void* i_data, uint32 i_size)
+void AddCube_POLY_FT3(void* i_data, uint32 i_size, uint8 i_uvSize)
 {
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const PRIM_FT3 primitives[12] =
+	{
+		// Front
+		{ {-i_size, -i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},	{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {0,0,-ONE},i_color[0] },
+		{ {i_size, i_size, -i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {0,0,-ONE},i_color[0] },
+		// Right	  
+		{ {i_size, -i_size, -i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {ONE,0,0},i_color[1] },
+		{ {i_size, i_size, i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},		{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {ONE,0,0},i_color[1] },
+		// Back	  
+		{ {i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-i_size, -i_size, i_size},		{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {0,0,ONE},i_color[2] },
+		{ {-i_size, i_size, i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {0,0,ONE},i_color[2] },
+		// Left	  
+		{ {-i_size, -i_size, i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {-ONE,0,0},i_color[3] },
+		{ {-i_size, i_size, -i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {-ONE,0,0},i_color[3] },
+		// Top	  
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {i_size, i_size, i_size},		{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {0,ONE,0},	i_color[4] },
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {-i_size, i_size, -i_size},		{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {0,ONE,0},	i_color[4] },
+		// Bottom	  
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, -i_size, i_size},	{0,0},{i_uvSize,0},{i_uvSize,i_uvSize},  {0,-ONE,0},i_color[5] },
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size},	{i_uvSize,i_uvSize},{0,i_uvSize},{0,0},  {0,-ONE,0},i_color[5] }
+	};
 
+	Gfx_AddPrims(PRIM_TYPE_POLY_FT3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
-void AddCube_POLY_G3(void* i_data, uint32 i_size)
+void AddCube_POLY_G3(void* i_data, uint32 i_size, uint8 i_uvSize)
 {
 	const CVECTOR *i_color = (CVECTOR*)i_data;
 	const PRIM_G3 primitives[12] = 
 	{
 		// Front
-		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},	{0,0,ONE},	{0,0,ONE}, {0,0,ONE}, i_color[0], i_color[1], i_color[2] },
-		{ {i_size, i_size, -i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,0,ONE},	{0,0,ONE}, {0,0,ONE}, i_color[2], i_color[3], i_color[0] },
-		// Right																									    
-		{ {i_size, -i_size, -i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{-ONE,0,0},	{-ONE,0,0},	{-ONE,0,0},	i_color[1], i_color[5], i_color[6] },
-		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},		{-ONE,0,0},	{-ONE,0,0},	{-ONE,0,0},	i_color[6], i_color[2], i_color[1] },
-		// Back																										    
-		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},		{0,0,-ONE},	{0,0,-ONE},	{0,0,-ONE},	i_color[5], i_color[4], i_color[7] },
-		{ {-i_size, i_size, i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{0,0,-ONE},	{0,0,-ONE},	{0,0,-ONE},	i_color[7], i_color[6], i_color[5] },
-		// Left																										    
-		{ {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{ONE,0,0},	{ONE,0,0}, {ONE,0,0}, i_color[4], i_color[0], i_color[3] },
-		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {-i_size, -i_size, i_size},	{ONE,0,0},	{ONE,0,0}, {ONE,0,0}, i_color[3], i_color[7], i_color[4] },
-		// Top																										    
-		{ {-i_size, -i_size, -i_size}, {-i_size, -i_size, i_size}, {i_size, -i_size, i_size},	{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[0], i_color[4], i_color[5] },
-		{ {i_size, -i_size, i_size}, {i_size, -i_size, -i_size}, {-i_size, -i_size, -i_size},	{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[5], i_color[1], i_color[0] },
-		// Bottom																									    
-		{ {-i_size, i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, i_size, i_size},		{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[3], i_color[2], i_color[6] },
-		{ {i_size, i_size, i_size}, {-i_size, i_size, i_size}, {-i_size, i_size, -i_size},		{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[6], i_color[7], i_color[3] }
+		{ {-i_size, -i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[0], i_color[2], i_color[1] },
+		{ {i_size, i_size, -i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[2], i_color[0], i_color[3] },
+		// Right					    
+		{ {i_size, -i_size, -i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[1], i_color[6], i_color[5] },
+		{ {i_size, i_size, i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[6], i_color[1], i_color[2] },
+		// Back					    
+		{ {i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-i_size, -i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[5], i_color[7], i_color[4] },
+		{ {-i_size, i_size, i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[7], i_color[5], i_color[6] },
+		// Left					    
+		{ {-i_size, -i_size, i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[4], i_color[3], i_color[0] },
+		{ {-i_size, i_size, -i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[3], i_color[4], i_color[7] },
+		// Top					    
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {i_size, i_size, i_size},		{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[0], i_color[4], i_color[5] },
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {-i_size, i_size, -i_size},		{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[5], i_color[1], i_color[0] },
+		// Bottom					    
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, -i_size, i_size},	{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[3], i_color[2], i_color[6] },
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size},	{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[6], i_color[7], i_color[3] }
 	};
 
 	Gfx_AddPrims(PRIM_TYPE_POLY_G3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
-void AddCube_POLY_GT3(void* i_data, uint32 i_size)
+void AddCube_POLY_GT3(void* i_data, uint32 i_size, uint8 i_uvSize)
 {
+	const CVECTOR *i_color = (CVECTOR*)i_data;
+	const PRIM_GT3 primitives[12] =
+	{
+		// Front
+		{ {-i_size, -i_size, -i_size}, {i_size, i_size, -i_size}, {i_size, -i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[0], i_color[2], i_color[1]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {i_size, i_size, -i_size}, {-i_size, -i_size, -i_size}, {-i_size, i_size, -i_size},	{0,0,-ONE},	{0,0,-ONE}, {0,0,-ONE}, i_color[2], i_color[0], i_color[3]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}},
+		// Right																			  					    		  
+		{ {i_size, -i_size, -i_size}, {i_size, i_size, i_size}, {i_size, -i_size, i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[1], i_color[6], i_color[5]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {i_size, i_size, i_size}, {i_size, -i_size, -i_size}, {i_size, i_size, -i_size},		{ONE,0,0},	{ONE,0,0},	{ONE,0,0},	i_color[6], i_color[1], i_color[2]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}},
+		// Back																			  					    		  
+		{ {i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-i_size, -i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[5], i_color[7], i_color[4]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {-i_size, i_size, i_size}, {i_size, -i_size, i_size}, {i_size, i_size, i_size},		{0,0,ONE},	{0,0,ONE},	{0,0,ONE},	i_color[7], i_color[5], i_color[6]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}},
+		// Left																			  					    		  
+		{ {-i_size, -i_size, i_size}, {-i_size, i_size, -i_size}, {-i_size, -i_size, -i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[4], i_color[3], i_color[0]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {-i_size, i_size, -i_size}, {-i_size, -i_size, i_size}, {-i_size, i_size, i_size},	{-ONE,0,0},	{-ONE,0,0}, {-ONE,0,0}, i_color[3], i_color[4], i_color[7]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}},
+		// Top																			  					    		  
+		{ {-i_size, i_size, -i_size}, {-i_size, i_size, i_size}, {i_size, i_size, i_size},		{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[0], i_color[4], i_color[5]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {i_size, i_size, i_size}, {i_size, i_size, -i_size}, {-i_size, i_size, -i_size},		{0,ONE,0},	{0,ONE,0},	{0,ONE,0},	i_color[5], i_color[1], i_color[0]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}},
+		// Bottom																			  					    		  
+		{ {-i_size, -i_size, -i_size}, {i_size, -i_size, -i_size}, {i_size, -i_size, i_size},	{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[3], i_color[2], i_color[6]	,{0,0},{i_uvSize,0},{i_uvSize,i_uvSize}},
+		{ {i_size, -i_size, i_size}, {-i_size, -i_size, i_size}, {-i_size, -i_size, -i_size},	{0,-ONE,0},	{0,-ONE,0}, {0,-ONE,0}, i_color[6], i_color[7], i_color[3]	,{i_uvSize,i_uvSize},{0,i_uvSize},{0,0}}
+	};
 
+	Gfx_AddPrims(PRIM_TYPE_POLY_GT3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
@@ -409,14 +510,14 @@ void InitAddCubeCallbacks()
 	const uint32 halfHeight = i_height >> 1
 
 ///////////////////////////////////////////////////
-void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height)
+void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height, uint8 i_uvSize)
 {
 	DECL_PLANE_DATA;
 
 	const PRIM_F3 primitives[2] = 
 	{
 		// Front
-		{ {-halfWidth, 0, -halfHeight}, {-halfWidth, 0, halfHeight}, {halfWidth, 0, halfHeight},	{0,ONE,0},	i_color[0] },	
+		{ {-halfWidth, 0, -halfHeight}, {-halfWidth, 0, halfHeight}, {halfWidth, 0, halfHeight},	{0,ONE,0},	i_color[0] },
 		{ {halfWidth, 0, halfHeight}, {halfWidth, 0, -halfHeight}, {-halfWidth, 0, -halfHeight},	{0,ONE,0},	i_color[0] }
 	};
 
@@ -424,13 +525,22 @@ void AddPlane_POLY_F3(void* i_data, uint32 i_width, uint32 i_height)
 }
 
 ///////////////////////////////////////////////////
-void AddPlane_POLY_FT3(void* i_data, uint32 i_width, uint32 i_height)
+void AddPlane_POLY_FT3(void* i_data, uint32 i_width, uint32 i_height, uint8 i_uvSize)
 {
+	DECL_PLANE_DATA;
 
+	const PRIM_FT3 primitives[2] =
+	{
+		// Front
+		{ {-halfWidth, 0, -halfHeight}, {-halfWidth, 0, halfHeight}, {halfWidth, 0, halfHeight},	{0,0},{0,32},{32,32}, {0,ONE,0},	i_color[0] },
+		{ {-halfWidth, 0, -halfHeight}, {halfWidth, 0, halfHeight}, {halfWidth, 0, -halfHeight},	{0,0},{32,32},{32,0}, {0,ONE,0},i_color[0] }
+	};
+
+	Gfx_AddPrims(PRIM_TYPE_POLY_FT3, (void* const)primitives, ARRAY_SIZE(primitives));
 }
 
 ///////////////////////////////////////////////////
-void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height)
+void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height, uint8 i_uvSize)
 {
 	DECL_PLANE_DATA;
 
@@ -445,7 +555,7 @@ void AddPlane_POLY_G3(void* i_data, uint32 i_width, uint32 i_height)
 }
 
 ///////////////////////////////////////////////////
-void AddPlane_POLY_GT3(void* i_data, uint32 i_width, uint32 i_height)
+void AddPlane_POLY_GT3(void* i_data, uint32 i_width, uint32 i_height, uint8 i_uvSize)
 {
 
 }

@@ -5,6 +5,13 @@
 
 #if !CONFIG_FINAL
 
+Batch2D g_debugBatch2D;
+typedef struct
+{
+	DR_TPAGE	m_tpage;
+	CHAR2D		m_chars[512];
+}DebugPanelBatch2DData;
+
 typedef enum
 {
 	DEBUG_OVERLAY_TYPE_GFX		= 0,
@@ -18,6 +25,9 @@ char dbgText[1024];
 ///////////////////////////////////////////////////
 void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 {
+	DVECTOR position = { 10, 10 };
+	CVECTOR color = { 255, 255, 255 };
+
 	// CPU, GPU timings
 	{
 		sprintf
@@ -30,7 +40,8 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 			i_info->m_timings.m_framesPerSecondVSync
 		);
 	}
-
+	
+#if CONFIG_DEBUG | CONFIG_RELEASE
 	// GFX Scratch allocations
 	{
 		char t[64];
@@ -77,7 +88,9 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 		);
 		strcat(dbgText, t);
 	}
-	FntPrint(dbgText);
+#endif // CONFIG_DEBUG | CONFIG_RELEASE
+
+	Gfx_Batch2D_AddString(&g_debugBatch2D, dbgText, &position, NULL, &color, s_debugfontClut, PRIM_FLAG_NONE);
 }
 
 ///////////////////////////////////////////////////
@@ -85,6 +98,8 @@ void Debug_DrawInputOverlay(DebugPanelInfo* i_info)
 {
 	const uint32 inputMask = Input_GetConnectionMask();
 	const uint8 numControllers = Util_CountBits32(inputMask);
+	DVECTOR position = { 10, 10 };
+	CVECTOR color = { 255, 255, 255 };
 	uint32 index = 0u;
 
 	if (numControllers > 0)
@@ -92,13 +107,15 @@ void Debug_DrawInputOverlay(DebugPanelInfo* i_info)
 		for (index = 0; index < numControllers; ++index)
 		{
 			sprintf(dbgText, "Controller %d: %s\n", index + 1, Input_GetControllerId(index));
-			FntPrint (dbgText);
+			
 		}
 	}
 	else
 	{
-		FntPrint("No controllers\n");
+		sprintf(dbgText, "No controllers\n");
 	}
+
+	//Gfx_Batch2D_AddString(&g_debugBatch2D, dbgText, &position, &color, s_debugfontClut, PRIM_FLAG_NONE);
 }
 
 ///////////////////////////////////////////////////
@@ -133,7 +150,19 @@ void Debug_DrawAll(DebugPanelInfo* i_info)
 		g_debugOverlayIndex = (g_debugOverlayIndex == 0u) ? (DEBUG_OVERLAY_TYPE_COUNT - 1) : (g_debugOverlayIndex - 1);
 	}
 
-	Debug_DrawOverlay(i_info);
+	Gfx_BeginSubmission(OT_LAYER_OV);
+	{
+		DVECTOR position = { 10, 10 };
+		CVECTOR color = { 255, 255, 255 };
+		
+		Gfx_BeginBatch2D(&g_debugBatch2D, sizeof(DebugPanelBatch2DData));
+		Gfx_Batch2D_AddModeDirect(&g_debugBatch2D, MODE_FLAG_NONE, NULL, s_debugFontTPage);
+
+		Debug_DrawOverlay(i_info);
+
+		Gfx_EndBatch2D(&g_debugBatch2D);
+	}
+	Gfx_EndSubmission();
 }
 
 #endif // !CONFIG_FINAL

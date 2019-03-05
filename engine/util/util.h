@@ -17,6 +17,9 @@
 
 #define IS_POW2(x) ( (((x) & ~((x)-1))==(x))? (x) : 0)
 
+// Math macros & functions
+#define sgn(x) ((x) > 0) ? 1 : ( ((x) < 0) ? -1 : 0)
+
 // Pointer macros & functions
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
 uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment);
@@ -36,6 +39,14 @@ uint8 Util_CountBits32(uint32 i_bitmask);
 // Some macros & functions potentially missing from GTE lib
 #define setColor(c, _r, _g, _b) \
 	(c)->r = (_r), (c)->g = (_g), (c)->b = (_b)
+
+#define mulVector(v0, v1) \
+	(v0)->vx *= (v1)->vx,	\
+	(v0)->vy *= (v1)->vy,	\
+	(v0)->vz *= (v1)->vz	
+
+#define vectorDot(v0, v1) ((v0)->vx * (v1)->vx + (v0)->vy * (v1)->vy + (v0)->vz * (v1)->vz)
+#define vectorLength(v0) vectorDot(v0, v0)
 
 // Other macros
 #define OFFSET_OF(s,m) (uint32)&(((s *)0)->m)

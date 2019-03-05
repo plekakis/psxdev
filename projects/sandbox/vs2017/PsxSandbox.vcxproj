@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\..\engine\core\core_allocators.c" />
     <ClCompile Include="..\..\..\engine\core\core_scu.c" />
     <ClCompile Include="..\..\..\engine\engine_scu.c" />
+    <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c" />
     <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c" />
@@ -36,8 +37,12 @@
     <ClCompile Include="..\..\..\engine\system\system_scu.c" />
     <ClCompile Include="..\..\..\engine\util\util.c" />
     <ClCompile Include="..\..\..\engine\util\util_scu.c" />
+    <ClCompile Include="..\source\embedded\BGTEX.C" />
+    <ClCompile Include="..\source\embedded\FNT.C" />
     <ClCompile Include="..\source\game.c" />
     <ClCompile Include="..\source\game_scu.c" />
+    <ClCompile Include="..\source\scene_batch2d_test.c" />
+    <ClCompile Include="..\source\scene_prim_test.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\core\core.h" />
@@ -50,6 +55,7 @@
     <ClInclude Include="..\..\..\engine\system\debug_info.h" />
     <ClInclude Include="..\..\..\engine\system\system.h" />
     <ClInclude Include="..\..\..\engine\util\util.h" />
+    <ClInclude Include="..\source\game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}</ProjectGuid>

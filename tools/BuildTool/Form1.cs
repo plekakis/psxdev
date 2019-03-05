@@ -202,8 +202,12 @@ namespace BuildTool
             // Update the current builder
             if (m_currentProjectName != kNoProjectsStr)
             {
+                m_currentProjectName = cmbProjectName.Items[cmbProjectName.SelectedIndex].ToString();
+
                 m_currentBuilder = new Builder(Path.Combine("projects", m_currentProjectName));
                 m_watcher.Path = Path.Combine(Utilities.GetPsxDevRoot(), "projects", m_currentProjectName);
+
+                LoadIniValues();
             }
         }
 
@@ -400,6 +404,11 @@ namespace BuildTool
             {
                 m_ini.Write("cdgen", chkGenerateCD.Checked.ToString(), GetIniSection());
             }
+        }
+
+        private void grpBuildSettings_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

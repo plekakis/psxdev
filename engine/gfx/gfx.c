@@ -12,6 +12,7 @@ typedef struct
     DRAWENV		m_drawEnv;
     DISPENV		m_dispEnv;
 
+	DR_MODE		m_defaultMode;
 	// 3 Root OTs
 	// Background, Foreground and Overlay
 	uint32		m_OT[OT_LAYER_MAX][OT_ENTRIES];
@@ -134,6 +135,8 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	SetVideoMode(g_dispProps.m_tvMode);
 	TTY_OUT((g_dispProps.m_tvMode == MODE_PAL) ? "Setting PAL" : "Setting NTSC");
 
+
+
 	// set geometry origin as (width/2, height/2)
 	SetGeomOffset(Gfx_GetDisplayWidth() / 2, Gfx_GetDisplayHeight() / 2);
 
@@ -145,14 +148,15 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	for (index=0; index<GFX_NUM_BUFFERS; ++index)
     {
 		uint32 xoffset = 0;
+		FrameBuffer* buffer = &g_frameBuffers[index];
 
         // Always in interlaced mode
         g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsHighResolution();
         // And default to 16bit
         g_frameBuffers[index].m_dispEnv.isrgb24 = FALSE;
 		
-        SetDefDrawEnv(&g_frameBuffers[index].m_drawEnv, 0, (!i_isHighResolution) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
-        SetDefDispEnv(&g_frameBuffers[index].m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+        SetDefDrawEnv(&buffer->m_drawEnv, 0, (!i_isHighResolution) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+        SetDefDispEnv(&buffer->m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
 
 		// Screen starting position must be modified for PAL.
 		// Y must be moved down by 16 lines.
@@ -162,7 +166,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 			// NO$PSX requires this to align correctly
 			xoffset = i_isHighResolution ? -8 : -2;
 #endif // TARGET_EMU
-			setRECT(&g_frameBuffers[index].m_dispEnv.screen, xoffset, 16, 256, 256);
+			setRECT(&buffer->m_dispEnv.screen, xoffset, 16, 256, 256);
 		}
 		else
 		{
@@ -170,8 +174,11 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 			// NO$PSX requires this to align correctly
 			xoffset = i_isHighResolution ? -3 : 1;
 #endif // TARGET_EMU
-			setRECT(&g_frameBuffers[index].m_dispEnv.screen, xoffset, 8, 256, 256);
+			setRECT(&buffer->m_dispEnv.screen, xoffset, 8, 256, 256);
 		}
+
+		// Update the draw mode member; this will be used as a default when Entering/Leaving a gfx batch.
+		setDrawMode(&buffer->m_defaultMode, buffer->m_drawEnv.dfe, buffer->m_drawEnv.dtd, buffer->m_drawEnv.tpage, &buffer->m_drawEnv.tw);
     }
 
     SetDispMask(1);
@@ -200,9 +207,19 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	g_dispProps.m_frameIndex = 0;
 
 	// Load the debug font and set it to render text at almost the origin, top-left
-	FntLoad(960, 256);
-	SetDumpFnt(FntOpen(4, 4, Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), 0, 1024));
+#if !CONFIG_FINAL
+	{
+		// Place it near at the top right corner of the framebuffer, clut following just below.
+		const uint8  tw = s_debug_font_width;
+		const uint8  th = s_debug_font_height;
+		const uint32 tx = 1024-tw;
+		const uint32 ty = 0;
 
+		s_debugfontClut = LoadClut2(s_debug_font, tx, ty + th);
+		s_debugFontTPage = LoadTPage(s_debug_font + 0x80, 0, 0, tx, ty, tw, th);
+	}
+#endif // !CONFIG_FINAL
+		
 	SetRCnt(RCntCNT1, 4096, RCntMdINTR);
 	StartRCnt(RCntCNT1);
     return E_OK;
@@ -212,6 +229,13 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 uint8 Gfx_GetFrameBufferIndex()
 {
 	return g_dispProps.m_frameIndex & 1;
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetDefaultDrawMode(DR_MODE* o_mode)
+{
+	VERIFY_ASSERT(o_mode, "Gfx_GetDefaultDrawMode:  Null output pointer");
+	*o_mode = g_frameBuffers[Gfx_GetFrameBufferIndex()].m_defaultMode;
 }
 
 ///////////////////////////////////////////////////
@@ -296,8 +320,6 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 	
 	*o_gputime = (uint16)GetRCnt(RCntCNT1) - *o_cputimeVsync;
 	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % GFX_NUM_BUFFERS;
-
-	FntFlush(-1);
     return E_OK;
 }
 
@@ -336,6 +358,7 @@ void PrepareMatrices(bool i_billboard)
 		
 		// Update the light vector matrix
 		gte_MulMatrix0(&g_rs.m_lightVectors, g_modelMatrix, &lightRotMatrix);
+		
 		gte_SetLightMatrix(&lightRotMatrix);
 		
 		DF_INV(DF_LIGHTS);
@@ -345,19 +368,24 @@ void PrepareMatrices(bool i_billboard)
 	{
 		g_currentCameraMatrix = *g_cameraMatrix;
 
-		// Apply the camera rotation to the camera vector		
+		// Apply the camera rotation to the camera vector
 		{
 			VECTOR transformedCameraPosition;
-
+			VECTOR scaleVec = { ONE, -ONE, ONE };
+			
 			// Invert the translation and transpose the 3x3 rotation matrix
 			VECTOR cameraPosition = { -g_currentCameraMatrix.t[0], -g_currentCameraMatrix.t[1], -g_currentCameraMatrix.t[2] };
+
+			// Bring to Y up
+			ScaleMatrix(&g_currentCameraMatrix, &scaleVec);
+
 			TransposeMatrix(&g_currentCameraMatrix, &g_currentCameraMatrix);
 
 			// Multiply the cameraPosition by the rotation matrix so we get the correct transformed camera position
 			ApplyMatrixLV(&g_currentCameraMatrix, &cameraPosition, &transformedCameraPosition);
-
+						
 			// Apply this translation to the camera matrix
-			TransMatrix(&g_currentCameraMatrix, &transformedCameraPosition);
+			TransMatrix(&g_currentCameraMatrix, &transformedCameraPosition);						
 		}
 
 		DF_SET(DF_MODEL_MATRIX); // camera  matrix changed, we must re-compose the modelview matrix.
@@ -367,9 +395,8 @@ void PrepareMatrices(bool i_billboard)
 	if (DF_CHK(DF_MODEL_MATRIX) || i_billboard)
 	{
 		MATRIX finalMat;
+
 		// Compose camera matrix with model
-		/* Reversing, but why does it have to be done? */
-		g_modelMatrix->t[1] *= -1;
 		gte_CompMatrix(&g_currentCameraMatrix, g_modelMatrix, &finalMat);
 
 		if (i_billboard)
@@ -413,16 +440,16 @@ int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray)
+int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray, uint8 i_uvSize)
 {	
-	fncAddCube[i_type](i_colorArray, i_size);
+	fncAddCube[i_type](i_colorArray, i_size, i_uvSize);
 	return E_OK;
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray)
+int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray, uint8 i_uvSize)
 {	
-	fncAddPlane[i_type](i_colorArray, i_width, i_height);
+	fncAddPlane[i_type](i_colorArray, i_width, i_height, i_uvSize);
 	return E_OK;
 }
 

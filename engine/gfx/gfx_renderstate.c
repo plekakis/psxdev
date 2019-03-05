@@ -1,14 +1,16 @@
 // The render state
 typedef struct
 {
-	uint32			m_flags;			// corresponds to a bitmask of RENDERSTATE
-	uint32			m_fog;				// packed near, far
-	uint32			m_fogColor;			// packed rgb color
-	uint32			m_backColor;		// packed rgb back color
-	uint32			m_clearColor;		// packed rgb clear color
-	MATRIX			m_lightColors;		// #0, #1 and #2 light colors
-	MATRIX			m_lightVectors;		// #0, #1 and #2 light vectors
-	DivisionParams*	m_divisionParams;	// A pointer to the current division parameters
+	uint32			m_flags;				// corresponds to a bitmask of RENDERSTATE
+	uint32			m_texture;				// packed tpage, clut
+	uint32			m_textureScaleOffset;	// packed texture scale and offset
+	uint32			m_fog;					// packed near, far
+	uint32			m_fogColor;				// packed rgb color
+	uint32			m_backColor;			// packed rgb back color
+	uint32			m_clearColor;			// packed rgb clear color
+	MATRIX			m_lightColors;			// #0, #1 and #2 light colors
+	MATRIX			m_lightVectors;			// #0, #1 and #2 light vectors
+	DivisionParams*	m_divisionParams;		// A pointer to the current division parameters
 }RenderState;
 
 RenderState g_rs;
@@ -18,6 +20,7 @@ void Gfx_InitState()
 {
 	Util_MemZero(&g_rs, sizeof(g_rs));
 
+	Gfx_SetTextureScaleOffset(1, 1, 0, 0);
 	Gfx_SetBackColor(32, 32, 32);
 	Gfx_SetRenderState(RS_PERSP);
 }
@@ -79,6 +82,48 @@ void Gfx_GetFogNearFar(uint32* o_near, uint32* o_far)
 	VERIFY_ASSERT(o_near && o_far, "Gfx_GetFogNearFar: Null output pointers");
 	*o_near = g_rs.m_fog & 0xffff;
 	*o_far = g_rs.m_fog >> 16;
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetTexture(TextureMode i_textureMode, BlendRate i_blendRate, TPageAddress* i_tpageAddress, ClutAddress* i_clutAddress)
+{
+	VERIFY_ASSERT(i_tpageAddress, "TPageAddress must not be null!");
+
+	{
+		uint16 tpage = getTPage(i_textureMode, i_blendRate, i_tpageAddress->m_tpageX, i_tpageAddress->m_tpageY);
+		uint16 clut = i_clutAddress ? getClut(i_clutAddress->m_clutX, i_clutAddress->m_clutY) : 0;
+		Gfx_SetTextureDirect(tpage, clut);
+	}
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetTextureScaleOffset(uint8 i_scaleU, uint8 i_scaleV, uint8 i_offsetU, uint8 i_offsetV)
+{
+	g_rs.m_textureScaleOffset = i_scaleU | (i_scaleV << 8) | (i_offsetU << 16) | (i_offsetV << 24);
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetTextureScaleOffset(uint8* o_scaleU, uint8* o_scaleV, uint8* o_offsetU, uint8* o_offsetV)
+{
+	VERIFY_ASSERT(o_scaleU && o_scaleV && o_offsetU && o_offsetV, "Gfx_GetTextureScaleOffset: Null output pointers");
+	*o_scaleU =  g_rs.m_textureScaleOffset & 0xff;
+	*o_scaleV =  (g_rs.m_textureScaleOffset >> 8) & 0xff;
+	*o_offsetU = (g_rs.m_textureScaleOffset >> 16) & 0xff;
+	*o_offsetV = (g_rs.m_textureScaleOffset >> 24) & 0xff;
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetTextureDirect(uint16 i_page, uint16 i_clut)
+{
+	g_rs.m_texture = i_page | (i_clut << 16);
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetTexture(uint16* o_page, uint16* o_clut)
+{
+	VERIFY_ASSERT(o_page && o_clut, "Gfx_GetTexture: Null output pointers");
+	*o_page = g_rs.m_texture & 0xffff;
+	*o_clut = g_rs.m_texture >> 16;
 }
 
 ///////////////////////////////////////////////////

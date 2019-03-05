@@ -2,6 +2,9 @@
 #define GFX_H_INC
 
 #include "../engine.h"
+#include "../core/core.h"
+#include "../core/core_allocators.h"
+#include "../util/util.h"
 #include "gfx_scratch.h"
 
 #define GFX_NUM_BUFFERS (2)
@@ -39,6 +42,14 @@ typedef enum
 	PRIM_FLAG_SEMI_TRANS	= 1 << 1
 }PrimFlags;
 
+// Mode flags, used in DR_TPAGE and DR_MODE modifiers
+typedef enum
+{
+	MODE_FLAG_NONE				= 1 << 0,
+	MODE_FLAG_DITHERING			= 1 << 1,
+	MODE_FLAG_DRAW_IN_DISP_AREA = 1 << 2
+}ModeFlags;
+
 // Blend rate
 // BLEND_RATE_AVG			: 0.5 x Back + 0.5 x Forward
 // BLEND_RATE_ADD			: 1.0 x Back + 1.0 x Forward
@@ -60,6 +71,14 @@ typedef enum
 	REFRESH_20_HZ = 3,
 	REFRESH_15_HZ = 4
 }RefreshMode;
+
+// Texture mode
+typedef enum
+{
+	TEXTURE_MODE_CLUT_4BIT = 0,
+	TEXTURE_MODE_CLUT_8BIT = 1,
+	TEXTURE_MODE_16BIT = 2
+}TextureMode;
 
 // Division count, maps to DivisionParams distance array
 typedef enum
@@ -94,13 +113,28 @@ typedef struct
 	uint8 m_distances[DIVMODE_COUNT];	// Corresponds to the 5 levels of GTE polygon division in reverse order.
 }DivisionParams;
 
+// Used to specify a tpage using getTPage
+typedef struct
+{
+	uint16		m_tpageX;
+	uint16		m_tpageY;
+	TextureMode	m_mode;
+}TPageAddress;
+
+// Used to specify a clut using getClut
+typedef struct
+{
+	uint16		m_clutX;
+	uint16		m_clutY;
+}ClutAddress;
+
 // 2D batches
 typedef struct
 {
-	void*	m_baseAddress;
-	void*	m_currentAddress;
-	uint32	m_sizeInBytes;
-	uint8	m_prevPrimSize;
+	void*		m_baseAddress;
+	void*		m_currentAddress;
+	uint32		m_sizeInBytes;
+	uint8		m_prevPrimSize;
 }Batch2D;
 
 // Polies
@@ -112,6 +146,12 @@ typedef enum
 	PRIM_TYPE_POLY_GT3		= 3,
 	PRIM_TYPE_MAX			= PRIM_TYPE_POLY_GT3 + 1
 }PRIM_TYPE;
+
+typedef struct
+{
+	uint8 u, v;
+	uint16 pad;
+}TVECTOR;
 
 typedef struct
 {
@@ -130,6 +170,7 @@ typedef struct
 typedef struct
 {
 	SVECTOR v0, v1, v2;
+	TVECTOR uv0, uv1, uv2;
 	SVECTOR n0;
 	CVECTOR c0;
 }PRIM_FT3;
@@ -139,6 +180,7 @@ typedef struct
 	SVECTOR v0, v1, v2;
 	SVECTOR n0, n1, n2;
 	CVECTOR c0, c1, c2;
+	TVECTOR uv0, uv1, uv2;
 }PRIM_GT3;
 
 // Point sprites are emulated on psx as billboarded rectangles of NxM size
@@ -216,7 +258,20 @@ uint32 Gfx_InvalidateRenderState(uint32 i_state);
 // Sets the renderstate bit and returns the modified state
 uint32 Gfx_SetRenderState(uint32 i_state);
 
-// Updates clear color
+// Sets the texture offset & scale. The final coordinate must be within [0, 255] range
+void Gfx_SetTextureScaleOffset(uint8 i_scaleU, uint8 i_scaleV, uint8 i_offsetU, uint8 i_offsetV);
+
+// Gets the current texture offset & scale.
+void Gfx_GetTextureScaleOffset(uint8* o_scaleU, uint8* o_scaleV, uint8* o_offsetU, uint8* o_offsetV);
+
+// Sets current texture description
+void Gfx_SetTexture(TextureMode i_textureMode, BlendRate i_blendRate, TPageAddress* i_tpageAddress, ClutAddress* i_clutAddress);
+void Gfx_SetTextureDirect(uint16 i_page, uint16 i_clut);
+
+// Gets the current texture description
+void Gfx_GetTexture(uint16* o_page, uint16* o_clut);
+
+// Sets clear color
 void Gfx_SetClearColor(uint8 i_red, uint8 i_green, uint8 i_blue);
 
 // Gets clear color
@@ -265,10 +320,10 @@ int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count);
 int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32 i_count);
 
 // Add a size x size x size cube to the current OT
-int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray);
+int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray, uint8 i_uvSize);
 
 // Add a NxM plane to the current OT
-int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray);
+int16 Gfx_AddPlane(uint8 i_type, uint32 i_width, uint32 i_height, CVECTOR* const i_colorArray, uint8 i_uvSize);
 
 // Begin a batched 2D primitive submission
 int16 Gfx_BeginBatch2D(Batch2D* o_batch, uint32 i_batchSizeInBytes);
@@ -276,17 +331,32 @@ int16 Gfx_BeginBatch2D(Batch2D* o_batch, uint32 i_batchSizeInBytes);
 // Add a TILE to the specified 2D batch
 static int16 Gfx_Batch2D_AddTile(Batch2D* io_batch, DVECTOR* const i_position, DVECTOR* const i_size, CVECTOR* const i_color, PrimFlags i_flags);
 
+// Add a SPRT to the specified 2D batch
+static int16 Gfx_Batch2D_AddSprite(Batch2D* io_batch, DVECTOR* const i_position, DVECTOR* const i_size, TVECTOR* const i_uv, CVECTOR* const i_color, ClutAddress* i_clutAddress, PrimFlags i_flags);
+static int16 Gfx_Batch2D_AddSpriteDirect(Batch2D* io_batch, DVECTOR* const i_position, DVECTOR* const i_size, TVECTOR* const i_uv, CVECTOR* const i_color, uint16 i_clut, PrimFlags i_flags);
+
 // Add a LINE_F2 to the specified 2D batch
 static int16 Gfx_Batch2D_AddLineF(Batch2D* io_batch, DVECTOR* const i_start, DVECTOR* const i_end, CVECTOR* const i_color, PrimFlags i_flags);
 
 // Add a LINE_G2 to the specified 2D batch
 static int16 Gfx_Batch2D_AddLineG(Batch2D* io_batch, DVECTOR* const i_start, DVECTOR* const i_end, CVECTOR* const i_startColor, CVECTOR* const i_endColor, PrimFlags i_flags);
 
-// Add a DR_MODE to the specified 2D batch
-static int16 Gfx_Batch2D_AddMode(Batch2D* io_batch, BlendRate i_blendRate);
+// Add a series of SPRT to the specified 2D batch, for text rendering
+static int16 Gfx_Batch2D_AddString(Batch2D* io_batch, const char* i_string, DVECTOR* const i_position, DVECTOR* const i_maxSize, CVECTOR* i_color, uint16 i_clut, PrimFlags i_flags);
+
+// Add a DR_MODE to the specified 2D batch (optionally being able to calculate a tpage)
+static int16 Gfx_Batch2D_AddMode(Batch2D* io_batch, BlendRate i_blendRate, ModeFlags i_flags, RECT* i_textureWindow, TPageAddress* i_tpageAddress);
+static int16 Gfx_Batch2D_AddModeDirect(Batch2D* io_batch, ModeFlags i_flags, RECT* i_textureWindow, uint16 i_tpage);
+
+// Add a DR_TPAGE to the specified 2D batch (optionally being able to calculate a tpage)
+static int16 Gfx_Batch2D_AddTPage(Batch2D* io_batch, BlendRate i_blendRate, ModeFlags i_flags, TPageAddress* i_tpageAddress);
+static int16 Gfx_Batch2D_AddTPageDirect(Batch2D* io_batch, ModeFlags i_flags, uint16 i_tpage);
 
 // End a batched 2D primitive submission
 int16 Gfx_EndBatch2D(Batch2D* i_batch);
+
+// Returns the framebuffer's default draw mode
+void Gfx_GetDefaultDrawMode(DR_MODE* o_mode);
 
 // Ends primitive submission
 int16 Gfx_EndSubmission();
