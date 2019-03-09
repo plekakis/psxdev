@@ -41,6 +41,8 @@ namespace BuildTool
     /// </summary>
     public class Builder
     {
+        private const string kCatalogFile = "CATALOG.CAT";
+
         public struct CompilationStages
         {
             public string m_ccpsxEngine; // The compilation step for the engine.c, this generates object file to be used in dmpsx engine step
@@ -262,12 +264,13 @@ namespace BuildTool
         /// Main entry point for buildin the cd data track.
         /// </summary>
         /// <param name="dir">The input directory.</param>
-        /// <param name="data">The input/output data block string.</param>
-        private void BuildDataTrack(string dir, ref string data)
+        /// <param name="data">The output data block string.</param>
+        /// /// <param name="catalog">The output catalog file contents.</param>
+        private void BuildDataTrack(string dir, ref string data, ref string catalog)
         {
             int dirsOpened = 0, dirsClosed = 0;
 
-            BuildDataTrackRecursive(dir, ref data, ref dirsOpened, ref dirsClosed);
+            BuildDataTrackRecursive(dir, ref data, ref catalog, ref dirsOpened, ref dirsClosed);
 
             // Close off any pending <dir> tags
             for (int i = 0; i < (dirsOpened - dirsClosed); ++i)
@@ -283,7 +286,7 @@ namespace BuildTool
         /// <param name="data">The input/output data block string.</param>
         /// <param name="dirsOpened">The input/output count of directories opened.</param>
         /// <param name="dirsClosed">The input/output count of directories closed.</param>
-        private void BuildDataTrackRecursive(string dir, ref string data, ref int dirsOpened, ref int dirsClosed)
+        private void BuildDataTrackRecursive(string dir, ref string data, ref string catalog, ref int dirsOpened, ref int dirsClosed)
         {
             if (Directory.Exists(dir) == false)
                 return;
@@ -299,6 +302,14 @@ namespace BuildTool
                 foreach (string f in files)
                 {
                     data += "<file name=\"" + Path.GetFileName(f) + "\"" + " " + "type=\"data\"" + " " + "source=\"" + f + "\"/>\n";
+
+                    // Append to catalog, but don't add it to itself.
+                    if (!f.EndsWith(kCatalogFile))
+                    {
+                        int indexOfRoot = f.LastIndexOf("\\ROOT\\");
+                        string path = f.Substring(indexOfRoot + 1);
+                        catalog += "F:" + path + "\n";
+                    }
                 }
 
                 // If there are no more sub-directories, close the xml tag
@@ -312,7 +323,7 @@ namespace BuildTool
             
             foreach (string d in directories)
             {
-                BuildDataTrackRecursive(d, ref data, ref dirsOpened, ref dirsClosed);
+                BuildDataTrackRecursive(d, ref data, ref catalog, ref dirsOpened, ref dirsClosed);
             }                        
         }
 
@@ -407,12 +418,14 @@ namespace BuildTool
 
                     // Build the cdrom directory structure for data files
                     // Scan the project data directory and assemble an xml string to replace the FILES_PLACEHOLDER.
-                    string dataBlock = "";                    
+                    string dataBlock = "";
+                    string catalogFileContents = "";
                     string dataDirectory = Path.Combine(psxdevRoot, Utilities.GetBuildDataDirectory(ProjectDirectory));
-                    BuildDataTrack(dataDirectory, ref dataBlock);
+                    BuildDataTrack(dataDirectory, ref dataBlock, ref catalogFileContents);
 
                     cdTemplateContents = cdTemplateContents.Replace(kFilesStr, dataBlock);
 
+                    File.WriteAllText(Path.Combine(dataDirectory, Path.Combine("ROOT", kCatalogFile)), catalogFileContents);
                     File.WriteAllText(Path.Combine(cdOutputDir, "cd.xml"), cdTemplateContents);
                 }
 
