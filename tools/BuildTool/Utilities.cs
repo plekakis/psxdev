@@ -48,6 +48,16 @@ namespace BuildTool
             return Path.Combine(projectDir, "bin", config.ToString());
         }
 
+        /// <summary>
+        /// Returns the build data directory, relative to the PSXDEV_PATH.
+        /// </summary>
+        /// <param name="projectDir">The project directory.</param>
+        /// <returns></returns>
+        static public string GetBuildDataDirectory(string projectDir)
+        {
+            return Path.Combine(projectDir, "data");
+        }
+
         private enum LaunchProcessFlags
         {
             None        = 0,

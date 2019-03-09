@@ -79,6 +79,7 @@ typedef long					int32;
 #if ASSERT_ENABLED
 #define TTY_OUT(msg) printf("%s\n", msg)
 #define VERIFY_ASSERT(x, ...) if (!(x)) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); CRASHPSX; }
+#define REPORT(...) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); }
 #define STATIC_ASSERT(x, msg) static int static_assertion_##msg[(x)?1:-1];
 #else
 #define TTY_OUT(msg)

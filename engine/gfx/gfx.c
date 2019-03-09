@@ -122,11 +122,11 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	}
 
 	// Set debug mode (0:off, 1:monitor, 2:dump)
-#if CONFIG_DEBUG
+#if ASSERT_ENABLED
 	SetGraphDebug(1);
 #else
 	SetGraphDebug(0);
-#endif // CONFIG_DEBUG
+#endif // ASSERT_ENABLED
 
     // Initialize geometry subsystem
 	InitGeom();

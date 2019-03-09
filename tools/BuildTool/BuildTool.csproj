@@ -79,6 +79,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder.cs" />
+    <Compile Include="DataView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataView.Designer.cs">
+      <DependentUpon>DataView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities.cs" />
+    <EmbeddedResource Include="DataView.resx">
+      <DependentUpon>DataView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

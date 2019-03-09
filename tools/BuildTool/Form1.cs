@@ -410,5 +410,11 @@ namespace BuildTool
         {
 
         }
+
+        private void btnData_Click(object sender, EventArgs e)
+        {
+            DataView view = new DataView(m_currentBuilder);
+            view.ShowDialog();
+        }
     }
 }

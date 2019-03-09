@@ -85,10 +85,9 @@
 					source	- File name of the source file (optional).
 			-->
 			<!-- Stores system.txt as system.cnf -->
-			<file name="system.cnf"	type="data"	source="cdrom/system.txt"/>
-			
+			<file name="system.cnf"	type="data"	source="cdrom/system.txt"/>			
 			<file name="main.exe"	type="data"	source="main.exe"/>
-			
+						
 			<!-- <dir>
 				Specifies a subdirectory to the directory structure. <file> and <dir> elements inside
 				the element will be stored inside it.
@@ -99,10 +98,8 @@
 							  specified to the <file> elements (optional, take note that it does not behave
 							  like cd or chdir and must be a complete path, can be a relative or absolute path).
 						  
-			-->
-			<dir name="mydir">
-			
-			</dir>
+			-->			
+FILES_PLACEHOLDER
 			
 			<!-- <dummy>
 				Specifies an invisible dummy file to be generated into the file system. Use this to

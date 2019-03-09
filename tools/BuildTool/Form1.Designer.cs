@@ -59,6 +59,7 @@
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnData = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -139,6 +140,7 @@
             // 
             // grpBuildSettings
             // 
+            this.grpBuildSettings.Controls.Add(this.btnData);
             this.grpBuildSettings.Controls.Add(this.txtAllArgs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalIncDirs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalLibDirs);
@@ -206,7 +208,7 @@
             // 
             // btnKillProcess
             // 
-            this.btnKillProcess.Location = new System.Drawing.Point(494, 255);
+            this.btnKillProcess.Location = new System.Drawing.Point(552, 258);
             this.btnKillProcess.Name = "btnKillProcess";
             this.btnKillProcess.Size = new System.Drawing.Size(103, 26);
             this.btnKillProcess.TabIndex = 14;
@@ -216,7 +218,7 @@
             // 
             // btnRun
             // 
-            this.btnRun.Location = new System.Drawing.Point(385, 255);
+            this.btnRun.Location = new System.Drawing.Point(443, 258);
             this.btnRun.Name = "btnRun";
             this.btnRun.Size = new System.Drawing.Size(103, 26);
             this.btnRun.TabIndex = 13;
@@ -226,7 +228,7 @@
             // 
             // btnBuildAndRun
             // 
-            this.btnBuildAndRun.Location = new System.Drawing.Point(276, 255);
+            this.btnBuildAndRun.Location = new System.Drawing.Point(334, 258);
             this.btnBuildAndRun.Name = "btnBuildAndRun";
             this.btnBuildAndRun.Size = new System.Drawing.Size(103, 26);
             this.btnBuildAndRun.TabIndex = 12;
@@ -236,7 +238,7 @@
             // 
             // btnBuild
             // 
-            this.btnBuild.Location = new System.Drawing.Point(167, 255);
+            this.btnBuild.Location = new System.Drawing.Point(225, 258);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(103, 26);
             this.btnBuild.TabIndex = 11;
@@ -246,7 +248,7 @@
             // 
             // btnClean
             // 
-            this.btnClean.Location = new System.Drawing.Point(58, 255);
+            this.btnClean.Location = new System.Drawing.Point(116, 258);
             this.btnClean.Name = "btnClean";
             this.btnClean.Size = new System.Drawing.Size(103, 26);
             this.btnClean.TabIndex = 10;
@@ -366,16 +368,26 @@
             this.pictureBox1.InitialImage = null;
             this.pictureBox1.Location = new System.Drawing.Point(-3, 1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(697, 94);
+            this.pictureBox1.Size = new System.Drawing.Size(681, 94);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
+            // 
+            // btnData
+            // 
+            this.btnData.Location = new System.Drawing.Point(7, 258);
+            this.btnData.Name = "btnData";
+            this.btnData.Size = new System.Drawing.Size(103, 26);
+            this.btnData.TabIndex = 20;
+            this.btnData.Text = "&Data...";
+            this.btnData.UseVisualStyleBackColor = true;
+            this.btnData.Click += new System.EventHandler(this.btnData_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(690, 767);
+            this.ClientSize = new System.Drawing.Size(678, 767);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -430,6 +442,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtAllArgs;
+        private System.Windows.Forms.Button btnData;
     }
 }
 

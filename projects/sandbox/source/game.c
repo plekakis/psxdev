@@ -3,6 +3,7 @@
 #define SCENE_EMPTY (0xffff)
 #define SCENE_PRIM_TEST (0)
 #define SCENE_BATCH2D_TEST (1)
+#define SCENE_CD_TEST (2)
 
 #ifndef START_SCENE
 #define START_SCENE SCENE_EMPTY
@@ -13,6 +14,8 @@
 #include "scene_prim_test.c"
 #elif START_SCENE == SCENE_BATCH2D_TEST
 #include "scene_batch2d_test.c"
+#elif START_SCENE == SCENE_CD_TEST
+#include "scene_cd_test.c"
 #else
 void start() {}
 void update() {}

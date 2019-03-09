@@ -39,7 +39,7 @@ namespace BuildTool
     /// Encapsulates all clean/build/run functionality for a project.
     /// Supports the following configurations in <see cref="BuildConfiguration"/>    
     /// </summary>
-    class Builder
+    public class Builder
     {
         public struct CompilationStages
         {
@@ -49,8 +49,8 @@ namespace BuildTool
             public string m_dmpsxGame;   // The dmpsx game step; takes game.obj and processes it to generate inline gte compatible code
             public string m_ccpsxFinal;  // Final compilation step  
         };
-
-        private string      m_projectDirectory;        
+        
+        private string      m_projectDirectory;
         private bool        m_preserveOutput;
 
         /// <summary>
@@ -78,6 +78,17 @@ namespace BuildTool
         {
             set;
             get;
+        }
+
+        /// <summary>
+        /// Get the project directory, relative to PSXDEV_PATH.
+        /// </summary>
+        public string ProjectDirectory
+        {
+            get
+            {
+                return m_projectDirectory;
+            }
         }
 
         /// <summary>
@@ -248,6 +259,64 @@ namespace BuildTool
         }
 
         /// <summary>
+        /// Main entry point for buildin the cd data track.
+        /// </summary>
+        /// <param name="dir">The input directory.</param>
+        /// <param name="data">The input/output data block string.</param>
+        private void BuildDataTrack(string dir, ref string data)
+        {
+            int dirsOpened = 0, dirsClosed = 0;
+
+            BuildDataTrackRecursive(dir, ref data, ref dirsOpened, ref dirsClosed);
+
+            // Close off any pending <dir> tags
+            for (int i = 0; i < (dirsOpened - dirsClosed); ++i)
+            {
+                data += "</dir>\n";
+            }
+        }
+
+        /// <summary>
+        /// Recursively build the xml data block.
+        /// </summary>
+        /// <param name="dir">The input directory.</param>
+        /// <param name="data">The input/output data block string.</param>
+        /// <param name="dirsOpened">The input/output count of directories opened.</param>
+        /// <param name="dirsClosed">The input/output count of directories closed.</param>
+        private void BuildDataTrackRecursive(string dir, ref string data, ref int dirsOpened, ref int dirsClosed)
+        {
+            if (Directory.Exists(dir) == false)
+                return;
+
+            var directories = Directory.EnumerateDirectories(dir);
+            
+            foreach (string d in directories)
+            {
+                dirsOpened++;
+                data += "<dir name=\"" + Path.GetFileName(d) + "\">\n";
+                
+                var files = Directory.EnumerateFiles(d);
+                foreach (string f in files)
+                {
+                    data += "<file name=\"" + Path.GetFileName(f) + "\"" + " " + "type=\"data\"" + " " + "source=\"" + f + "\"/>\n";
+                }
+
+                // If there are no more sub-directories, close the xml tag
+                var subDirectories = new List<string>(Directory.EnumerateDirectories(d));
+                if (subDirectories.Count == 0)
+                {
+                    data += "</dir>\n";
+                    dirsClosed++;
+                }
+            }
+            
+            foreach (string d in directories)
+            {
+                BuildDataTrackRecursive(d, ref data, ref dirsOpened, ref dirsClosed);
+            }                        
+        }
+
+        /// <summary>
         /// Starts a project build for the specified configuration, adding any extra preprocessor or linker options.
         /// </summary>
         /// <param name="config">The build configuration.</param>
@@ -312,6 +381,7 @@ namespace BuildTool
                     const string kProjectNameStr = "PROJECTNAME_PLACEHOLDER";
                     const string kPublisherNameStr = "PUBLISHERNAME_PLACEHOLDER";
                     const string kLicenseStr = "LICENSE_PLACEHOLDER";
+                    const string kFilesStr = "FILES_PLACEHOLDER";
 
                     // Pick license from region
                     string licenseFile = "";
@@ -334,6 +404,14 @@ namespace BuildTool
                     string cdTemplateContents = File.ReadAllText(Path.Combine(psxdevRoot, "cdrom", "cd_template.xml"));
                     cdTemplateContents = cdTemplateContents.Replace(kProjectNameStr, ProjectName);
                     cdTemplateContents = cdTemplateContents.Replace(kLicenseStr, licenseSource);
+
+                    // Build the cdrom directory structure for data files
+                    // Scan the project data directory and assemble an xml string to replace the FILES_PLACEHOLDER.
+                    string dataBlock = "";                    
+                    string dataDirectory = Path.Combine(psxdevRoot, Utilities.GetBuildDataDirectory(ProjectDirectory));
+                    BuildDataTrack(dataDirectory, ref dataBlock);
+
+                    cdTemplateContents = cdTemplateContents.Replace(kFilesStr, dataBlock);
 
                     File.WriteAllText(Path.Combine(cdOutputDir, "cd.xml"), cdTemplateContents);
                 }

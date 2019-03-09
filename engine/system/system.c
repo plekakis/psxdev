@@ -2,6 +2,7 @@
 #include "debug_info.h"
 #include "../gfx/gfx.h"
 #include "../gfx/gfx_scratch.h"
+#include "../stream/stream.h"
 #include "../input/input.h"
 #include "../core/core.h"
 #include "../util/util.h"
@@ -45,6 +46,9 @@ int16 System_Initialize(SystemInitInfo* i_info)
 
     // Initialize graphics
     Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode, i_info->m_refreshMode, i_info->m_gfxScratchSizeInBytes);
+
+	// Initialize stream & cd
+	Stream_Initialize();
 
 	// Initialize input
 	Input_Initialize();
@@ -148,6 +152,7 @@ int16 System_Shutdown()
     }
 
 	Input_Shutdown();
+	Stream_Shutdown();
 	Gfx_Shutdown();
 	Core_Shutdown();
 
