@@ -51,3 +51,20 @@ uint8 Util_CountBits32(uint32 i_bitmask)
 {
 	COUNT_BITS(uint32, 32, i_bitmask)
 }
+
+///////////////////////////////////////////////////
+StringId Util_HashString(const char* i_string)
+{
+	// djb2 implementation of string hashing
+	// http://www.cse.yorku.ca/~oz/hash.html
+	// Adopted for 16bit hashing
+
+	uint32 hash = 5381u;
+	char c;
+	while (c = *i_string++)
+	{
+		hash = ((hash << 5u) + hash) + c;
+	}
+		
+	return (hash ^ (hash >> 16)) & 0xffff;
+}

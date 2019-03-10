@@ -308,7 +308,7 @@ namespace BuildTool
                     {
                         int indexOfRoot = f.LastIndexOf("\\ROOT\\");
                         string path = f.Substring(indexOfRoot + 1);
-                        catalog += "F:" + path + "\n";
+                        catalog += path + "\n";
                     }
                 }
 

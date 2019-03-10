@@ -24,6 +24,8 @@ typedef char					int8;
 typedef short					int16;
 typedef long					int32;
 
+typedef uint16					StringId;
+
 #ifndef CONFIG_DEBUG
 #define CONFIG_DEBUG (0)
 #endif // CONFIG_DEBUG
@@ -96,6 +98,7 @@ typedef long					int32;
 #define E_OUT_OF_MEMORY			(2)
 #define E_SUBMISSION_ERROR		(3)
 #define E_INVALIDARGS			(5)
+#define E_FILE_IO				(6)
 
 #define SUCCESS(x)	((x) == E_OK)
 #define FAILURE(x)	((x) != E_OK)
