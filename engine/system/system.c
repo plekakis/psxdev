@@ -5,6 +5,7 @@
 #include "../stream/stream.h"
 #include "../input/input.h"
 #include "../core/core.h"
+#include "../res/res.h"
 #include "../util/util.h"
 
 SystemInitInfo* g_initInfo = NULL;
@@ -24,6 +25,8 @@ void vsync()
 	Core_ResetScratch(CORE_SCRATCHALLOC);
 	Core_ResetStack(CORE_STACKALLOC);
 
+	Stream_Update();
+	Res_Update();
 	Input_Update();
 
 	if (g_initInfo && g_initInfo->AppUpdateFncPtr)
@@ -49,6 +52,9 @@ int16 System_Initialize(SystemInitInfo* i_info)
 
 	// Initialize stream & cd
 	Stream_Initialize();
+
+	// Initialize resource
+	Res_Initialize();
 
 	// Initialize input
 	Input_Initialize();
@@ -152,6 +158,7 @@ int16 System_Shutdown()
     }
 
 	Input_Shutdown();
+	Res_Shutdown();
 	Stream_Shutdown();
 	Gfx_Shutdown();
 	Core_Shutdown();

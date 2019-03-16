@@ -146,7 +146,7 @@ CdFileEntry* Stream_GetFileInfo(StringId i_filename)
 	for (i = 0; i < g_numCdEntries; ++i)
 	{
 		if (g_cdEntries[i].m_filename == i_filename)
-		{
+		{			
 			return &g_cdEntries[i];
 		}
 	}
@@ -166,7 +166,7 @@ uint32 Stream_GetFileSize(StringId i_filename)
 int16 Stream_ReadFileBlocking(StringId i_filename, void* o_buffer)
 {
 	uint32 i;
-	bool read = FALSE;	
+	bool read = FALSE;
 	CdFileEntry* entry = Stream_GetFileInfo(i_filename);
 	if (!entry)
 		return E_FILE_IO;

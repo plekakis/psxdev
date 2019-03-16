@@ -3,4 +3,5 @@
 #include "gfx/gfx_scu.c"
 #include "stream/stream_scu.c"
 #include "system/system_scu.c"
+#include "res/res_scu.c"
 #include "input/input_scu.c"

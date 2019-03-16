@@ -86,6 +86,7 @@ typedef uint16					StringId;
 #else
 #define TTY_OUT(msg)
 #define VERIFY_ASSERT(x, msg, ...)
+#define REPORT(...)
 #define STATIC_ASSERT(x, msg)
 #endif // ASSERT_ENABLED
 

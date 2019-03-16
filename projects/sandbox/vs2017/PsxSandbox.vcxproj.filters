@@ -31,6 +31,9 @@
     <Filter Include="engine\gfx\embedded\debug">
       <UniqueIdentifier>{3d2ceb2c-dabd-46ab-b465-46f381e13bcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\stream">
+      <UniqueIdentifier>{c1a44cf5-3b88-4501-aec9-3c9899797363}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\game.c">
@@ -105,6 +108,18 @@
     <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c">
       <Filter>engine\gfx\embedded\debug</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\scene_cd_test.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\stream\stream_scu.c">
+      <Filter>engine\stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\stream\stream.c">
+      <Filter>engine\stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_mem.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
@@ -139,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="..\source\game.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\stream\stream.h">
+      <Filter>engine\stream</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
