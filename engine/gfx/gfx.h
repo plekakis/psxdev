@@ -22,10 +22,6 @@
 #define	POLY_GT3_size	(sizeof(POLY_GT3)+3)/4
 #define POLY_GT4_size	(sizeof(POLY_GT4)+3)/4
 
-// Get the vram image size using bitplane info (because vram position is in 16bits mode only)
-#define	ImageToVRamSize(size, mode)			((size) / (1 << (2 - ((mode) & 3))))
-#define	VRamToImageSize(size, mode)			((size) * (1 << (2 - ((mode) & 3))))
-
 // Dirty flags
 typedef enum
 {
