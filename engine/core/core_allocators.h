@@ -47,6 +47,9 @@ typedef struct
 	uint8* m_head;
 	uint8* m_end;
 	uint8  m_alignment;
+#if ASSERT_ENABLED
+	uint32 m_lastAllocationSize;
+#endif // ASSERT_ENABLED
 }StackBuffer;
 
 // Initialize a stack buffer

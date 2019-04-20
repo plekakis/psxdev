@@ -29,7 +29,7 @@ int main()
 
     sysInitInfo.m_isHighResolution			= TRUE;
 	sysInitInfo.m_gfxScratchSizeInBytes		= 128 * 1024;
-	sysInitInfo.m_coreStackSizeInBytes		= 2 * 1024;
+	sysInitInfo.m_coreStackSizeInBytes		= 16 * 1024;
 	sysInitInfo.m_coreScratchSizeInBytes	= 2 * 1024;
 	sysInitInfo.m_refreshMode				= REFRESH_30_HZ;
     sysInitInfo.m_tvMode					= (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;

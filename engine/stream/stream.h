@@ -29,8 +29,14 @@ int16 Stream_Update();
 // Get cached file info
 CdFileEntry* Stream_GetFileInfo(StringId i_filename);
 
+// Begin reading from cd
+int16 Stream_BeginRead(StringId i_filename, void** o_ptr);
+
+// End reading from cd
+int16 Stream_EndRead();
+
 // Read a file, blocking for completion
-int16 Stream_ReadFileBlocking(StringId i_filename, void* o_buffer);
+int16 Stream_ReadFileBlocking();
 
 // Read a file, using callback for completion
 int16 Stream_ReadFile(StringId i_filename, void* o_buffer);

@@ -8,6 +8,9 @@
 CdFileEntry* g_cdEntries = NULL; // This is populated by the catalog enumeration, it's an array of all files present on cd
 uint32 g_numCdEntries = 0u;
 
+CdFileEntry* g_currentCdEntry = NULL;	// Set by BeginRead, invalidated by EndRead
+void* g_currentCdBuffer;				// Allocated by BeginRead, freed by EndRead
+
 ///////////////////////////////////////////////////
 int16 Stream_ReadFileBlockImpl(const char* i_filename, void* o_buffer, uint32 i_sizeInBytes)
 {
@@ -164,28 +167,62 @@ uint32 Stream_GetFileSize(StringId i_filename)
 }
 
 ///////////////////////////////////////////////////
-int16 Stream_ReadFileBlocking(StringId i_filename, void* o_buffer)
+int16 Stream_BeginRead(StringId i_filename, void** o_ptr)
+{
+	VERIFY_ASSERT(g_currentCdEntry == NULL, "Stream_BeginRead called twice! (current cd entry not invalidated?)");
+	VERIFY_ASSERT(g_currentCdBuffer == NULL, "Stream_BeginRead called twice! (allocation not freed?)");
+
+	// Find the file info in the cached array
+	{
+		g_currentCdEntry = Stream_GetFileInfo(i_filename);
+		if (!g_currentCdEntry)
+			return E_FILE_IO;
+	}
+
+	// Allocate enough space to read from cd, aligned to sector size
+	{
+		uint32 size = Util_AlignUp(g_currentCdEntry->m_file.size, Stream_CdSectorSize());
+		g_currentCdBuffer = (uint8*)Core_PushStack(CORE_STACKALLOC, size, 4);
+		if (!g_currentCdBuffer)
+			return E_OUT_OF_MEMORY;
+
+		*o_ptr = g_currentCdBuffer;
+	}
+	
+	return E_OK;
+}
+
+///////////////////////////////////////////////////
+int16 Stream_EndRead()
+{
+	VERIFY_ASSERT(g_currentCdEntry != NULL, "Stream_EndRead called twice! (current cd entry not found?)");
+	VERIFY_ASSERT(g_currentCdBuffer != NULL, "Stream_EndRead called twice! (allocation unsuccessful?)");
+
+	Core_PopStack(CORE_STACKALLOC);
+	g_currentCdBuffer = NULL;
+	g_currentCdEntry = NULL;
+}
+
+///////////////////////////////////////////////////
+int16 Stream_ReadFileBlocking()
 {
 	uint32 i;
 	bool read = FALSE;
-	CdFileEntry* entry = Stream_GetFileInfo(i_filename);
-	if (!entry)
-		return E_FILE_IO;
 	
 	// Try enough times, until the file is read.
 	for (i = 0; i < CD_READ_RETRIES; ++i)
 	{
 		int32 remainingSectors;
 		int32 mode = CdlModeSpeed;
-		int32 nsector = (entry->m_file.size + Stream_CdSectorSize()-1) / Stream_CdSectorSize();
+		int32 nsector = (g_currentCdEntry->m_file.size + Stream_CdSectorSize()-1) / Stream_CdSectorSize();
 		
 		// When changing the speed, we need to wait for 3 VSyncs. I am not sure why, however this means that chaining file loads using this function
 		// will be slower than expected.
-		CdControlF(CdlSetloc, (uint8*)&entry->m_file.pos);
+		CdControlF(CdlSetloc, (uint8*)&g_currentCdEntry->m_file.pos);
 		CdControlB(CdlSetmode, (uint8*)&mode, 0);
 		VSync(3);
 
-		CdRead(nsector, o_buffer, mode);
+		CdRead(nsector, g_currentCdBuffer, mode);
 		
 		// Wait until the file has been read.
 		while ((remainingSectors = CdReadSync(1, 0)) > 0)

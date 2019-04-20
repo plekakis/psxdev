@@ -40,21 +40,16 @@ int16 Res_LoadTIM(void* i_srcAddress, ResTexture* o_texture)
 int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture)
 {
 	int16 res = E_OK;
+	void* ptr;
 
-	// Get file information
-	uint32 size = Stream_GetFileSize(i_filename) + Stream_CdSectorSize();
-
-	// Allocate enough space using the built-in stack allocator
-	uint8* ptr = (uint8*)Core_PushStack(CORE_STACKALLOC, size, 4);
-	
 	// Read the file off disc
-	Stream_ReadFileBlocking(i_filename, ptr);
+	Stream_BeginRead(i_filename, &ptr);
+
+	Stream_ReadFileBlocking();
 
 	// Load the TIM
 	res = Res_LoadTIM(ptr, o_texture);
 
-	// Pop stack
-	Core_PopStack(CORE_STACKALLOC);
-
+	Stream_EndRead();
 	return res;
 }

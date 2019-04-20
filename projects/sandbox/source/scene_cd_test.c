@@ -4,14 +4,14 @@
 void start()
 {
 	const StringId filename = ID("ROOT\\ROOT0.TXT");
-	const uint32 size = Stream_GetFileSize(filename);
-	char* contents = (char*)Core_PushStack(CORE_STACKALLOC, size, 4);
+	void* contents;
 
-	Stream_ReadFileBlocking(filename, (void*)contents);
+	Stream_BeginRead(filename, &contents);
+	Stream_ReadFileBlocking();
 
 	REPORT(contents);
 
-	Core_PopStack(CORE_STACKALLOC);
+	Stream_EndRead();
 }
 
 ///////////////////////////////////////////////////
