@@ -14,6 +14,9 @@ typedef struct
 	StringId m_filename;
 }CdFileEntry;
 
+// The cd sector size, allocations that are used to read from cd need to have their size padded by this.
+static uint32 Stream_CdSectorSize() { return 2048; }
+
 // Initializes the stream system
 int16 Stream_Initialize();
 

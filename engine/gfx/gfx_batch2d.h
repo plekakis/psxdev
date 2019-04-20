@@ -47,7 +47,7 @@ int16 Gfx_Batch2D_AddModeDirect(Batch2D* io_batch, ModeFlags i_flags, RECT* i_te
 	BATCH2D_VERIFY(io_batch, mode, DR_MODE);
 
 	VERIFY_ASSERT( (i_textureWindow->w < 256) && (i_textureWindow->h < 256), "Texture window w & h must be less than 256. Passed in: %ux%u", i_textureWindow->w, i_textureWindow->h);
-
+	
 	setDrawMode
 	(
 		mode,
@@ -117,7 +117,6 @@ int16 Gfx_Batch2D_AddSpriteDirect(Batch2D* io_batch, DVECTOR* const i_position, 
 	SPRT* sprt = (SPRT*)io_batch->m_currentAddress;
 	BATCH2D_VERIFY(io_batch, sprt, SPRT);
 
-	VERIFY_ASSERT(i_clut > 0, "Expected a valid CLUT! If the intention is to not use textures, use a Tile instead");
 	VERIFY_ASSERT((i_size->vx & 1) == 0, "Sprite width must be even number! Passed in: %u", i_size->vx);
 	VERIFY_ASSERT( (i_uv->u & 1) == 0, "Sprite texture u coordinate must be even number! Passed in: %u", i_uv->u);
 

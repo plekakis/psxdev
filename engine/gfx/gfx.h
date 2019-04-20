@@ -77,7 +77,8 @@ typedef enum
 {
 	TEXTURE_MODE_CLUT_4BIT = 0,
 	TEXTURE_MODE_CLUT_8BIT = 1,
-	TEXTURE_MODE_16BIT = 2
+	TEXTURE_MODE_16BIT = 2,
+	TEXTURE_MODE_24BIT = 3
 }TextureMode;
 
 // Division count, maps to DivisionParams distance array

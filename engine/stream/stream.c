@@ -54,7 +54,8 @@ void Stream_EnumerateCatalog()
 	
 	// Read the catalog and extract filenames
 	{
-		void* catalogBuffer = Core_PushStack(CORE_STACKALLOC, catalog.size, 4);
+		void* catalogBuffer = Core_PushStack(CORE_STACKALLOC, catalog.size + Stream_CdSectorSize(), 4);
+		
 		int16 err = Stream_ReadFileBlockImpl(STREAM_CATALOG, catalogBuffer, catalog.size);
 		VERIFY_ASSERT(SUCCESS(err), "Stream_EnumerateCatalog: Failed reading the catalog file contents!");
 
@@ -176,7 +177,7 @@ int16 Stream_ReadFileBlocking(StringId i_filename, void* o_buffer)
 	{
 		int32 remainingSectors;
 		int32 mode = CdlModeSpeed;
-		int32 nsector = (entry->m_file.size + 2047) / 2048;
+		int32 nsector = (entry->m_file.size + Stream_CdSectorSize()-1) / Stream_CdSectorSize();
 		
 		// When changing the speed, we need to wait for 3 VSyncs. I am not sure why, however this means that chaining file loads using this function
 		// will be slower than expected.

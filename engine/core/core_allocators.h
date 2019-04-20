@@ -76,4 +76,7 @@ uint16 Core_PopStack(StackBuffer* i_buffer);
 // Checks if specified address is within scratch allocation buffer
 bool Core_IsFromStack(StackBuffer* i_buffer, void* i_address);
 
+
+void TestStack(StackBuffer* i_buffer);
+
 #endif // CORE_ALLOCATORS_H_INC

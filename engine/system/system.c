@@ -21,9 +21,8 @@ typedef struct
 ///////////////////////////////////////////////////
 void vsync()
 {
-	// Reset core allocators
+	// Reset core scratch allocator
 	Core_ResetScratch(CORE_SCRATCHALLOC);
-	Core_ResetStack(CORE_STACKALLOC);
 
 	Stream_Update();
 	Res_Update();

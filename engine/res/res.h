@@ -1,29 +1,22 @@
 #ifndef RES_H_INC
 #define RES_H_INC
 
-#include "../engine.h"
+#include "../gfx/gfx.h"
 
 // Get the vram image size using bitplane info (because vram position is in 16bits mode only)
 #define	ImageToVRamSize(size, mode)			((size) / (1 << (2 - ((mode) & 3))))
 #define	VRamToImageSize(size, mode)			((size) * (1 << (2 - ((mode) & 3))))
 
-// Type of texture resource
-typedef enum
-{
-	ResTextureType_4BitCLUT,
-	ResTextureType_8BitCLUT,
-	ResTextureType_16Bit,
-	ResTextureType_24Bit
-}ResTextureType;
-
 // Texture resource
 typedef struct
 {
+	TextureMode		m_type;
 	uint16			m_clut;
 	uint16			m_tpage;
+	uint16			m_x;
+	uint16			m_y;
 	uint8			m_width;
-	uint8			m_height;
-	ResTextureType	m_type;
+	uint8			m_height;	
 }ResTexture;
 
 // Initializes the resource system

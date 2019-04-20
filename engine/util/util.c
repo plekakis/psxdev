@@ -3,15 +3,66 @@
 ///////////////////////////////////////////////////
 uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment)
 {
-	uint32 alignmentMinus1 = i_alignment - 1;
-	VERIFY_ASSERT(IS_POW2(i_alignment), "Util_AlignUp: Alignment must be a power of 2! Specified: %u", i_alignment);
-	return (i_value + alignmentMinus1) & ~alignmentMinus1;
+	{
+		VERIFY_ASSERT(IS_POW2(i_alignment), "Util_AlignUp: Alignment must be a power of 2! Specified: %u", i_alignment);
+	}
+	{
+		uint32 alignmentMinus1 = i_alignment - 1;
+		return (i_value + alignmentMinus1) & ~alignmentMinus1;
+	}
 }
 
 ///////////////////////////////////////////////////
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment)
 {
 	return (uint8*)Util_AlignUp((uint32)i_ptr, i_alignment);
+}
+
+///////////////////////////////////////////////////
+uint32 Util_AlignPtrAdjustment(uint8* i_ptr, uint32 i_alignment)
+{
+	return Util_AlignUpAdjustment((uint32)i_ptr, i_alignment);
+}
+
+///////////////////////////////////////////////////
+uint32 Util_AlignUpAdjustment(uint32 i_value, uint32 i_alignment)
+{	
+	{
+		VERIFY_ASSERT(IS_POW2(i_alignment), "Util_AlignUpAdjustment: Alignment must be a power of 2! Specified: %u", i_alignment);
+	}
+
+	{
+		uint32 adjustment = i_alignment - i_value & (i_alignment - 1);
+		return (adjustment == i_alignment) ? 0u : adjustment;
+	}
+}
+
+///////////////////////////////////////////////////
+uint32 Util_AlignPtrAdjustmentHeader(uint8* i_ptr, uint32 i_alignment, uint32 i_headerSize)
+{
+	return Util_AlignUpAdjustmentHeader((uint32)i_ptr, i_alignment, i_headerSize);
+}
+
+///////////////////////////////////////////////////
+uint32 Util_AlignUpAdjustmentHeader(uint32 i_value, uint32 i_alignment, uint32 i_headerSize)
+{
+	uint32 adjustment = Util_AlignUpAdjustment(i_value, i_alignment);
+	uint32 neededSpace = i_headerSize;
+
+	if (adjustment < neededSpace)
+	{
+		neededSpace -= adjustment;
+
+		//Increase adjustment to fit header 
+		adjustment += i_alignment * (neededSpace / i_alignment);
+
+		if (neededSpace % i_alignment > 0)
+		{
+			adjustment += i_alignment;
+		}
+	}
+
+	return adjustment;
 }
 
 ///////////////////////////////////////////////////

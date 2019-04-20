@@ -17,14 +17,18 @@ int16 Res_LoadTIM(void* i_srcAddress, ResTexture* o_texture)
 
 	if (ReadTIM(&tim) == 0)
 		return E_FAILURE;
-	
-	o_texture->m_type = (ResTextureType)tim.mode & 3;
-	o_texture->m_width = VRamToImageSize(tim.prect->w, tim.mode & 3);
-	o_texture->m_height = VRamToImageSize(tim.prect->h, tim.mode & 3);
 
-	o_texture->m_tpage = LoadTPage(tim.paddr, tim.mode & 3, 0, tim.prect->x, tim.prect->y, o_texture->m_width, o_texture->m_height);	
+	Util_MemZero(o_texture, sizeof(ResTexture));
 
-	if (o_texture->m_type < ResTextureType_16Bit)
+	o_texture->m_type = (TextureMode)tim.mode & 3;
+	o_texture->m_x = tim.prect->x;
+	o_texture->m_y = tim.prect->y;
+	o_texture->m_width = VRamToImageSize(tim.prect->w, o_texture->m_type);
+	o_texture->m_height = VRamToImageSize(tim.prect->h, o_texture->m_type);
+
+	o_texture->m_tpage = LoadTPage(tim.paddr, o_texture->m_type, 0, o_texture->m_x, o_texture->m_y, o_texture->m_width, o_texture->m_height);
+
+	if (o_texture->m_type < TEXTURE_MODE_16BIT)
 	{
 		o_texture->m_clut = LoadClut(tim.caddr, tim.crect->x, tim.crect->y);
 	}
@@ -38,7 +42,7 @@ int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture)
 	int16 res = E_OK;
 
 	// Get file information
-	uint32 size = Stream_GetFileSize(i_filename);
+	uint32 size = Stream_GetFileSize(i_filename) + Stream_CdSectorSize();
 
 	// Allocate enough space using the built-in stack allocator
 	uint8* ptr = (uint8*)Core_PushStack(CORE_STACKALLOC, size, 4);

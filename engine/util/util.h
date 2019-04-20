@@ -49,6 +49,10 @@
 //-----------------------------------------------------------------------
 uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
 uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment);
+uint32 Util_AlignPtrAdjustment(uint8* i_ptr, uint32 i_alignment);
+uint32 Util_AlignUpAdjustment(uint32 i_value, uint32 i_alignment);
+uint32 Util_AlignPtrAdjustmentHeader(uint8* i_ptr, uint32 i_alignment, uint32 i_headerSize);
+uint32 Util_AlignUpAdjustmentHeader(uint32 i_value, uint32 i_alignment, uint32 i_headerSize);
 void Util_MemZero(void* i_ptr, uint32 i_size);
 
 //-----------------------------------------------------------------------
