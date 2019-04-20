@@ -61,15 +61,14 @@ uint32 Core_GetUsedScratch(ScratchBuffer* i_buffer)
 ///////////////////////////////////////////////////
 void* Core_AllocScratch(ScratchBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 {
-	i_buffer->m_next = Util_AlignPtr(i_buffer->m_next, i_alignment);
+	uint8* nextBase = Util_AlignPtr(i_buffer->m_next, i_alignment);
 	{
-		uint8 *mem = i_buffer->m_next;
-		uint8* next = mem + i_bytes;
+		uint8* next = nextBase + i_bytes;
 
 		if (next <= i_buffer->m_end)
 		{
 			i_buffer->m_next = next;
-			return mem;
+			return nextBase;
 		}
 	}
 	VERIFY_ASSERT(FALSE, "Core_AllocScratch: Core scratch allocator is out of memory!");
@@ -88,7 +87,10 @@ bool Core_IsFromScratch(ScratchBuffer* i_buffer, void* i_address)
 
 typedef struct
 {
+	uint8* m_prevPtr;
+#if ASSERT_ENABLED
 	uint32 m_size;
+#endif // ASSERT_ENABLED
 }StackBufferHeader;
 
 ///////////////////////////////////////////////////
@@ -176,22 +178,25 @@ uint32 Core_GetUsedStack(StackBuffer* i_buffer)
 void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 {	
 	uint32 headerSize = sizeof(StackBufferHeader);
-	i_bytes = Util_AlignUp(i_bytes + headerSize, i_alignment);
-		
-	if (i_buffer->m_head + i_bytes <= i_buffer->m_end)
-	{
-		uint8* mem = i_buffer->m_head;
-		uint8* next = mem + i_bytes;
-		StackBufferHeader* header = (StackBufferHeader*)(next - headerSize);
-		header->m_size = i_bytes;
+	uint32 size = headerSize + i_bytes;
 
-		i_buffer->m_head = next;
+	uint8* nextBase = Util_AlignPtr(i_buffer->m_head, i_alignment);
+	
+	if (nextBase + size <= i_buffer->m_end)
+	{
+		uint8* nextAlloc = nextBase + size;
+		StackBufferHeader* header = (StackBufferHeader*)(nextAlloc - headerSize);
+		header->m_prevPtr = i_buffer->m_head;
+				
 #if ASSERT_ENABLED
-		i_buffer->m_lastAllocationSize = i_bytes;
+		header->m_size = size;
+		i_buffer->m_lastAllocationSize = size;
 #endif // ASSERT_ENABLED
 
-		REPORT("Core_PushStack: Allocating %u bytes, head: %p, header: %p", i_bytes, next, header);
-		return mem;
+		i_buffer->m_head = nextAlloc;
+
+		REPORT("Core_PushStack: Allocating %u bytes, head: %p, header: %p", size, nextAlloc, header);
+		return nextBase;
 	}
 	VERIFY_ASSERT(FALSE, "Core_PushStack: Core stack allocator is out of memory!");
 	return NULL;
@@ -205,7 +210,7 @@ uint16 Core_PopStack(StackBuffer* i_buffer)
 	VERIFY_ASSERT(header->m_size == i_buffer->m_lastAllocationSize, "Mismatch between previous allocation size and this one! Allocated: %u bytes, freeing %u bytes", i_buffer->m_lastAllocationSize, header->m_size);
 	VERIFY_ASSERT(header->m_size > 0, "Core_PopStack: Trying to free 0 bytes, this is probably a memory corruption");
 
-	i_buffer->m_head = i_buffer->m_head - header->m_size;
+	i_buffer->m_head = header->m_prevPtr;
 	return 0u;
 }
 
