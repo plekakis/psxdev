@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////
 int16 Core_InitScratch(ScratchBuffer* o_buffer, uint32 i_scratchSizeInBytes, uint8 i_alignment)
 {
-	o_buffer->m_start = (uint8*)malloc3(i_scratchSizeInBytes + i_alignment);
+	o_buffer->m_start = (uint8*)Core_Malloc(i_scratchSizeInBytes + i_alignment, 4);
 	if (!o_buffer->m_start)
 		return E_OUT_OF_MEMORY;
 
@@ -122,7 +122,7 @@ void TestStack(StackBuffer* i_buffer)
 ///////////////////////////////////////////////////
 int16 Core_InitStack(StackBuffer* o_buffer, uint32 i_stackSizeInBytes, uint8 i_alignment)
 {
-	o_buffer->m_start = (uint8*)malloc3(i_stackSizeInBytes + i_alignment);
+	o_buffer->m_start = (uint8*)Core_Malloc(i_stackSizeInBytes + i_alignment, 4);
 	if (!o_buffer->m_start)
 		return E_OUT_OF_MEMORY;
 

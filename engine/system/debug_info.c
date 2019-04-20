@@ -14,16 +14,16 @@ typedef struct
 
 typedef enum
 {
-	DEBUG_OVERLAY_TYPE_GFX		= 0,
+	DEBUG_OVERLAY_TYPE_SYSGFX	= 0,
 	DEBUG_OVERLAY_TYPE_INPUT	= 1,
 	DEBUG_OVERLAY_TYPE_COUNT	= DEBUG_OVERLAY_TYPE_INPUT + 1
 }DEBUG_OVERLAY_TYPE;
 
-uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_GFX;
+uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_SYSGFX;
 char dbgText[1024];
 
 ///////////////////////////////////////////////////
-void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
+void Debug_DrawSysGfxOverlay(DebugPanelInfo* i_info)
 {
 	DVECTOR position = { 10, 10 };
 	CVECTOR color = { 255, 255, 255 };
@@ -71,10 +71,21 @@ void Debug_DrawGfxOverlay(DebugPanelInfo* i_info)
 		const float stackFree = (float)Core_GetFreeStack(&g_coreStackAlloc) / 1024.0f;
 		const float stackUsed = (float)Core_GetUsedStack(&g_coreStackAlloc) / 1024.0f;
 
-		sprintf2(t, "Core stack kb: %.2f (total), %.2f (used), %.2f (free)\n\n", stackTotal, stackUsed, stackFree);
+		sprintf2(t, "Core stack kb: %.2f (total), %.2f (used), %.2f (free)\n", stackTotal, stackUsed, stackFree);
 		strcat(dbgText, t);
 	}
 
+	// System RAM
+	{
+		char t[32];
+		const float ramTotal = (float)Core_GetTotalMemory() / 1024.0f;
+		const float ramFree = (float)Core_GetFreeMemory() / 1024.0f;
+		const float ramUsed = (float)Core_GetUsedMemory() / 1024.0f;
+
+		sprintf2(t, "System RAM kb: %.2f (total), %.2f (used), %.2f (free)\n\n", ramTotal, ramUsed, ramFree);
+		strcat(dbgText, t);
+	}
+	
 	// Primitive counts
 	{
 		char t[128];
@@ -123,8 +134,8 @@ void Debug_DrawOverlay(DebugPanelInfo* i_info)
 {
 	switch (g_debugOverlayIndex)
 	{
-	case DEBUG_OVERLAY_TYPE_GFX:
-		Debug_DrawGfxOverlay(i_info);
+	case DEBUG_OVERLAY_TYPE_SYSGFX:
+		Debug_DrawSysGfxOverlay(i_info);
 		break;
 	case DEBUG_OVERLAY_TYPE_INPUT:
 		Debug_DrawInputOverlay(i_info);

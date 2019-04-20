@@ -10,13 +10,22 @@ ScratchBuffer g_coreScratchAlloc;
 #define CORE_SCRATCHALLOC (&g_coreScratchAlloc)
 
 // Initialize core memory and internal allocators
-int16 Core_Initialize(uint32 i_stackSizeInBytes, uint32 i_scratchSizeInBytes);
+int16 Core_Initialize(uint32 i_sysStackSizeInBytes, uint32 i_stackSizeInBytes, uint32 i_scratchSizeInBytes);
 
 // Allocate memory
-void* Core_Malloc(uint32 i_sizeInBytes, uint32 i_alignment);
+void* Core_Malloc(uint32 i_sizeInBytes, uint8 i_alignment);
 
 // Free memory
 void Core_Free(void* i_address);
+
+// Returns free memory in bytes
+uint32 Core_GetFreeMemory();
+
+// Returns used memory in bytes
+uint32 Core_GetUsedMemory();
+
+// Returns total memory in bytes
+uint32 Core_GetTotalMemory();
 
 // Shutdown
 int16 Core_Shutdown();

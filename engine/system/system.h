@@ -12,6 +12,7 @@ typedef struct
     void (*AppShutdownFncPtr)();
 
     bool    m_isHighResolution;
+	uint32	m_sysStackSizeInBytes;
 	uint32  m_gfxScratchSizeInBytes;
 	uint32  m_coreScratchSizeInBytes;
 	uint32  m_coreStackSizeInBytes;

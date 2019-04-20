@@ -28,6 +28,7 @@ int main()
     Util_MemZero(&sysInitInfo, sizeof(SystemInitInfo));
 
     sysInitInfo.m_isHighResolution			= TRUE;
+	sysInitInfo.m_sysStackSizeInBytes		= 4 * 1024;
 	sysInitInfo.m_gfxScratchSizeInBytes		= 128 * 1024;
 	sysInitInfo.m_coreStackSizeInBytes		= 16 * 1024;
 	sysInitInfo.m_coreScratchSizeInBytes	= 2 * 1024;
