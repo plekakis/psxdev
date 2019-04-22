@@ -1,3 +1,5 @@
+#include "gfx.h"
+
 #if !CONFIG_FINAL
 GfxPrimCounts g_primCounts;
 ///////////////////////////////////////////////////

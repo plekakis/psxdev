@@ -219,9 +219,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 		s_debugFontTPage = LoadTPage(s_debug_font + 0x80, 0, 0, tx, ty, tw, th);
 	}
 #endif // !CONFIG_FINAL
-		
-	SetRCnt(RCntCNT1, 4096, RCntMdINTR);
-	StartRCnt(RCntCNT1);
+	
     return E_OK;
 }
 
@@ -239,7 +237,7 @@ void Gfx_GetDefaultDrawMode(DR_MODE* o_mode)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_BeginFrame(uint16* o_cputime)
+int16 Gfx_BeginFrame(TimeMoment* o_cpuTime)
 {
 	// Pick the next framebuffer
 	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
@@ -249,8 +247,7 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 	Gfx_InitState();
 	SetDefaultMatrices();
 
-	ResetRCnt(RCntCNT1);
-	*o_cputime = (uint16)GetRCnt(RCntCNT1);
+	*o_cpuTime = Time_Now();
 
 	// Reset scratch
 	Gfx_ResetScratch();
@@ -274,17 +271,17 @@ int16 Gfx_BeginFrame(uint16* o_cputime)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
+int16 Gfx_EndFrame(TimeMoment* o_cpuTime, TimeMoment* o_cpuTimeVsync)
 {
 	CVECTOR clearColor;
 	Gfx_GetClearColor(&clearColor.r, &clearColor.g, &clearColor.b);
 
-	*o_cputime = (uint16)GetRCnt(RCntCNT1);
+	*o_cpuTime = Time_Now();
 	
 	// VSync and update the drawing environment
 	VSync(g_dispProps.m_refreshMode);
 
-	*o_cputimeVsync = (uint16)GetRCnt(RCntCNT1);
+	*o_cpuTimeVsync = Time_Now();
 	
 	if (Gfx_IsHighResolution())
 	{
@@ -318,7 +315,6 @@ int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime)
 		}
 	}
 	
-	*o_gputime = (uint16)GetRCnt(RCntCNT1) - *o_cputimeVsync;
 	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % GFX_NUM_BUFFERS;
     return E_OK;
 }

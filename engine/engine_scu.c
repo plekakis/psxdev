@@ -5,3 +5,4 @@
 #include "system/system_scu.c"
 #include "res/res_scu.c"
 #include "input/input_scu.c"
+#include "time/time_scu.c"

@@ -5,6 +5,7 @@
 #include "../core/core.h"
 #include "../core/core_allocators.h"
 #include "../util/util.h"
+#include "../time/time.h"
 #include "gfx_scratch.h"
 
 #define GFX_NUM_BUFFERS (2)
@@ -233,10 +234,10 @@ uint8 Gfx_IsHighResolution();
 uint8 Gfx_GetFrameBufferIndex();
 
 // Starts a new gfx frame
-int16 Gfx_BeginFrame(uint16* o_cputime);
+int16 Gfx_BeginFrame(TimeMoment* o_cpuTime);
 
 // Submits all the OTs and finishes the frame's rendering to the current buffer
-int16 Gfx_EndFrame(uint16* o_cputime, uint16* o_cputimeVsync, uint16* o_gputime);
+int16 Gfx_EndFrame(TimeMoment* o_cpuTime, TimeMoment* o_cpuTimeVsync);
 
 // Gets the current OT (based on the current OT layer)
 uint32* Gfx_GetCurrentOT();

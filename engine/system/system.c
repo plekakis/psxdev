@@ -7,6 +7,7 @@
 #include "../core/core.h"
 #include "../res/res.h"
 #include "../util/util.h"
+#include "../time/time.h"
 
 SystemInitInfo* g_initInfo = NULL;
 bool g_systemRunning = TRUE;
@@ -46,6 +47,9 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	// Initialize core
 	Core_Initialize(i_info->m_sysStackSizeInBytes, i_info->m_coreStackSizeInBytes, i_info->m_coreScratchSizeInBytes);
 
+	// Initialize time
+	Time_Initialize(i_info->m_tvMode);
+
     // Initialize graphics
     Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode, i_info->m_refreshMode, i_info->m_gfxScratchSizeInBytes);
 
@@ -70,14 +74,10 @@ int16 System_Initialize(SystemInitInfo* i_info)
 }
 
 ///////////////////////////////////////////////////
-void UpdateFrameCounter(FrameCount* io_frames, uint16 i_timeStart, uint16 i_timeEnd)
+void UpdateFrameCounter(FrameCount* io_frames, TimeMoment i_timeStart, TimeMoment i_timeEnd)
 {
-	// TODO: make a better, reusable timer for this
-	// Convert HSYNC counter to seconds
-	// A second is after 15625 HSYNCs for NTSC and after 15733 HSYNCs for PAL
-	//
 	// Update the counter every quarter of a second
-	float durationSeconds = (float)(io_frames->m_timeElapsed - i_timeStart) / (float)((Gfx_GetTvMode() == MODE_PAL) ? 15733 : 15625);
+	float durationSeconds = Time_ToSeconds( (float)(io_frames->m_timeElapsed - i_timeStart) );
 	if (durationSeconds > 0.25f)
 	{
 		io_frames->m_framesPerSecond = io_frames->m_frameCount / durationSeconds;
@@ -94,7 +94,7 @@ void UpdateFrameCounter(FrameCount* io_frames, uint16 i_timeStart, uint16 i_time
 ///////////////////////////////////////////////////
 int16 System_MainLoop()
 {	
-	uint16 timeStart = 0, timeEnd = 0, timeEndVsync = 0, gpuTime = 0;
+	TimeMoment timeStart = 0, timeEnd = 0, timeEndVsync = 0;
 
 #if !CONFIG_FINAL
 	FrameCount frames, framesVSync;
@@ -104,6 +104,7 @@ int16 System_MainLoop()
 
 	while (g_systemRunning)
     {
+		Time_Reset();
 		Gfx_BeginFrame(&timeStart);
 		
 		if (g_initInfo && g_initInfo->AppPreRenderFncPtr)
@@ -124,8 +125,6 @@ int16 System_MainLoop()
 			debugInfo.m_timings.m_cpuStartTime = timeStart;
 			debugInfo.m_timings.m_cpuEndTime = timeEnd;
 			debugInfo.m_timings.m_cpuEndTimeVSync = timeEndVsync;
-			debugInfo.m_timings.m_gpuStartTime = 0;
-			debugInfo.m_timings.m_gpuEndTime = gpuTime;
 			debugInfo.m_timings.m_framesPerSecond = frames.m_framesPerSecond;
 			debugInfo.m_timings.m_framesPerSecondVSync = framesVSync.m_framesPerSecond;
 
@@ -135,7 +134,7 @@ int16 System_MainLoop()
 		}
 #endif // !CONFIG_FINAL
 
-        Gfx_EndFrame(&timeEnd, &timeEndVsync, &gpuTime);
+        Gfx_EndFrame(&timeEnd, &timeEndVsync);
 
 #if !CONFIG_FINAL
 		UpdateFrameCounter(&frames, timeStart, timeEnd);
@@ -160,6 +159,7 @@ int16 System_Shutdown()
 	Res_Shutdown();
 	Stream_Shutdown();
 	Gfx_Shutdown();
+	Time_Shutdown();
 	Core_Shutdown();
 
     return errcode;

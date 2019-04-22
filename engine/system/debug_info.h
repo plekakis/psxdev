@@ -2,15 +2,16 @@
 #define DEBUG_INFO_H_INC
 
 #if !CONFIG_FINAL
+
+#include "../time/time.h"
+
 typedef struct
 {
-	uint16 m_cpuStartTime;
-	uint16 m_cpuEndTime;
-	uint16 m_cpuEndTimeVSync;
-	uint16 m_gpuStartTime;
-	uint16 m_gpuEndTime;
-	uint16 m_framesPerSecond;
-	uint16 m_framesPerSecondVSync;
+	TimeMoment	m_cpuStartTime;
+	TimeMoment	m_cpuEndTime;
+	TimeMoment	m_cpuEndTimeVSync;
+	uint16		m_framesPerSecond;
+	uint16		m_framesPerSecondVSync;
 }DebugPanelTimings;
 
 typedef struct
