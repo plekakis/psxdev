@@ -187,7 +187,7 @@ void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 		uint8* nextAlloc = nextBase + size;
 		StackBufferHeader* header = (StackBufferHeader*)(nextAlloc - headerSize);
 		header->m_prevPtr = i_buffer->m_head;
-				
+		
 #if ASSERT_ENABLED
 		header->m_size = size;
 		i_buffer->m_lastAllocationSize = size;

@@ -38,6 +38,7 @@
 
 #define vectorDot(v0, v1) ((v0)->vx * (v1)->vx + (v0)->vy * (v1)->vy + (v0)->vz * (v1)->vz)
 #define vectorLength(v0) vectorDot(v0, v0)
+#define normalizeVector(v0) { int32 m_vecLen = vectorLength( (v0) ); (v0)->vx /= m_vecLen; (v0)->vy /= m_vecLen; (v0)->vz /= m_vecLen; }
 
 //-----------------------------------------------------------------------
 #define OFFSET_OF(s,m) (uint32)&(((s *)0)->m)
@@ -63,5 +64,9 @@ uint8 Util_CountBits32(uint32 i_bitmask);
 //-----------------------------------------------------------------------
 StringId Util_HashString(const char* i_string);
 #define ID(x) Util_HashString((x))
+
+//-----------------------------------------------------------------------
+int32 Util_GetTriangleWinding(SVECTOR* i_v0, SVECTOR* i_v1, SVECTOR* i_v2, SVECTOR* i_n);
+void Util_FaceNormal(SVECTOR* i_n0, SVECTOR* i_n1, SVECTOR* i_n2, SVECTOR* o_faceNormal);
 
 #endif // UTIL_H_DEF

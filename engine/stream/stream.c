@@ -44,7 +44,7 @@ void Stream_EnumerateCatalog()
 	{		
 		for (i = 0; i < CD_READ_RETRIES; ++i)
 		{
-			if (CdSearchFile(&catalog, STREAM_CATALOG) != 0)
+			if (CdSearchFile(&catalog, STREAM_CATALOG) != 0)	
 			{
 				found = TRUE;
 				break;
@@ -64,7 +64,7 @@ void Stream_EnumerateCatalog()
 	// Read the catalog and extract filenames
 	if (found)
 	{
-		void* catalogBuffer = Core_PushStack(CORE_STACKALLOC, catalog.size + Stream_CdSectorSize(), 4);
+		void* catalogBuffer = Core_PushStack(CORE_STACKALLOC, Util_AlignUp(catalog.size, Stream_CdSectorSize()), 4);
 		
 		int16 err = Stream_ReadFileBlockImpl(STREAM_CATALOG, catalogBuffer, catalog.size);
 		VERIFY_ASSERT(SUCCESS(err), "Stream_EnumerateCatalog: Failed reading the catalog file contents!");
