@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\..\engine\engine_scu.c" />
+    <ClCompile Include="..\source\game.c" />
+    <ClCompile Include="..\source\game_scu.c" />
+    <ClCompile Include="..\source\state.c" />
+    <ClCompile Include="..\source\state_game.c" />
+    <ClCompile Include="..\source\state_load.c" />
+    <ClCompile Include="..\source\state_menu.c" />
+    <ClCompile Include="..\..\..\engine\core\core.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_allocators.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_mem.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\core\core_scu.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c">
+      <Filter>engine\gfx\embedded\debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scu.c">
+      <Filter>engine\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\input\input.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\input\input_scu.c">
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res.c">
+      <Filter>engine\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res_scu.c">
+      <Filter>engine\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res_texture.c">
+      <Filter>engine\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\stream\stream.c">
+      <Filter>engine\stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\stream\stream_scu.c">
+      <Filter>engine\stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\system_scu.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\system.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\system\debug_info.c">
+      <Filter>engine\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\time\time.c">
+      <Filter>engine\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\time\time_scu.c">
+      <Filter>engine\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\util\util.c">
+      <Filter>engine\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\util\util_scu.c">
+      <Filter>engine\util</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\engine\engine.h" />
+    <ClInclude Include="..\source\game.h" />
+    <ClInclude Include="..\source\map.h" />
+    <ClInclude Include="..\source\states.h" />
+    <ClInclude Include="..\..\..\engine\core\core.h">
+      <Filter>engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\core\core_allocators.h">
+      <Filter>engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx.h">
+      <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h">
+      <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h">
+      <Filter>engine\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\input\input.h">
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\res\res.h">
+      <Filter>engine\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\stream\stream.h">
+      <Filter>engine\stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\system\system.h">
+      <Filter>engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\system\debug_info.h">
+      <Filter>engine\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\time\time.h">
+      <Filter>engine\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\util\util.h">
+      <Filter>engine\util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="engine">
+      <UniqueIdentifier>{13163587-c0c3-4644-ac29-dc3bdd4b4eca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\core">
+      <UniqueIdentifier>{aeaa3656-bfcf-4e43-ada2-c72660f616a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx">
+      <UniqueIdentifier>{9570ccb4-57b1-4cde-9fb5-636dd2a05f20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx\embedded">
+      <UniqueIdentifier>{6b178056-5915-4038-b019-1b29b98af08b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\gfx\embedded\debug">
+      <UniqueIdentifier>{3e856fbe-e9be-4447-8077-4781b5df6363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{254f54a1-2bfd-46d6-b89d-9f0f637b611d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\res">
+      <UniqueIdentifier>{f9bc21d3-54fb-4832-a64c-d33757d07f40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\stream">
+      <UniqueIdentifier>{80c0f043-70c7-4eea-9c6f-5fe852d94a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\system">
+      <UniqueIdentifier>{30bc2477-30f4-4cb8-a312-3ca28698d625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\time">
+      <UniqueIdentifier>{69fdcc05-9350-4c3c-a80e-9df513893e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\util">
+      <UniqueIdentifier>{c1cfa9bd-03b6-4c06-ab94-16b09b599c3c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

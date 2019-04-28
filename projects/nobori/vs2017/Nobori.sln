@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Nobori", "Nobori.vcxproj", "{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug EMU|Win32 = Debug EMU|Win32
+		Debug PSX|Win32 = Debug PSX|Win32
+		Release EMU|Win32 = Release EMU|Win32
+		Release PSX|Win32 = Release PSX|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Debug EMU|Win32.ActiveCfg = Debug EMU|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Debug EMU|Win32.Build.0 = Debug EMU|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Debug PSX|Win32.ActiveCfg = Debug PSX|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Debug PSX|Win32.Build.0 = Debug PSX|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Release EMU|Win32.ActiveCfg = Release EMU|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Release EMU|Win32.Build.0 = Release EMU|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Release PSX|Win32.ActiveCfg = Release PSX|Win32
+		{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}.Release PSX|Win32.Build.0 = Release PSX|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1526CF57-57B4-44EE-AF48-DD2668E85591}
+	EndGlobalSection
+EndGlobal

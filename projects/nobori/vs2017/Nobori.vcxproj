@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug PSX|Win32">
+      <Configuration>Debug PSX</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug EMU|Win32">
+      <Configuration>Debug EMU</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release EMU|Win32">
+      <Configuration>Release EMU</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release PSX|Win32">
+      <Configuration>Release PSX</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\engine\core\core.c" />
+    <ClCompile Include="..\..\..\engine\core\core_allocators.c" />
+    <ClCompile Include="..\..\..\engine\core\core_mem.c" />
+    <ClCompile Include="..\..\..\engine\core\core_scu.c" />
+    <ClCompile Include="..\..\..\engine\engine_scu.c" />
+    <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c" />
+    <ClCompile Include="..\..\..\engine\gfx\gfx_scu.c" />
+    <ClCompile Include="..\..\..\engine\input\input.c" />
+    <ClCompile Include="..\..\..\engine\input\input_scu.c" />
+    <ClCompile Include="..\..\..\engine\res\res.c" />
+    <ClCompile Include="..\..\..\engine\res\res_scu.c" />
+    <ClCompile Include="..\..\..\engine\res\res_texture.c" />
+    <ClCompile Include="..\..\..\engine\stream\stream.c" />
+    <ClCompile Include="..\..\..\engine\stream\stream_scu.c" />
+    <ClCompile Include="..\..\..\engine\system\debug_info.c" />
+    <ClCompile Include="..\..\..\engine\system\system.c" />
+    <ClCompile Include="..\..\..\engine\system\system_scu.c" />
+    <ClCompile Include="..\..\..\engine\time\time.c" />
+    <ClCompile Include="..\..\..\engine\time\time_scu.c" />
+    <ClCompile Include="..\..\..\engine\util\util.c" />
+    <ClCompile Include="..\..\..\engine\util\util_scu.c" />
+    <ClCompile Include="..\source\game.c" />
+    <ClCompile Include="..\source\game_scu.c" />
+    <ClCompile Include="..\source\state.c" />
+    <ClCompile Include="..\source\state_game.c" />
+    <ClCompile Include="..\source\state_load.c" />
+    <ClCompile Include="..\source\state_menu.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\engine\core\core.h" />
+    <ClInclude Include="..\..\..\engine\core\core_allocators.h" />
+    <ClInclude Include="..\..\..\engine\engine.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h" />
+    <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h" />
+    <ClInclude Include="..\..\..\engine\input\input.h" />
+    <ClInclude Include="..\..\..\engine\res\res.h" />
+    <ClInclude Include="..\..\..\engine\stream\stream.h" />
+    <ClInclude Include="..\..\..\engine\system\debug_info.h" />
+    <ClInclude Include="..\..\..\engine\system\system.h" />
+    <ClInclude Include="..\..\..\engine\time\time.h" />
+    <ClInclude Include="..\..\..\engine\util\util.h" />
+    <ClInclude Include="..\source\game.h" />
+    <ClInclude Include="..\source\map.h" />
+    <ClInclude Include="..\source\states.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F34A9A03-0C25-4C40-92D5-FBA50E86ECCB}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>Nobori</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug EMU|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug EMU|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug EMU|Win32'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug PSX|Win32'">
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release PSX|Win32'">
+    <NMakeOutput />
+    <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release EMU|Win32'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <IncludePath>$(C_INCLUDE_PATH);$(PSXDEV_PATH)/engine;$(IncludePath)</IncludePath>
+    <NMakeBuildCommandLine>
+    </NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>
+    </NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>
+    </NMakeCleanCommandLine>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

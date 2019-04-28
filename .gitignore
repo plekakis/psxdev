@@ -12,3 +12,5 @@ projects/sandbox/bin/
 projects/roller_splat/vs2017/.vs/
 projects/roller_splat/bin/
 *.CAT
+projects/nobori/bin/
+projects/nobori/vs2017/.vs/

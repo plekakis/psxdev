@@ -1,0 +1,44 @@
+#include "game.h"
+#include "states.h"
+
+///////////////////////////////////////////////////
+void Load_FadeOutCallback()
+{
+	State_Transition(STATE_LOAD, STATE_MENU);
+}
+
+///////////////////////////////////////////////////
+void State_Load_Enter()
+{
+	Fade_SetFadeOutCallback(Load_FadeOutCallback);
+}
+
+///////////////////////////////////////////////////
+void State_Load_Leave()
+{
+	
+}
+
+///////////////////////////////////////////////////
+void State_Load_Update()
+{
+	
+}
+
+///////////////////////////////////////////////////
+void State_Load_PreRender()
+{
+	
+}
+
+///////////////////////////////////////////////////
+void State_Load_Render()
+{
+	Gfx_SetClearColor(0, 0, 0);
+
+	Gfx_BeginSubmission(OT_LAYER_BG);
+	{
+		
+	}
+	Gfx_EndSubmission();
+}

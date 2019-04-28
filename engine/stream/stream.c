@@ -38,10 +38,10 @@ void Stream_EnumerateCatalog()
 {	
 	uint32 i;
 	CdlFILE catalog;
+	bool found = FALSE;
 
 	// Load the catalog file and search for all the files in the cd, store their information to be used later.
-	{
-		bool found = FALSE;	
+	{		
 		for (i = 0; i < CD_READ_RETRIES; ++i)
 		{
 			if (CdSearchFile(&catalog, STREAM_CATALOG) != 0)
@@ -51,11 +51,18 @@ void Stream_EnumerateCatalog()
 			}
 		}
 
-		VERIFY_ASSERT(found, "Stream_EnumerateCatalog: %s was not found on CD! This is required.", STREAM_CATALOG);
-		REPORT("Catalog file found, size: %i bytes. Searching for files...", catalog.size);
+		if (found)
+		{
+			REPORT("Catalog file found, size: %i bytes. Searching for files...", catalog.size);
+		}
+		else
+		{
+			WARN("Catalog file not found, is this missing intentionally?");
+		}
 	}
 	
 	// Read the catalog and extract filenames
+	if (found)
 	{
 		void* catalogBuffer = Core_PushStack(CORE_STACKALLOC, catalog.size + Stream_CdSectorSize(), 4);
 		

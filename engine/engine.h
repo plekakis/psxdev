@@ -82,11 +82,13 @@ typedef uint16					StringId;
 #define TTY_OUT(msg) printf("%s\n", msg)
 #define VERIFY_ASSERT(x, ...) if (!(x)) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); CRASHPSX; }
 #define REPORT(...) { char t[128]; sprintf2(t, __VA_ARGS__); TTY_OUT(t); }
+#define WARN(...) { REPORT("WARN: %s", __VA_ARGS__); }
 #define STATIC_ASSERT(x, msg) static int static_assertion_##msg[(x)?1:-1];
 #else
 #define TTY_OUT(msg)
 #define VERIFY_ASSERT(x, msg, ...)
 #define REPORT(...)
+#define WARN(...)
 #define STATIC_ASSERT(x, msg)
 #endif // ASSERT_ENABLED
 
