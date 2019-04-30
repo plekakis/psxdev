@@ -1,3 +1,5 @@
+#include "gfx.h"
+
 // The render state
 typedef struct
 {

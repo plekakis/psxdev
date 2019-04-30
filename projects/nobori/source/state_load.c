@@ -73,7 +73,7 @@ void State_Load_Render()
 
 	// Draw
 	{
-		Gfx_AddPrims(g_model.m_primType, g_model.m_data.m_f3, g_model.m_polyCount);
+		Gfx_AddPrims(g_model.m_primType, g_model.m_data, g_model.m_polyCount);
 	}
 
 	Gfx_EndSubmission();

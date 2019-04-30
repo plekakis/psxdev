@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\engine\engine_scu.c" />
-    <ClCompile Include="..\source\game.c" />
-    <ClCompile Include="..\source\game_scu.c" />
-    <ClCompile Include="..\source\state.c" />
-    <ClCompile Include="..\source\state_game.c" />
-    <ClCompile Include="..\source\state_load.c" />
-    <ClCompile Include="..\source\state_menu.c" />
     <ClCompile Include="..\..\..\engine\core\core.c">
       <Filter>engine\core</Filter>
     </ClCompile>
@@ -83,12 +76,32 @@
     <ClCompile Include="..\..\..\engine\util\util_scu.c">
       <Filter>engine\util</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\state_game.c">
+      <Filter>game\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\state_load.c">
+      <Filter>game\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\state_menu.c">
+      <Filter>game\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\state.c">
+      <Filter>game\states</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\engine_scu.c">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\game_scu.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\game.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res_model.c">
+      <Filter>engine\res</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\engine\engine.h" />
-    <ClInclude Include="..\source\game.h" />
-    <ClInclude Include="..\source\map.h" />
-    <ClInclude Include="..\source\states.h" />
     <ClInclude Include="..\..\..\engine\core\core.h">
       <Filter>engine\core</Filter>
     </ClInclude>
@@ -125,6 +138,15 @@
     <ClInclude Include="..\..\..\engine\util\util.h">
       <Filter>engine\util</Filter>
     </ClInclude>
+    <ClInclude Include="..\source\states.h">
+      <Filter>game\states</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\engine.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\game.h">
+      <Filter>game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="engine">
@@ -159,6 +181,12 @@
     </Filter>
     <Filter Include="engine\util">
       <UniqueIdentifier>{c1cfa9bd-03b6-4c06-ab94-16b09b599c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{97d60f94-df78-4c07-8847-12f0b2260466}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\states">
+      <UniqueIdentifier>{2ef01158-16a3-410f-a51e-648a3c6f5427}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

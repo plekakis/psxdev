@@ -1,3 +1,5 @@
+#include "gfx.h"
+
 ///////////////////////////////////////////////////
 int16 Gfx_BeginBatch2D(Batch2D* o_batch, uint32 i_batchSizeInBytes)
 {

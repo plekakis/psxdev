@@ -34,6 +34,7 @@
     <ClCompile Include="..\..\..\engine\input\input.c" />
     <ClCompile Include="..\..\..\engine\input\input_scu.c" />
     <ClCompile Include="..\..\..\engine\res\res.c" />
+    <ClCompile Include="..\..\..\engine\res\res_model.c" />
     <ClCompile Include="..\..\..\engine\res\res_scu.c" />
     <ClCompile Include="..\..\..\engine\res\res_texture.c" />
     <ClCompile Include="..\..\..\engine\stream\stream.c" />
@@ -67,7 +68,6 @@
     <ClInclude Include="..\..\..\engine\time\time.h" />
     <ClInclude Include="..\..\..\engine\util\util.h" />
     <ClInclude Include="..\source\game.h" />
-    <ClInclude Include="..\source\map.h" />
     <ClInclude Include="..\source\states.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

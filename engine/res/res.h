@@ -21,14 +21,7 @@ typedef struct
 
 typedef struct
 {
-	union
-	{
-		PRIM_F3		*m_f3;
-		PRIM_G3		*m_g3;
-		PRIM_FT3	*m_ft3;
-		PRIM_GT3	*m_gt3;
-	}m_data;
-		
+	void*		m_data;
 	uint16		m_polyCount;
 	PRIM_TYPE	m_primType;
 }ResModel;
