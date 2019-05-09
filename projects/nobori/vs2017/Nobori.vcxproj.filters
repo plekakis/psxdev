@@ -100,6 +100,9 @@
     <ClCompile Include="..\..\..\engine\res\res_model.c">
       <Filter>engine\res</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res_model2.c">
+      <Filter>engine\res</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\core\core.h">

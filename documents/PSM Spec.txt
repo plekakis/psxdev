@@ -1,0 +1,64 @@
+PSM FORMAT
+----------
+
+
+What is:
+--------
+This is a spec for the desired PSX engine's model format. It supports submeshes and each submesh can be one of the 4 PSX GPU primitive types (see below).
+The engine loads the correct data by looking at the submesh primitive type.
+
+
+Notes & ideas:
+--------------
+Do we need a pivot point defined in each submesh?
+How do we store material? 
+
+
+File format spec:
+-----------------
+
+PSM_ROOT
+uint32 magic;		/* PSM magic number, this must always be 0x1234BEEF, loader checks this. */
+uint8 submeshCount;	/* How many submeshes there are */
+uint8 pad[3];
+
+--- PSM_SUBMESH
+	uint16 triangleCount;		/* How many triangles there are in this submesh /*
+	uint8  type;				/* This is either 0, 1, 2, or 3   (corresponding to F3, FT3, G3, GT3 primitives) */
+	uint8  pad[1];
+
+------  PSM_FACE_GT3
+		uint8	r0, g0, b0, p0;		/* Color of vertex 0 */
+		uint8	r1, g1, b1, p1;		/* Color of vertex 1 */
+		uint8	r2, g2, b2, p2;		/* Color of vertex 2 */
+		uint8	u0, v0, u1, v1;		/* texture corner point */
+		uint8	u2, v2, uvp0, uvp1;
+		
+		SVECTOR	x0, x1, x2, xpad;	/* 3D corner point */
+		SVECTOR	n0, n1, n2, npad;	/* 3D corner normal vector */
+		
+		[OR]
+		
+------  PSM_FACE_G3
+		uint8	r0, g0, b0, p0;		/* Color of vertex 0 */
+		uint8	r1, g1, b1, p1;		/* Color of vertex 1 */
+		uint8	r2, g2, b2, p2;		/* Color of vertex 2 */
+		
+		SVECTOR	x0, x1, x2, xpad;	/* 3D corner point */
+		SVECTOR	n0, n1, n2, npad;	/* 3D corner normal vector */
+		
+		[OR]
+		
+------  PSM_FACE_FT3
+		uint8	r0, g0, b0, p0;		/* Color of vertex 0 */
+		uint8	u0, v0, u1, v1;		/* texture corner point */
+		uint8	u2, v2, uvp0, uvp1;
+		
+		SVECTOR	x0, x1, x2, n0;	/* 3D corner point & normal */
+		
+		[OR]
+		
+------  PSM_FACE_F3
+		uint8	r0, g0, b0, p0;		/* Color of vertex 0 */
+		
+		SVECTOR	x0, x1, x2, n0;	/* 3D corner point & normal */

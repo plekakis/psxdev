@@ -21,10 +21,16 @@ typedef struct
 
 typedef struct
 {
-	void*		m_data;
 	uint16		m_polyCount;
 	PRIM_TYPE	m_primType;
+	void*		m_data;		
 }ResModel;
+
+typedef struct
+{
+	uint8		m_submeshCount;
+	ResModel*	m_submeshes;
+}ResModel2;
 
 // Initializes the resource system
 int16 Res_Initialize();
@@ -47,7 +53,16 @@ int16 Res_ReadLoadTMD(StringId i_filename, PRIM_TYPE i_primType, ResModel* o_mod
 // Load a new TMD into system ram. The source address must be already initialized, pointing to valid data.
 int16 Res_LoadTMD(void* i_srcAddress, PRIM_TYPE i_primType, ResModel* o_model);
 
+// Load a new PSM into system ram, reading it from cd first. This is a blocking function.
+int16 Res_ReadLoadPSM(StringId i_filename, ResModel2* o_model);
+
+// Load a new PSM into system ram. The source address must be already initialized, pointing to valid data.
+int16 Res_LoadPSM(void* i_srcAddress, ResModel2* o_model);
+
 // Free a previously loaded TMD.
 int16 Res_FreeTMD(ResModel* io_model);
+
+// Free a previously loaded PSM.
+int16 Res_FreePSM(ResModel2* io_model);
 
 #endif // RES_H_INC

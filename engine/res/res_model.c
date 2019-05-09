@@ -74,8 +74,7 @@ void ReadF3(TMD_PRIM* i_prim, ResModel* io_model, uint16 i_currentPoly)
 
 ///////////////////////////////////////////////////
 void ReadFT3(TMD_PRIM* i_prim, ResModel* io_model, uint16 i_currentPoly)
-{
-	
+{	
 	// Alloc and prepare poly
 	TMD_DECL(i_prim, PRIM_FT3);
 
@@ -144,7 +143,7 @@ int16 Res_LoadTMD(void* i_srcAddress, PRIM_TYPE i_primType, ResModel* o_model)
 	REPORT("Res_LoadTMD: Loading model with %u polygons...", polyCount);
 
 	Util_MemZero(o_model, sizeof(ResModel));
-	
+
 	// Assuming triangle topology, read all the data, depending on the primitive type.
 	o_model->m_polyCount = polyCount;
 	o_model->m_primType = i_primType;
@@ -189,7 +188,7 @@ int16 Res_ReadLoadTMD(StringId i_filename, PRIM_TYPE i_primType, ResModel* o_mod
 
 	Stream_ReadFileBlocking();
 
-	// Load the TIM
+	// Load the TMD
 	res = Res_LoadTMD(ptr, i_primType, o_model);
 
 	Stream_EndRead();

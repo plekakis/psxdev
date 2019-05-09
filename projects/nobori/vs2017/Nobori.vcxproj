@@ -35,6 +35,7 @@
     <ClCompile Include="..\..\..\engine\input\input_scu.c" />
     <ClCompile Include="..\..\..\engine\res\res.c" />
     <ClCompile Include="..\..\..\engine\res\res_model.c" />
+    <ClCompile Include="..\..\..\engine\res\res_model2.c" />
     <ClCompile Include="..\..\..\engine\res\res_scu.c" />
     <ClCompile Include="..\..\..\engine\res\res_texture.c" />
     <ClCompile Include="..\..\..\engine\stream\stream.c" />

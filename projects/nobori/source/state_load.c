@@ -1,6 +1,7 @@
 #include "game.h"
 #include "states.h"
 
+ResModel2 g_model2;
 ResModel g_model;
 MATRIX g_model2World, g_world2Camera;
 
@@ -21,7 +22,8 @@ void State_Load_Enter()
 {
 	Fade_SetFadeOutCallback(Load_FadeOutCallback);
 
-	Res_ReadLoadTMD(ID("ROOT\\TMD\\THESHIP.TMD"), PRIM_TYPE_POLY_F3, &g_model);
+	//Res_ReadLoadTMD(ID("ROOT\\TMD\\THESHIP.TMD"), PRIM_TYPE_POLY_F3, &g_model);
+	Res_ReadLoadPSM(ID("ROOT\\PSM\\MODEL.PSM"), &g_model2);
 }
 
 ///////////////////////////////////////////////////
@@ -73,7 +75,8 @@ void State_Load_Render()
 
 	// Draw
 	{
-		Gfx_AddPrims(g_model.m_primType, g_model.m_data, g_model.m_polyCount);
+		//Gfx_AddPrims(g_model.m_primType, g_model.m_data, g_model.m_polyCount);
+		Gfx_AddPrims(g_model2.m_submeshes[0].m_primType, g_model2.m_submeshes[0].m_data, g_model2.m_submeshes[0].m_polyCount);
 	}
 
 	Gfx_EndSubmission();
