@@ -74,9 +74,15 @@ void State_Load_Render()
 	}
 
 	// Draw
-	{
+	{		
 		//Gfx_AddPrims(g_model.m_primType, g_model.m_data, g_model.m_polyCount);
-		Gfx_AddPrims(g_model2.m_submeshes[0].m_primType, g_model2.m_submeshes[0].m_data, g_model2.m_submeshes[0].m_polyCount);
+		uint32 i;
+		Gfx_InvalidateRenderState(RS_BACKFACE_CULL);
+
+		for (i = 0; i < g_model2.m_submeshCount; ++i)
+		{
+			Gfx_AddPrims(g_model2.m_submeshes[i].m_primType, g_model2.m_submeshes[i].m_data, g_model2.m_submeshes[i].m_polyCount);
+		}
 	}
 
 	Gfx_EndSubmission();
