@@ -8,6 +8,7 @@ typedef struct
 	uint32			m_textureScaleOffset;	// packed texture scale and offset
 	uint32			m_fog;					// packed near, far
 	uint32			m_fogColor;				// packed rgb color
+	uint32			m_polyBaseColor;		// packed polygon base color (vertex/face color can be multiplied by this)
 	uint32			m_backColor;			// packed rgb back color
 	uint32			m_clearColor;			// packed rgb clear color
 	MATRIX			m_lightColors;			// #0, #1 and #2 light colors
@@ -45,6 +46,19 @@ uint32 Gfx_SetRenderState(uint32 i_state)
 {
 	g_rs.m_flags |= i_state;
 	return g_rs.m_flags;
+}
+
+///////////////////////////////////////////////////
+void Gfx_SetPolyBaseColor(uint8 i_red, uint8 i_green, uint8 i_blue)
+{
+	g_rs.m_polyBaseColor = PACK_RGB(i_red, i_green, i_blue);
+}
+
+///////////////////////////////////////////////////
+void Gfx_GetPolyBaseColor(uint8* o_red, uint8* o_green, uint8* o_blue)
+{
+	VERIFY_ASSERT(o_red && o_green && o_blue, "Gfx_GetPolyBaseColor: Null output pointers");
+	UNPACK_RGB(g_rs.m_polyBaseColor, o_red, o_green, o_blue);
 }
 
 ///////////////////////////////////////////////////

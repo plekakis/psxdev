@@ -14,3 +14,6 @@ projects/roller_splat/bin/
 *.CAT
 projects/nobori/bin/
 projects/nobori/vs2017/.vs/
+tools/Mantis/.vs/
+tools/Mantis/bin/
+tools/Mantis/obj/

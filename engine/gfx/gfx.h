@@ -212,7 +212,8 @@ typedef enum
 	RS_LIGHTING		 = 1 << 2,
 	RS_TEXTURING	 = 1 << 3,
 	RS_BACKFACE_CULL = 1 << 4,
-	RS_DIVISION		 = 1 << 5
+	RS_DIVISION		 = 1 << 5,
+	RS_MUL_BASECOL	 = 1 << 6
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
@@ -296,6 +297,12 @@ void Gfx_SetBackColor(uint8 i_red, uint8 i_green, uint8 i_blue);
 
 // Gets the back color
 void Gfx_GetBackColor(uint8* o_red, uint8* o_green, uint8* o_blue);
+
+// Sets the polygon base color (this is multiplied by the vertex / face color if RS_MUL_BASECOL is masked in)
+void Gfx_SetPolyBaseColor(uint8 i_red, uint8 i_green, uint8 i_blue);
+
+// Gets the polygon base color
+void Gfx_GetPolyBaseColor(uint8* o_red, uint8* o_green, uint8* o_blue);
 
 // Sets the light vector for the specified light index
 void Gfx_SetLightVector(uint8 i_index, uint16 i_x, uint16 i_y, uint16 i_z);

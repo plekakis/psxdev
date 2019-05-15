@@ -1,0 +1,26 @@
+MAT FORMAT
+----------
+
+What is:
+--------
+This is the file format for the master material file. It is written out by the Mantis tool and keeps track of
+surface properties of meshes (and their submeshes).
+
+File format spec:
+-----------------
+
+MAT_ROOT
+uint32 magic;			/* MAT magic number, this must always be 0x150385BA, loader checks this. */
+uint16 materialCount;	/* How many materials there are. */
+uint16 meshCount;		/* How many PSM meshes are tracked via this (flattened submeshes) */
+
+--- MAT_INSTANCE
+	uint16 name;		/* StringId of the material's name. /*
+	uint16 texture;		/* StringId of the material's diffuse texture. /*
+	uint8  r, g, b, flags; /* Color r, g, b and material flags. /*
+	
+--- MESH_REF
+	uint16 matIndex;	/* Index into the previous material instance array. /*
+	uint16 filename;	/* StringId of the mesh's filename. /*
+	uint8  submeshIndex;/* Index into the submesh array. /*
+	uint8  pad[3];

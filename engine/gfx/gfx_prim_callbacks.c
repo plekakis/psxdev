@@ -55,6 +55,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	bool litBit = (state & RS_LIGHTING) != 0; \
 	bool fogBit = (state & RS_FOG) != 0; \
 	bool backfaceCullBit = (state & RS_BACKFACE_CULL) != 0; \
+	bool polyBaseColorBit = (state & RS_MUL_BASECOL) != 0; \
 	DivisionParams* divparams; \
 	uint16 primCount = 1; \
 	uint16 primDivCount = 0; \
@@ -144,12 +145,21 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	}
 
 #define DO_FINAL_COLOR_IMPL(index) \
-	gte_ldrgb(&poly->r## index); \
-	if (litBit & transformBit) { \
-		gte_ldv0(&(prim->n## index).vx); gte_nccs(); gte_strgb(&poly->r## index); \
-	} \
-	if (fogBit & transformBit) { \
-		gte_stdp(&p); gte_dpcs(); gte_strgb(&poly->r## index); \
+	{ \
+		CVECTOR* color = (CVECTOR*)&poly->r## index; \
+		if (polyBaseColorBit) \
+		{ \
+			uint8 r, g, b; \
+			Gfx_GetPolyBaseColor(&r, &g, &b); \
+			mulColor(color, r, g, b); \
+		} \
+		gte_ldrgb(&color->r); \
+		if (litBit & transformBit) { \
+			gte_ldv0(&(prim->n## index).vx); gte_nccs(); gte_strgb(&poly->r## index); \
+		} \
+		if (fogBit & transformBit) { \
+			gte_stdp(&p); gte_dpcs(); gte_strgb(&poly->r## index); \
+		} \
 	}
 
 #define DO_FINAL_COLOR(index) \

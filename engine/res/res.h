@@ -32,6 +32,13 @@ typedef struct
 	ResModel*	m_submeshes;
 }ResModel2;
 
+typedef struct
+{
+	uint16		m_name;
+	uint16		m_texture;
+	uint8		m_red, m_green, m_blue, m_flags;
+}ResMaterial;
+
 // Initializes the resource system
 int16 Res_Initialize();
 
@@ -40,6 +47,15 @@ int16 Res_Shutdown();
 
 // Update the resource system
 int16 Res_Update();
+
+// Return a pointer to the specified material (NULL if material is not found).
+ResMaterial* const Res_GetMaterial(StringId i_materialName);
+
+// Return a pointer to the material for the specified mesh filename and submesh index (NULL if material is not found).
+ResMaterial* const Res_GetMaterialLink(StringId i_meshFilename, uint8 i_submesh);
+
+// Return the material's hashed name for that index.
+StringId Res_GetMaterialName(uint16 i_index);
 
 // Load a new TIM into video ram, reading it from cd first. This is a blocking function.
 int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture);

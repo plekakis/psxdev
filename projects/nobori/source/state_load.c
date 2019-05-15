@@ -11,6 +11,9 @@ VECTOR g_position = { 0, 0, 150 };
 SVECTOR g_cameraRotation = { 0, 0, 0 };
 VECTOR g_cameraPosition = { 0, 0, 0 };
 
+
+StringId g_modelName;
+
 ///////////////////////////////////////////////////
 void Load_FadeOutCallback()
 {
@@ -20,10 +23,12 @@ void Load_FadeOutCallback()
 ///////////////////////////////////////////////////
 void State_Load_Enter()
 {
+	g_modelName = ID("ROOT\\PSM\\MODEL.PSM");
+
 	Fade_SetFadeOutCallback(Load_FadeOutCallback);
 
 	//Res_ReadLoadTMD(ID("ROOT\\TMD\\THESHIP.TMD"), PRIM_TYPE_POLY_F3, &g_model);
-	Res_ReadLoadPSM(ID("ROOT\\PSM\\MODEL.PSM"), &g_model2);
+	Res_ReadLoadPSM(g_modelName, &g_model2);
 }
 
 ///////////////////////////////////////////////////
@@ -75,14 +80,18 @@ void State_Load_Render()
 
 	// Draw
 	{		
-		//Gfx_AddPrims(g_model.m_primType, g_model.m_data, g_model.m_polyCount);
 		uint32 i;
 		Gfx_InvalidateRenderState(RS_BACKFACE_CULL);
+		Gfx_SetRenderState(RS_MUL_BASECOL);
 
 		for (i = 0; i < g_model2.m_submeshCount; ++i)
 		{
+			ResMaterial* material = Res_GetMaterialLink(g_modelName, i);
+			Gfx_SetPolyBaseColor(material->m_red, material->m_green, material->m_blue);
 			Gfx_AddPrims(g_model2.m_submeshes[i].m_primType, g_model2.m_submeshes[i].m_data, g_model2.m_submeshes[i].m_polyCount);
 		}
+
+		Gfx_InvalidateRenderState(RS_MUL_BASECOL);
 	}
 
 	Gfx_EndSubmission();

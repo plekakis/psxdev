@@ -31,6 +31,11 @@
 #define setColor(c, _r, _g, _b) \
 	(c)->r = (_r), (c)->g = (_g), (c)->b = (_b)
 
+#define mulColor(c, _r, _g, _b) \
+	(c)->r = ( ((c)->r * _r + 0xFF) >> 8); \
+	(c)->g = ( ((c)->g * _g + 0xFF) >> 8); \
+	(c)->b = ( ((c)->b * _b + 0xFF) >> 8);
+
 #define mulVector(v0, v1) \
 	(v0)->vx *= (v1)->vx,	\
 	(v0)->vy *= (v1)->vy,	\
