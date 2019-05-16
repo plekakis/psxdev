@@ -225,22 +225,24 @@ void PSM_ReadGT3(uint8* io_srcData, uint8* io_vertexData)
 }
 
 ///////////////////////////////////////////////////
-int16 Res_LoadPSM(void* i_srcAddress, ResModel2* o_model)
+int16 Res_LoadPSM(void* i_srcAddress, ResModel2** o_model)
 {
 	uint32 submeshIndex = 0u;
 	uint8* ptr = (uint8*)i_srcAddress;
 
 	PSM_HEADER* header = (PSM_HEADER*)ptr; ptr += sizeof(PSM_HEADER);
 	
+	*o_model = Core_Malloc(sizeof(ResModel2), 4);
+
 	REPORT("magic: %x, subMeshCount: %u", header->magic, header->submeshCount);
 
-	o_model->m_submeshCount = header->submeshCount;
-	o_model->m_submeshes = Core_Malloc(sizeof(ResModel) * o_model->m_submeshCount, 4);
+	(*o_model)->m_submeshCount = header->submeshCount;
+	(*o_model)->m_submeshes = Core_Malloc(sizeof(ResModelSubMesh) * (*o_model)->m_submeshCount, 4);
 
-	for (submeshIndex=0; submeshIndex < o_model->m_submeshCount; ++submeshIndex)
+	for (submeshIndex=0; submeshIndex < (*o_model)->m_submeshCount; ++submeshIndex)
 	{
 		uint32 triIndex = 0u;
-		ResModel* mdl = &o_model->m_submeshes[submeshIndex];
+		ResModelSubMesh* mdl = &(*o_model)->m_submeshes[submeshIndex];
 		PSM_SUBMESH* submesh = (PSM_SUBMESH*)ptr; ptr += sizeof(PSM_SUBMESH);
 		
 		mdl->m_polyCount = submesh->triangleCount;
@@ -285,7 +287,7 @@ int16 Res_LoadPSM(void* i_srcAddress, ResModel2* o_model)
 }
 
 ///////////////////////////////////////////////////
-int16 Res_ReadLoadPSM(StringId i_filename, ResModel2* o_model)
+int16 Res_ReadLoadPSM(StringId i_filename, ResModel2** o_model)
 {
 	int16 res = E_OK;
 	void* ptr;
@@ -303,16 +305,18 @@ int16 Res_ReadLoadPSM(StringId i_filename, ResModel2* o_model)
 }
 
 ///////////////////////////////////////////////////
-int16 Res_FreePSM(ResModel2* io_model)
+int16 Res_FreePSM(ResModel2** io_model)
 {
-	VERIFY_ASSERT(io_model, "Input model is null");
+	VERIFY_ASSERT(io_model && *io_model, "Input model is null");
 	
 	{
 		uint32 submeshIndex = 0;
-		for (submeshIndex = 0; submeshIndex < io_model->m_submeshCount; ++submeshIndex)
+		for (submeshIndex = 0; submeshIndex < (*io_model)->m_submeshCount; ++submeshIndex)
 		{
-			Core_Free(io_model->m_submeshes[submeshIndex].m_data);
-			Core_Free(io_model->m_submeshes);
+			Core_Free((*io_model)->m_submeshes[submeshIndex].m_data);
+			Core_Free((*io_model)->m_submeshes);
 		}
-	}
+
+		Core_Free(*io_model);
+	}	
 }

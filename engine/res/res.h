@@ -23,19 +23,19 @@ typedef struct
 {
 	uint16		m_polyCount;
 	PRIM_TYPE	m_primType;
-	void*		m_data;		
-}ResModel;
+	void*		m_data;
+}ResModelSubMesh;
 
 typedef struct
 {
-	uint8		m_submeshCount;
-	ResModel*	m_submeshes;
+	uint8			 m_submeshCount;
+	ResModelSubMesh* m_submeshes;
 }ResModel2;
 
 typedef struct
 {
-	uint16		m_name;
-	uint16		m_texture;
+	StringId	m_name;
+	StringId	m_texture;
 	uint8		m_red, m_green, m_blue, m_flags;
 }ResMaterial;
 
@@ -58,27 +58,21 @@ ResMaterial* const Res_GetMaterialLink(StringId i_meshFilename, uint8 i_submesh)
 StringId Res_GetMaterialName(uint16 i_index);
 
 // Load a new TIM into video ram, reading it from cd first. This is a blocking function.
-int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture);
+int16 Res_ReadLoadTIM(StringId i_filename, ResTexture** o_texture);
 
 // Load a new TIM into video ram. The source address must be already initialized, pointing to valid data.
-int16 Res_LoadTIM(void* i_srcAddress, ResTexture* o_texture);
-
-// Load a new TMD into system ram, reading it from cd first. This is a blocking function.
-int16 Res_ReadLoadTMD(StringId i_filename, PRIM_TYPE i_primType, ResModel* o_model);
-
-// Load a new TMD into system ram. The source address must be already initialized, pointing to valid data.
-int16 Res_LoadTMD(void* i_srcAddress, PRIM_TYPE i_primType, ResModel* o_model);
+int16 Res_LoadTIM(void* i_srcAddress, ResTexture** o_texture);
 
 // Load a new PSM into system ram, reading it from cd first. This is a blocking function.
-int16 Res_ReadLoadPSM(StringId i_filename, ResModel2* o_model);
+int16 Res_ReadLoadPSM(StringId i_filename, ResModel2** o_model);
 
 // Load a new PSM into system ram. The source address must be already initialized, pointing to valid data.
-int16 Res_LoadPSM(void* i_srcAddress, ResModel2* o_model);
-
-// Free a previously loaded TMD.
-int16 Res_FreeTMD(ResModel* io_model);
+int16 Res_LoadPSM(void* i_srcAddress, ResModel2** o_model);
 
 // Free a previously loaded PSM.
-int16 Res_FreePSM(ResModel2* io_model);
+int16 Res_FreePSM(ResModel2** io_model);
+
+// Free a previously loaded TIM.
+int16 Res_FreeTIM(ResTexture** io_texture);
 
 #endif // RES_H_INC

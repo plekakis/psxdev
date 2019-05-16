@@ -29,7 +29,7 @@ int16 Core_InitScratch(ScratchBuffer* o_buffer, uint32 i_scratchSizeInBytes, uin
 int16 Core_FreeScratch(ScratchBuffer* i_buffer)
 {
 	uint8* ptr = (uint8*)i_buffer->m_start - i_buffer->m_alignment;
-	free3(ptr);
+	Core_Free(ptr);
 	return E_OK;
 }
 
@@ -152,7 +152,7 @@ int16 Core_ResetStack(StackBuffer* i_buffer)
 int16 Core_FreeStack(StackBuffer* i_buffer)
 {
 	uint8* ptr = (uint8*)i_buffer->m_start - i_buffer->m_alignment;
-	free3(ptr);
+	Core_Free(ptr);
 	return E_OK;
 }
 
@@ -209,8 +209,14 @@ uint16 Core_PopStack(StackBuffer* i_buffer)
 	REPORT("Core_PopStack: Freeing %u bytes, head: %p, header: %p", header->m_size, i_buffer->m_head, header);
 	VERIFY_ASSERT(header->m_size == i_buffer->m_lastAllocationSize, "Mismatch between previous allocation size and this one! Allocated: %u bytes, freeing %u bytes", i_buffer->m_lastAllocationSize, header->m_size);
 	VERIFY_ASSERT(header->m_size > 0, "Core_PopStack: Trying to free 0 bytes, this is probably a memory corruption");
-
+	
 	i_buffer->m_head = header->m_prevPtr;
+
+#if ASSERT_ENABLED
+	// Update last allocation size from previous allocation.
+	header = (StackBufferHeader*)(i_buffer->m_head - sizeof(StackBufferHeader));
+	i_buffer->m_lastAllocationSize = header->m_size;
+#endif //ASSERT_ENABLED
 	return 0u;
 }
 

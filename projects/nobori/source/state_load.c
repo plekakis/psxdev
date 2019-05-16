@@ -1,8 +1,8 @@
 #include "game.h"
 #include "states.h"
+#include <core/obj_cache.h>
 
-ResModel2 g_model2;
-ResModel g_model;
+ResModel2 *g_model2, *g_model2_1;
 MATRIX g_model2World, g_world2Camera;
 
 SVECTOR g_rotation = { ONE/2, 0, 0 };
@@ -11,8 +11,35 @@ VECTOR g_position = { 0, 0, 150 };
 SVECTOR g_cameraRotation = { 0, 0, 0 };
 VECTOR g_cameraPosition = { 0, 0, 0 };
 
-
 StringId g_modelName;
+
+ObjCache g_textureCache;
+ObjCache g_modelCache;
+
+///////////////////////////////////////////////////
+void LoadPSM(StringId i_filename, ResModel2** o_model)
+{
+	bool isAdded;
+
+	*o_model = ObjCache_Insert(&g_modelCache, i_filename, &isAdded);
+	if (isAdded)
+	{
+		Res_ReadLoadPSM(g_modelName, o_model);
+		ObjCache_Update(&g_modelCache, i_filename, *o_model);
+	}
+}
+
+///////////////////////////////////////////////////
+void FreePSM(void** io_psm)
+{
+	Res_FreePSM((ResModel2**)io_psm);
+}
+
+///////////////////////////////////////////////////
+void FreeTIM(void** io_tim)
+{
+	Res_FreeTIM((ResTexture**)io_tim);
+}
 
 ///////////////////////////////////////////////////
 void Load_FadeOutCallback()
@@ -27,14 +54,18 @@ void State_Load_Enter()
 
 	Fade_SetFadeOutCallback(Load_FadeOutCallback);
 
-	//Res_ReadLoadTMD(ID("ROOT\\TMD\\THESHIP.TMD"), PRIM_TYPE_POLY_F3, &g_model);
-	Res_ReadLoadPSM(g_modelName, &g_model2);
+	ObjCache_Create(&g_textureCache, 10, FreeTIM);
+	ObjCache_Create(&g_modelCache, 4, FreePSM);
+
+	LoadPSM(g_modelName, &g_model2);
+	LoadPSM(g_modelName, &g_model2_1);		
 }
 
 ///////////////////////////////////////////////////
 void State_Load_Leave()
 {
-	
+	ObjCache_Free(&g_modelCache);
+	ObjCache_Free(&g_textureCache);
 }
 
 ///////////////////////////////////////////////////
@@ -47,6 +78,41 @@ void State_Load_Update()
 void State_Load_PreRender()
 {
 	
+}
+
+///////////////////////////////////////////////////
+void DrawPSM(ResModel2* i_model, int16 offset)
+{
+	// Model
+	{
+		int16 prev = g_position.vx;
+		g_position.vx += offset;
+
+		RotMatrix(&g_rotation, &g_model2World);
+		TransMatrix(&g_model2World, &g_position);
+
+		Gfx_SetModelMatrix(&g_model2World);
+
+		g_position.vx = prev;
+	}
+
+	// Draw
+	{
+		uint32 i;
+		Gfx_InvalidateRenderState(RS_BACKFACE_CULL);
+		Gfx_SetRenderState(RS_TEXTURING);
+		Gfx_SetRenderState(RS_MUL_BASECOL);
+
+		for (i = 0; i < i_model->m_submeshCount; ++i)
+		{
+			ResMaterial* material = Res_GetMaterialLink(g_modelName, i);
+			Gfx_SetPolyBaseColor(material->m_red, material->m_green, material->m_blue);
+
+			Gfx_AddPrims(i_model->m_submeshes[i].m_primType, i_model->m_submeshes[i].m_data, i_model->m_submeshes[i].m_polyCount);
+		}
+
+		Gfx_InvalidateRenderState(RS_MUL_BASECOL);
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -70,29 +136,8 @@ void State_Load_Render()
 		Gfx_SetCameraMatrix(&g_world2Camera);
 	}
 
-	// Model
-	{
-		RotMatrix(&g_rotation, &g_model2World);
-		TransMatrix(&g_model2World, &g_position);
-
-		Gfx_SetModelMatrix(&g_model2World);
-	}
-
-	// Draw
-	{		
-		uint32 i;
-		Gfx_InvalidateRenderState(RS_BACKFACE_CULL);
-		Gfx_SetRenderState(RS_MUL_BASECOL);
-
-		for (i = 0; i < g_model2.m_submeshCount; ++i)
-		{
-			ResMaterial* material = Res_GetMaterialLink(g_modelName, i);
-			Gfx_SetPolyBaseColor(material->m_red, material->m_green, material->m_blue);
-			Gfx_AddPrims(g_model2.m_submeshes[i].m_primType, g_model2.m_submeshes[i].m_data, g_model2.m_submeshes[i].m_polyCount);
-		}
-
-		Gfx_InvalidateRenderState(RS_MUL_BASECOL);
-	}
+	DrawPSM(g_model2, -100);
+	DrawPSM(g_model2_1, 100);
 
 	Gfx_EndSubmission();
 }

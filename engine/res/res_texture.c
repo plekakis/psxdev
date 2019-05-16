@@ -4,7 +4,7 @@
 #include "../util/util.h"
 
 ///////////////////////////////////////////////////
-int16 Res_LoadTIM(void* i_srcAddress, ResTexture* o_texture)
+int16 Res_LoadTIM(void* i_srcAddress, ResTexture** o_texture)
 {
 	TIM_IMAGE tim;
 	Util_MemZero(&tim, sizeof(tim));
@@ -18,26 +18,28 @@ int16 Res_LoadTIM(void* i_srcAddress, ResTexture* o_texture)
 	if (ReadTIM(&tim) == 0)
 		return E_FAILURE;
 
+	*o_texture = (ResTexture*)Core_Malloc(sizeof(ResTexture), 4);
+
 	Util_MemZero(o_texture, sizeof(ResTexture));
 
-	o_texture->m_type = (TextureMode)tim.mode & 3;
-	o_texture->m_x = tim.prect->x;
-	o_texture->m_y = tim.prect->y;
-	o_texture->m_width = VRamToImageSize(tim.prect->w, o_texture->m_type);
-	o_texture->m_height = VRamToImageSize(tim.prect->h, o_texture->m_type);
+	(*o_texture)->m_type = (TextureMode)tim.mode & 3;
+	(*o_texture)->m_x = tim.prect->x;
+	(*o_texture)->m_y = tim.prect->y;
+	(*o_texture)->m_width = VRamToImageSize(tim.prect->w, (*o_texture)->m_type);
+	(*o_texture)->m_height = VRamToImageSize(tim.prect->h, (*o_texture)->m_type);
 
-	o_texture->m_tpage = LoadTPage(tim.paddr, o_texture->m_type, 0, o_texture->m_x, o_texture->m_y, o_texture->m_width, o_texture->m_height);
+	(*o_texture)->m_tpage = LoadTPage(tim.paddr, (*o_texture)->m_type, 0, (*o_texture)->m_x, (*o_texture)->m_y, (*o_texture)->m_width, (*o_texture)->m_height);
 
-	if (o_texture->m_type < TEXTURE_MODE_16BIT)
+	if ((*o_texture)->m_type < TEXTURE_MODE_16BIT)
 	{
-		o_texture->m_clut = LoadClut(tim.caddr, tim.crect->x, tim.crect->y);
+		(*o_texture)->m_clut = LoadClut(tim.caddr, tim.crect->x, tim.crect->y);
 	}
 
 	return E_OK;
 }
 
 ///////////////////////////////////////////////////
-int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture)
+int16 Res_ReadLoadTIM(StringId i_filename, ResTexture** o_texture)
 {
 	int16 res = E_OK;
 	void* ptr;
@@ -52,4 +54,11 @@ int16 Res_ReadLoadTIM(StringId i_filename, ResTexture* o_texture)
 
 	Stream_EndRead();
 	return res;
+}
+
+///////////////////////////////////////////////////
+int16 Res_FreeTIM(ResTexture** io_texture)
+{
+	VERIFY_ASSERT(io_texture && *io_texture, "Input texture is null");
+	Core_Free(*io_texture);
 }

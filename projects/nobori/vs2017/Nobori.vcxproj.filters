@@ -103,6 +103,10 @@
     <ClCompile Include="..\..\..\engine\res\res_model2.c">
       <Filter>engine\res</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\engine\res\res_material.c" />
+    <ClCompile Include="..\..\..\engine\core\obj_cache.c">
+      <Filter>engine\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\core\core.h">
@@ -149,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="..\source\game.h">
       <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\core\obj_cache.h">
+      <Filter>engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

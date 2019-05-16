@@ -96,6 +96,11 @@ int16 Res_FreeMATLIB()
 	{
 		Core_Free(g_matlib);
 	}
+
+	if (g_matlibLinks)
+	{
+		Core_Free(g_matlibLinks);
+	}
 	return E_OK;
 }
 
