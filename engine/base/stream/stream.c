@@ -1,6 +1,6 @@
 #include "stream.h"
-#include "../core/core.h"
-#include "../util/util.h"
+#include <base/core/core.h>
+#include <base/util/util.h>
 
 #define CD_READ_RETRIES (10u)
 #define STREAM_CATALOG "\\ROOT\\CATALOG.CAT;1"

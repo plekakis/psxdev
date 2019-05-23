@@ -1,11 +1,12 @@
 #ifndef GFX_H_INC
 #define GFX_H_INC
 
-#include "../engine.h"
-#include "../core/core.h"
-#include "../core/core_allocators.h"
-#include "../util/util.h"
-#include "../time/time.h"
+#include <engine.h>
+#include <base/core/core.h>
+#include <base/core/core_allocators.h>
+#include <base/util/util.h>
+#include <base/time/time.h>
+
 #include "gfx_scratch.h"
 
 #define GFX_NUM_BUFFERS (2)

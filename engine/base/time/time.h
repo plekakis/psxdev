@@ -1,7 +1,7 @@
 #ifndef TIME_H_INC
 #define TIME_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 #define TimeMoment uint32
 

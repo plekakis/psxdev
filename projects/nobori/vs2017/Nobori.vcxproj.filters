@@ -97,9 +97,6 @@
     <ClCompile Include="..\source\game.c">
       <Filter>game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\engine\res\res_model.c">
-      <Filter>engine\res</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\engine\res\res_model2.c">
       <Filter>engine\res</Filter>
     </ClCompile>

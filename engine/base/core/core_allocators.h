@@ -1,7 +1,7 @@
 #ifndef CORE_ALLOCATORS_H_INC
 #define CORE_ALLOCATORS_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 ///////////////////////////////////////////////////
 // SCRATCH ALLOCATOR

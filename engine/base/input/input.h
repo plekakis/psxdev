@@ -1,7 +1,7 @@
 #ifndef INPUT_H_INC
 #define INPUT_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 // Initializes the input subsystem
 int16 Input_Initialize();

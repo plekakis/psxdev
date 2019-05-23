@@ -1,7 +1,7 @@
 #ifndef OBJ_CACHE_H_INC
 #define OBJ_CACHE_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 /*
 Object Cache

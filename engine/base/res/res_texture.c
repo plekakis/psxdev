@@ -1,7 +1,7 @@
 #include "res.h"
-#include "../stream/stream.h"
-#include "../core/core.h"
-#include "../util/util.h"
+#include <base/stream/stream.h>
+#include <base/core/core.h>
+#include <base/util/util.h>
 
 ///////////////////////////////////////////////////
 int16 Res_LoadTIM(void* i_srcAddress, ResTexture** o_texture)

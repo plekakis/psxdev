@@ -1,6 +1,5 @@
 #include "game.h"
 #include "states.h"
-#include <core/obj_cache.h>
 
 ResModel2 *g_model2, *g_model2_1;
 MATRIX g_model2World, g_world2Camera;
@@ -54,7 +53,7 @@ void State_Load_Enter()
 
 	Fade_SetFadeOutCallback(Load_FadeOutCallback);
 
-	ObjCache_Create(&g_textureCache, 10, FreeTIM);
+	ObjCache_Create(&g_textureCache, 100, FreeTIM);
 	ObjCache_Create(&g_modelCache, 4, FreePSM);
 
 	LoadPSM(g_modelName, &g_model2);

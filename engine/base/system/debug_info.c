@@ -1,7 +1,7 @@
 #include "debug_info.h"
-#include "../core/core.h"
-#include "../gfx/gfx.h"
-#include "../input/input.h"
+#include <base/core/core.h>
+#include <base/gfx/gfx.h>
+#include <base/input/input.h>
 
 #if !CONFIG_FINAL
 

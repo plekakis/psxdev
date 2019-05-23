@@ -1,7 +1,7 @@
 #ifndef RES_H_INC
 #define RES_H_INC
 
-#include "../gfx/gfx.h"
+#include <base/gfx/gfx.h>
 
 // Get the vram image size using bitplane info (because vram position is in 16bits mode only)
 #define	ImageToVRamSize(size, mode)			((size) / (1 << (2 - ((mode) & 3))))

@@ -1,7 +1,7 @@
 #ifndef UTIL_H_DEF
 #define UTIL_H_DEF
 
-#include "../engine.h"
+#include <engine.h>
 
 //-----------------------------------------------------------------------
 // Macros

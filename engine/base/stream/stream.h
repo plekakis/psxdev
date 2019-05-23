@@ -1,7 +1,7 @@
 #ifndef STREAM_H_INC
 #define STREAM_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 #ifndef STREAM_VERBOSE
 #define STREAM_VERBOSE (0u)

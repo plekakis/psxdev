@@ -1,6 +1,6 @@
 #include "gfx.h"
-#include "../util/util.h"
-#include "../core/core_allocators.h"
+#include <base/util/util.h>
+#include <base/core/core_allocators.h>
 
 ScratchBuffer g_scratchBuffers[GFX_NUM_BUFFERS];
 

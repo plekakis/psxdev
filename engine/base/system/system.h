@@ -1,7 +1,7 @@
 #ifndef SYSTEM_H_INC
 #define SYSTEM_H_INC
 
-#include "../engine.h"
+#include <engine.h>
 
 typedef struct
 {

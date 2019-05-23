@@ -3,7 +3,7 @@
 
 #if !CONFIG_FINAL
 
-#include "../time/time.h"
+#include <base/time/time.h>
 
 typedef struct
 {

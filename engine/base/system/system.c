@@ -1,13 +1,13 @@
 #include "system.h"
 #include "debug_info.h"
-#include "../gfx/gfx.h"
-#include "../gfx/gfx_scratch.h"
-#include "../stream/stream.h"
-#include "../input/input.h"
-#include "../core/core.h"
-#include "../res/res.h"
-#include "../util/util.h"
-#include "../time/time.h"
+#include <base/gfx/gfx.h>
+#include <base/gfx/gfx_scratch.h>
+#include <base/stream/stream.h>
+#include <base/input/input.h>
+#include <base/core/core.h>
+#include <base/res/res.h>
+#include <base/util/util.h>
+#include <base/time/time.h>
 
 SystemInitInfo* g_initInfo = NULL;
 bool g_systemRunning = TRUE;

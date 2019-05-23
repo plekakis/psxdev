@@ -1,8 +1,8 @@
 #include "res.h"
-#include "../gfx/gfx.h"
-#include "../stream/stream.h"
-#include "../core/core.h"
-#include "../util/util.h"
+#include <base/gfx/gfx.h>
+#include <base/stream/stream.h>
+#include <base/core/core.h>
+#include <base/util/util.h>
 
 typedef struct
 {
