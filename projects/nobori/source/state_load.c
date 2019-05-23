@@ -1,6 +1,8 @@
 #include "game.h"
 #include "states.h"
 
+#include <hl/caches/caches.h>
+
 ResModel2 *g_model2, *g_model2_1;
 MATRIX g_model2World, g_world2Camera;
 
@@ -12,33 +14,8 @@ VECTOR g_cameraPosition = { 0, 0, 0 };
 
 StringId g_modelName;
 
-ObjCache g_textureCache;
-ObjCache g_modelCache;
-
-///////////////////////////////////////////////////
-void LoadPSM(StringId i_filename, ResModel2** o_model)
-{
-	bool isAdded;
-
-	*o_model = ObjCache_Insert(&g_modelCache, i_filename, &isAdded);
-	if (isAdded)
-	{
-		Res_ReadLoadPSM(g_modelName, o_model);
-		ObjCache_Update(&g_modelCache, i_filename, *o_model);
-	}
-}
-
-///////////////////////////////////////////////////
-void FreePSM(void** io_psm)
-{
-	Res_FreePSM((ResModel2**)io_psm);
-}
-
-///////////////////////////////////////////////////
-void FreeTIM(void** io_tim)
-{
-	Res_FreeTIM((ResTexture**)io_tim);
-}
+HL_TextureCache g_textureCache;
+HL_ModelCache g_modelCache;
 
 ///////////////////////////////////////////////////
 void Load_FadeOutCallback()
@@ -53,18 +30,18 @@ void State_Load_Enter()
 
 	Fade_SetFadeOutCallback(Load_FadeOutCallback);
 
-	ObjCache_Create(&g_textureCache, 100, FreeTIM);
-	ObjCache_Create(&g_modelCache, 4, FreePSM);
+	HL_NewTextureCache(&g_textureCache, 10);
+	HL_NewModelCache(&g_modelCache, 4);
 
-	LoadPSM(g_modelName, &g_model2);
-	LoadPSM(g_modelName, &g_model2_1);		
+	HL_LoadModel(&g_modelCache, g_modelName, &g_model2);
+	HL_LoadModel(&g_modelCache, g_modelName, &g_model2_1);
 }
 
 ///////////////////////////////////////////////////
 void State_Load_Leave()
 {
-	ObjCache_Free(&g_modelCache);
-	ObjCache_Free(&g_textureCache);
+	HL_FreeModelCache(&g_modelCache);
+	HL_FreeTextureCache(&g_textureCache);
 }
 
 ///////////////////////////////////////////////////
