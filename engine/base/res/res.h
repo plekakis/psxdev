@@ -3,6 +3,8 @@
 
 #include <base/gfx/gfx.h>
 
+#define RES_VERBOSE_MODEL_LOADING (0u)
+
 // Get the vram image size using bitplane info (because vram position is in 16bits mode only)
 #define	ImageToVRamSize(size, mode)			((size) / (1 << (2 - ((mode) & 3))))
 #define	VRamToImageSize(size, mode)			((size) * (1 << (2 - ((mode) & 3))))
@@ -15,8 +17,8 @@ typedef struct
 	uint16			m_tpage;
 	uint16			m_x;
 	uint16			m_y;
-	uint8			m_width;
-	uint8			m_height;	
+	uint16			m_width;
+	uint16			m_height;
 }ResTexture;
 
 typedef struct

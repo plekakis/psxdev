@@ -20,18 +20,23 @@ int16 Res_LoadTIM(void* i_srcAddress, ResTexture** o_texture)
 
 	*o_texture = (ResTexture*)Core_Malloc(sizeof(ResTexture), 4);
 
-	Util_MemZero(o_texture, sizeof(ResTexture));
+	Util_MemZero(*o_texture, sizeof(ResTexture));
 
 	(*o_texture)->m_type = (TextureMode)tim.mode & 3;
 	(*o_texture)->m_x = tim.prect->x;
 	(*o_texture)->m_y = tim.prect->y;
-	(*o_texture)->m_width = VRamToImageSize(tim.prect->w, (*o_texture)->m_type);
-	(*o_texture)->m_height = VRamToImageSize(tim.prect->h, (*o_texture)->m_type);
+	(*o_texture)->m_width = VRamToImageSize(tim.prect->w, tim.mode);
+	(*o_texture)->m_height = tim.prect->h;
 
-	(*o_texture)->m_tpage = LoadTPage(tim.paddr, (*o_texture)->m_type, 0, (*o_texture)->m_x, (*o_texture)->m_y, (*o_texture)->m_width, (*o_texture)->m_height);
+	REPORT("texture type %i: %i, %i", (*o_texture)->m_type, (*o_texture)->m_width, (*o_texture)->m_height);
+
+	// Width & height are actual pixels, not area covered in framebuffer (which can be compressed in 4/8 bit CLUT modes)
+	(*o_texture)->m_tpage = LoadTPage(tim.paddr, (*o_texture)->m_type, 0, tim.prect->x, tim.prect->y, (*o_texture)->m_width, (*o_texture)->m_height);
 
 	if ((*o_texture)->m_type < TEXTURE_MODE_16BIT)
 	{
+		// clut x must be 16pixel aligned.
+		VERIFY_ASSERT( (tim.crect->x & 15)==0, "CLUT x is not 16pixel aligned!");
 		(*o_texture)->m_clut = LoadClut(tim.caddr, tim.crect->x, tim.crect->y);
 	}
 

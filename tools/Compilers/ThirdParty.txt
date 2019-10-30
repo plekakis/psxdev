@@ -1,0 +1,4 @@
+Using the following third-party libraries:
+
+- https://github.com/jarro2783/cxxopts
+- https://github.com/syoyo/tinyobjloader

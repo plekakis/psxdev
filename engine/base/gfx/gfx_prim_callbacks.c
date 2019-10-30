@@ -42,6 +42,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
  - Lighting
  - Depth cueing
  - Polygon division
+ - Texturing
 
  Primitives are allocated off the Gfx scratch allocator (exception is the transform & backface cull step, this can early out and uses a POLY_XX member on the stack).
 */
@@ -56,6 +57,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 	bool fogBit = (state & RS_FOG) != 0; \
 	bool backfaceCullBit = (state & RS_BACKFACE_CULL) != 0; \
 	bool polyBaseColorBit = (state & RS_MUL_BASECOL) != 0; \
+	bool textureBit = (state & RS_TEXTURING) != 0; \
 	DivisionParams* divparams; \
 	uint16 primCount = 1; \
 	uint16 primDivCount = 0; \
@@ -77,7 +79,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		/* Calculate the normal clip factor, used for backface culling */ \
 		gte_nclip(); \
 		/*
-		// Clipping will not work with subdivided primitives; what to do?		
+		// Clipping will not work with subdivided primitives; what to do?
 		gte_stflg(&flg); \
 		if (flg < 0) return NULL; \
 		*/ \
@@ -115,17 +117,17 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 				} \
  				if ( ((otc < next) && (otc >= curr))) \
 				{ \
-					divp->ndiv = DIVMODE_COUNT-idx; \
+					divp->ndiv = DIVMODE_COUNT-idx-1; \
 					break; \
 				} \
 			} \
-			divp->pih = displayWidth; \
-			divp->piv = displayHeight; \
 		} \
 		else \
 		{ \
 			divp->ndiv = 0; \
 		} \
+		divp->pih = displayWidth; \
+		divp->piv = displayHeight; \
 		primCount = ((1 << divp->ndiv) << divp->ndiv); \
 		primDivCount = primCount; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
@@ -162,21 +164,15 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		} \
 	}
 
-#define DO_FINAL_COLOR(index) \
+#define DO_FINAL_COLOR(index, div) \
 	(prim->c## index).cd = poly->code; \
-	poly->r## index = (prim->c## index).r; \
-	poly->g## index = (prim->c## index).g; \
-	poly->b## index = (prim->c## index).b; \
-	DO_FINAL_COLOR_IMPL(index)
-
-#define DO_FINAL_COLOR_TEX(index) \
-	(prim->c## index).cd = poly->code; \
-	poly->r## index = ((prim->c## index).r >> 1); \
-	poly->g## index = ((prim->c## index).g >> 1); \
-	poly->b## index = ((prim->c## index).b >> 1); \
+	poly->r## index = ((prim->c## index).r >> (textureBit ? (div) : 0)); \
+	poly->g## index = ((prim->c## index).g >> (textureBit ? (div) : 0)); \
+	poly->b## index = ((prim->c## index).b >> (textureBit ? (div) : 0)); \
 	DO_FINAL_COLOR_IMPL(index)
 
 #define UPDATE_TEXTURE \
+	if (textureBit) \
 	{ \
 		/* Set the uv on the poly and update its texture page and clut */ \
 		uint8 tscaleU, tscaleV, toffsetU, toffsetV; \
@@ -259,7 +255,7 @@ void* AddPrim_POLY_F3(void* i_prim, int32* o_otz)
 	
 	BEGIN_PRIM_PREP;
 		BEGIN_PRIM_WORK;
-			DO_FINAL_COLOR(0);
+			DO_FINAL_COLOR(0,0);
 		END_PRIM_WORK;
 	PRIMDIV_F3;
 	REGISTER_PRIM(F3);
@@ -274,7 +270,7 @@ void* AddPrim_POLY_FT3(void* i_prim, int32* o_otz)
 	BEGIN_PRIM_PREP;
 		BEGIN_PRIM_WORK;
 			UPDATE_TEXTURE;
-			DO_FINAL_COLOR_TEX(0);
+			DO_FINAL_COLOR(0,1);
 		END_PRIM_WORK;
 	PRIMDIV_FT3;
 	REGISTER_PRIM(FT3);
@@ -288,9 +284,9 @@ void* AddPrim_POLY_G3(void* i_prim, int32* o_otz)
 	
 	BEGIN_PRIM_PREP;
 		BEGIN_PRIM_WORK;
-			DO_FINAL_COLOR(0);
-			DO_FINAL_COLOR(1);
-			DO_FINAL_COLOR(2);
+			DO_FINAL_COLOR(0,0);
+			DO_FINAL_COLOR(1,0);
+			DO_FINAL_COLOR(2,0);
 		END_PRIM_WORK;
 	PRIMDIV_G3;
 	REGISTER_PRIM(G3);
@@ -305,9 +301,9 @@ void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz)
 	BEGIN_PRIM_PREP;
 		BEGIN_PRIM_WORK;
 			UPDATE_TEXTURE;
-			DO_FINAL_COLOR_TEX(0);
-			DO_FINAL_COLOR_TEX(1);
-			DO_FINAL_COLOR_TEX(2);
+			DO_FINAL_COLOR(0, 1);
+			DO_FINAL_COLOR(1, 1);
+			DO_FINAL_COLOR(2, 1);
 		END_PRIM_WORK;
 	PRIMDIV_GT3;
 	REGISTER_PRIM(GT3);

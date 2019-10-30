@@ -61,8 +61,6 @@ static uint32 s_engineVertexSizes[] = { sizeof(PRIM_F3), sizeof(PRIM_FT3), sizeo
 	PRIM_ ## type* dst = (PRIM_ ## type*)io_vertexData; \
 	PSM_ ## type* src = (PSM_ ## type*)io_srcData;
 
-#define PSM_ADVANCE ++dst; ++src;
-
 #define PSM_COPY_POS3 \
 	copyVector(&dst->v0, &src->x0); \
 	copyVector(&dst->v1, &src->x1); \
@@ -99,17 +97,20 @@ static uint32 s_engineVertexSizes[] = { sizeof(PRIM_F3), sizeof(PRIM_FT3), sizeo
 ///////////////////////////////////////////////////
 void PSM_ReportF3(uint16 i_triIndex, uint8* i_vertexData)
 {
+#if RES_VERBOSE_MODEL_LOADING
 	PRIM_F3* f3 = (PRIM_F3*)i_vertexData;
 
 	REPORT("[F3 TRI %u]", i_triIndex);
 	REPORT("[r: %u, g: %u, b: %u]", f3->c0.r, f3->c0.g, f3->c0.b);
 	REPORT("[x0: %i, y0: %i, z0: %i],[x1: %i, y1: %i, z1: %i],[x2: %i, y2: %i, z2: %i]", f3->v0.vx, f3->v0.vy, f3->v0.vz, f3->v1.vx, f3->v1.vy, f3->v1.vz, f3->v2.vx, f3->v2.vy, f3->v2.vz);
 	REPORT("[nx: %i, ny: %i, nz: %i]", f3->n0.vx, f3->n0.vy, f3->n0.vz);
+#endif // RES_VERBOSE_MODEL_LOADING
 }
 
 ///////////////////////////////////////////////////
 void PSM_ReportFT3(uint16 i_triIndex, uint8* i_vertexData)
 {
+#if RES_VERBOSE_MODEL_LOADING
 	PRIM_FT3* ft3 = (PRIM_FT3*)i_vertexData;
 
 	REPORT("[FT3 TRI %u]", i_triIndex);
@@ -117,22 +118,26 @@ void PSM_ReportFT3(uint16 i_triIndex, uint8* i_vertexData)
 	REPORT("[x0: %i, y0: %i, z0: %i],[x1: %i, y1: %i, z1: %i],[x2: %i, y2: %i, z2: %i]", ft3->v0.vx, ft3->v0.vy, ft3->v0.vz, ft3->v1.vx, ft3->v1.vy, ft3->v1.vz, ft3->v2.vx, ft3->v2.vy, ft3->v2.vz);
 	REPORT("[u0: %i, v0: %i],[u1: %i, v1: %i],[u2: %i, v2: %i]", ft3->uv0.u, ft3->uv0.v, ft3->uv1.u, ft3->uv1.v, ft3->uv2.u, ft3->uv2.v);
 	REPORT("[nx: %i, ny: %i, nz: %i]", ft3->n0.vx, ft3->n0.vy, ft3->n0.vz);
+#endif // RES_VERBOSE_MODEL_LOADING
 }
 
 ///////////////////////////////////////////////////
 void PSM_ReportG3(uint16 i_triIndex, uint8* i_vertexData)
 {
+#if RES_VERBOSE_MODEL_LOADING
 	PRIM_G3* g3 = (PRIM_G3*)i_vertexData;
 
 	REPORT("[G3 TRI %u]", i_triIndex);
 	REPORT("[r0: %u, g0: %u, b0: %u],[r1: %u, g1: %u, b1: %u],[r2: %u, g2: %u, b2: %u]", g3->c0.r, g3->c0.g, g3->c0.b, g3->c1.r, g3->c1.g, g3->c1.b, g3->c2.r, g3->c2.g, g3->c2.b);
 	REPORT("[x0: %i, y0: %i, z0: %i],[x1: %i, y1: %i, z1: %i],[x2: %i, y2: %i, z2: %i]", g3->v0.vx, g3->v0.vy, g3->v0.vz, g3->v1.vx, g3->v1.vy, g3->v1.vz, g3->v2.vx, g3->v2.vy, g3->v2.vz);
 	REPORT("[nx0: %i, ny0: %i, nz0: %i],[nx1: %i, ny1: %i, nz1: %i],[nx2: %i, ny2: %i, nz2: %i]", g3->n0.vx, g3->n0.vy, g3->n0.vz, g3->n1.vx, g3->n1.vy, g3->n1.vz, g3->n2.vx, g3->n2.vy, g3->n2.vz);
+#endif // RES_VERBOSE_MODEL_LOADING
 }
 
 ///////////////////////////////////////////////////
 void PSM_ReportGT3(uint16 i_triIndex, uint8* i_vertexData)
 {
+#if RES_VERBOSE_MODEL_LOADING
 	PRIM_GT3* gt3 = (PRIM_GT3*)i_vertexData;
 
 	REPORT("[GT3 TRI %u]", i_triIndex);
@@ -140,6 +145,7 @@ void PSM_ReportGT3(uint16 i_triIndex, uint8* i_vertexData)
 	REPORT("[x0: %i, y0: %i, z0: %i],[x1: %i, y1: %i, z1: %i],[x2: %i, y2: %i, z2: %i]", gt3->v0.vx, gt3->v0.vy, gt3->v0.vz, gt3->v1.vx, gt3->v1.vy, gt3->v1.vz, gt3->v2.vx, gt3->v2.vy, gt3->v2.vz);
 	REPORT("[u0: %i, v0: %i],[u1: %i, v1: %i],[u2: %i, v2: %i]", gt3->uv0.u, gt3->uv0.v, gt3->uv1.u, gt3->uv1.v, gt3->uv2.u, gt3->uv2.v);
 	REPORT("[nx0: %i, ny0: %i, nz0: %i],[n1: %i, n1: %i, n1: %i],[n2: %i, n2: %i, n2: %i]", gt3->n0.vx, gt3->n0.vy, gt3->n0.vz, gt3->n1.vx, gt3->n1.vy, gt3->n1.vz, gt3->n2.vx, gt3->n2.vy, gt3->n2.vz);
+#endif // RES_VERBOSE_MODEL_LOADING
 }
 
 ///////////////////////////////////////////////////
@@ -156,9 +162,6 @@ void PSM_ReadF3(uint8* io_srcData, uint8* io_vertexData)
 
 	// Copy normal from v0
 	PSM_COPY_NORM(0);
-
-	// Advance
-	PSM_ADVANCE;
 }
 
 ///////////////////////////////////////////////////
@@ -178,9 +181,6 @@ void PSM_ReadFT3(uint8* io_srcData, uint8* io_vertexData)
 
 	// Copy UV
 	PSM_COPY_UV3;
-
-	// Advance
-	PSM_ADVANCE;
 }
 
 ///////////////////////////////////////////////////
@@ -197,9 +197,6 @@ void PSM_ReadG3(uint8* io_srcData, uint8* io_vertexData)
 
 	// Copy normal
 	PSM_COPY_NORM3;
-
-	// Advance
-	PSM_ADVANCE;
 }
 
 ///////////////////////////////////////////////////
@@ -219,9 +216,6 @@ void PSM_ReadGT3(uint8* io_srcData, uint8* io_vertexData)
 
 	// Copy UV
 	PSM_COPY_UV3;
-
-	// Advance
-	PSM_ADVANCE;
 }
 
 ///////////////////////////////////////////////////
@@ -251,37 +245,45 @@ int16 Res_LoadPSM(void* i_srcAddress, ResModel2** o_model)
 
 		REPORT("[SUBMESH %u] poly count: %u, prim type: %u", submeshIndex, mdl->m_polyCount, mdl->m_primType);
 
-		for (triIndex = 0; triIndex < mdl->m_polyCount; ++triIndex)
 		{
-			switch (mdl->m_primType)
+			uint8* dstData = (uint8*)mdl->m_data;
+			uint8* srcData = ptr;
+
+			for (triIndex = 0; triIndex < mdl->m_polyCount; ++triIndex)
 			{
-			case PRIM_TYPE_POLY_F3:
-				PSM_ReadF3(ptr, (uint8*)mdl->m_data);
-				PSM_ReportF3(triIndex, (uint8*)mdl->m_data);
-				break;
+				switch (mdl->m_primType)
+				{
+				case PRIM_TYPE_POLY_F3:
+					PSM_ReadF3(srcData, dstData);
+					PSM_ReportF3(triIndex, dstData);
+					break;
 
-			case PRIM_TYPE_POLY_FT3:
-				PSM_ReadFT3(ptr, (uint8*)mdl->m_data);
-				PSM_ReportFT3(triIndex, (uint8*)mdl->m_data);
-				break;
+				case PRIM_TYPE_POLY_FT3:
+					PSM_ReadFT3(srcData, dstData);
+					PSM_ReportFT3(triIndex, dstData);
+					break;
 
-			case PRIM_TYPE_POLY_G3:
-				PSM_ReadG3(ptr, (uint8*)mdl->m_data);
-				PSM_ReportG3(triIndex, (uint8*)mdl->m_data);
-				break;
+				case PRIM_TYPE_POLY_G3:
+					PSM_ReadG3(srcData, dstData);
+					PSM_ReportG3(triIndex, dstData);
+					break;
 
-			case PRIM_TYPE_POLY_GT3:
-				PSM_ReadGT3(ptr, (uint8*)mdl->m_data);
-				PSM_ReportGT3(triIndex, (uint8*)mdl->m_data);
-				break;
+				case PRIM_TYPE_POLY_GT3:
+					PSM_ReadGT3(srcData, dstData);
+					PSM_ReportGT3(triIndex, dstData);
+					break;
 
-			default:
-				VERIFY_ASSERT(FALSE, "Invalid PRIM_TYPE");
-				break;
+				default:
+					VERIFY_ASSERT(FALSE, "Invalid PRIM_TYPE");
+					break;
+				}
+
+				srcData += s_psmVertexSizes[mdl->m_primType];
+				dstData += s_engineVertexSizes[mdl->m_primType];
 			}
 
-			ptr += s_psmVertexSizes[mdl->m_primType];
-		}				
+			ptr += mdl->m_polyCount * s_psmVertexSizes[mdl->m_primType];
+		}
 	}
 	return E_OK;
 }

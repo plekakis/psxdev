@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="thirdparty">
+      <UniqueIdentifier>{b61320ec-06cd-489c-8f51-2d45851352a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty\cxxopts">
+      <UniqueIdentifier>{0ab18e12-796c-4a7d-813e-2b7d2e655e7c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="thirdparty\cxxopts\cxxopts.hpp">
+      <Filter>thirdparty\cxxopts</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

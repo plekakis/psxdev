@@ -17,3 +17,16 @@ projects/nobori/vs2017/.vs/
 tools/Mantis/.vs/
 tools/Mantis/bin/
 tools/Mantis/obj/
+tools/Compilers/.vs/
+tools/Compilers/build/
+tools/Compilers/Shared/.vs/
+tools/Compilers/Shared/intermediate/
+tools/Compilers/Shared/Debug/
+tools/Compilers/Shared/Release/
+tools/Compilers/Shared/x64/
+tools/Compilers/ModelCompiler/.vs/
+tools/Compilers/ModelCompiler/intermediate/
+tools/Compilers/ModelCompiler/Debug/
+tools/Compilers/ModelCompiler/Release/
+tools/Compilers/ModelCompiler/x64/
+

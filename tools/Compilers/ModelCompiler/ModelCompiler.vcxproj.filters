@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="tinyobjloader">
+      <UniqueIdentifier>{d1e5e641-608c-4a97-958a-31cb3e0e7c61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tinyobjloader\tiny_obj_loader.h">
+      <Filter>tinyobjloader</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tinyobjloader\tiny_obj_loader.cc">
+      <Filter>tinyobjloader</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelCompiler.cpp">
+      <Filter>tinyobjloader</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

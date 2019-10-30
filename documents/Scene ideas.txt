@@ -1,0 +1,18 @@
+SCENE API
+---------
+
+Using the concept of ObjCache to create scene resource hierarchies, easily to throw away data and load more in.
+
+A game always has a root scene, which can have more nodes. Each node can also have one or more nodes.
+
+SceneRoot
+ --- Level0
+    --- Level0_Left
+    --- Level0_Right
+    --- Level0_Front
+    --- Level0_Back
+ --- Level1
+    --- Level1_Left
+    --- Level1_Right
+    --- Level1_Front
+    --- Level1_Back
