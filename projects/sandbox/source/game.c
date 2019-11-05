@@ -4,6 +4,7 @@
 #define SCENE_PRIM_TEST (0)
 #define SCENE_BATCH2D_TEST (1)
 #define SCENE_CD_TEST (2)
+#define SCENE_MODEL (3)
 
 #ifndef START_SCENE
 #define START_SCENE SCENE_EMPTY
@@ -16,6 +17,8 @@
 #include "scene_batch2d_test.c"
 #elif START_SCENE == SCENE_CD_TEST
 #include "scene_cd_test.c"
+#elif START_SCENE == SCENE_MODEL
+#include "scene_model.c"
 #else
 void start() {}
 void update() {}
@@ -30,7 +33,7 @@ int main()
     sysInitInfo.m_isHighResolution			= TRUE;
 	sysInitInfo.m_sysStackSizeInBytes		= 4 * 1024;
 	sysInitInfo.m_gfxScratchSizeInBytes		= 128 * 1024;
-	sysInitInfo.m_coreStackSizeInBytes		= 16 * 1024;
+	sysInitInfo.m_coreStackSizeInBytes		= 128 * 1024;
 	sysInitInfo.m_coreScratchSizeInBytes	= 2 * 1024;
 	sysInitInfo.m_refreshMode				= REFRESH_30_HZ;
     sysInitInfo.m_tvMode					= (*(char *)0xbfc7ff52 == 'E') ? MODE_PAL : MODE_NTSC;

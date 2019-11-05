@@ -7,32 +7,41 @@
     <Filter Include="engine">
       <UniqueIdentifier>{2a3c6c9d-c2bb-46a1-b1b8-97bfab4218b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\core">
-      <UniqueIdentifier>{b0c3552a-573f-4de8-896b-ddb8017630eb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\gfx">
-      <UniqueIdentifier>{9f72f904-ff6c-4bf2-990f-ddaabf0c9e4d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\input">
-      <UniqueIdentifier>{a07b7212-4c19-4737-a436-a22879e0fe28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\system">
-      <UniqueIdentifier>{bb6d1756-164d-4db9-8ea9-65baa3ee046c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="engine\util">
-      <UniqueIdentifier>{a26e40d3-b485-4699-a538-ade4ebd3db57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="game\embedded">
       <UniqueIdentifier>{1446f973-050c-490c-8de1-d63c3bc001d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\gfx\embedded">
-      <UniqueIdentifier>{68e98c80-ec24-4cd7-8c65-df0fb09141b1}</UniqueIdentifier>
+    <Filter Include="engine\base">
+      <UniqueIdentifier>{1e35f344-af5b-4d43-9a17-e5d7751a84fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\gfx\embedded\debug">
-      <UniqueIdentifier>{3d2ceb2c-dabd-46ab-b465-46f381e13bcb}</UniqueIdentifier>
+    <Filter Include="engine\base\util">
+      <UniqueIdentifier>{a26e40d3-b485-4699-a538-ade4ebd3db57}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\stream">
+    <Filter Include="engine\base\core">
+      <UniqueIdentifier>{b0c3552a-573f-4de8-896b-ddb8017630eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\gfx">
+      <UniqueIdentifier>{9f72f904-ff6c-4bf2-990f-ddaabf0c9e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\input">
+      <UniqueIdentifier>{a07b7212-4c19-4737-a436-a22879e0fe28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\stream">
       <UniqueIdentifier>{c1a44cf5-3b88-4501-aec9-3c9899797363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\system">
+      <UniqueIdentifier>{bb6d1756-164d-4db9-8ea9-65baa3ee046c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\res">
+      <UniqueIdentifier>{f72d1e6f-32d4-4577-9c42-a4b6bd09dd25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\time">
+      <UniqueIdentifier>{a290c629-44fe-4042-bfc0-35cbb93cde91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\gfx\embedded">
+      <UniqueIdentifier>{7e305119-a823-4393-ae29-3653bd4cddc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base\gfx\embedded\debug">
+      <UniqueIdentifier>{2aa54a87-025f-4d41-ae30-63666d13bd49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,52 +55,34 @@
       <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\system\system.c">
-      <Filter>engine\system</Filter>
+      <Filter>engine\base\system</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\system\system_scu.c">
-      <Filter>engine\system</Filter>
+      <Filter>engine\base\system</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\system\debug_info.c">
-      <Filter>engine\system</Filter>
+      <Filter>engine\base\system</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\input\input_scu.c">
-      <Filter>engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx_renderstate.c">
-      <Filter>engine\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx_scratch.c">
-      <Filter>engine\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx_scu.c">
-      <Filter>engine\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx.c">
-      <Filter>engine\gfx</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx_prim_callbacks.c">
-      <Filter>engine\gfx</Filter>
+      <Filter>engine\base\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\core\core_scu.c">
-      <Filter>engine\core</Filter>
+      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\core\core.c">
-      <Filter>engine\core</Filter>
+      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\util\util.c">
-      <Filter>engine\util</Filter>
+      <Filter>engine\base\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\util\util_scu.c">
-      <Filter>engine\util</Filter>
+      <Filter>engine\base\util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\input\input.c">
-      <Filter>engine\input</Filter>
+      <Filter>engine\base\input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\core\core_allocators.c">
-      <Filter>engine\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\gfx_batch2d.c">
-      <Filter>engine\gfx</Filter>
+      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\source\scene_batch2d_test.c">
       <Filter>game</Filter>
@@ -105,20 +96,65 @@
     <ClCompile Include="..\source\embedded\FNT.C">
       <Filter>game\embedded</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\engine\gfx\embedded\debug\gfx_debugfont.c">
-      <Filter>engine\gfx\embedded\debug</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\scene_cd_test.c">
       <Filter>game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\stream\stream_scu.c">
-      <Filter>engine\stream</Filter>
+      <Filter>engine\base\stream</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\stream\stream.c">
-      <Filter>engine\stream</Filter>
+      <Filter>engine\base\stream</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\core\core_mem.c">
-      <Filter>engine\core</Filter>
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\base_scu.c">
+      <Filter>engine\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\res\res_material.c">
+      <Filter>engine\base\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\res\res_model2.c">
+      <Filter>engine\base\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\res\res_scu.c">
+      <Filter>engine\base\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\res\res_texture.c">
+      <Filter>engine\base\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\res\res.c">
+      <Filter>engine\base\res</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\time\time_scu.c">
+      <Filter>engine\base\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\time\time.c">
+      <Filter>engine\base\time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\core\obj_cache.c">
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx_prim_callbacks.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx_renderstate.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx_scratch.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx_scu.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\gfx_batch2d.c">
+      <Filter>engine\base\gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\gfx\embedded\debug\gfx_debugfont.c">
+      <Filter>engine\base\gfx\embedded\debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,37 +162,46 @@
       <Filter>engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\system\debug_info.h">
-      <Filter>engine\system</Filter>
+      <Filter>engine\base\system</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\system\system.h">
-      <Filter>engine\system</Filter>
+      <Filter>engine\base\system</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\input\input.h">
-      <Filter>engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\gfx\gfx_scratch.h">
-      <Filter>engine\gfx</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\gfx\gfx.h">
-      <Filter>engine\gfx</Filter>
+      <Filter>engine\base\input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\core\core.h">
-      <Filter>engine\core</Filter>
+      <Filter>engine\base\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\util\util.h">
-      <Filter>engine\util</Filter>
+      <Filter>engine\base\util</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\core\core_allocators.h">
-      <Filter>engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\gfx\gfx_batch2d.h">
-      <Filter>engine\gfx</Filter>
+      <Filter>engine\base\core</Filter>
     </ClInclude>
     <ClInclude Include="..\source\game.h">
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\stream\stream.h">
-      <Filter>engine\stream</Filter>
+      <Filter>engine\base\stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\res\res.h">
+      <Filter>engine\base\res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\time\time.h">
+      <Filter>engine\base\time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\core\obj_cache.h">
+      <Filter>engine\base\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\gfx\gfx_scratch.h">
+      <Filter>engine\base\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\gfx\gfx.h">
+      <Filter>engine\base\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\gfx\gfx_batch2d.h">
+      <Filter>engine\base\gfx</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

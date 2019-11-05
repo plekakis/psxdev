@@ -77,11 +77,11 @@ void update()
 	}
 	if (Input_IsPressed(0, PADLup))
 	{
-		rx += g_speed;
+		rx -= g_speed;
 	}
 	if (Input_IsPressed(0, PADLdown))
 	{
-		rx -= g_speed;
+		rx += g_speed;
 	}
 
 	if (Input_IsPressed(0, PADRdown))
@@ -119,14 +119,14 @@ void render()
 
 	// Fog settings
 	{
-		//Gfx_SetRenderState(RS_FOG);
+		Gfx_SetRenderState(RS_FOG);
 		Gfx_SetFogNearFar(500, 1500);
 		Gfx_SetFogColor(128, 128, 128);
 	}
 
 	// Enable backface culling
 	Gfx_SetRenderState(RS_BACKFACE_CULL);
-
+	
 	Gfx_BeginSubmission(OT_LAYER_BG);
 
 	cubeRotation.vx = pitch;
@@ -162,6 +162,9 @@ void render()
 				renderCube(PRIM_TYPE_POLY_F3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
 				renderCube(PRIM_TYPE_POLY_G3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
 
+				// Enable texturing
+				Gfx_SetRenderState(RS_TEXTURING);
+
 				Gfx_SetTextureDirect(tpage, clut);
 				Gfx_SetTextureScaleOffset(1, 1, 0, cubeX * 32);
 				renderCube(PRIM_TYPE_POLY_GT3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
@@ -170,6 +173,8 @@ void render()
 				Gfx_SetTextureScaleOffset(1, 1, 64, cubeX * 32);
 				renderCube(PRIM_TYPE_POLY_FT3, -c_cubePad + -c_numCubes * c_cubeSize * 4 + cubeX * c_cubeSize * 4, c_cubeSize * 16, c_cubeZ, c_cubeSize, whiteColors);
 
+				// Disable texturing
+				Gfx_InvalidateRenderState(RS_TEXTURING);
 				cubeColorIndex = (cubeColorIndex + 1) % 4;
 			}
 		}
@@ -184,6 +189,9 @@ void render()
 				renderCube(PRIM_TYPE_POLY_F3, c_cubePad + cubeX * c_cubeSize * 4, 0, c_cubeZ, c_cubeSize, colors);
 				renderCube(PRIM_TYPE_POLY_G3, c_cubePad + cubeX * c_cubeSize * 4, c_cubeSize * 4, c_cubeZ, c_cubeSize, colors);
 
+				// Enable texturing
+				Gfx_SetRenderState(RS_TEXTURING);
+
 				Gfx_SetTextureDirect(tpage, clut);
 				Gfx_SetTextureScaleOffset(1, 1, 0, cubeX * 32);
 				renderCube(PRIM_TYPE_POLY_GT3, c_cubePad + cubeX * c_cubeSize * 4, c_cubeSize * 8, c_cubeZ, c_cubeSize, colors);
@@ -192,6 +200,8 @@ void render()
 				Gfx_SetTextureScaleOffset(1, 1, 64, cubeX * 32);
 				renderCube(PRIM_TYPE_POLY_FT3, c_cubePad + cubeX * c_cubeSize * 4, c_cubeSize * 16, c_cubeZ, c_cubeSize, whiteColors);
 
+				// Disable texturing
+				Gfx_InvalidateRenderState(RS_TEXTURING);
 				cubeColorIndex = (cubeColorIndex + 1) % 4;
 			}
 		}
@@ -208,9 +218,8 @@ void render()
 	Gfx_BeginSubmission(OT_LAYER_OV);
 #endif // PLANE_ON_OV
 	{
-		// And the floor
-		Gfx_SetRenderState(RS_LIGHTING);
-		Gfx_SetRenderState(RS_DIVISION);
+		// And the floor (lit, textured and divided)
+		Gfx_SetRenderState(RS_LIGHTING | RS_DIVISION | RS_TEXTURING);
 
 		// Setup division parameters for the plane.
 		Util_MemZero(&g_planeDivP, sizeof(g_planeDivP));
@@ -229,7 +238,8 @@ void render()
 			Gfx_SetTextureScaleOffset(1, 1, 0, 0);
 			Gfx_AddPlane(PRIM_TYPE_POLY_FT3, 1024, 1024, planeColors, 32);
 		}
-		Gfx_InvalidateRenderState(RS_DIVISION);
+		// Invalidate
+		Gfx_InvalidateRenderState(RS_LIGHTING | RS_DIVISION | RS_TEXTURING);
 	}
 
 	Gfx_EndSubmission();
