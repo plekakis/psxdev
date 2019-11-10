@@ -10,6 +10,8 @@ Building is quite straightforward; there are 6 build configurations:
 - Debug EMU
 - Release PSX
 - Release EMU
+- Profile PSX
+- Profile EMU
 - Final PSX
 - Final EMU
 
@@ -17,6 +19,7 @@ Preprocessor definitions:
 -------------------------
 - Debug builds have CONFIG_DEBUG defined.
 - Release builds have CONFIG_RELEASE defined.
+- Profile builds have CONFIG_PROFILE defined.
 - Final builds have CONFIG_FINAL defined.
 - EMU builds have TARGET_EMU defined.
 - PSX builds have TARGET_PSX defined.
@@ -33,6 +36,13 @@ Those settings will be saved per-project, per-config. The next time the BuildToo
 Built binaries are outputted in PSXDEV_PATH/projects/PROJECT_NAME/bin/BUILD_CONFIG
 The "Run" functionality will expect a valid main.exe in the output build directory for the selected configuration. If there is no main.exe found (and also no CD image
 in the case of an EMU build), then "Run" and "Clean" will be disabled.
+
+The BuildTool is also used to prepare resources for use by the engine. At the moment there are the following resource compilers:
+
+    - ModelCompiler: Converts .obj files to .psm model format. This is a format that's understood by the engine and has the full set of data to render models in one of the 4 vertex formats supported by the PSX GPU.
+    - MaterialCompiler: Converts the PROJECT/data_source/Materials.xml (if available) to the custom MATLIB.MAT file. This is a master material description which contains both the unique material descriptions as well as the material -> submesh links.
+
+A resource build is triggered using the Res Build button in the main BuildTool window.
 
 Killing a process is also supported. Typically helpful on a real PSX hardware, but also useful when running on NO$PSX. It finds processes with either NO$PSX or Catflap name
 and kills them. In the case of a PSX configuration, it will also reboot the PSX using Catflap before killing all Catflap processes.
