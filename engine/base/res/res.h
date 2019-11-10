@@ -3,7 +3,10 @@
 
 #include <base/gfx/gfx.h>
 
-#define RES_VERBOSE_MODEL_LOADING (0u)
+#define RES_VERBOSE_MATERIAL_LOADING (1u)
+#define RES_VERBOSE_MODEL_LOADING (1u)
+#define RES_VERBOSE_MODEL_LOADING_DATA (RES_VERBOSE_MODEL_LOADING && 0)
+#define RES_VERBOSE_TEXTURE_LOADING (1u)
 
 // Get the vram image size using bitplane info (because vram position is in 16bits mode only)
 #define	ImageToVRamSize(size, mode)			((size) / (1 << (2 - ((mode) & 3))))
@@ -13,6 +16,7 @@
 typedef struct
 {
 	TextureMode		m_type;
+	StringId		m_filename;
 	uint16			m_clut;
 	uint16			m_tpage;
 	uint16			m_x;
@@ -31,6 +35,7 @@ typedef struct
 typedef struct
 {
 	uint8			 m_submeshCount;
+	StringId		 m_filename;
 	ResModelSubMesh* m_submeshes;
 }ResModel2;
 
@@ -38,7 +43,9 @@ typedef struct
 {
 	StringId	m_name;
 	StringId	m_texture;
+	uint8		m_type;
 	uint8		m_red, m_green, m_blue, m_flags;
+	uint8		m_pad[3];
 }ResMaterial;
 
 // Initializes the resource system
@@ -63,13 +70,13 @@ StringId Res_GetMaterialName(uint16 i_index);
 int16 Res_ReadLoadTIM(StringId i_filename, ResTexture** o_texture);
 
 // Load a new TIM into video ram. The source address must be already initialized, pointing to valid data.
-int16 Res_LoadTIM(void* i_srcAddress, ResTexture** o_texture);
+int16 Res_LoadTIM(void* i_srcAddress, StringId i_filename, ResTexture** o_texture);
 
 // Load a new PSM into system ram, reading it from cd first. This is a blocking function.
 int16 Res_ReadLoadPSM(StringId i_filename, ResModel2** o_model);
 
 // Load a new PSM into system ram. The source address must be already initialized, pointing to valid data.
-int16 Res_LoadPSM(void* i_srcAddress, ResModel2** o_model);
+int16 Res_LoadPSM(void* i_srcAddress, StringId i_filename, ResModel2** o_model);
 
 // Free a previously loaded PSM.
 int16 Res_FreePSM(ResModel2** io_model);

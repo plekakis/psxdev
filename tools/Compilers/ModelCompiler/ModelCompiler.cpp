@@ -95,14 +95,7 @@ namespace PSMHelpers
 	void WriteSubmeshHeader(FILE* f, Submesh const& submesh)
 	{
 		fwrite(&submesh.m_triangleCount, sizeof(uint16_t), 1, f);
-		fwrite(&submesh.m_format, sizeof(uint8_t), 1, f);
-		WritePadding(f, 1);
-	}
-
-	///////////////////////////////////////////////////
-	VertexFormat CalculateVertexFormat(Submesh const& submesh)
-	{
-		return VertexFormat::FT3;
+		WritePadding(f, 2);
 	}
 }
 
@@ -114,16 +107,11 @@ namespace PSMHelpers
 // -s value, --scale=value			[specify vertex scale]
 
 ///////////////////////////////////////////////////
-// Infering vertex format:
-// -----------------------
+// Regarding vertex format:
+// ------------------------
 //
-// Vertex format for each submesh is infered by what vertex attributes are available.
-// 1) Vertex colors same across a face: F
-// 2) Vertex colors different across a face: G
-// 3) Texcoords available: T
-//
-// - If there are no vertex colors available, F is assumed and white is written.
-// - If there are no normals available, a valid face normal will be calculated.
+// All vertex data is written out, assuming a GT3 primitive will be used at runtime.
+// The runtime checks against the material definition for the currently loaded PSM to find the actual vertex format to use for storing & rendering.
 
 static const std::string s_input = "input";
 static const std::string s_output = "output";
@@ -270,8 +258,6 @@ int main(int argc, char* argv[])
 					throw std::exception("Invalid triangle count!");
 				}
 
-				psmSubmesh.m_format = PSMHelpers::CalculateVertexFormat(psmSubmesh);
-
 				psmModel.m_submeshes.push_back(psmSubmesh);
 			}
 
@@ -288,74 +274,26 @@ int main(int argc, char* argv[])
 				for (auto const& triangle : submesh.m_triangles)
 				{
 					VertexData const* vtx = triangle.m_vertexData;
-					switch (submesh.m_format)
-					{
-					case VertexFormat::F3:
-						// face color
-						PSMHelpers::WriteColor(f, vtx[0].m_color);
-						// vertex position
-						PSMHelpers::WritePosition(f, vtx[0].m_position);
-						PSMHelpers::WritePosition(f, vtx[1].m_position);
-						PSMHelpers::WritePosition(f, vtx[2].m_position);
-						// face normal
-						PSMHelpers::WriteNormal(f, vtx[0].m_normal);
-						break;
-					case VertexFormat::FT3:
-						// face color
-						PSMHelpers::WriteColor(f, vtx[0].m_color);
-						// texcoord
-						PSMHelpers::WriteTexcoord(f, vtx[0].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, vtx[1].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, vtx[2].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, 0u, 0u); // padding
-						// vertex position
-						PSMHelpers::WritePosition(f, vtx[0].m_position);
-						PSMHelpers::WritePosition(f, vtx[1].m_position);
-						PSMHelpers::WritePosition(f, vtx[2].m_position);
-						// face normal
-						PSMHelpers::WriteNormal(f, vtx[0].m_normal);
-						break;
-					case VertexFormat::G3:
-						// vertex color
-						PSMHelpers::WriteColor(f, vtx[0].m_color);
-						PSMHelpers::WriteColor(f, vtx[1].m_color);
-						PSMHelpers::WriteColor(f, vtx[2].m_color);
-						// vertex position
-						PSMHelpers::WritePosition(f, vtx[0].m_position);
-						PSMHelpers::WritePosition(f, vtx[1].m_position);
-						PSMHelpers::WritePosition(f, vtx[2].m_position);
-						PSMHelpers::WritePosition(f, 0u, 0u, 0u); // padding
-						// vertex normal
-						PSMHelpers::WriteNormal(f, vtx[0].m_normal);
-						PSMHelpers::WriteNormal(f, vtx[1].m_normal);
-						PSMHelpers::WriteNormal(f, vtx[2].m_normal);
-						PSMHelpers::WriteNormal(f, 0u, 0u, 0u); // padding
-						break;
-					case VertexFormat::GT3:
-						// vertex color
-						PSMHelpers::WriteColor(f, vtx[0].m_color);
-						PSMHelpers::WriteColor(f, vtx[1].m_color);
-						PSMHelpers::WriteColor(f, vtx[2].m_color);
-						// texcoord
-						PSMHelpers::WriteTexcoord(f, vtx[0].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, vtx[1].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, vtx[2].m_texcoord);
-						PSMHelpers::WriteTexcoord(f, 0u, 0u); // padding
-						// vertex position
-						PSMHelpers::WritePosition(f, vtx[0].m_position);
-						PSMHelpers::WritePosition(f, vtx[1].m_position);
-						PSMHelpers::WritePosition(f, vtx[2].m_position);
-						PSMHelpers::WritePosition(f, 0u, 0u, 0u);
-						// vertex normal
-						PSMHelpers::WriteNormal(f, vtx[0].m_normal);
-						PSMHelpers::WriteNormal(f, vtx[1].m_normal);
-						PSMHelpers::WriteNormal(f, vtx[2].m_normal);
-						PSMHelpers::WriteNormal(f, 0u, 0u, 0u); // padding
-						break;
-
-					default:
-						break;
-					}
+					
+					// vertex color
+					PSMHelpers::WriteColor(f, vtx[0].m_color);
+					PSMHelpers::WriteColor(f, vtx[1].m_color);
+					PSMHelpers::WriteColor(f, vtx[2].m_color);
+					// texcoord
+					PSMHelpers::WriteTexcoord(f, vtx[0].m_texcoord);
+					PSMHelpers::WriteTexcoord(f, vtx[1].m_texcoord);
+					PSMHelpers::WriteTexcoord(f, vtx[2].m_texcoord);
+					PSMHelpers::WriteTexcoord(f, 0u, 0u); // padding
+					// vertex position
+					PSMHelpers::WritePosition(f, vtx[0].m_position);
+					PSMHelpers::WritePosition(f, vtx[1].m_position);
+					PSMHelpers::WritePosition(f, vtx[2].m_position);
+					PSMHelpers::WritePosition(f, 0u, 0u, 0u);
+					// vertex normal
+					PSMHelpers::WriteNormal(f, vtx[0].m_normal);
+					PSMHelpers::WriteNormal(f, vtx[1].m_normal);
+					PSMHelpers::WriteNormal(f, vtx[2].m_normal);
+					PSMHelpers::WriteNormal(f, 0u, 0u, 0u); // padding
 				}
 			}
 

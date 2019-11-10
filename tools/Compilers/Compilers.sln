@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModelCompiler", "ModelCompi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shared", "Shared\Shared.vcxproj", "{4DEB0CC5-9DF5-4CCA-B303-6E6783D81147}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaterialCompiler", "MaterialCompiler\MaterialCompiler.vcxproj", "{20CAEE40-8B51-457E-BA15-48AAC5B708FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4DEB0CC5-9DF5-4CCA-B303-6E6783D81147} = {4DEB0CC5-9DF5-4CCA-B303-6E6783D81147}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -24,6 +29,10 @@ Global
 		{4DEB0CC5-9DF5-4CCA-B303-6E6783D81147}.Debug|x64.Build.0 = Debug|x64
 		{4DEB0CC5-9DF5-4CCA-B303-6E6783D81147}.Release|x64.ActiveCfg = Release|x64
 		{4DEB0CC5-9DF5-4CCA-B303-6E6783D81147}.Release|x64.Build.0 = Release|x64
+		{20CAEE40-8B51-457E-BA15-48AAC5B708FD}.Debug|x64.ActiveCfg = Debug|x64
+		{20CAEE40-8B51-457E-BA15-48AAC5B708FD}.Debug|x64.Build.0 = Debug|x64
+		{20CAEE40-8B51-457E-BA15-48AAC5B708FD}.Release|x64.ActiveCfg = Release|x64
+		{20CAEE40-8B51-457E-BA15-48AAC5B708FD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

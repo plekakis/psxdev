@@ -99,12 +99,6 @@
     <ClCompile Include="..\source\scene_cd_test.c">
       <Filter>game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\engine\stream\stream_scu.c">
-      <Filter>engine\base\stream</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\stream\stream.c">
-      <Filter>engine\base\stream</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\engine\core\core_mem.c">
       <Filter>engine\base\core</Filter>
     </ClCompile>
@@ -156,6 +150,15 @@
     <ClCompile Include="..\..\..\engine\base\gfx\embedded\debug\gfx_debugfont.c">
       <Filter>engine\base\gfx\embedded\debug</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\scene_model.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\stream\stream_scu.c">
+      <Filter>engine\base\stream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\stream\stream.c">
+      <Filter>engine\base\stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
@@ -182,9 +185,6 @@
     <ClInclude Include="..\source\game.h">
       <Filter>game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\engine\stream\stream.h">
-      <Filter>engine\base\stream</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\engine\base\res\res.h">
       <Filter>engine\base\res</Filter>
     </ClInclude>
@@ -202,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\base\gfx\gfx_batch2d.h">
       <Filter>engine\base\gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\stream\stream.h">
+      <Filter>engine\base\stream</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

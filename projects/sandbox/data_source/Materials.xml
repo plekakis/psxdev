@@ -1,0 +1,26 @@
+<material_library>
+	<materials>
+		<material>
+			<name>MATERIAL0</name>
+			<texture>ROOT\TIM\BOX4D.TIM</texture>
+			<type>3</type>
+			<red>255</red>
+			<green>255</green>
+			<blue>255</blue>
+		</material>
+		<material>
+			<name>MATERIAL1</name>
+			<texture>ROOT\TIM\BOX4D.TIM</texture>
+			<type>1</type>
+			<red>255</red>
+			<green>255</green>
+			<blue>255</blue>
+		</material>
+	</materials>
+
+	<links>
+		<link model="ROOT\PSM\CRATE0.PSM">
+			<ref index="0" material="MATERIAL0"/>
+		</link>
+	</links>
+</material_library>

@@ -1,6 +1,6 @@
 #include "obj_cache.h"
-#include "core.h"
-#include "core_allocators.h"
+#include <base/core/core.h>
+#include <base/core/core_allocators.h>
 
 ///////////////////////////////////////////////////
 int16 ObjCache_Create(ObjCache* o_cache, uint32 i_entryCount, ObjCacheFreeFunc i_entryFreeCallback)

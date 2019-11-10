@@ -5,14 +5,6 @@
 #include <fstream>
 #include <vector>
 
-enum class VertexFormat : uint8_t
-{
-	F3,
-	FT3,
-	G3,
-	GT3
-};
-
 using PositionType = int16_t;
 using NormalType = int16_t;
 using TexcoordType = uint8_t;
@@ -61,7 +53,6 @@ struct TriangleData
 struct Submesh
 {
 	uint16_t m_triangleCount;
-	VertexFormat m_format;
 	std::vector<TriangleData> m_triangles;
 };
 

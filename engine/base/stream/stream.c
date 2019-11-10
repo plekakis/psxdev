@@ -5,6 +5,8 @@
 #define CD_READ_RETRIES (10u)
 #define STREAM_CATALOG "\\ROOT\\CATALOG.CAT;1"
 
+bool g_isReadingCd = FALSE;
+
 CdFileEntry* g_cdEntries = NULL; // This is populated by the catalog enumeration, it's an array of all files present on cd
 uint32 g_numCdEntries = 0u;
 
@@ -176,8 +178,8 @@ uint32 Stream_GetFileSize(StringId i_filename)
 ///////////////////////////////////////////////////
 int16 Stream_BeginRead(StringId i_filename, void** o_ptr)
 {
-	VERIFY_ASSERT(g_currentCdEntry == NULL, "Stream_BeginRead called twice! (current cd entry not invalidated?)");
-	VERIFY_ASSERT(g_currentCdBuffer == NULL, "Stream_BeginRead called twice! (allocation not freed?)");
+	VERIFY_ASSERT(!g_isReadingCd, "Stream_BeginRead called twice!");
+	g_isReadingCd = TRUE;
 
 	// Find the file info in the cached array
 	{
@@ -202,12 +204,15 @@ int16 Stream_BeginRead(StringId i_filename, void** o_ptr)
 ///////////////////////////////////////////////////
 int16 Stream_EndRead()
 {
-	VERIFY_ASSERT(g_currentCdEntry != NULL, "Stream_EndRead called twice! (current cd entry not found?)");
-	VERIFY_ASSERT(g_currentCdBuffer != NULL, "Stream_EndRead called twice! (allocation unsuccessful?)");
+	VERIFY_ASSERT(g_isReadingCd, "Stream_EndRead called twice!");
 
-	Core_PopStack(CORE_STACKALLOC);
+	if (g_currentCdBuffer)
+	{
+		Core_PopStack(CORE_STACKALLOC);
+	}
 	g_currentCdBuffer = NULL;
 	g_currentCdEntry = NULL;
+	g_isReadingCd = FALSE;
 }
 
 ///////////////////////////////////////////////////

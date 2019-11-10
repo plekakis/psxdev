@@ -7,10 +7,21 @@
     <Filter Include="thirdparty\cxxopts">
       <UniqueIdentifier>{0ab18e12-796c-4a7d-813e-2b7d2e655e7c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="thirdparty\tinyxml2">
+      <UniqueIdentifier>{f35b53f1-a945-46d3-bce9-301cb508aa16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="thirdparty\cxxopts\cxxopts.hpp">
       <Filter>thirdparty\cxxopts</Filter>
     </ClInclude>
+    <ClInclude Include="thirdparty\tinyxml2\tinyxml2.h">
+      <Filter>thirdparty\tinyxml2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="thirdparty\tinyxml2\tinyxml2.cpp">
+      <Filter>thirdparty\tinyxml2</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

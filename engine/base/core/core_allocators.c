@@ -195,7 +195,9 @@ void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 
 		i_buffer->m_head = nextAlloc;
 
+#if ALLOC_VERBOSE
 		REPORT("Core_PushStack: Allocating %u bytes, head: %p, header: %p", size, nextAlloc, header);
+#endif // ALLOC_VERBOSE
 		return nextBase;
 	}
 	VERIFY_ASSERT(FALSE, "Core_PushStack: Core stack allocator is out of memory!");
@@ -206,7 +208,11 @@ void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 uint16 Core_PopStack(StackBuffer* i_buffer)
 {
 	StackBufferHeader* header = (StackBufferHeader*)(i_buffer->m_head - sizeof(StackBufferHeader));
+
+#if ALLOC_VERBOSE
 	REPORT("Core_PopStack: Freeing %u bytes, head: %p, header: %p", header->m_size, i_buffer->m_head, header);
+#endif // ALLOC_VERBOSE
+
 	VERIFY_ASSERT(header->m_size == i_buffer->m_lastAllocationSize, "Mismatch between previous allocation size and this one! Allocated: %u bytes, freeing %u bytes", i_buffer->m_lastAllocationSize, header->m_size);
 	VERIFY_ASSERT(header->m_size > 0, "Core_PopStack: Trying to free 0 bytes, this is probably a memory corruption");
 	

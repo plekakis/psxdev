@@ -30,3 +30,5 @@ tools/Compilers/ModelCompiler/Debug/
 tools/Compilers/ModelCompiler/Release/
 tools/Compilers/ModelCompiler/x64/
 
+tools/Compilers/x64/Debug/MaterialCompiler.exe
+tools/Compilers/MaterialCompiler/intermediate/

@@ -5,6 +5,7 @@ HL_ModelCache g_modelCache;
 
 ResModel2 *g_model = NULL;
 ResTexture* g_texture = NULL;
+ResMaterial* g_material = NULL;
 
 MATRIX g_model2World, g_world2Camera;
 
@@ -47,10 +48,15 @@ void DrawPSM(ResModel2* i_model)
 
 		for (i = 0; i < i_model->m_submeshCount; ++i)
 		{
-			ResMaterial* material = Res_GetMaterialLink(g_modelName, i);
-			Gfx_SetPolyBaseColor(material->m_red, material->m_green, material->m_blue);
+			if (g_material)
+			{
+				Gfx_SetPolyBaseColor(g_material->m_red, g_material->m_green, g_material->m_blue);
+			}
 
-			Gfx_SetTextureDirect(g_texture->m_tpage, g_texture->m_clut);			
+			if (g_texture)
+			{
+				Gfx_SetTextureDirect(g_texture->m_tpage, g_texture->m_clut);
+			}
 			Gfx_AddPrims(i_model->m_submeshes[i].m_primType, i_model->m_submeshes[i].m_data, i_model->m_submeshes[i].m_polyCount);
 		}
 
@@ -61,14 +67,23 @@ void DrawPSM(ResModel2* i_model)
 ///////////////////////////////////////////////////
 void start()
 {
-	g_modelName = ID("ROOT\\PSM\\CRATE0.PSM");
-	g_textureName = ID("ROOT\\TIM\\BOX4D.TIM");
+	{
+		g_modelName = ID("ROOT\\PSM\\CRATE0.PSM");
+		g_textureName = ID("ROOT\\TIM\\BOX4D.TIM");
+	}
 
-	HL_NewTextureCache(&g_textureCache, 10);
-	HL_NewModelCache(&g_modelCache, 4);
+	{
+		g_material = Res_GetMaterialLink(g_modelName, 0);
 
-	HL_LoadModel(&g_modelCache, g_modelName, &g_model);
-	HL_LoadTexture(&g_textureCache, g_textureName, &g_texture);
+		HL_NewTextureCache(&g_textureCache, 10);
+		HL_NewModelCache(&g_modelCache, 4);
+		
+		HL_LoadModel(&g_modelCache, g_modelName, &g_model);
+		if (g_material)
+		{
+			HL_LoadTexture(&g_textureCache, g_material->m_texture, &g_texture);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////
@@ -80,7 +95,7 @@ void update()
 ///////////////////////////////////////////////////
 void render()
 {
-	Gfx_SetClearColor(32, 32, 32);
+	Gfx_SetClearColor(0, 32, 32);
 	Gfx_SetBackColor(16, 16, 16);
 
 	Gfx_SetLightColor(0, 255, 255, 255);
