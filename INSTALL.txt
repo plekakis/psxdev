@@ -10,4 +10,5 @@ add the PSYQ related ones and also create the PSYQ.INI file in the \psyq\bin dir
 You should now be ready to go!
 For ease of sourcecode navigation, there is a VS2017 project, but of course you can use any text editor.
 
-Please refer to BUILDING.txt for instructions on building & deploying a project to either PSX or EMU.
+
+For information about deploying/using the engine, please follow: https://alkis-dev.weebly.com/psx.html
