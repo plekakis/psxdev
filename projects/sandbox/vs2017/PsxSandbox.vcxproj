@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\engine\base\base_scu.c" />
-    <ClCompile Include="..\..\..\engine\base\core\obj_cache.c" />
+    <ClCompile Include="..\..\..\engine\base\core\core.c" />
+    <ClCompile Include="..\..\..\engine\base\core\core_allocators.c" />
+    <ClCompile Include="..\..\..\engine\base\core\core_mem.c" />
+    <ClCompile Include="..\..\..\engine\base\core\core_scu.c" />
     <ClCompile Include="..\..\..\engine\base\gfx\embedded\debug\gfx_debugfont.c" />
     <ClCompile Include="..\..\..\engine\base\gfx\gfx.c" />
     <ClCompile Include="..\..\..\engine\base\gfx\gfx_batch2d.c" />
@@ -37,18 +40,18 @@
     <ClCompile Include="..\..\..\engine\base\stream\stream_scu.c" />
     <ClCompile Include="..\..\..\engine\base\time\time.c" />
     <ClCompile Include="..\..\..\engine\base\time\time_scu.c" />
-    <ClCompile Include="..\..\..\engine\core\core.c" />
-    <ClCompile Include="..\..\..\engine\core\core_allocators.c" />
-    <ClCompile Include="..\..\..\engine\core\core_mem.c" />
-    <ClCompile Include="..\..\..\engine\core\core_scu.c" />
+    <ClCompile Include="..\..\..\engine\base\util\util.c" />
+    <ClCompile Include="..\..\..\engine\base\util\util_scu.c" />
     <ClCompile Include="..\..\..\engine\engine_scu.c" />
+    <ClCompile Include="..\..\..\engine\hl\caches\caches_scu.c" />
+    <ClCompile Include="..\..\..\engine\hl\caches\cache_model.c" />
+    <ClCompile Include="..\..\..\engine\hl\caches\cache_texture.c" />
+    <ClCompile Include="..\..\..\engine\hl\caches\obj_cache.c" />
     <ClCompile Include="..\..\..\engine\input\input.c" />
     <ClCompile Include="..\..\..\engine\input\input_scu.c" />
     <ClCompile Include="..\..\..\engine\system\debug_info.c" />
     <ClCompile Include="..\..\..\engine\system\system.c" />
     <ClCompile Include="..\..\..\engine\system\system_scu.c" />
-    <ClCompile Include="..\..\..\engine\util\util.c" />
-    <ClCompile Include="..\..\..\engine\util\util_scu.c" />
     <ClCompile Include="..\source\embedded\BGTEX.C" />
     <ClCompile Include="..\source\embedded\FNT.C" />
     <ClCompile Include="..\source\game.c" />
@@ -59,20 +62,21 @@
     <ClCompile Include="..\source\scene_prim_test.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\engine\base\core\obj_cache.h" />
+    <ClInclude Include="..\..\..\engine\base\core\core.h" />
+    <ClInclude Include="..\..\..\engine\base\core\core_allocators.h" />
     <ClInclude Include="..\..\..\engine\base\gfx\gfx.h" />
     <ClInclude Include="..\..\..\engine\base\gfx\gfx_batch2d.h" />
     <ClInclude Include="..\..\..\engine\base\gfx\gfx_scratch.h" />
     <ClInclude Include="..\..\..\engine\base\res\res.h" />
     <ClInclude Include="..\..\..\engine\base\stream\stream.h" />
     <ClInclude Include="..\..\..\engine\base\time\time.h" />
-    <ClInclude Include="..\..\..\engine\core\core.h" />
-    <ClInclude Include="..\..\..\engine\core\core_allocators.h" />
+    <ClInclude Include="..\..\..\engine\base\util\util.h" />
     <ClInclude Include="..\..\..\engine\engine.h" />
+    <ClInclude Include="..\..\..\engine\hl\caches\caches.h" />
+    <ClInclude Include="..\..\..\engine\hl\caches\obj_cache.h" />
     <ClInclude Include="..\..\..\engine\input\input.h" />
     <ClInclude Include="..\..\..\engine\system\debug_info.h" />
     <ClInclude Include="..\..\..\engine\system\system.h" />
-    <ClInclude Include="..\..\..\engine\util\util.h" />
     <ClInclude Include="..\source\game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

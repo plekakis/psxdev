@@ -337,7 +337,7 @@ namespace BuildTool
 
             // Update button state
             btnClean.Enabled = m_outputAvailability[(int)m_configuration];
-            btnRun.Enabled = m_cdImageAvailability[(int)m_configuration]; ;
+            btnRun.Enabled = m_cdImageAvailability[(int)m_configuration];
 
             // Update the compiler arguments readonly box
             string[] additionalPreprocessor = null;
@@ -415,6 +415,18 @@ namespace BuildTool
         {
             DataView view = new DataView(m_currentBuilder);
             view.ShowDialog();
+        }
+
+        private void btnResBuild_Click(object sender, EventArgs e)
+        {
+            // Fill the resource build options.
+            ResBuilderOptions options = new ResBuilderOptions();
+            options.m_projectPath = Path.Combine("projects", m_currentProjectName);
+            options.m_stringBuilder = m_outputStringBuilder;
+
+            // Kick off a new resource build.
+            ResBuilder builder = new ResBuilder(options);
+            builder.Build();
         }
     }
 }

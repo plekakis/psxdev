@@ -74,8 +74,11 @@ namespace BuildTool
                 p.StartInfo.RedirectStandardOutput = true;
                 p.StartInfo.UseShellExecute = false;
 
-                p.OutputDataReceived += (sender, e) => output.AppendLine(e.Data);
-                p.ErrorDataReceived += (sender, e) => output.AppendLine(e.Data);
+                if (output != null)
+                {
+                    p.OutputDataReceived += (sender, e) => output.AppendLine(e.Data);
+                    p.ErrorDataReceived += (sender, e) => output.AppendLine(e.Data);
+                }
 
                 p.StartInfo.FileName = filename;
                 p.StartInfo.Arguments = arguments;

@@ -32,3 +32,4 @@ tools/Compilers/ModelCompiler/x64/
 
 tools/Compilers/x64/Debug/MaterialCompiler.exe
 tools/Compilers/MaterialCompiler/intermediate/
+tools/Compilers/x64/

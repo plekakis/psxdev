@@ -1,7 +1,7 @@
 <material_library>
 	<materials>
 		<material>
-			<name>MATERIAL0</name>
+			<name>CRATE0_MAT</name>
 			<texture>ROOT\TIM\BOX4D.TIM</texture>
 			<type>3</type>
 			<red>255</red>
@@ -9,9 +9,17 @@
 			<blue>255</blue>
 		</material>
 		<material>
-			<name>MATERIAL1</name>
+			<name>CRATE1_MAT</name>
 			<texture>ROOT\TIM\BOX4D.TIM</texture>
-			<type>1</type>
+			<type>3</type>
+			<red>255</red>
+			<green>255</green>
+			<blue>255</blue>
+		</material>
+		<material>
+			<name>CRATE2_MAT</name>
+			<texture>ROOT\TIM\BOX4D.TIM</texture>
+			<type>3</type>
 			<red>255</red>
 			<green>255</green>
 			<blue>255</blue>
@@ -19,8 +27,14 @@
 	</materials>
 
 	<links>
-		<link model="ROOT\PSM\CRATE0.PSM">
-			<ref index="0" material="MATERIAL0"/>
+		<link model="ROOT\MDL\CRATE0.PSM">
+			<ref index="0" material="CRATE0_MAT"/>
+		</link>
+		<link model="ROOT\MDL\CRATE1.PSM">
+			<ref index="0" material="CRATE1_MAT"/>
+		</link>
+		<link model="ROOT\MDL\CRATE2.PSM">
+			<ref index="0" material="CRATE2_MAT"/>
 		</link>
 	</links>
 </material_library>

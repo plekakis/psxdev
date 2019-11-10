@@ -43,6 +43,12 @@
     <Filter Include="engine\base\gfx\embedded\debug">
       <UniqueIdentifier>{2aa54a87-025f-4d41-ae30-63666d13bd49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\hl">
+      <UniqueIdentifier>{145c930a-f000-44f9-9eb4-a1d4e3d9fda6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\hl\caches">
+      <UniqueIdentifier>{a99cd2e5-39c9-4cf9-8c16-2b763427c233}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\game.c">
@@ -66,23 +72,8 @@
     <ClCompile Include="..\..\..\engine\input\input_scu.c">
       <Filter>engine\base\input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\engine\core\core_scu.c">
-      <Filter>engine\base\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\core\core.c">
-      <Filter>engine\base\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\util\util.c">
-      <Filter>engine\base\util</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\util\util_scu.c">
-      <Filter>engine\base\util</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\engine\input\input.c">
       <Filter>engine\base\input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\core\core_allocators.c">
-      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\source\scene_batch2d_test.c">
       <Filter>game</Filter>
@@ -98,9 +89,6 @@
     </ClCompile>
     <ClCompile Include="..\source\scene_cd_test.c">
       <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\core\core_mem.c">
-      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\base\base_scu.c">
       <Filter>engine\base</Filter>
@@ -125,9 +113,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\engine\base\time\time.c">
       <Filter>engine\base\time</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\base\core\obj_cache.c">
-      <Filter>engine\base\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\engine\base\gfx\gfx_prim_callbacks.c">
       <Filter>engine\base\gfx</Filter>
@@ -159,6 +144,36 @@
     <ClCompile Include="..\..\..\engine\base\stream\stream.c">
       <Filter>engine\base\stream</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\util\util_scu.c">
+      <Filter>engine\base\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\util\util.c">
+      <Filter>engine\base\util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\core\core_mem.c">
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\core\core_scu.c">
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\core\core.c">
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\core\core_allocators.c">
+      <Filter>engine\base\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\hl\caches\cache_texture.c">
+      <Filter>engine\hl\caches</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\hl\caches\caches_scu.c">
+      <Filter>engine\hl\caches</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\hl\caches\obj_cache.c">
+      <Filter>engine\hl\caches</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\hl\caches\cache_model.c">
+      <Filter>engine\hl\caches</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
@@ -173,15 +188,6 @@
     <ClInclude Include="..\..\..\engine\input\input.h">
       <Filter>engine\base\input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\engine\core\core.h">
-      <Filter>engine\base\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\util\util.h">
-      <Filter>engine\base\util</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\core\core_allocators.h">
-      <Filter>engine\base\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\game.h">
       <Filter>game</Filter>
     </ClInclude>
@@ -190,9 +196,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\base\time\time.h">
       <Filter>engine\base\time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\base\core\obj_cache.h">
-      <Filter>engine\base\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\base\gfx\gfx_scratch.h">
       <Filter>engine\base\gfx</Filter>
@@ -205,6 +208,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\base\stream\stream.h">
       <Filter>engine\base\stream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\util\util.h">
+      <Filter>engine\base\util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\core\core.h">
+      <Filter>engine\base\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\core\core_allocators.h">
+      <Filter>engine\base\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\hl\caches\caches.h">
+      <Filter>engine\hl\caches</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\hl\caches\obj_cache.h">
+      <Filter>engine\hl\caches</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

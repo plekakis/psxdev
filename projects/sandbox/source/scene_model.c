@@ -16,51 +16,53 @@ SVECTOR g_cameraRotation = { 0, 0, 0 };
 VECTOR g_cameraPosition = { 0, ONE / 16, -ONE / 2 };
 
 StringId g_modelName;
-StringId g_textureName;
 
 
 ///////////////////////////////////////////////////
 void DrawPSM(ResModel2* i_model)
 {
-	// Model transform
+	if (i_model)
 	{
-		RotMatrix(&g_rotation, &g_model2World);
-		TransMatrix(&g_model2World, &g_position);
-
-		Gfx_SetModelMatrix(&g_model2World);
-	}
-
-	// Draw
-	{
-		DivisionParams params;
-		uint32 i;
-		memset(&params, 0, sizeof(params));
-
-		Gfx_SetRenderState(RS_TEXTURING | RS_DIVISION);
-		//Gfx_SetRenderState(RS_MUL_BASECOL);
-
-		//params.m_distances[DIVMODE_32x32] = 10;
-		//params.m_distances[DIVMODE_16x16] = 20;
-		//params.m_distances[DIVMODE_8x8] = 30;
-		//params.m_distances[DIVMODE_4x4] = 40;
-		params.m_distances[DIVMODE_2x2] = 50;
-		Gfx_SetDivisionParams(&params);
-
-		for (i = 0; i < i_model->m_submeshCount; ++i)
+		// Model transform
 		{
-			if (g_material)
-			{
-				Gfx_SetPolyBaseColor(g_material->m_red, g_material->m_green, g_material->m_blue);
-			}
+			RotMatrix(&g_rotation, &g_model2World);
+			TransMatrix(&g_model2World, &g_position);
 
-			if (g_texture)
-			{
-				Gfx_SetTextureDirect(g_texture->m_tpage, g_texture->m_clut);
-			}
-			Gfx_AddPrims(i_model->m_submeshes[i].m_primType, i_model->m_submeshes[i].m_data, i_model->m_submeshes[i].m_polyCount);
+			Gfx_SetModelMatrix(&g_model2World);
 		}
 
-		Gfx_InvalidateRenderState(RS_MUL_BASECOL);
+		// Draw
+		{
+			DivisionParams params;
+			uint32 i;
+			memset(&params, 0, sizeof(params));
+
+			Gfx_SetRenderState(RS_TEXTURING | RS_DIVISION);
+			//Gfx_SetRenderState(RS_MUL_BASECOL);
+
+			//params.m_distances[DIVMODE_32x32] = 10;
+			//params.m_distances[DIVMODE_16x16] = 20;
+			//params.m_distances[DIVMODE_8x8] = 30;
+			//params.m_distances[DIVMODE_4x4] = 40;
+			params.m_distances[DIVMODE_2x2] = 50;
+			Gfx_SetDivisionParams(&params);
+
+			for (i = 0; i < i_model->m_submeshCount; ++i)
+			{
+				if (g_material)
+				{
+					Gfx_SetPolyBaseColor(g_material->m_red, g_material->m_green, g_material->m_blue);
+				}
+
+				if (g_texture)
+				{
+					Gfx_SetTextureDirect(g_texture->m_tpage, g_texture->m_clut);
+				}
+				Gfx_AddPrims(i_model->m_submeshes[i].m_primType, i_model->m_submeshes[i].m_data, i_model->m_submeshes[i].m_polyCount);
+			}
+
+			Gfx_InvalidateRenderState(RS_MUL_BASECOL);
+		}
 	}
 }
 
@@ -68,8 +70,7 @@ void DrawPSM(ResModel2* i_model)
 void start()
 {
 	{
-		g_modelName = ID("ROOT\\PSM\\CRATE0.PSM");
-		g_textureName = ID("ROOT\\TIM\\BOX4D.TIM");
+		g_modelName = ID("ROOT\\MDL\\CRATE0.PSM");
 	}
 
 	{

@@ -300,6 +300,8 @@ void WriteMAT(std::string const& i_filename, std::vector<Material>& i_materials,
 
 	for (auto const& mat : i_materials)
 	{
+		std::cout << "Writing material " << mat.m_name.c_str() << std::endl;
+
 		MATHelpers::WriteMatInstance
 		(
 			f,
@@ -334,6 +336,8 @@ void WriteMAT(std::string const& i_filename, std::vector<Material>& i_materials,
 			{
 				throw std::exception("Material name in link ref not found!");
 			}
+
+			std::cout << "Writing material link for model name " << link.m_modelName.c_str() << ", submesh index " << ref.m_submeshIndex << " and material name " << ref.m_materialName.c_str() << std::endl;
 
 			MATHelpers::WriteMeshRef
 			(

@@ -59,7 +59,7 @@
             this.cmbCDLicense = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnData = new System.Windows.Forms.Button();
+            this.btnResBuild = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.grpBuildSettings.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -140,7 +140,7 @@
             // 
             // grpBuildSettings
             // 
-            this.grpBuildSettings.Controls.Add(this.btnData);
+            this.grpBuildSettings.Controls.Add(this.btnResBuild);
             this.grpBuildSettings.Controls.Add(this.txtAllArgs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalIncDirs);
             this.grpBuildSettings.Controls.Add(this.txtAdditionalLibDirs);
@@ -248,7 +248,7 @@
             // 
             // btnClean
             // 
-            this.btnClean.Location = new System.Drawing.Point(116, 258);
+            this.btnClean.Location = new System.Drawing.Point(6, 258);
             this.btnClean.Name = "btnClean";
             this.btnClean.Size = new System.Drawing.Size(103, 26);
             this.btnClean.TabIndex = 10;
@@ -373,15 +373,15 @@
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
             // 
-            // btnData
+            // btnResBuild
             // 
-            this.btnData.Location = new System.Drawing.Point(7, 258);
-            this.btnData.Name = "btnData";
-            this.btnData.Size = new System.Drawing.Size(103, 26);
-            this.btnData.TabIndex = 20;
-            this.btnData.Text = "&Data...";
-            this.btnData.UseVisualStyleBackColor = true;
-            this.btnData.Click += new System.EventHandler(this.btnData_Click);
+            this.btnResBuild.Location = new System.Drawing.Point(116, 258);
+            this.btnResBuild.Name = "btnResBuild";
+            this.btnResBuild.Size = new System.Drawing.Size(103, 26);
+            this.btnResBuild.TabIndex = 20;
+            this.btnResBuild.Text = "R&es Build";
+            this.btnResBuild.UseVisualStyleBackColor = true;
+            this.btnResBuild.Click += new System.EventHandler(this.btnResBuild_Click);
             // 
             // Form1
             // 
@@ -442,7 +442,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtAllArgs;
-        private System.Windows.Forms.Button btnData;
+        private System.Windows.Forms.Button btnResBuild;
     }
 }
 

@@ -178,6 +178,8 @@ int main(int argc, char* argv[])
 			std::vector<tinyobj::shape_t> shapes;
 			std::vector<tinyobj::material_t> materials;
 
+			std::cout << "Loading " << options.m_inputFilename.c_str() << std::endl;
+
 			std::string warn, err;
 			bool const modelLoadSuccess = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, options.m_inputFilename.c_str());
 			if (!modelLoadSuccess)
@@ -265,10 +267,20 @@ int main(int argc, char* argv[])
 			FILE* f = nullptr;
 			fopen_s(&f, options.m_outputFilename.c_str(), "wb");
 
+			if (!f)
+			{
+				throw std::exception("Cannot open output filename for writing!");
+			}
+
+			std::cout << "Writing to " << options.m_outputFilename.c_str() << std::endl;
+
 			PSMHelpers::WriteHeader(f, static_cast<uint8_t>(psmModel.m_submeshes.size()));
 
+			uint32_t submeshIndex = 0;
 			for (auto const& submesh : psmModel.m_submeshes)
 			{
+				std::cout << "Writing submesh " << submeshIndex << ". Triangle count: " << submesh.m_triangleCount << std::endl;
+
 				PSMHelpers::WriteSubmeshHeader(f, submesh);
 
 				for (auto const& triangle : submesh.m_triangles)
@@ -295,6 +307,8 @@ int main(int argc, char* argv[])
 					PSMHelpers::WriteNormal(f, vtx[2].m_normal);
 					PSMHelpers::WriteNormal(f, 0u, 0u, 0u); // padding
 				}
+
+				++submeshIndex;
 			}
 
 			fclose(f);
