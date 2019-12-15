@@ -18,7 +18,7 @@ int16 Res_LoadTIM(void* i_srcAddress, StringId i_filename, ResTexture** o_textur
 	if (ReadTIM(&tim) == 0)
 		return E_FAILURE;
 
-	*o_texture = (ResTexture*)Core_Malloc(sizeof(ResTexture), 4);
+	*o_texture = (ResTexture*)Core_Malloc(sizeof(ResTexture));
 
 	Util_MemZero(*o_texture, sizeof(ResTexture));
 

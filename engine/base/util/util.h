@@ -25,11 +25,17 @@
 
 //-----------------------------------------------------------------------
 #define RAND_MAX (0x7fff)
-#define RAND_RANGE(type, min, max) (rand() % ((max) + 1 - (min)) + (min))
+#define RAND_RANGE_TYPE(min, max, type) (min) + (##type)(rand()) /((##type)(RAND_MAX/((max)-(min) + 1)))
+#define RAND_RANGE_I32(min, max) (RAND_RANGE_TYPE((min), (max), int32))
+#define RAND_RANGE_F32(min, max) (RAND_RANGE_TYPE((min), (max), float))
+#define RAND_RANGE_FP(min, max) (RAND_RANGE_I32((min), (max)) * ONE)
 
 //-----------------------------------------------------------------------
 #define setColor(c, _r, _g, _b) \
 	(c)->r = (_r), (c)->g = (_g), (c)->b = (_b)
+
+#define copyColor(c0, c1) \
+	setColor((c0), (c1)->r, (c1)->g, (c1)->b)
 
 #define mulColor(c, _r, _g, _b) \
 	(c)->r = ( ((c)->r * _r + 0xFF) >> 8); \
@@ -37,13 +43,26 @@
 	(c)->b = ( ((c)->b * _b + 0xFF) >> 8);
 
 #define mulVector(v0, v1) \
-	(v0)->vx *= (v1)->vx,	\
-	(v0)->vy *= (v1)->vy,	\
-	(v0)->vz *= (v1)->vz	
+	(v0)->vx = MulFP((v0)->vx, (v1)->vx);	\
+	(v0)->vy = MulFP((v0)->vy, (v1)->vy);	\
+	(v0)->vz = MulFP((v0)->vz, (v1)->vz);	
 
-#define vectorDot(v0, v1) ((v0)->vx * (v1)->vx + (v0)->vy * (v1)->vy + (v0)->vz * (v1)->vz)
-#define vectorLength(v0) vectorDot(v0, v0)
-#define normalizeVector(v0) { int32 m_vecLen = vectorLength( (v0) ); (v0)->vx /= m_vecLen; (v0)->vy /= m_vecLen; (v0)->vz /= m_vecLen; }
+#define mulVectorF(v0, x) \
+	(v0)->vx = MulFP((v0)->vx, (x)); \
+	(v0)->vy = MulFP((v0)->vy, (x)); \
+	(v0)->vz = MulFP((v0)->vz, (x));
+
+#define vectorDot(v0, v1) ( MulFP((v0)->vx, (v1)->vx) + MulFP((v0)->vy, (v1)->vy) + MulFP((v0)->vz, (v1)->vz))
+#define vectorLengthSq(v0) vectorDot((v0), (v0))
+#define vectorLength(v0) SquareRoot0(vectorLengthSq((v0)))
+
+#define rotateVectorXY(p, r, pivotx, pivoty) \
+	{ \
+		int16 oldx = (p)->vx - (pivotx); \
+		int16 oldy = (p)->vy - (pivoty); \
+		(p)->vx = (pivotx) + MulFP(oldx, rcos((r))) - MulFP(oldy, rsin((r))); \
+		(p)->vy = (pivoty) + MulFP(oldx, rsin((r))) + MulFP(oldy, rcos((r))); \
+	}
 
 //-----------------------------------------------------------------------
 #define OFFSET_OF(s,m) (uint32)&(((s *)0)->m)
@@ -53,8 +72,10 @@
 //-----------------------------------------------------------------------
 
 //-----------------------------------------------------------------------
-uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment);
+uint8* Util_AlignPtrUp(uint8* i_ptr, uint32 i_alignment);
+uint8* Util_AlignPtrDown(uint8* i_ptr, uint32 i_alignment);
 uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment);
+uint32 Util_AlignDown(uint32 i_value, uint32 i_alignment);
 uint32 Util_AlignPtrAdjustment(uint8* i_ptr, uint32 i_alignment);
 uint32 Util_AlignUpAdjustment(uint32 i_value, uint32 i_alignment);
 uint32 Util_AlignPtrAdjustmentHeader(uint8* i_ptr, uint32 i_alignment, uint32 i_headerSize);

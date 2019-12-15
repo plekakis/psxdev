@@ -72,8 +72,8 @@ int16 Res_LoadMATLIB()
 			MAT_HEADER* header = (MAT_HEADER*)ptr; ptr += sizeof(MAT_HEADER);
 			g_matlibSize = header->m_materialCount;
 			g_matlibLinkSize = header->m_meshCount;
-			g_matlib = (ResMaterial*)Core_Malloc(sizeof(ResMaterial) * g_matlibSize, 4);
-			g_matlibLinks = (MAT_LINK*)Core_Malloc(sizeof(MAT_LINK) * g_matlibLinkSize, 4);
+			g_matlib = (ResMaterial*)Core_Malloc(sizeof(ResMaterial) * g_matlibSize);
+			g_matlibLinks = (MAT_LINK*)Core_Malloc(sizeof(MAT_LINK) * g_matlibLinkSize);
 
 			REPORT("Res_LoadMATLIB: Found %u materials and %u meshes", header->m_materialCount, header->m_meshCount);
 

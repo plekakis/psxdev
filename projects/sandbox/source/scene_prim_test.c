@@ -119,7 +119,7 @@ void render()
 
 	// Fog settings
 	{
-		Gfx_SetRenderState(RS_FOG);
+		//Gfx_SetRenderState(RS_FOG);
 		Gfx_SetFogNearFar(500, 1500);
 		Gfx_SetFogColor(128, 128, 128);
 	}

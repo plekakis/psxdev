@@ -11,7 +11,13 @@ typedef struct
 	void (*AppRenderFncPtr)();
     void (*AppShutdownFncPtr)();
 
-    bool    m_isHighResolution;
+	// These are considered to be PAL resolutions. Available ones are:
+	// Low resolution:  256x256, 320x256, 368x256, 512x256, 640x256
+	// High resolution: 256x512, 320x512, 368x512, 512x512, 640x512
+	//
+	// in NTSC systems, the equivelant NTSC resolution will be selected.
+	uint32  m_displayWidth;
+	uint32  m_displayHeight;
 	uint32	m_sysStackSizeInBytes;
 	uint32  m_gfxScratchSizeInBytes;
 	uint32  m_coreScratchSizeInBytes;

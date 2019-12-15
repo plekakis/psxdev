@@ -147,7 +147,11 @@ typedef enum
 	PRIM_TYPE_POLY_FT3		= 1,
 	PRIM_TYPE_POLY_G3		= 2,
 	PRIM_TYPE_POLY_GT3		= 3,
-	PRIM_TYPE_MAX			= PRIM_TYPE_POLY_GT3 + 1
+	PRIM_TYPE_POLY_F4		= 4,
+	PRIM_TYPE_POLY_FT4		= 5,
+	PRIM_TYPE_POLY_G4		= 6,
+	PRIM_TYPE_POLY_GT4		= 7,
+	PRIM_TYPE_MAX			= PRIM_TYPE_POLY_GT4 + 1
 }PRIM_TYPE;
 
 typedef struct
@@ -191,9 +195,9 @@ typedef struct
 {
 	SVECTOR	p;
 	CVECTOR c;
-
-	uint16	width;
-	uint16	height;
+	int16   r;
+	uint8	width;
+	uint8	height;
 }POINT_SPRITE;
 
 // OT
@@ -218,7 +222,7 @@ typedef enum
 }RENDERSTATE;
 
 // Initializes the gfx subsystem (interlaced is automatically chosen for high-resolution modes)
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes);
+int16 Gfx_Initialize(uint16 i_width, uint16 i_height, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes);
 
 // Gets the diplay width
 uint16 Gfx_GetDisplayWidth();

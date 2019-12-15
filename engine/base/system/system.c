@@ -51,7 +51,7 @@ int16 System_Initialize(SystemInitInfo* i_info)
 	Time_Initialize(i_info->m_tvMode);
 
     // Initialize graphics
-    Gfx_Initialize(i_info->m_isHighResolution, i_info->m_tvMode, i_info->m_refreshMode, i_info->m_gfxScratchSizeInBytes);
+    Gfx_Initialize(i_info->m_displayWidth, i_info->m_displayHeight, i_info->m_tvMode, i_info->m_refreshMode, i_info->m_gfxScratchSizeInBytes);
 
 	// Initialize stream & cd
 	Stream_Initialize();

@@ -8,12 +8,12 @@
 ///////////////////////////////////////////////////
 int16 Core_InitScratch(ScratchBuffer* o_buffer, uint32 i_scratchSizeInBytes, uint8 i_alignment)
 {
-	o_buffer->m_start = (uint8*)Core_Malloc(i_scratchSizeInBytes + i_alignment, 4);
+	o_buffer->m_start = (uint8*)Core_Malloc(i_scratchSizeInBytes + i_alignment);
 	if (!o_buffer->m_start)
 		return E_OUT_OF_MEMORY;
 
 	{
-		uint8* alignedPtr = Util_AlignPtr(o_buffer->m_start, i_alignment);
+		uint8* alignedPtr = Util_AlignPtrUp(o_buffer->m_start, i_alignment);
 		o_buffer->m_alignment = alignedPtr - o_buffer->m_start;
 		o_buffer->m_start = alignedPtr;
 
@@ -61,7 +61,7 @@ uint32 Core_GetUsedScratch(ScratchBuffer* i_buffer)
 ///////////////////////////////////////////////////
 void* Core_AllocScratch(ScratchBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 {
-	uint8* nextBase = Util_AlignPtr(i_buffer->m_next, i_alignment);
+	uint8* nextBase = Util_AlignPtrUp(i_buffer->m_next, i_alignment);
 	{
 		uint8* next = nextBase + i_bytes;
 
@@ -124,12 +124,12 @@ void TestStack(StackBuffer* i_buffer)
 ///////////////////////////////////////////////////
 int16 Core_InitStack(StackBuffer* o_buffer, uint32 i_stackSizeInBytes, uint8 i_alignment)
 {
-	o_buffer->m_start = (uint8*)Core_Malloc(i_stackSizeInBytes + i_alignment, 4);
+	o_buffer->m_start = (uint8*)Core_Malloc(i_stackSizeInBytes + i_alignment);
 	if (!o_buffer->m_start)
 		return E_OUT_OF_MEMORY;
 
 	{
-		uint8* alignedPtr = Util_AlignPtr(o_buffer->m_start, i_alignment);
+		uint8* alignedPtr = Util_AlignPtrUp(o_buffer->m_start, i_alignment);
 		o_buffer->m_alignment = alignedPtr - o_buffer->m_start;
 		o_buffer->m_start = alignedPtr;
 		o_buffer->m_head = o_buffer->m_start;
@@ -180,7 +180,7 @@ void* Core_PushStack(StackBuffer* i_buffer, uint32 i_bytes, uint8 i_alignment)
 	uint32 headerSize = sizeof(StackBufferHeader);
 	uint32 size = headerSize + i_bytes;
 
-	uint8* nextBase = Util_AlignPtr(i_buffer->m_head, i_alignment);
+	uint8* nextBase = Util_AlignPtrUp(i_buffer->m_head, i_alignment);
 	
 	if (nextBase + size <= i_buffer->m_end)
 	{

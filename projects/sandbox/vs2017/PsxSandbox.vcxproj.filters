@@ -60,15 +60,6 @@
     <ClCompile Include="..\..\..\engine\engine_scu.c">
       <Filter>engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\engine\system\system.c">
-      <Filter>engine\base\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\system\system_scu.c">
-      <Filter>engine\base\system</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\engine\system\debug_info.c">
-      <Filter>engine\base\system</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\engine\input\input_scu.c">
       <Filter>engine\base\input</Filter>
     </ClCompile>
@@ -174,16 +165,22 @@
     <ClCompile Include="..\..\..\engine\hl\caches\cache_model.c">
       <Filter>engine\hl\caches</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\scene_particles.c">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\system\debug_info.c">
+      <Filter>engine\base\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\system\system.c">
+      <Filter>engine\base\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\engine\base\system\system_scu.c">
+      <Filter>engine\base\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\engine\engine.h">
       <Filter>engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\system\debug_info.h">
-      <Filter>engine\base\system</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\engine\system\system.h">
-      <Filter>engine\base\system</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\engine\input\input.h">
       <Filter>engine\base\input</Filter>
@@ -223,6 +220,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\engine\hl\caches\obj_cache.h">
       <Filter>engine\hl\caches</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\system\debug_info.h">
+      <Filter>engine\base\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\engine\base\system\system.h">
+      <Filter>engine\base\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

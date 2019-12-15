@@ -90,7 +90,7 @@ void Stream_EnumerateCatalog()
 			// Go over each line (each filename)
 			char* contents = (char*)strtok(catalogBuffer, "\n");
 
-			g_cdEntries = Core_Malloc(sizeof(CdFileEntry) * g_numCdEntries, 4);
+			g_cdEntries = Core_Malloc(sizeof(CdFileEntry) * g_numCdEntries);
 
 			while (contents != NULL)
 			{

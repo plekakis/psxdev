@@ -5,6 +5,7 @@
 
 uint16 g_dirtyFlags = DF_ALL;
 uint8 g_primStrides[PRIM_TYPE_MAX];
+uint8 g_polyStrides[PRIM_TYPE_MAX];
 
 // Defines a frame's buffer resource
 typedef struct
@@ -24,6 +25,25 @@ FrameBuffer* g_currentFrameBuffer = NULL;
 
 uint8	g_currentSubmissionOTIndex = 0xf;
 
+typedef struct
+{
+	uint16 m_width;
+	uint16 m_height;
+	bool   m_isInterlaced;
+}DisplayMode;
+
+DisplayMode g_displayModesNTSC[] = 
+{ 
+	{256, 240, FALSE}, {320, 240, FALSE}, {368, 240, FALSE}, {512, 240, FALSE}, {640, 240, FALSE},
+	{256, 480, TRUE}, {320, 480, TRUE}, {368, 480, TRUE}, {512, 480, TRUE}, {640, 480, TRUE}
+};
+
+DisplayMode g_displayModesPAL[] = 
+{
+	{256, 256, FALSE}, {320, 256, FALSE}, {368, 256, FALSE}, {512, 256, FALSE}, {640, 256, FALSE},
+	{256, 512, TRUE}, {320, 512, TRUE}, {368, 512, TRUE}, {512, 512, TRUE}, {640, 512, TRUE}
+};
+
 // when high-resolution is selected, we switch to interlaced mode
 typedef struct
 {
@@ -32,7 +52,7 @@ typedef struct
 	uint32 m_frameIndex : 2;
 	uint32 m_refreshMode : 3;
 	uint32 m_tvMode : 1;
-	uint32 m_isHighResolution : 1;
+	uint32 m_isInterlaced : 1;
 }FrameData;
 
 FrameData g_dispProps;
@@ -85,9 +105,9 @@ uint16 Gfx_GetDisplayHeight()
 }
 
 ///////////////////////////////////////////////////
-uint8 Gfx_IsHighResolution()
+uint8 Gfx_IsInterlaced()
 {
-	return g_dispProps.m_isHighResolution;
+	return g_dispProps.m_isInterlaced;
 }
 
 ///////////////////////////////////////////////////
@@ -97,17 +117,29 @@ uint8 Gfx_GetTvMode()
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes)
+int16 Gfx_Initialize(uint16 i_width, uint16 i_height, uint8 i_mode, uint8 i_refreshMode, uint32 i_gfxScratchSizeInBytes)
 {
     uint16 index = 0;
+	uint8 displayModeIndex = 0;
 
     // setup resolution based on tv mode and high resolution flag
-    g_dispProps.m_displayWidth = i_isHighResolution ? 640 : 320;
-	g_dispProps.m_displayHeight = i_isHighResolution ?
-                                 ( (i_mode == MODE_PAL) ? 512 : 480) :
-                                 ( (i_mode == MODE_PAL) ? 256 : 240) ;
+	DisplayMode* mode = NULL;
+	// Find resolution, assuming specified is PAL.
+	// Do conversion if needed.
+	for (index = 0; index < ARRAY_SIZE(g_displayModesPAL); ++index)
+	{
+		if ((g_displayModesPAL[index].m_width == i_width) && (g_displayModesPAL[index].m_height == i_height))
+		{
+			mode = (i_mode == MODE_PAL) ? &g_displayModesPAL[index] : &g_displayModesNTSC[index];
+			break;
+		}
+	}
+	VERIFY_ASSERT(mode, "Display mode not found!");
+
+	g_dispProps.m_displayWidth = mode->m_width;
+	g_dispProps.m_displayHeight = mode->m_height;	
+	g_dispProps.m_isInterlaced = mode->m_isInterlaced;
 	g_dispProps.m_tvMode = i_mode;
-	g_dispProps.m_isHighResolution = i_isHighResolution;
 	g_dispProps.m_refreshMode = i_refreshMode;
 
 	// Reset graphic subsystem and set tv mode, gpu offset bit (2)
@@ -115,7 +147,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 		uint16 int1 = 0;
 
 		// mask in the interlaced bit
-		if (Gfx_IsHighResolution())
+		if (Gfx_IsInterlaced())
 			int1 |= 1;
 
 		GsInitGraph(Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight(), int1, 1, 0);
@@ -135,8 +167,6 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	SetVideoMode(g_dispProps.m_tvMode);
 	TTY_OUT((g_dispProps.m_tvMode == MODE_PAL) ? "Setting PAL" : "Setting NTSC");
 
-
-
 	// set geometry origin as (width/2, height/2)
 	SetGeomOffset(Gfx_GetDisplayWidth() / 2, Gfx_GetDisplayHeight() / 2);
 
@@ -151,12 +181,12 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 		FrameBuffer* buffer = &g_frameBuffers[index];
 
         // Always in interlaced mode
-        g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsHighResolution();
+        g_frameBuffers[index].m_dispEnv.isinter = Gfx_IsInterlaced();
         // And default to 16bit
         g_frameBuffers[index].m_dispEnv.isrgb24 = FALSE;
 		
-        SetDefDrawEnv(&buffer->m_drawEnv, 0, (!i_isHighResolution) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
-        SetDefDispEnv(&buffer->m_dispEnv, 0, (!i_isHighResolution) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+        SetDefDrawEnv(&buffer->m_drawEnv, 0, (!Gfx_IsInterlaced()) * (index * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
+        SetDefDispEnv(&buffer->m_dispEnv, 0, (!Gfx_IsInterlaced()) * ((1-index) * Gfx_GetDisplayHeight()), Gfx_GetDisplayWidth(), Gfx_GetDisplayHeight());
 
 		// Screen starting position must be modified for PAL.
 		// Y must be moved down by 16 lines.
@@ -164,7 +194,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 		{
 #if TARGET_EMU
 			// NO$PSX requires this to align correctly
-			xoffset = i_isHighResolution ? -8 : -2;
+			xoffset = Gfx_IsInterlaced() ? -8 : -2;
 #endif // TARGET_EMU
 			setRECT(&buffer->m_dispEnv.screen, xoffset, 16, 256, 256);
 		}
@@ -172,7 +202,7 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 		{
 #if TARGET_EMU
 			// NO$PSX requires this to align correctly
-			xoffset = i_isHighResolution ? -3 : 1;
+			xoffset = Gfx_IsInterlaced() ? -3 : 1;
 #endif // TARGET_EMU
 			setRECT(&buffer->m_dispEnv.screen, xoffset, 8, 256, 256);
 		}
@@ -196,6 +226,16 @@ int16 Gfx_Initialize(uint8 i_isHighResolution, uint8 i_mode, uint8 i_refreshMode
 	g_primStrides[PRIM_TYPE_POLY_FT3] = sizeof(PRIM_FT3);
 	g_primStrides[PRIM_TYPE_POLY_G3] = sizeof(PRIM_G3);
 	g_primStrides[PRIM_TYPE_POLY_GT3] = sizeof(PRIM_GT3);
+
+	g_polyStrides[PRIM_TYPE_POLY_F3] = sizeof(POLY_F3);
+	g_polyStrides[PRIM_TYPE_POLY_FT3] = sizeof(POLY_FT3);
+	g_polyStrides[PRIM_TYPE_POLY_G3] = sizeof(POLY_G3);
+	g_polyStrides[PRIM_TYPE_POLY_GT3] = sizeof(POLY_GT3);
+	g_polyStrides[PRIM_TYPE_POLY_F4] = sizeof(POLY_F4);
+	g_polyStrides[PRIM_TYPE_POLY_FT4] = sizeof(POLY_FT4);
+	g_polyStrides[PRIM_TYPE_POLY_G4] = sizeof(POLY_G4);
+	g_polyStrides[PRIM_TYPE_POLY_GT4] = sizeof(POLY_GT4);
+
 	// add more here
 	//
 
@@ -283,7 +323,7 @@ int16 Gfx_EndFrame(TimeMoment* o_cpuTime, TimeMoment* o_cpuTimeVsync)
 
 	*o_cpuTimeVsync = Time_Now();
 	
-	if (Gfx_IsHighResolution())
+	if (Gfx_IsInterlaced())
 	{
 		// When using interlaced single buffer, all drawing have to be
 		// finished in 1/60 sec. Therefore we have to reset the drawing
@@ -341,7 +381,6 @@ int16 Gfx_BeginSubmission(uint8 i_layer)
 	return E_OK;
 }
 
-
 ///////////////////////////////////////////////////
 void PrepareMatrices(bool i_billboard)
 {
@@ -397,17 +436,17 @@ void PrepareMatrices(bool i_billboard)
 
 		if (i_billboard)
 		{
-			finalMat.m[0][0] = ONE;
+			finalMat.m[0][0] = -ONE;
 			finalMat.m[0][1] = 0;
 			finalMat.m[0][2] = 0;
 
 			finalMat.m[1][0] = 0;
-			finalMat.m[1][1] = ONE;
+			finalMat.m[1][1] = -ONE;
 			finalMat.m[1][2] = 0;
 
 			finalMat.m[2][0] = 0;
 			finalMat.m[2][1] = 0;
-			finalMat.m[2][2] = ONE;
+			finalMat.m[2][2] = -ONE;
 		}
 
 		// Update current rotation and translation matrices
@@ -483,20 +522,20 @@ int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count)
 int16 Gfx_AddPointSprites(uint8 i_type, POINT_SPRITE* const i_pointArray, uint32 i_count)
 {
 	uint32 i = 0;
+	void* mem = Gfx_Alloc(g_polyStrides[i_type] * i_count, 4);
 
 	PrepareMatrices(TRUE);
-
+	
 	for (i = 0; i < i_count; ++i)
 	{
 		int32 otz;
-		void* primmem = fncAddPointSpr[i_type](i_pointArray + i, &otz);
+		void* primmem = fncAddPointSpr[i_type](mem, i_pointArray, i, &otz);
 		
 		if (primmem)
 		{
 			addPrim(Gfx_GetCurrentOT() + otz, primmem);
 		}
-	}
-
+	}	
 	return E_OK;
 }
 

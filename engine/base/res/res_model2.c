@@ -201,7 +201,7 @@ int16 Res_LoadPSM(void* i_srcAddress, StringId i_filename, ResModel2** o_model)
 
 	PSM_HEADER* header = (PSM_HEADER*)ptr; ptr += sizeof(PSM_HEADER);
 	
-	*o_model = Core_Malloc(sizeof(ResModel2), 4);
+	*o_model = Core_Malloc(sizeof(ResModel2));
 	
 #if RES_VERBOSE_MODEL_LOADING
 	REPORT("SubMesh count: %u", header->submeshCount);
@@ -210,7 +210,7 @@ int16 Res_LoadPSM(void* i_srcAddress, StringId i_filename, ResModel2** o_model)
 
 	(*o_model)->m_filename = i_filename;
 	(*o_model)->m_submeshCount = header->submeshCount;
-	(*o_model)->m_submeshes = Core_Malloc(sizeof(ResModelSubMesh) * (*o_model)->m_submeshCount, 4);
+	(*o_model)->m_submeshes = Core_Malloc(sizeof(ResModelSubMesh) * (*o_model)->m_submeshCount);
 
 	for (submeshIndex=0; submeshIndex < (*o_model)->m_submeshCount; ++submeshIndex)
 	{
@@ -223,7 +223,7 @@ int16 Res_LoadPSM(void* i_srcAddress, StringId i_filename, ResModel2** o_model)
 		
 		mdl->m_polyCount = submesh->triangleCount;
 		mdl->m_primType = submeshMaterial ? submeshMaterial->m_type : PRIM_TYPE_POLY_F3;
-		mdl->m_data = Core_Malloc(s_engineVertexSizes[mdl->m_primType] * mdl->m_polyCount, 4);
+		mdl->m_data = Core_Malloc(s_engineVertexSizes[mdl->m_primType] * mdl->m_polyCount);
 
 #if RES_VERBOSE_MODEL_LOADING
 		REPORT("[SUBMESH %u] poly count: %u, prim type: %u", submeshIndex, mdl->m_polyCount, mdl->m_primType);

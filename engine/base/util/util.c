@@ -17,7 +17,7 @@ void Util_FaceNormal(SVECTOR* i_n0, SVECTOR* i_n1, SVECTOR* i_n2, SVECTOR* o_fac
 	addVector(o_faceNormal, i_n1);
 	addVector(o_faceNormal, i_n2);
 
-	normalizeVector(o_faceNormal);
+	VectorNormalSS(o_faceNormal, o_faceNormal);
 }
 
 ///////////////////////////////////////////////////
@@ -33,9 +33,26 @@ uint32 Util_AlignUp(uint32 i_value, uint32 i_alignment)
 }
 
 ///////////////////////////////////////////////////
-uint8* Util_AlignPtr(uint8* i_ptr, uint32 i_alignment)
+uint32 Util_AlignDown(uint32 i_value, uint32 i_alignment)
+{
+	{
+		VERIFY_ASSERT(IS_POW2(i_alignment), "Util_AlignUp: Alignment must be a power of 2! Specified: %u", i_alignment);
+	}
+	{
+		return i_value & -i_alignment;
+	}
+}
+
+///////////////////////////////////////////////////
+uint8* Util_AlignPtrUp(uint8* i_ptr, uint32 i_alignment)
 {
 	return (uint8*)Util_AlignUp((uint32)i_ptr, i_alignment);
+}
+
+///////////////////////////////////////////////////
+uint8* Util_AlignPtrDown(uint8* i_ptr, uint32 i_alignment)
+{
+	return (uint8*)Util_AlignDown((uint32)i_ptr, i_alignment);
 }
 
 ///////////////////////////////////////////////////

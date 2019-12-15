@@ -20,9 +20,11 @@
 typedef unsigned char			uint8;
 typedef unsigned short			uint16;
 typedef unsigned long			uint32;
+typedef unsigned long long		uint64;
 typedef char					int8;
 typedef short					int16;
 typedef long					int32;
+typedef long long				int64;
 
 typedef uint16					StringId;
 
@@ -76,6 +78,8 @@ typedef uint16					StringId;
 #define bool uint8
 #endif // bool
 
+#define PTR_SIZE (sizeof(void*))
+
 #define ASSERT_ENABLED (CONFIG_DEBUG | CONFIG_RELEASE)
 
 #if ASSERT_ENABLED
@@ -105,5 +109,32 @@ typedef uint16					StringId;
 
 #define SUCCESS(x)	((x) == E_OK)
 #define FAILURE(x)	((x) != E_OK)
+
+// Fixed point
+typedef int32 fixed4_12;
+
+#define FP_PI			(0x3244) // PI
+#define FP_PI_OVER_2	(0x1922) // PI/2
+#define FP_PI_OVER_4	(0xC91)  // PI/4
+#define FP_PI_2			(0x6488) // PI * 2
+
+#define FP_E			(0x2B7E) // e
+
+// Macro for creating FP constants.
+#define FP_4_12(x) ((fixed4_12)(((x) >= 0) ? ((x) * ONE + 0.5) : ((x) * ONE - 0.5)))
+
+// Conversions
+static inline fixed4_12 F32toFP(float v) { return (int32)(v * (float)ONE); }
+static inline fixed4_12 I32toFP(int32 v) { return v * ONE; }
+static inline float FPtoF32(fixed4_12 v) { return (float)v / (float)ONE; }
+static inline int32 FPtoI32(fixed4_12 v) { return v / ONE; }
+
+// Operations
+static inline fixed4_12 MulFP(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)(((int64)v0 * (int64)v1) / ONE); }
+static inline fixed4_12 DivFP(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)(((int64)v0 * ONE) / v1); }
+static inline fixed4_12 AddFP(fixed4_12 v0, fixed4_12 v1) { return v0 + v1; }
+static inline fixed4_12 SubFP(fixed4_12 v0, fixed4_12 v1) { return v0 - v1; }
+static inline fixed4_12 ModFP(fixed4_12 v0, fixed4_12 v1) { return v0 % v1; }
+static inline fixed4_12 LerpFP(fixed4_12 v0, fixed4_12 v1, fixed4_12 f) { return MulFP(v1, f) + MulFP(v0, ONE - f); }
 
 #endif // ENGINE_H_INC

@@ -31,7 +31,7 @@ void Gfx_Debug_GetPrimCounts(GfxPrimCounts* o_counts)
 void* (*fncAddPrim[PRIM_TYPE_MAX])(void*, int32*);
 void InitAddPrimCallbacks();
 
-void* (*fncAddPointSpr[PRIM_TYPE_MAX])(POINT_SPRITE* const, int32*);
+void* (*fncAddPointSpr[PRIM_TYPE_MAX])(void* dstmem, POINT_SPRITE* const, uint16, int32*);
 void InitAddPointSprCallbacks();
 
 DIVPOLYGON3 dd;
@@ -311,48 +311,64 @@ void* AddPrim_POLY_GT3(void* i_prim, int32* o_otz)
 }
 
 ///////////////////////////////////////////////////
-void* AddPointSpr_POLY_F(POINT_SPRITE* const i_prim, int32* o_otz)
+void* AddPointSpr_POLY_F(void* i_srcmem, POINT_SPRITE* const i_prim, uint16 i_index, int32* o_otz)
 {
-	int32	p, flg, otz, valid;
-	
+	int32	p, flg, otz, valid;	
+
+	POINT_SPRITE* prim = i_prim + i_index;
+
 	// Expand the point sprite from the centre outwards across width and height
-	int16 const halfWidth = i_prim->width >> 1;
-	int16 const halfHeight = i_prim->height >> 1;
+	int16 const halfWidth = prim->width >> 1;
+	int16 const halfHeight = prim->height >> 1;
+	
+	SVECTOR origin = { prim->p.vx, prim->p.vy, prim->p.vz };
+	SVECTOR v0 = { - halfWidth, - halfHeight, 0 };
+	SVECTOR v1 = { + halfWidth, - halfHeight, 0 };
+	SVECTOR v2 = { - halfWidth, + halfHeight, 0 };
+	SVECTOR v3 = { + halfWidth, + halfHeight, 0 };
 
-	SVECTOR v0 = { i_prim->p.vx - halfWidth, i_prim->p.vy - halfHeight, i_prim->p.vz };
-	SVECTOR v1 = { i_prim->p.vx + halfWidth, i_prim->p.vy - halfHeight, i_prim->p.vz };
-	SVECTOR v2 = { i_prim->p.vx - halfWidth, i_prim->p.vy + halfHeight, i_prim->p.vz };
-	SVECTOR v3 = { i_prim->p.vx + halfWidth, i_prim->p.vy + halfHeight, i_prim->p.vz };
-
-	POLY_F4* poly = (POLY_F4*)Gfx_Alloc(sizeof(POLY_F4), 4);
+	POLY_F4* poly = (POLY_F4*)i_srcmem + i_index;
 	SetPolyF4(poly);
-
-	valid = RotAverageNclip4
+	
+	// May be faster to use the GTE for this.
+	if (prim->r != 0)
+	{
+		rotateVectorXY(&v0, prim->r, 0, 0);
+		rotateVectorXY(&v1, prim->r, 0, 0);
+		rotateVectorXY(&v2, prim->r, 0, 0);
+		rotateVectorXY(&v3, prim->r, 0, 0);
+	}
+	
+	addVector(&v0, &origin);
+	addVector(&v1, &origin);
+	addVector(&v2, &origin);
+	addVector(&v3, &origin);
+	
+	valid = RotAverage4
 	(
 		&v0, &v1, &v2, &v3,
 		(int32*)&poly->x0, (int32*)&poly->x1, (int32*)&poly->x2, (int32*)&poly->x3,
 		&p,
-		&otz,
+		//&otz,
 		&flg
 	);
-
+	otz = 100;
 	if (PRIMVALID(otz, valid))
 	{
-		CVECTOR* c = &i_prim->c;
+		CVECTOR* c = &prim->c;
 		if (Gfx_GetRenderState() & RS_FOG)
 		{
 			DpqColor(c, p, c);
 		}
 
-		setRGB0(poly, i_prim->c.r, i_prim->c.g, i_prim->c.b);
-
+		setRGB0(poly, prim->c.r, prim->c.g, prim->c.b);
 		*o_otz = otz;
 		return poly;		
 	}
 }
 
 ///////////////////////////////////////////////////
-void* AddPointSpr_POLY_FT(POINT_SPRITE* const i_prim, int32* o_otz)
+void* AddPointSpr_POLY_FT(void* i_srcmem, POINT_SPRITE* const i_prim, uint16 i_index, int32* o_otz)
 {
 	
 	return NULL;
@@ -362,8 +378,8 @@ void* AddPointSpr_POLY_FT(POINT_SPRITE* const i_prim, int32* o_otz)
 void InitAddPointSprCallbacks()
 {
 	// POLY
-	fncAddPointSpr[PRIM_TYPE_POLY_F3] = &AddPointSpr_POLY_F;
-	fncAddPointSpr[PRIM_TYPE_POLY_FT3] = &AddPointSpr_POLY_FT;
+	fncAddPointSpr[PRIM_TYPE_POLY_F4] = &AddPointSpr_POLY_F;
+	fncAddPointSpr[PRIM_TYPE_POLY_FT4] = &AddPointSpr_POLY_FT;
 }
 
 ///////////////////////////////////////////////////
