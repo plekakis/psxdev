@@ -132,7 +132,7 @@ This is a heavily macro'ed implementation for pushing primitives to the OT. Supp
 		primDivCount = primCount; \
 		/* We can allocate memory for enough POLY_XX structures now. */ \
 		poly = (POLY_## type*)Gfx_Alloc(sizeof(POLY_## type) * MAX(primDivCount, primCount), 4); \
-		memcpy(poly, &temp, sizeof(temp)); \
+		*poly = temp; \
 	} \
 	else \
 	{ \

@@ -21,6 +21,9 @@ typedef enum
 
 uint8 g_debugOverlayIndex = DEBUG_OVERLAY_TYPE_SYSGFX;
 char dbgText[1024];
+uint64 hsyncsPassed = 0ull;
+float cpuMs = 0.0f;
+float cpuMsVsync = 0.0f;
 
 ///////////////////////////////////////////////////
 void Debug_DrawSysGfxOverlay(DebugPanelInfo* i_info)
@@ -30,14 +33,27 @@ void Debug_DrawSysGfxOverlay(DebugPanelInfo* i_info)
 
 	// CPU, GPU timings
 	{
-		sprintf
-		(
-			dbgText, "CPU HSync: %u (%u for VSync), FPS: %u (%u)\n\n", 
-			i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime, 
-			i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime,
-			i_info->m_timings.m_framesPerSecond,
-			i_info->m_timings.m_framesPerSecondVSync
-		);
+		const uint32 hsync = i_info->m_timings.m_cpuEndTime - i_info->m_timings.m_cpuStartTime;
+		const uint32 hsyncAtVsync = i_info->m_timings.m_cpuEndTimeVSync - i_info->m_timings.m_cpuStartTime;
+
+		hsyncsPassed += (uint64)hsync;
+
+		if (hsyncsPassed >= Time_FromSeconds(0.1f))
+		{
+			cpuMs = Time_ToMilliseconds(hsync);
+			cpuMsVsync = Time_ToMilliseconds(hsyncAtVsync);			
+
+			hsyncsPassed = 0u;
+		}
+
+		sprintf2
+			(
+				dbgText, "CPU: %.2fms (%.2fms for VSync), FPS: %u (%u VSync)\n\n",
+				cpuMs, 
+				cpuMsVsync,
+				i_info->m_timings.m_framesPerSecond,
+				i_info->m_timings.m_framesPerSecondVSync
+			);
 	}
 	
 #if CONFIG_DEBUG | CONFIG_RELEASE

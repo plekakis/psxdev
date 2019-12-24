@@ -283,11 +283,11 @@ int16 Gfx_BeginFrame(TimeMoment* o_cpuTime)
 	const uint8 frameBufferIndex = Gfx_GetFrameBufferIndex();
 	g_currentFrameBuffer = &g_frameBuffers[frameBufferIndex];
  
+ 	*o_cpuTime = Time_Now();
+
 	// Reset camera and model matrices
 	Gfx_InitState();
 	SetDefaultMatrices();
-
-	*o_cpuTime = Time_Now();
 
 	// Reset scratch
 	Gfx_ResetScratch();
@@ -354,7 +354,7 @@ int16 Gfx_EndFrame(TimeMoment* o_cpuTime, TimeMoment* o_cpuTimeVsync)
 			DrawOTag(g_currentFrameBuffer->m_OT[index] + OT_ENTRIES-1);
 		}
 	}
-	
+
 	g_dispProps.m_frameIndex = (g_dispProps.m_frameIndex + 1) % GFX_NUM_BUFFERS;
     return E_OK;
 }
@@ -470,7 +470,6 @@ int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
 	{
 		addPrim(Gfx_GetCurrentOT() + otz, primmem);
 	}
-	
 	return E_OK;
 }
 

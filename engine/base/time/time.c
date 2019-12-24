@@ -31,6 +31,18 @@ TimeMoment Time_Now()
 }
 
 ///////////////////////////////////////////////////
+TimeMoment Time_FromSeconds(float i_seconds)
+{
+	return (i_seconds + 0.5f) * g_timeHsyncToSecond;
+}
+
+///////////////////////////////////////////////////
+TimeMoment Time_FromMilliseconds(float i_milliseconds)
+{
+	return Time_FromSeconds(i_milliseconds * 0.001f);
+}
+
+///////////////////////////////////////////////////
 float Time_ToSeconds(TimeMoment i_moment)
 {
 	return (float)i_moment * g_invTimeHsyncToSecond;
@@ -39,7 +51,7 @@ float Time_ToSeconds(TimeMoment i_moment)
 ///////////////////////////////////////////////////
 float Time_ToMilliseconds(TimeMoment i_moment)
 {
-	return Time_ToSeconds(i_moment) * 0.001f;
+	return Time_ToSeconds(i_moment) * 1000.0f;
 }
 
 ///////////////////////////////////////////////////
