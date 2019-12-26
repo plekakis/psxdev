@@ -17,21 +17,62 @@ uint32 Vector_GetCount(vector* i_vector);
 uint32 Vector_GetSize(vector* i_vector);
 void Vector_Clear(vector* io_vector);
 
+#define Vector_MaybeExpand(v) \
+    { \
+        uint32 size = Vector_GetSize((v)); \
+        uint32 count = Vector_GetCount((v)); \
+        if (count == size) \
+        { \
+            REPORT("Vector_PushBack: Resizing from %u to %u elements of size %u", size, size+1, (v)->m_elementSize); \
+            Vector_Resize((v), size + 1); \
+        } \
+    }
+
 #define Vector_PushBack(v, t, e) \
     { \
         VERIFY_ASSERT((v), "Vector_PushBack: NULL vector specified!"); \
+        Vector_MaybeExpand(v); \
         { \
-            uint32 size = Vector_GetSize((v)); \
-            uint32 count = Vector_GetCount((v)); \
-            if (count == size) \
+            t* values = (t*)(v)->m_data; \
+            values[Vector_GetCount((v))] = e; \
+            (v)->m_usedElementCount++; \
+        } \
+    }
+
+#define Vector_Insert(v, t, e, i) \
+    { \
+        \
+        VERIFY_ASSERT((v), "Vector_Insert: NULL vector specified!"); \
+        if ( (i) < (Vector_GetCount(v) + 1)) \
+        { \
+            Vector_MaybeExpand(v); \
             { \
-                REPORT("Vector_PushBack: Resizing from %u to %u elements of size %u", size, size+1, (v)->m_elementSize); \
-                Vector_Resize((v), size + 1); \
-            } \
-            { \
+                uint32 x = 0; \
                 t* values = (t*)(v)->m_data; \
-                values[count] = e; \
+                for (x = Vector_GetCount((v)); x > (i); --x) \
+                { \
+                    values[x] = values[x-1]; \
+                } \
+                values[(i)] = e; \
                 (v)->m_usedElementCount++; \
+            } \
+        } \
+    }
+
+#define Vector_Remove(v, t, i) \
+    { \
+        \
+        VERIFY_ASSERT((v), "Vector_Remove: NULL vector specified!"); \
+        if ( (Vector_GetCount((v)) > 0) &&  ( (i) < Vector_GetCount(v)) ) \
+        { \
+            { \
+                uint32 x = 0; \
+                t* values = (t*)(v)->m_data; \
+                for (x = (i); x < Vector_GetCount((v)); ++x) \
+                { \
+                    values[x] = values[x+1]; \
+                } \
+                (v)->m_usedElementCount--; \
             } \
         } \
     }

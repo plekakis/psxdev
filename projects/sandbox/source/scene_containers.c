@@ -14,13 +14,16 @@ void start()
 
     {
         uint32 i=0;
-        
-        for (i=0; i<6; ++i)
+        test a2 = {1000, 10001};
+        for (i=0; i<10; ++i)
         {
             test a = {5 * i, 10 * (i+1)};
             Vector_PushBack(v, test, a);
         }
-        
+                
+        //Vector_Insert(v, test, a2, 10);
+        Vector_Remove(v, test, 5);
+
         for (i=0; i<Vector_GetCount(v); ++i)
         {
             test c;
