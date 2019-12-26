@@ -40,14 +40,14 @@ extern uint16 g_dirtyFlags;
 // Primitive flags, used in various occasions
 typedef enum
 {
-	PRIM_FLAG_NONE			= 1 << 0,
-	PRIM_FLAG_SEMI_TRANS	= 1 << 1
+	PRIM_FLAG_NONE			= 0,
+	PRIM_FLAG_SEMI_TRANS	= 1 << 0
 }PrimFlags;
 
 // Mode flags, used in DR_TPAGE and DR_MODE modifiers
 typedef enum
 {
-	MODE_FLAG_NONE				= 1 << 0,
+	MODE_FLAG_NONE				= 0,
 	MODE_FLAG_DITHERING			= 1 << 1,
 	MODE_FLAG_DRAW_IN_DISP_AREA = 1 << 2
 }ModeFlags;

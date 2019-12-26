@@ -235,12 +235,12 @@ int main(int argc, char* argv[])
 						psmTri.m_vertexData[v].m_position.m_y = static_cast<PositionType>(options.m_vertexScale * attrib.vertices[3 * idx.vertex_index + 1] * PSMHelpers::s_psmVertexScale);
 						psmTri.m_vertexData[v].m_position.m_z = static_cast<PositionType>(options.m_vertexScale * attrib.vertices[3 * idx.vertex_index + 2] * PSMHelpers::s_psmVertexScale);
 						
-						psmTri.m_vertexData[v].m_normal.m_x = static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 0] * 4096.0f);
-						psmTri.m_vertexData[v].m_normal.m_y = static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 1] * 4096.0f);
-						psmTri.m_vertexData[v].m_normal.m_z = static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 2] * 4096.0f);
+						psmTri.m_vertexData[v].m_normal.m_x = idx.normal_index >= 0 ? static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 0] * 4096.0f) : 0;
+						psmTri.m_vertexData[v].m_normal.m_y = idx.normal_index >= 0 ? static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 1] * 4096.0f) : 0;
+						psmTri.m_vertexData[v].m_normal.m_z = idx.normal_index >= 0 ? static_cast<NormalType>(attrib.normals[3 * idx.normal_index + 2] * 4096.0f) : 0;
 						
 						psmTri.m_vertexData[v].m_texcoord.m_u = static_cast<TexcoordType>(PSMHelpers::Saturate(attrib.texcoords[2 * idx.texcoord_index + 0]) * 255.0f);
-						psmTri.m_vertexData[v].m_texcoord.m_v = static_cast<TexcoordType>(PSMHelpers::Saturate(attrib.texcoords[2 * idx.texcoord_index + 1]) * 255.0f);
+						psmTri.m_vertexData[v].m_texcoord.m_v = static_cast<TexcoordType>((1.0f - PSMHelpers::Saturate(attrib.texcoords[2 * idx.texcoord_index + 1])) * 255.0f);
 						
 						psmTri.m_vertexData[v].m_color.m_r = static_cast<ColorType>(PSMHelpers::Saturate(attrib.colors[3 * idx.vertex_index + 0]) * 255.0f);
 						psmTri.m_vertexData[v].m_color.m_g = static_cast<ColorType>(PSMHelpers::Saturate(attrib.colors[3 * idx.vertex_index + 1]) * 255.0f);

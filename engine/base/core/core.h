@@ -20,6 +20,12 @@ uint16 Core_InitHeap(uint32 i_start, uint32 i_end);
 // Allocate memory
 void* Core_Malloc(uint32 i_sizeInBytes);
 
+// Allocate memory and initialise to 0
+void* Core_CAlloc(uint32 i_elementCount, uint32 i_sizePerElement);
+
+// Reallocate memory, preserving contents
+void* Core_Realloc(void* i_ptr, uint32 i_sizeInBytes);
+
 // Free memory
 void Core_Free(void* i_address);
 

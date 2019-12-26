@@ -3,6 +3,7 @@
 
 #include <base/system/system.h>
 #include <base/core/core.h>
+#include <base/containers/containers.h>
 #include <base/gfx/gfx.h>
 #include <base/stream/stream.h>
 #include <base/res/res.h>

@@ -233,13 +233,17 @@ CoreMemBlock* GetFreeBlock(uint32 i_requestedSize)
 
 ///////////////////////////////////////////////////
 void* Core_Malloc(uint32 i_sizeInBytes)
-{	
+{
 	void* mem = NULL;
 	CoreMemBlock* block = NULL;
+	uint32 allocSize = 0u;
+
+	if (i_sizeInBytes == 0)
+		return NULL;
 
 	// Start allocating memory;
 	// Align size to pointer size.
-	const uint32 allocSize = Util_AlignUp(i_sizeInBytes, PTR_SIZE);
+	allocSize = Util_AlignUp(i_sizeInBytes, PTR_SIZE);
 
 #if ALLOC_VERBOSE
 	REPORT("Core_Malloc: Requesting allocation of %u bytes", allocSize);
@@ -291,13 +295,65 @@ void* Core_Malloc(uint32 i_sizeInBytes)
 }
 
 ///////////////////////////////////////////////////
+void* Core_CAlloc(uint32 i_elementCount, uint32 i_sizePerElement)
+{
+	const uint32 sizeInBytes = i_elementCount * i_sizePerElement;
+	void* mem = Core_Malloc(sizeInBytes);
+	if (mem)
+	{
+		memset(mem, 0, sizeInBytes);
+		return mem;
+	}
+	return NULL;
+}
+
+///////////////////////////////////////////////////
+void* Core_Realloc(void* i_address, uint32 i_sizeInBytes)
+{
+	if (i_address == NULL)
+	{
+		return Core_Malloc(i_sizeInBytes);
+	}
+	else
+	{
+		// Allocate a new block of memory if needed
+		CoreMemBlock* block = GetBlockHeader(i_address);
+		const uint32 srcAllocSize = GetBlockAllocationSize(block);
+		if (i_sizeInBytes != srcAllocSize)
+		{
+			// If there is a valid allocation size, do the realloc logic.
+			if (i_sizeInBytes > 0)
+			{
+				void* newPtr = Core_Malloc(i_sizeInBytes);
+				
+				// Copy old in new
+				memcpy(newPtr, i_address, MIN(srcAllocSize, i_sizeInBytes));
+
+				// Free old
+				Core_Free(i_address);
+				return newPtr;
+			}
+			// Otherwise, free the old memory and return NULL.
+			else
+			{
+				Core_Free(i_address);
+				return NULL;
+			}
+		}
+		return i_address;
+	}
+}
+
+///////////////////////////////////////////////////
 void Core_Free(void* i_address)
 {
 	CoreMemBlock *block = NULL;
 	uint32 allocSize = 0u;
 
+	if (i_address == NULL)
+		return;
+	
 	VERIFY_ASSERT(((uint8*)i_address >= g_heapStartPtr) && ((uint8*)i_address < g_heapEndPtr), "Core_Free: Trying to free memory not belonging to the system heap!");
-	VERIFY_ASSERT(i_address, "Core_Free: trying to free NULL pointer");
 
 #if ALLOC_VERBOSE
 	REPORT("Core_Free: Freeing address %x", i_address);
@@ -305,6 +361,15 @@ void Core_Free(void* i_address)
 
 	// Get the header from the user address and extract the allocation size.
 	block = GetBlockHeader(i_address);
+	// if the block has already been freed, early out.
+	if (IsBlockFree(block))
+	{
+#if ALLOC_VERBOSE
+	REPORT("Core_Free: Block is already freed");
+#endif // ALLOC_VERBOSE
+		return;
+	}
+
 	allocSize = GetBlockAllocationSize(block);
 	VERIFY_ASSERT(allocSize, "Core_Free: Trying to free 0 bytes, this is probably a memory corruption");
 
