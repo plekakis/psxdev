@@ -1,19 +1,25 @@
 #include "vector.h"
 
 ///////////////////////////////////////////////////
-void Vector_Init(vector** io_vector, uint32 i_elementSize, uint32 i_reservationCount, uint32 i_flags)
+vector* Vector_Init(uint32 i_elementSize, uint32 i_reservationCount, uint32 i_flags)
 {
-    *io_vector = Core_Malloc(sizeof(vector));
+    VERIFY_ASSERT(i_elementSize < UINT16_MAX, "Vector_Init: Element size of %u bytes is too large (UINT16_MAX is the largest supported", i_elementSize);
 
-    (*io_vector)->m_usedElementCount = 0u;
-    (*io_vector)->m_flags = i_flags;
-    (*io_vector)->m_elementSize = i_elementSize;
-    (*io_vector)->m_sizeInBytes = i_elementSize * i_reservationCount;
-    (*io_vector)->m_data = Core_Malloc( (*io_vector)->m_sizeInBytes);
+    {
+        vector* v = (vector*)Core_Malloc(sizeof(vector));
+
+        v->m_usedElementCount = 0u;
+        v->m_flags = i_flags;
+        v->m_elementSize = i_elementSize;
+        v->m_sizeInBytes = i_elementSize * i_reservationCount;
+        v->m_data = Core_Malloc( v->m_sizeInBytes);
 
 #if VECTOR_VERBOSE
-    REPORT("Vector_Init: Created vector %x with %u reserved slots of %u bytes each", *io_vector, i_reservationCount, i_elementSize);   
+        REPORT("Vector_Init: Created vector %x with %u reserved slots of %u bytes each", v, i_reservationCount, i_elementSize);   
 #endif // VECTOR_VERBOSE
+
+        return v;
+    }
 }
 
 ///////////////////////////////////////////////////

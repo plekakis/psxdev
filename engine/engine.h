@@ -14,6 +14,8 @@
 #include <INLINE_C.H>
 #include <limits.h>
 
+#define ALIGN(x) __attribute__ ((aligned ((x))))
+
 #define CRASHPSX { uint8* ptr = NULL; *ptr = (*ptr / 0); }
 
 // Data types

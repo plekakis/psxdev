@@ -23,7 +23,7 @@ typedef struct CoreMemBlock
 
 	// the actual user memory pointer.
 	uint8* m_mem;
-}CoreMemBlock;
+}ALIGN(16) CoreMemBlock;
 
 // Start/end memory ranges
 uint8 *g_heapStartPtr = NULL;
@@ -51,7 +51,7 @@ void MarkBlockAsFree(CoreMemBlock* i_block)
 ///////////////////////////////////////////////////
 bool IsBlockFree(CoreMemBlock* i_block)
 {
-	VERIFY_ASSERT(i_block != NULL, "Null block provided!");
+	VERIFY_ASSERT(i_block != NULL, "IsBlockFree: Null block provided!");
 	return (i_block->m_size & 1) == 0;
 }
 
@@ -70,7 +70,7 @@ uint32 UnpackAllocationSize(uint32 i_requestedSize)
 ///////////////////////////////////////////////////
 uint32 GetBlockAllocationSize(CoreMemBlock* i_block)
 {
-	VERIFY_ASSERT(i_block != NULL, "Null block provided!");
+	VERIFY_ASSERT(i_block != NULL, "GetBlockAllocationSize: Null block provided!");
 	return UnpackAllocationSize(i_block->m_size);
 }
 
@@ -120,7 +120,7 @@ CoreMemBlock* RequestNewBlock(uint32 i_requestedSize)
 bool CanCoalesceBlock(CoreMemBlock* i_block)
 {
 #if CORE_MEM_ALLOW_BLOCK_COALESCING
-	VERIFY_ASSERT(i_block != NULL, "Null block provided!");
+	VERIFY_ASSERT(i_block != NULL, "CanCoalesceBlock: Null block provided!");
 	return i_block->m_next && IsBlockFree(i_block->m_next);
 #else
 	return FALSE;
@@ -157,7 +157,7 @@ CoreMemBlock* CoalesceBlock(CoreMemBlock* i_block)
 bool CanSplitBlock(CoreMemBlock* i_block, uint32 i_requestedSize)
 {
 #if CORE_MEM_ALLOW_BLOCK_SPLITTING
-	VERIFY_ASSERT(i_block != NULL, "Null block provided!");
+	VERIFY_ASSERT(i_block != NULL, "CanSplitBlock: Null block provided!");
 	return (GetBlockAllocationSize(i_block) - i_requestedSize) > (sizeof(CoreMemBlock) + CORE_MEM_SMALLEST_SPLIT_BLOCK);
 #else
 	return FALSE;
@@ -165,9 +165,11 @@ bool CanSplitBlock(CoreMemBlock* i_block, uint32 i_requestedSize)
 }
 
 ///////////////////////////////////////////////////
-CoreMemBlock* SplitBlock(CoreMemBlock* i_block, uint32 i_requestedSize)
+CoreMemBlock* SplitBlock(CoreMemBlock* i_block, uint32 i_requestedSize, bool* o_blockSplit)
 {
-	VERIFY_ASSERT(i_block != NULL, "Null block provided!");
+	VERIFY_ASSERT(i_block != NULL, "SplitBlock: Null block provided!");
+
+	*o_blockSplit = FALSE;
 
 	// The block size can be much larger than the requested size;
 	// See if we can split this block. By design, block-splitting can happen if the remainder block's size is larger than the size for the header + a minimum size (CORE_MEM_SMALLEST_SPLIT_BLOCK).
@@ -186,6 +188,7 @@ CoreMemBlock* SplitBlock(CoreMemBlock* i_block, uint32 i_requestedSize)
 		i_block->m_size = PackAllocationSize(i_requestedSize);
 		i_block->m_next = splitBlock;
 
+		*o_blockSplit = TRUE;
 #if ALLOC_VERBOSE
 		REPORT("Core_Malloc: Split block of size %u bytes into 1) %u bytes and 2) %u bytes", srcBlockSize, i_requestedSize, GetBlockAllocationSize(splitBlock));
 #endif // ALLOC_VERBOSE
@@ -201,10 +204,12 @@ CoreMemBlock* GetBlockHeader(void* i_data)
 }
 
 ///////////////////////////////////////////////////
-CoreMemBlock* GetFreeBlock(uint32 i_requestedSize)
+CoreMemBlock* GetFreeBlock(uint32 i_requestedSize, bool* o_blockSplit)
 {
 	CoreMemBlock* current = g_memStartPtr;
 	CoreMemBlock* bestBlockFound = NULL;
+
+	*o_blockSplit = FALSE;
 
 	// Find the closest matching block.
 	while (current != NULL)
@@ -228,7 +233,7 @@ CoreMemBlock* GetFreeBlock(uint32 i_requestedSize)
 		}
 		current = current->m_next;
 	}
-	return bestBlockFound ? SplitBlock(bestBlockFound, i_requestedSize) : bestBlockFound;
+	return bestBlockFound ? SplitBlock(bestBlockFound, i_requestedSize, o_blockSplit) : bestBlockFound;
 }
 
 ///////////////////////////////////////////////////
@@ -237,6 +242,7 @@ void* Core_Malloc(uint32 i_sizeInBytes)
 	void* mem = NULL;
 	CoreMemBlock* block = NULL;
 	uint32 allocSize = 0u;
+	bool wasBlockSplit = FALSE;
 
 	if (i_sizeInBytes == 0)
 		return NULL;
@@ -250,7 +256,7 @@ void* Core_Malloc(uint32 i_sizeInBytes)
 #endif // ALLOC_VERBOSE
 
 	// See if a compatible block has already been allocated. If so, return that directly.
-	block = GetFreeBlock(allocSize);
+	block = GetFreeBlock(allocSize, &wasBlockSplit);
 	if (block == NULL)
 	{
 		block = RequestNewBlock(allocSize);
@@ -281,8 +287,10 @@ void* Core_Malloc(uint32 i_sizeInBytes)
 		// Verify that the allocation size is correct
 		{
 			CoreMemBlock* sourceBlock = GetBlockHeader(mem);
-			uint32 blockAllocSize = GetBlockAllocationSize(sourceBlock);
-			VERIFY_ASSERT(blockAllocSize == allocSize, "Allocation size does not match what was requested! (header reports: %u bytes, requested: %u)", blockAllocSize, allocSize);
+			const uint32 blockAllocSize = GetBlockAllocationSize(sourceBlock);
+			const uint32 condition = wasBlockSplit ? (blockAllocSize == allocSize) : (blockAllocSize >= allocSize); // if the block was split, we expect the size to match exactly.
+
+			VERIFY_ASSERT(condition, "Allocation size does not match what was requested! (header reports: %u bytes, requested: %u)", blockAllocSize, allocSize);
 		}
 
 
@@ -381,7 +389,7 @@ void Core_Free(void* i_address)
 
 	// Decrement the allocated memory.
 	g_memAllocated -= allocSize;
-		
+
 #if ALLOC_VERBOSE
 	REPORT("Core_Free: Freed %u bytes. Free memory now: %u bytes", allocSize, Core_GetFreeMemory());
 #endif // ALLOC_VERBOSE

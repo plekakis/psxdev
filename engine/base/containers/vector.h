@@ -3,18 +3,30 @@
 
 typedef struct
 {
-    uint32 m_elementSize;
-    uint32 m_usedElementCount;
-    uint32 m_sizeInBytes;
-    uint32 m_flags;
-    void*  m_data;
-}vector;
+    uint32 m_elementSize        : 16;       // still probably too big for individual element type.
+    uint32 m_usedElementCount   : 16;       // maximum element count in the vector.
+    uint32 m_sizeInBytes        : 30;       // size of the underlying allocation.
+    uint32 m_flags              : 2;        // creation flags (see ContainerFlags enum).
 
-void Vector_Init(vector** io_vector, uint32 i_elementSize, uint32 i_reservationCount, uint32 i_flags);
+    void*  m_data;
+}ALIGN(16) vector;
+
+// Initialise a new vector.
+vector* Vector_Init(uint32 i_elementSize, uint32 i_reservationCount, uint32 i_flags);
+
+// Free a vector and its data.
 void Vector_Free(vector* io_vector);
+
+// Resize a vector up or down, preserving contents.
 void Vector_Resize(vector* io_vector, uint32 i_reservationCount);
+
+// Get the current element count in the vector.
 uint32 Vector_GetCount(vector* i_vector);
+
+// Get the current maximum number of elements in the vector.
 uint32 Vector_GetSize(vector* i_vector);
+
+// Clear the contents of this vector.
 void Vector_Clear(vector* io_vector);
 
 #define Vector_MaybeExpand(v) \
