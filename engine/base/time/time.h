@@ -15,16 +15,16 @@ int16 Time_Reset();
 TimeMoment Time_Now();
 
 // Convert TimeMoment to seconds
-float Time_ToSeconds(TimeMoment i_moment);
+fixed8_24 Time_ToSeconds(TimeMoment i_moment);
 
 // Convert TimeMoment to milliseconds
-float Time_ToMilliseconds(TimeMoment i_moment);
+fixed8_24 Time_ToMilliseconds(TimeMoment i_moment);
 
 // Convert seconds to TimeMoment
-TimeMoment Time_FromSeconds(float i_seconds);
+TimeMoment Time_FromSeconds(fixed8_24 i_seconds);
 
 // Convert milliseconds to TimeMoment
-TimeMoment Time_FromMilliseconds(float i_milliseconds);
+TimeMoment Time_FromMilliseconds(fixed8_24 i_milliseconds);
 
 // Shutdown the time subsystem
 int16 Time_Shutdown();

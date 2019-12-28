@@ -77,10 +77,10 @@ int16 System_Initialize(SystemInitInfo* i_info)
 void UpdateFrameCounter(FrameCount* io_frames, TimeMoment i_timeStart, TimeMoment i_timeEnd)
 {
 	// Update the counter every quarter of a second
-	float durationSeconds = Time_ToSeconds( (float)(io_frames->m_timeElapsed - i_timeStart) );
-	if (durationSeconds > 0.25f)
+	fixed8_24 durationSeconds = Time_ToSeconds( io_frames->m_timeElapsed - i_timeStart);
+	if ( FP8_24toI32Frac(durationSeconds, FP_FRAC_2PT) > 25)
 	{
-		io_frames->m_framesPerSecond = io_frames->m_frameCount / durationSeconds;
+		io_frames->m_framesPerSecond = DivFP8_24(io_frames->m_frameCount, durationSeconds);
 		io_frames->m_timeElapsed = 0u;
 		io_frames->m_frameCount = 0;
 	}

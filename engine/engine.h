@@ -114,6 +114,20 @@ typedef uint16					StringId;
 
 // Fixed point
 typedef int32 fixed4_12;
+typedef int32 fixed16_16;
+typedef int32 fixed8_24;
+
+#define Q4_12_SHIFT (12u)
+#define ONE_Q4_12  (1u << 12u)   // equivelant to GTE ONE
+#define Q4_12_MASK ((1u << Q4_12_SHIFT) - 1u)
+
+#define Q16_16_SHIFT (16u)
+#define ONE_Q16_16 (1u << Q16_16_SHIFT)
+#define Q16_16_MASK ((1u << Q16_16_SHIFT) - 1u)
+
+#define Q8_24_SHIFT (24u)
+#define ONE_Q8_24 (1u << Q8_24_SHIFT)
+#define Q8_24_MASK ((1u << Q8_24_SHIFT) - 1u)
 
 #define FP_PI			(0x3244) // PI
 #define FP_PI_OVER_2	(0x1922) // PI/2
@@ -123,20 +137,69 @@ typedef int32 fixed4_12;
 #define FP_E			(0x2B7E) // e
 
 // Macro for creating FP constants.
-#define FP_4_12(x) ((fixed4_12)(((x) >= 0) ? ((x) * ONE + 0.5) : ((x) * ONE - 0.5)))
+#define FP_Q4_12(x) ((fixed4_12)(((x) >= 0) ? ((x) * ONE_Q4_12 + 0.5) : ((x) * ONE_Q4_12 - 0.5)))
+#define FP_Q16_16(x) ((fixed16_16)(((x) >= 0) ? ((x) * ONE_Q16_16 + 0.5) : ((x) * ONE_Q16_16 - 0.5)))
+#define FP_Q8_24(x) ((fixed8_24)(((x) >= 0) ? ((x) * ONE_Q8_24 + 0.5) : ((x) * ONE_Q8_24 - 0.5)))
+
+// Decimal points macros
+#define FP_FRAC_1PT (10)
+#define FP_FRAC_2PT (100)
+#define FP_FRAC_3PT (1000)
+#define FP_FRAC_4PT (10000)
+#define FP_FRAC_5PT (100000)
+#define FP_FRAC_6PT (1000000)
 
 // Conversions
-static inline fixed4_12 F32toFP(float v) { return (int32)(v * (float)ONE); }
-static inline fixed4_12 I32toFP(int32 v) { return v * ONE; }
-static inline float FPtoF32(fixed4_12 v) { return (float)v / (float)ONE; }
-static inline int32 FPtoI32(fixed4_12 v) { return v / ONE; }
+// Common
+#define Convert_F32toFP(x, s) (int32)((x) * (float)(s))
+#define Convert_I32toFP(x, s) (x) * (s)
+#define Convert_FPtoF32(x, s) (float)(x) / (float)(s)
+#define Convert_FPtoI32(x, s) (x) / (s)
+#define Convert_FPtoI32Frac(x, d, m, s) (uint32)((uint64)((x) & (m)) * (d) / (s))
+// Q4.12
+static inline fixed4_12 F32toFP4_12(float v) { return Convert_F32toFP(v, ONE_Q4_12); }
+static inline fixed4_12 I32toFP4_12(int32 v) { return Convert_I32toFP(v, ONE_Q4_12); }
+static inline float FP4_12toF32(fixed4_12 v) { return Convert_FPtoF32(v, ONE_Q4_12); }
+static inline int32 FP4_12toI32(fixed4_12 v) { return Convert_FPtoI32(v, ONE_Q4_12); }
+static inline int32 FP4_12toI32Frac(fixed4_12 v, uint64 d) { return Convert_FPtoI32Frac(v, d, Q4_12_MASK, ONE_Q4_12);}
+// Q16.16
+static inline fixed16_16 F32toFP16_16(float v) { return Convert_F32toFP(v, ONE_Q16_16); }
+static inline fixed16_16 I32toFP16_16(int32 v) { return Convert_I32toFP(v, ONE_Q16_16); }
+static inline float FP16_16toF32(fixed16_16 v) { return Convert_FPtoF32(v, ONE_Q16_16); }
+static inline int32 FP16_16toI32(fixed16_16 v) { return Convert_FPtoI32(v, ONE_Q16_16); }
+static inline int32 FP16_16toI32Frac(fixed16_16 v, uint64 d) { return Convert_FPtoI32Frac(v, d, Q16_16_MASK, ONE_Q16_16);}
+// Q8.24
+static inline fixed8_24 F32toFP8_24(float v) { return Convert_F32toFP(v, ONE_Q8_24); }
+static inline fixed8_24 I32toFP8_24(int32 v) { return Convert_I32toFP(v, ONE_Q8_24); }
+static inline float FP8_24toF32(fixed8_24 v) { return Convert_FPtoF32(v, ONE_Q8_24); }
+static inline int32 FP8_24toI32(fixed8_24 v) { return Convert_FPtoI32(v, ONE_Q8_24); }
+static inline int32 FP8_24toI32Frac(fixed8_24 v, uint64 d) { return Convert_FPtoI32Frac(v, d, Q8_24_MASK, ONE_Q8_24);}
 
 // Operations
-static inline fixed4_12 MulFP(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)(((int64)v0 * (int64)v1) / ONE); }
-static inline fixed4_12 DivFP(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)(((int64)v0 * ONE) / v1); }
-static inline fixed4_12 AddFP(fixed4_12 v0, fixed4_12 v1) { return v0 + v1; }
-static inline fixed4_12 SubFP(fixed4_12 v0, fixed4_12 v1) { return v0 - v1; }
-static inline fixed4_12 ModFP(fixed4_12 v0, fixed4_12 v1) { return v0 % v1; }
-static inline fixed4_12 LerpFP(fixed4_12 v0, fixed4_12 v1, fixed4_12 f) { return MulFP(v1, f) + MulFP(v0, ONE - f); }
+// Common
+#define Op_MulFP(x, y, s) (((int64)(x) * (int64)(y)) / (s))
+#define Op_DivFP(x, y, s) (((int64)(x) * (s)) / (y))
+#define Op_LerpFP(x, y, f, s) Op_MulFP((y), (f), (s)) + Op_MulFP((x), (s) - (f), (s))
+// Q4.12
+static inline fixed4_12 MulFP4_12(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)Op_MulFP(v0, v1, ONE_Q4_12); }
+static inline fixed4_12 DivFP4_12(fixed4_12 v0, fixed4_12 v1) { return (fixed4_12)Op_DivFP(v0, v1, ONE_Q4_12); }
+static inline fixed4_12 AddFP4_12(fixed4_12 v0, fixed4_12 v1) { return v0 + v1; }
+static inline fixed4_12 SubFP4_12(fixed4_12 v0, fixed4_12 v1) { return v0 - v1; }
+static inline fixed4_12 ModFP4_12(fixed4_12 v0, fixed4_12 v1) { return v0 % v1; }
+static inline fixed4_12 LerpFP4_12(fixed4_12 v0, fixed4_12 v1, fixed4_12 f) { return Op_LerpFP(v0, v1, f, ONE_Q4_12); }
+// Q16.16
+static inline fixed16_16 MulFP16_16(fixed16_16 v0, fixed16_16 v1) { return (fixed16_16)Op_MulFP(v0, v1, ONE_Q16_16); }
+static inline fixed16_16 DivFP16_16(fixed16_16 v0, fixed16_16 v1) { return (fixed16_16)Op_DivFP(v0, v1, ONE_Q16_16); }
+static inline fixed16_16 AddFP16_16(fixed16_16 v0, fixed16_16 v1) { return v0 + v1; }
+static inline fixed16_16 SubFP16_16(fixed16_16 v0, fixed16_16 v1) { return v0 - v1; }
+static inline fixed16_16 ModFP16_16(fixed16_16 v0, fixed16_16 v1) { return v0 % v1; }
+static inline fixed16_16 LerpFP16_16(fixed16_16 v0, fixed16_16 v1, fixed16_16 f) { return Op_LerpFP(v0, v1, f, ONE_Q16_16); }
+// Q8.24
+static inline fixed8_24 MulFP8_24(fixed8_24 v0, fixed8_24 v1) { return (fixed8_24)Op_MulFP(v0, v1, ONE_Q8_24); }
+static inline fixed8_24 DivFP8_24(fixed8_24 v0, fixed8_24 v1) { return (fixed8_24)Op_DivFP(v0, v1, ONE_Q8_24); }
+static inline fixed8_24 AddFP8_24(fixed8_24 v0, fixed8_24 v1) { return v0 + v1; }
+static inline fixed8_24 SubFP8_24(fixed8_24 v0, fixed8_24 v1) { return v0 - v1; }
+static inline fixed8_24 ModFP8_24(fixed8_24 v0, fixed8_24 v1) { return v0 % v1; }
+static inline fixed8_24 LerpFP8_24(fixed8_24 v0, fixed8_24 v1, fixed8_24 f) { return Op_LerpFP(v0, v1, f, ONE_Q8_24); }
 
 #endif // ENGINE_H_INC

@@ -43,16 +43,16 @@
 	(c)->b = ( ((c)->b * _b + 0xFF) >> 8);
 
 #define mulVector(v0, v1) \
-	(v0)->vx = MulFP((v0)->vx, (v1)->vx);	\
-	(v0)->vy = MulFP((v0)->vy, (v1)->vy);	\
-	(v0)->vz = MulFP((v0)->vz, (v1)->vz);	
+	(v0)->vx = MulFP4_12((v0)->vx, (v1)->vx);	\
+	(v0)->vy = MulFP4_12((v0)->vy, (v1)->vy);	\
+	(v0)->vz = MulFP4_12((v0)->vz, (v1)->vz);	
 
 #define mulVectorF(v0, x) \
-	(v0)->vx = MulFP((v0)->vx, (x)); \
-	(v0)->vy = MulFP((v0)->vy, (x)); \
-	(v0)->vz = MulFP((v0)->vz, (x));
+	(v0)->vx = MulFP4_12((v0)->vx, (x)); \
+	(v0)->vy = MulFP4_12((v0)->vy, (x)); \
+	(v0)->vz = MulFP4_12((v0)->vz, (x));
 
-#define vectorDot(v0, v1) ( MulFP((v0)->vx, (v1)->vx) + MulFP((v0)->vy, (v1)->vy) + MulFP((v0)->vz, (v1)->vz))
+#define vectorDot(v0, v1) ( MulFP4_12((v0)->vx, (v1)->vx) + MulFP4_12((v0)->vy, (v1)->vy) + MulFP4_12((v0)->vz, (v1)->vz))
 #define vectorLengthSq(v0) vectorDot((v0), (v0))
 #define vectorLength(v0) SquareRoot0(vectorLengthSq((v0)))
 
@@ -60,8 +60,8 @@
 	{ \
 		int16 oldx = (p)->vx - (pivotx); \
 		int16 oldy = (p)->vy - (pivoty); \
-		(p)->vx = (pivotx) + MulFP(oldx, rcos((r))) - MulFP(oldy, rsin((r))); \
-		(p)->vy = (pivoty) + MulFP(oldx, rsin((r))) + MulFP(oldy, rcos((r))); \
+		(p)->vx = (pivotx) + MulFP4_12(oldx, rcos((r))) - MulFP4_12(oldy, rsin((r))); \
+		(p)->vy = (pivoty) + MulFP4_12(oldx, rsin((r))) + MulFP4_12(oldy, rcos((r))); \
 	}
 
 //-----------------------------------------------------------------------
