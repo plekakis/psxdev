@@ -99,7 +99,13 @@ typedef uint16					StringId;
 #endif // ASSERT_ENABLED
 
 // Math macros & constants
-#define PI 3.14159265359f
+#define PI          3.14159265359f
+#define PI_OVER_2   (PI * 0.5f)
+#define PI_OVER_4   (PI * 0.25f)
+#define PI_2        (PI * 2.0f)
+#define PI_4        (PI * 4.0f)
+
+#define E           2.71828182845904523536f
 
 // Error code returned by most functions
 #define E_OK					(0)
@@ -129,17 +135,32 @@ typedef int32 fixed8_24;
 #define ONE_Q8_24 (1u << Q8_24_SHIFT)
 #define Q8_24_MASK ((1u << Q8_24_SHIFT) - 1u)
 
-#define FP_PI			(0x3244) // PI
-#define FP_PI_OVER_2	(0x1922) // PI/2
-#define FP_PI_OVER_4	(0xC91)  // PI/4
-#define FP_PI_2			(0x6488) // PI * 2
-
-#define FP_E			(0x2B7E) // e
-
 // Macro for creating FP constants.
-#define FP_Q4_12(x) ((fixed4_12)(((x) >= 0) ? ((x) * ONE_Q4_12 + 0.5) : ((x) * ONE_Q4_12 - 0.5)))
-#define FP_Q16_16(x) ((fixed16_16)(((x) >= 0) ? ((x) * ONE_Q16_16 + 0.5) : ((x) * ONE_Q16_16 - 0.5)))
-#define FP_Q8_24(x) ((fixed8_24)(((x) >= 0) ? ((x) * ONE_Q8_24 + 0.5) : ((x) * ONE_Q8_24 - 0.5)))
+#define FP_Q4_12(x) ((fixed4_12)(((x) >= 0) ? ((x) * ONE_Q4_12 + 0.5f) : ((x) * ONE_Q4_12 - 0.5f)))
+#define FP_Q16_16(x) ((fixed16_16)(((x) >= 0) ? ((x) * ONE_Q16_16 + 0.5f) : ((x) * ONE_Q16_16 - 0.5f)))
+#define FP_Q8_24(x) ((fixed8_24)(((x) >= 0) ? ((x) * ONE_Q8_24 + 0.5f) : ((x) * ONE_Q8_24 - 0.5f)))
+
+// Fixed point constants
+static const fixed4_12 FP_Q4_12_PI = FP_Q4_12(PI);
+static const fixed4_12 FP_Q4_12_PI_OVER_2 = FP_Q4_12(PI_OVER_2);
+static const fixed4_12 FP_Q4_12_PI_OVER_4 = FP_Q4_12(PI_OVER_4);
+static const fixed4_12 FP_Q4_12_PI_2 = FP_Q4_12(PI_2);
+static const fixed4_12 FP_Q4_12_PI_4 = FP_Q4_12(PI_4);
+static const fixed4_12 FP_Q4_12_E = FP_Q4_12(E);
+
+static const fixed16_16 FP_Q16_16_PI = FP_Q16_16(PI);
+static const fixed16_16 FP_Q16_16_PI_OVER_2 = FP_Q16_16(PI_OVER_2);
+static const fixed16_16 FP_Q16_16_PI_OVER_4 = FP_Q16_16(PI_OVER_4);
+static const fixed16_16 FP_Q16_16_PI_2 = FP_Q16_16(PI_2);
+static const fixed16_16 FP_Q16_16_PI_4 = FP_Q16_16(PI_4);
+static const fixed16_16 FP_Q16_16_E = FP_Q16_16(E);
+
+static const fixed8_24 FP_Q8_24_PI = FP_Q8_24(PI);
+static const fixed8_24 FP_Q8_24_PI_OVER_2 = FP_Q8_24(PI_OVER_2);
+static const fixed8_24 FP_Q8_24_PI_OVER_4 = FP_Q8_24(PI_OVER_4);
+static const fixed8_24 FP_Q8_24_PI_2 = FP_Q8_24(PI_2);
+static const fixed8_24 FP_Q8_24_PI_4 = FP_Q8_24(PI_4);
+static const fixed8_24 FP_Q8_24_E = FP_Q8_24(E);
 
 // Decimal points macros
 #define FP_FRAC_1PT (10)

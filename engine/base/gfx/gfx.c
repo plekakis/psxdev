@@ -1,8 +1,6 @@
 #include "gfx.h"
 #include "../util/util.h"
 
-#define PACKET_SIZE (1024)
-
 uint16 g_dirtyFlags = DF_ALL;
 uint8 g_primStrides[PRIM_TYPE_MAX];
 uint8 g_polyStrides[PRIM_TYPE_MAX];
@@ -458,22 +456,6 @@ void PrepareMatrices(bool i_billboard)
 }
 
 ///////////////////////////////////////////////////
-int16 Gfx_AddPrim(uint8 i_type, void* const i_prim)
-{
-	int32 otz = 0;
-	void* primmem = NULL;
-	
-	PrepareMatrices(FALSE);
-
-	primmem = fncAddPrim[i_type](i_prim, &otz);
-	if (primmem)
-	{
-		addPrim(Gfx_GetCurrentOT() + otz, primmem);
-	}
-	return E_OK;
-}
-
-///////////////////////////////////////////////////
 int16 Gfx_AddCube(uint8 i_type, uint32 i_size, CVECTOR* const i_colorArray, uint8 i_uvSize)
 {	
 	fncAddCube[i_type](i_colorArray, i_size, i_uvSize);
@@ -505,15 +487,24 @@ int16 Gfx_SetCameraMatrix(MATRIX* const i_matrix)
 int16 Gfx_AddPrims(uint8 i_type, void* const i_primArray, uint32 i_count)
 {
 	uint32 i = 0;
-	uint32 stride = g_primStrides[i_type];
+	
+	PrepareMatrices(FALSE);
 
 	VERIFY_ASSERT(i_primArray, "Gfx_AddPrims: Input primitive array cannot be null!");
-
+		
 	for (i=0; i<i_count; ++i)
-	{			
-		void* const prim = i_primArray + stride * i;
-		Gfx_AddPrim(i_type, prim);
+	{
+		int32 otz = 0;
+
+		void* const prim = i_primArray + g_primStrides[i_type] * i;
+		void* transformed = fncAddPrim[i_type](prim, &otz);
+
+		if (transformed)
+		{
+			addPrim(Gfx_GetCurrentOT() + otz, transformed);
+		}		
 	}
+	
 	return E_OK;
 }
 

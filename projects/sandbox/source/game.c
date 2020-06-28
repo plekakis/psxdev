@@ -7,6 +7,7 @@
 #define SCENE_MODEL (3)
 #define SCENE_PARTICLES (4)
 #define SCENE_CONTAINERS (5)
+#define SCENE_HL_MODEL (6)
 
 #ifndef START_SCENE
 #define START_SCENE SCENE_EMPTY
@@ -25,6 +26,8 @@
 #include "scene_particles.c"
 #elif START_SCENE == SCENE_CONTAINERS
 #include "scene_containers.c"
+#elif START_SCENE == SCENE_HL_MODEL
+#include "scene_hl_model.c"
 #else
 void start() {}
 void update() {}
